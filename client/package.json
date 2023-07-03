@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "token": "token-transformer src/tokens/tokens.json src/tokens/global.json global --expandTypography=true --expandShadow=true --expandComposition=true --expandBorder=true",
     "preview": "vite preview"
   },
   "dependencies": {
