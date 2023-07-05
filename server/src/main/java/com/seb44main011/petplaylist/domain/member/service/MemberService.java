@@ -29,13 +29,13 @@ public class MemberService {
     private void verifyExistsEmail(String email) {
         Optional<Member> findMembers = memberRepository.findByEmail(email);
         if (findMembers.isPresent()) {
-            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
     }
 
-    public Member findMemberById(long id) {
-        return memberRepository.findById(id).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
-        );
-    }
+//    public Member findMemberById(long id) {
+//        return memberRepository.findById(id).orElseThrow(
+//                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
+//        );
+//    }
 }
