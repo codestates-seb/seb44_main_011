@@ -1,5 +1,6 @@
 package com.seb44main011.petplaylist.domain.member.controller;
 
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceDocumentation;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.google.gson.Gson;
@@ -49,7 +50,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원가입 테스트")
-    public void createMemberTest() throws Exception {
+    public void postMemberTest() throws Exception {
         BDDMockito.given(memberService.createMember(Mockito.any(Member.class))).willReturn(testMember);
         BDDMockito.given(memberMapper.memberDtoSignUpPostToMember(Mockito.any(MemberDto.SignUpPost.class))).willReturn(testMember);
         BDDMockito.given(memberMapper.memberToMemberDtoSignUpResponse(Mockito.any(Member.class))).willReturn(MemberTestData.MockMember.getSignUpResponse());
@@ -82,6 +83,52 @@ public class MemberControllerTest {
                                 )
                         )
 
+                );
+    }
+
+    @Test
+    @DisplayName("회원정보 수정 테스트")
+    public void patchMemberTest() throws Exception {
+        String context = gson.toJson(MemberDto.Patch.builder()
+                .name("내가진짜홍길동")
+                .profile("수정된 프로필 이미지")
+                .build());
+        MemberDto.PatchResponse response = MemberDto.PatchResponse.builder()
+                .email(MemberTestData.MockMember.getMemberData().getEmail())
+                .name("내가진짜홍길동")
+                .profile("수정된 프로필 이미지")
+                .build();
+        BDDMockito.given(memberService.updateMember(Mockito.anyLong(), Mockito.any(MemberDto.Patch.class))).willReturn(testMember);
+        BDDMockito.given(memberMapper.memberToMemberDtoPatchResponse(Mockito.any(Member.class))).willReturn(response);
+
+        mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/members/{member-id}", testMember.getMemberId())
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(context)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(
+                        MockMvcRestDocumentation.document("회원정보 수정 테스트",
+                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                        ResourceDocumentation.resource(
+                                ResourceSnippetParameters.builder()
+                                        .description("회원 정보 수정")
+                                        .pathParameters(
+                                                ResourceDocumentation.parameterWithName("member-id").description("사용자 식별자")
+                                        )
+                                        .requestFields(
+                                                PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("닉네임"),
+                                                PayloadDocumentation.fieldWithPath("profile").type(JsonFieldType.STRING).description("프로필 이미지")
+                                        )
+                                        .responseFields(
+                                                PayloadDocumentation.fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),
+                                                PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("닉네임"),
+                                                PayloadDocumentation.fieldWithPath("profile").type(JsonFieldType.STRING).type(JsonFieldType.STRING).description("변경된 프로필 이미지")
+                                        )
+                                        .build()
+                        )
+                )
                 );
     }
 }
