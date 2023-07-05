@@ -11,7 +11,8 @@ public enum ExceptionCode {
     ACCOUNT_RESTRICTED(403,"oauth account user"),
     USER_NOT_FOUND(404, "Member not found"),
     USER_EXISTS(409,"USER EXISTS"),
-    USER_MISMATCH(403,"The login user and the author are different");
+    USER_MISMATCH(403,"The login user and the author are different"),
+    MUSIC_NOT_FOUND(404,"Music not found");
 
     @Getter
     private int status;
