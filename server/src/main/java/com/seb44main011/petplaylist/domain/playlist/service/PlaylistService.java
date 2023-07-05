@@ -33,7 +33,7 @@ public class PlaylistService {
     private PersonalPlayList findPlayList(long memberId) {
        return repository.findByMember_MemberId(memberId)
                .orElseThrow(
-                       ()->new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+                       ()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
                );
 
     }
