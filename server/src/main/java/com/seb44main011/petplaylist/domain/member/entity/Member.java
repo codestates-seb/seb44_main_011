@@ -9,6 +9,16 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class Member extends BaseTimeEntity {
+    @Builder
+    public Member(long memberId, String email, String password, String name, String profile, Status status) {
+        this.memberId = memberId;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.profile = "기본 프로필 이미지";
+        this.status = status;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
@@ -30,15 +40,6 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     private Status status = Status.MEMBER_ACTIVE;
 
-    @Builder
-    public Member(long memberId, String email, String password, String name, String profile, Status status) {
-        this.memberId = memberId;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.profile = "기본 프로필 이미지";
-        this.status = status;
-    }
 
     public enum Status {
         MEMBER_ACTIVE("활성 상태"),

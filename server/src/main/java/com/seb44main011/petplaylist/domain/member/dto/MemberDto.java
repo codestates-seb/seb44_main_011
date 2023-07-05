@@ -12,6 +12,8 @@ import javax.validation.constraints.Pattern;
 public class MemberDto {
     @Getter
     @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class SignUpPost {
         @Email(message = "이메일 형식이여야 합니다.")
         @NotBlank(message = "공백이 아니여야 합니다.")
@@ -58,8 +60,25 @@ public class MemberDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Response {
+    public static class SignUpResponse {
         private long memberId;
+        private String email;
+        private String name;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class LogInResponse {
+        private long memberId;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class PatchResponse {
         private String email;
         private String name;
         private String profile;

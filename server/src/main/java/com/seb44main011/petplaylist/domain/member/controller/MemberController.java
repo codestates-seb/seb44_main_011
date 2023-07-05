@@ -31,6 +31,6 @@ public class MemberController {
         URI location = UriCreator.createUri("/api/members",createdMember.getMemberId());
 
 
-        return ResponseEntity.created(location).body(memberMapper.memberToMemberDtoResponse(createdMember));
+        return ResponseEntity.created(location).body(memberMapper.memberToMemberDtoSignUpResponse(createdMember));
     }
 }
