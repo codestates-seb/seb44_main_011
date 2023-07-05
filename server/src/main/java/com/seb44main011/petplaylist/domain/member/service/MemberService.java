@@ -32,4 +32,10 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
         }
     }
+
+    public Member findMemberById(long id) {
+        return memberRepository.findById(id).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND)
+        );
+    }
 }
