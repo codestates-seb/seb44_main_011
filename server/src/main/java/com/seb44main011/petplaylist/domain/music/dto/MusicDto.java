@@ -4,6 +4,15 @@ import lombok.Builder;
 import lombok.Getter;
 
 public class MusicDto {
+
+
+    @Getter
+    @Builder
+    public static class Post{
+        private Long musicId;
+
+    }
+
     @Getter
     @Builder
     public static class PublicResponse{

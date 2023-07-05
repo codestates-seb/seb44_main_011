@@ -86,7 +86,8 @@ public class MusicControllerTest {
                                                         .requestParameters(
                                                                 parameterWithName("music_name").description("검색을 위한 음악의 이름")
                                                         )
-                                                        .responseFields(fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("회원 식별 Id"),
+                                                        .responseFields(
+                                                                fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("회원 식별 Id"),
                                                                 fieldWithPath("title").type(JsonFieldType.STRING).description("곡 이름"),
                                                                 fieldWithPath("music_url").type(JsonFieldType.STRING).description("곡 url"),
                                                                 fieldWithPath("image_url").type(JsonFieldType.STRING).description("이미지 url"),
