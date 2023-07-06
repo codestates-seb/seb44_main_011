@@ -35,7 +35,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -130,6 +134,90 @@ class CommentControllerTest {
 
     }
 
+    @Test
+    @DisplayName("댓글 수정 테스트")
+    void patchCommentTest() throws Exception {
+        CommentDto.Patch patch = new CommentDto.Patch(1L, "댓글입니다.");
+        Comment comment = new Comment();
+        String context = gson.toJson(CommentDto.Patch.builder()
+                        .commentId(1L)
+                .comment("수정 코멘트")
+                .build());
 
+
+        given(commentMapper.commentPatchToComment(Mockito.any(CommentDto.Patch.class)))
+                .willReturn(comment);
+
+
+        ResultActions actions =
+                mockMvc.perform(
+                        patch("/api/music/1/comments/1")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(context)
+                );
+        verify(commentService, times(1)).updateComment(any(Comment.class));
+        actions
+                .andExpect(status().isOk())
+                .andDo(
+                        MockMvcRestDocumentation.document("인증된 사용자의 댓글 수정",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                ResourceDocumentation.resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("댓글 수정")
+                                                .requestFields(
+                                                        PayloadDocumentation.fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("수정 대상 댓글 번호"),
+                                                        PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("수정 댓글 내용")
+                                                )
+                                                .build()
+                                )
+                        )
+
+                );
+    }
+
+    @Test
+    @DisplayName("댓글 삭제 테스트")
+    void deleteCommentTest() throws Exception {
+        CommentDto.Patch patch = new CommentDto.Patch(1L, "댓글입니다.");
+        Comment comment = new Comment();
+        String context = gson.toJson(CommentDto.Patch.builder()
+                .commentId(1L)
+                .comment("수정 코멘트")
+                .build());
+
+
+        given(commentMapper.commentPatchToComment(Mockito.any(CommentDto.Patch.class)))
+                .willReturn(comment);
+
+
+        ResultActions actions =
+                mockMvc.perform(
+                        patch("/api/music/1/comments/1")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(context)
+                );
+        verify(commentService, times(1)).updateComment(any(Comment.class));
+        actions
+                .andExpect(status().isOk())
+                .andDo(
+                        MockMvcRestDocumentation.document("인증된 사용자의 댓글 수정",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                ResourceDocumentation.resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("댓글 수정")
+                                                .requestFields(
+                                                        PayloadDocumentation.fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("수정 대상 댓글 번호"),
+                                                        PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("수정 댓글 내용")
+                                                )
+                                                .build()
+                                )
+                        )
+
+                );
+    }
 
 }
