@@ -13,7 +13,8 @@ public enum ExceptionCode {
     MEMBER_EXISTS(409,"Member EXISTS"),
     MEMBER_MISMATCH(403,"The login Member and the author are different"),
     MEMBER_WITHDRAWN(409, "Already with drawn Member"),
-    MUSIC_NOT_FOUND(404,"Music not found");
+    MUSIC_NOT_FOUND(404,"Music not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found");
 
     @Getter
     private int status;
