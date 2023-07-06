@@ -26,11 +26,10 @@ public class CommentController {
 
     @PostMapping("/api/musics/{music-id}/comments")
     public ResponseEntity<?> postComment(@PathVariable("music-id") long musicId,@Valid @RequestBody CommentDto.Post requestBody) {
-        Long getMemberId = requestBody.getMemberId();
-        Long getMusicId = requestBody.getMusicId();
+        Long memberId = requestBody.getMemberId();
 
         Comment comment = commentMapper.commentPostToComment(requestBody);
-        Comment saveComment = commentService.saveComment(comment, getMemberId, getMusicId);
+        Comment saveComment = commentService.saveComment(comment,memberId, musicId);
 
         URI location = UriComponentsBuilder
                 .newInstance()
@@ -38,7 +37,7 @@ public class CommentController {
                 .buildAndExpand(comment.getCommentId())
                 .toUri();
 
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(commentMapper.commentToCommentResponseDto(saveComment));
     }
 
 //    @GetMapping("/public/musics/{music-id}/comments")

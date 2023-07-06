@@ -1,26 +1,28 @@
 package com.seb44main011.petplaylist.domain.music.entity;
 
-import com.seb44main011.petplaylist.domain.playlist.entity.PersonalPlayList;
+import com.seb44main011.petplaylist.domain.playlist.entity.MusicList;
+
 import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity(name="MUSIC")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Music extends BaseTimeEntity {
     @Builder
-    public Music(long musicId, String title, String music_url, String image_url, List<PersonalPlayList> personalPlayLists, Category category, Tags tags) {
+    public Music(long musicId, String title, String music_url, String image_url, Category category, Tags tags, List<MusicList> personalPlayLists) {
         this.musicId = musicId;
         this.title = title;
         this.music_url = music_url;
         this.image_url = image_url;
-        this.personalPlayLists = personalPlayLists;
         this.category = category;
         this.tags = tags;
+        this.personalPlayLists = personalPlayLists;
     }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +34,6 @@ public class Music extends BaseTimeEntity {
     private String music_url;
     @Column(nullable = false)
     private String image_url;
-    @OneToMany(mappedBy="music")
-    private List<PersonalPlayList> personalPlayLists;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
@@ -42,6 +42,9 @@ public class Music extends BaseTimeEntity {
     @Enumerated(value =  EnumType.STRING)
     @Column(nullable = false)
     private Tags tags;
+
+    @OneToMany(mappedBy = "music",cascade = CascadeType.ALL)
+    private List<MusicList> personalPlayLists;
 
     public enum Category{
         DOGS("강아지"),

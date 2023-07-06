@@ -1,5 +1,6 @@
 package com.seb44main011.petplaylist.domain.member.entity;
 
+import com.seb44main011.petplaylist.domain.playlist.entity.PersonalPlayList;
 import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @Entity(name = "MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Builder
 public class Member extends BaseTimeEntity {
     @Id
@@ -29,6 +31,10 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     @Builder.Default
     private Status status = Status.MEMBER_ACTIVE;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="PERSONALPLAYLIST_ID")
+    private PersonalPlayList personalPlayList;
 
     @Builder
     public Member(long memberId, String email, String password, String name, String profile, Status status) {
@@ -58,6 +64,10 @@ public class Member extends BaseTimeEntity {
 
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
     }
 
     public void updateProfile(String profile) {

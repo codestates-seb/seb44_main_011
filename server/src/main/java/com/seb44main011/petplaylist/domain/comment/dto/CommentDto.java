@@ -1,6 +1,10 @@
 package com.seb44main011.petplaylist.domain.comment.dto;
 
+import com.seb44main011.petplaylist.domain.member.entity.Member;
+import com.seb44main011.petplaylist.domain.music.entity.Music;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
@@ -11,6 +15,7 @@ import java.time.LocalDateTime;
 public class CommentDto {
 
     @Getter @Setter
+    @AllArgsConstructor
     public static class Post {
         private Long memberId;
         private Long musicId;
@@ -27,11 +32,13 @@ public class CommentDto {
 
     @Getter
     @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
         private Long commentId;
         private Long musicId;
         private String name;
-        private String content;
+        private String comment;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

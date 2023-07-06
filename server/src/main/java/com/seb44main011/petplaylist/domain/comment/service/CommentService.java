@@ -5,6 +5,7 @@ import com.seb44main011.petplaylist.domain.comment.repository.CommentRepository;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
+import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
@@ -23,13 +24,17 @@ public class CommentService {
 
 
     public Comment saveComment(Comment comment, Long memberId, Long musicId) {
+        Comment resultComment = new Comment();
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-        comment.setMember(member);
+        resultComment.setMember(member);
 
-        Member music = memberRepository.findById(musicId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
-        comment.setMember(member);
+        Music music = musicRepository.findById(musicId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
+        resultComment.setMusic(music);
 
-        return commentRepository.save(comment);
+        resultComment.setCommentId(comment.getCommentId());
+        resultComment.setComment(comment.getComment());
+
+        return commentRepository.save(resultComment);
     }
 
     public void updateComment(Comment comment) {
