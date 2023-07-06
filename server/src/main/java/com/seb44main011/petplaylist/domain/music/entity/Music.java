@@ -1,6 +1,6 @@
 package com.seb44main011.petplaylist.domain.music.entity;
 
-import com.seb44main011.petplaylist.domain.playlist.entity.MusicList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
 
 import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;

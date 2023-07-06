@@ -8,14 +8,11 @@ import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.mapper.PlaylistMapper;
 import com.seb44main011.petplaylist.domain.playlist.service.PlaylistService;
 import com.seb44main011.petplaylist.global.utils.UriCreator;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -23,7 +20,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/playlist")
-@Validated
+@Slf4j
 @RequiredArgsConstructor
 public class ApiPlaylistController {
     private final PlaylistMapper playlistMapper;
@@ -31,11 +28,18 @@ public class ApiPlaylistController {
     private final PlaylistService playlistService;
     private final MusicService musicService;
 
-    @PostMapping("/{member-id}")
+    @PostMapping(value = "/{member-id}", name = "music_name")
     public ResponseEntity<?> postPersonalPlayList(@PathVariable("member-id")@Positive long id,
-                                                  @RequestBody @Valid MusicDto.Post musicPost){
-        Music music = musicMapper.musicToMusicPostDto(musicPost);
-        playlistService.createPersonalMusicList(id,music);
+                                                  @Valid @RequestBody MusicDto.Post post){
+        playlistService.createPersonalMusicList(id,post.getMusicId());
+        URI location = UriCreator.createUri("/api/playlist");
+        return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping(value = "/{member-id}", name = "music_name")
+    public ResponseEntity<?> deletePersonalPlayList(@PathVariable("member-id")@Positive long id,
+                                                  @Valid @RequestBody MusicDto.Post post){
+        playlistService.deletePersonalMusicList(id,post.getMusicId());
         URI location = UriCreator.createUri("/api/playlist");
         return ResponseEntity.created(location).build();
     }
