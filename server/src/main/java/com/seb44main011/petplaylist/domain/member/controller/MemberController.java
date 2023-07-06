@@ -52,8 +52,9 @@ public class MemberController {
 
     @DeleteMapping("/api/members/{member-id}")
     public ResponseEntity deleteMember(@Valid
-                                       @PathVariable("member-id") @Positive long memberId) {
-        memberService.disableMember(memberId);
+                                       @PathVariable("member-id") @Positive long memberId,
+                                       @RequestBody MemberDto.Delete deleteMember) {
+        memberService.disableMember(memberId, deleteMember.getPassword());
         URI location = UriCreator.createUri("/public/signup");
 
         return ResponseEntity.ok().location(location).build();
