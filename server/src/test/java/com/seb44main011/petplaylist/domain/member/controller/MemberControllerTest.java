@@ -131,4 +131,31 @@ public class MemberControllerTest {
                 )
                 );
     }
+
+    @Test
+    @DisplayName("회원탈퇴 테스트")
+    public void deleteMemberTest() throws Exception {
+        BDDMockito.given(memberService.findMember(Mockito.anyLong())).willReturn(testMember);
+        Mockito.doNothing().when(memberService).disableMember(Mockito.anyLong());
+
+        mockMvc.perform(
+                RestDocumentationRequestBuilders.delete("/api/members/{member-id}", testMember.getMemberId())
+                        .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(
+                        MockMvcRestDocumentationWrapper.document("회원탈퇴 예제",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                ResourceDocumentation.resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("회원탈퇴")
+                                                .pathParameters(
+                                                        ResourceDocumentation.parameterWithName("member-id").description("사용자 식별자")
+                                                )
+                                                .build()
+                                )
+                        )
+                );
+    }
 }
