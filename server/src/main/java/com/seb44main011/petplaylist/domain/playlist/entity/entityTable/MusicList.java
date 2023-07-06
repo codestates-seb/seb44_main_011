@@ -1,11 +1,8 @@
-package com.seb44main011.petplaylist.domain.playlist.entity;
+package com.seb44main011.petplaylist.domain.playlist.entity.entityTable;
 
-import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.seb44main011.petplaylist.domain.playlist.entity.compositeKey.MusicListId;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,26 +10,24 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
+@IdClass(MusicListId.class)
 public class MusicList {
     @Builder
     public MusicList(PersonalPlayList personalPlayList, Music music) {
         this.personalPlayList = personalPlayList;
         this.music = music;
     }
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long MusicListId;
-
     @ManyToOne
     @JoinColumn(name="PERSONALPLAYLIST_ID")
     private PersonalPlayList personalPlayList;
+    @Id
     @ManyToOne
     @JoinColumn(name="MUSIC_ID")
     private Music music;
 
     @Column(nullable = false)
-    private boolean liked;
+    private boolean liked = true;
 
 
 

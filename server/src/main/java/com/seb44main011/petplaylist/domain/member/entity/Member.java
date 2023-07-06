@@ -1,6 +1,6 @@
 package com.seb44main011.petplaylist.domain.member.entity;
 
-import com.seb44main011.petplaylist.domain.playlist.entity.PersonalPlayList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
 import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
@@ -72,5 +72,9 @@ public class Member extends BaseTimeEntity {
 
     public void updateProfile(String profile) {
         this.profile = profile;
+    }
+
+    public void updatePersonalPlayList(PersonalPlayList personalPlayList) {
+        this.personalPlayList = personalPlayList;
     }
 }
