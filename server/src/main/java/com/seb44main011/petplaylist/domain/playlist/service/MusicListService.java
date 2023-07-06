@@ -1,6 +1,7 @@
 package com.seb44main011.petplaylist.domain.playlist.service;
 
 import com.seb44main011.petplaylist.domain.music.entity.Music;
+import com.seb44main011.petplaylist.domain.music.service.MusicService;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
@@ -12,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -23,19 +22,26 @@ public class MusicListService {
     public final MusicListMapper mapper;
 
 
-    public MusicList CreateMusicList(PersonalPlayList playList, Music music){
+    public MusicList createMusicList(PersonalPlayList playList, Music music){
         return mapper.MemberAndMusicToMusicList(playList,music);
     }
-
-//    public List<Music> findMusicListMusics(PersonalPlayList playList, Music music){
-//
-//    }
     public MusicList findMusicListMusic(PersonalPlayList playList, Music music){
         log.info("Music Id:{}", music.getMusicId());
-        return repository.findByMusic_MusicIdAndPersonalPlayList_PersonalPlayListId(music.getMusicId(),playList.getPersonalPlayListId())
+        return getMusicList(music.getMusicId(), playList.getPersonalPlayListId());
+    }
+
+    public void deleteMusicList(long memberId, long musicId){
+        MusicList getMusicList = getMusicList(musicId,memberId);
+        repository.delete(getMusicList);
+    }
+
+    private MusicList getMusicList(long musicId,long memberId) {
+        return repository.findByMusic_MusicIdAndPersonalPlayList_PersonalPlayListId(musicId, memberId)
                 .orElseThrow(
                         () -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND)
                 );
     }
+
+
 
 }
