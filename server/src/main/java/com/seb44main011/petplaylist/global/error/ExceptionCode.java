@@ -12,7 +12,9 @@ public enum ExceptionCode {
     USER_NOT_FOUND(404, "Member not found"),
     USER_EXISTS(409,"USER EXISTS"),
     USER_MISMATCH(403,"The login user and the author are different"),
-    MUSIC_NOT_FOUND(404,"Music not found");
+    MUSIC_NOT_FOUND(404,"Music not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
+    MEMBER_NOT_FOUND(404,"Member not found");
 
     @Getter
     private int status;
