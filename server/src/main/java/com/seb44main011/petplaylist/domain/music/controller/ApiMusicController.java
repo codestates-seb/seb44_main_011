@@ -22,13 +22,13 @@ public class ApiMusicController {
     private final MusicService service;
     @GetMapping(value = "/musics",params = {"music_name"})
     public ResponseEntity<?> getPublicMusicByTitle(@RequestParam(name = "music_name")String musicTitle){
-        Music findMusic = service.findMusic(musicTitle);
+        Music findMusic = service.serchMusic(musicTitle);
         MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic);
         return ResponseEntity.ok().body(response);
     }
     @GetMapping(value = "/musics",params = {"music_id"})
     public ResponseEntity<?> getPublicMusicById(@RequestParam(name = "music_id")@Positive long musicId){
-        Music findMusic = service.findMusic(musicId);
+        Music findMusic = service.serchMusic(musicId);
         MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic);
         return ResponseEntity.ok().body(response);
     }
