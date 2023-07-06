@@ -1,14 +1,12 @@
-import React from 'react'
-import SideBar from '../components/SideBar'
+import React from "react";
+import SideBar from "../components/SideBar";
 
 function Mypage() {
   return (
     <>
-    <div>Mypage</div>
-    <SideBar />
+      <SideBar />
     </>
-    
-  )
+  );
 }
 
-export default Mypage
+export default Mypage;
