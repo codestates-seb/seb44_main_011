@@ -11,5 +11,5 @@ public interface MusicMapper {
     MusicDto.PublicResponse publicResponseToMusic(Music music);
     MusicDto.ApiResponse apiResponseToMusic(Music music);
 
-    Music musicToMusicPostDto(MusicDto.Post musicDtoPost);
+    Music musicToMusicPostDto(MusicDto.PostRequest musicDtoPostRequest);
 }
