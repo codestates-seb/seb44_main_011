@@ -3,7 +3,7 @@ package com.seb44main011.petplaylist.domain.music.stub;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 
-public class MusicTestData {
+public class TestData {
     public static class MockMusic{
         private static final String title = "곡의 이름입니다";
         private static final String music_url="/music/test.mp3";
@@ -26,6 +26,17 @@ public class MusicTestData {
                     .tags(Music.Category.DOGS.getCategory())
                     .build();
 
+        }
+
+        public static MusicDto.PostRequest getPostRequestData(){
+            return MusicDto.PostRequest.builder()
+                    .musicId(1L)
+                    .build();
+        }
+        public static MusicDto.DeleteRequest getDeleteRequestData(){
+            return MusicDto.DeleteRequest.builder()
+                    .musicId(1L)
+                    .build();
         }
 
     }
