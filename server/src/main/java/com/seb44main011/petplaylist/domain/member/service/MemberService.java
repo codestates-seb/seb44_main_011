@@ -2,6 +2,7 @@ package com.seb44main011.petplaylist.domain.member.service;
 
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class MemberService {
         verifyExistsEmail(member.getEmail());
         String passwordEncode = passwordEncoder.encode(member.getPassword());
         member.updatePassword(passwordEncode);
-
+        member.updatePersonalPlayList(PersonalPlayList.builder().member(member).build());
         return memberRepository.save(member);
     }
 
@@ -33,9 +34,9 @@ public class MemberService {
         }
     }
 
-//    public Member findMemberById(long id) {
-//        return memberRepository.findById(id).orElseThrow(
-//                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
-//        );
-//    }
+    public Member findMemberById(long id) {
+        return memberRepository.findById(id).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
+        );
+    }
 }

@@ -1,15 +1,21 @@
 package com.seb44main011.petplaylist.domain.music.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
 
 public class MusicDto {
 
 
     @Getter
     @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Post{
-        private Long musicId;
+        @NotNull(message = "공백이 올 수 없습니다.")
+        private long musicId;
 
     }
 
