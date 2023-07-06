@@ -48,10 +48,16 @@ public class MemberService {
         return foundMember;
     }
 
-    public void disableMember(long memberId) {
+    public void disableMember(long memberId, String password) {
         Member foundMember = findMember(memberId);
-        foundMember.updateStatus(Member.Status.MEMBER_QUIT);
-        memberRepository.save(foundMember);
+        boolean matchPassword = passwordEncoder.matches(password, foundMember.getPassword());
+        if (matchPassword) {
+            foundMember.updateStatus(Member.Status.MEMBER_QUIT);
+            memberRepository.save(foundMember);
+        }
+        else {
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH);
+        }
     }
 
     public void verifyExistsEmail(String email) {

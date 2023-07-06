@@ -135,12 +135,17 @@ public class MemberControllerTest {
     @Test
     @DisplayName("회원탈퇴 테스트")
     public void deleteMemberTest() throws Exception {
+        String password = gson.toJson(MemberDto.Delete.builder()
+                .password("a12341234")
+                .build());
         BDDMockito.given(memberService.findMember(Mockito.anyLong())).willReturn(testMember);
-        Mockito.doNothing().when(memberService).disableMember(Mockito.anyLong());
+        Mockito.doNothing().when(memberService).disableMember(Mockito.anyLong(), Mockito.anyString());
 
         mockMvc.perform(
                 RestDocumentationRequestBuilders.delete("/api/members/{member-id}", testMember.getMemberId())
                         .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(password)
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
@@ -152,6 +157,9 @@ public class MemberControllerTest {
                                                 .description("회원탈퇴")
                                                 .pathParameters(
                                                         ResourceDocumentation.parameterWithName("member-id").description("사용자 식별자")
+                                                )
+                                                .requestFields(
+                                                        PayloadDocumentation.fieldWithPath("password").description("비밀번호")
                                                 )
                                                 .build()
                                 )
