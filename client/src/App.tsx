@@ -1,17 +1,14 @@
-import { ReactComponent as Dog } from "./assets/icons/dog.svg";
-import Login from "./pages/Login/Login";
-import SignUp from "./pages/SignUp/SignUp";
-import Delete from "./pages/Delete/Delete";
+import { useState } from "react";
+import Mypage from "./pages/Mypage";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 function App() {
+
   return (
-    <>
-      {/* <Login />
-      <SignUp />
-      <Delete /> */}
-      <div>
-        <Dog fill="red" />
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/mypage" element={<Mypage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
