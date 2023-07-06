@@ -42,4 +42,20 @@ public class MemberController {
 
         return ResponseEntity.ok().location(location).body(memberMapper.memberToMemberDtoPatchResponse(updateMember));
     }
+
+//    @GetMapping("/api/members/{member-id}")
+//    public ResponseEntity getMember(@Valid
+//                                    @PathVariable("member-id") @Positive long memberId) {
+//        Member findMember = memberService.findMember(memberId);
+//        MemberDto.MyPageResponse myPageResponse =
+//    }
+
+    @DeleteMapping("/api/members/{member-id}")
+    public ResponseEntity deleteMember(@Valid
+                                       @PathVariable("member-id") @Positive long memberId) {
+        memberService.disableMember(memberId);
+        URI location = UriCreator.createUri("/public/signup");
+
+        return ResponseEntity.ok().location(location).build();
+    }
 }

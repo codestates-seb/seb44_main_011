@@ -41,6 +41,19 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
+    public Member findMember(long memberId) {
+        Member foundMember = findVerifiedMember(memberId);
+        isMemberActive(foundMember);
+
+        return foundMember;
+    }
+
+    public void disableMember(long memberId) {
+        Member foundMember = findMember(memberId);
+        foundMember.updateStatus(Member.Status.MEMBER_QUIT);
+        memberRepository.save(foundMember);
+    }
+
     public void verifyExistsEmail(String email) {
         Optional<Member> findMembers = memberRepository.findByEmail(email);
         if (findMembers.isPresent()) {
