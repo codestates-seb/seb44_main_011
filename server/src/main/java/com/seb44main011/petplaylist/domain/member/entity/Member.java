@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Getter
 @Entity(name = "MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Builder
 public class Member extends BaseTimeEntity {
     @Id
@@ -37,13 +36,14 @@ public class Member extends BaseTimeEntity {
     private PersonalPlayList personalPlayList;
 
     @Builder
-    public Member(long memberId, String email, String password, String name, String profile, Status status) {
+    public Member(long memberId, String email, String password, String name, String profile, Status status, PersonalPlayList personalPlayList) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
         this.name = name;
         this.profile = "기본 프로필 이미지";
         this.status = status;
+        this.personalPlayList = personalPlayList;
     }
 
     public enum Status {

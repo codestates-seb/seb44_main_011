@@ -41,6 +41,25 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
+    public Member findMember(long memberId) {
+        Member foundMember = findVerifiedMember(memberId);
+        isMemberActive(foundMember);
+
+        return foundMember;
+    }
+
+    public void disableMember(long memberId, String password) {
+        Member foundMember = findMember(memberId);
+        boolean matchPassword = passwordEncoder.matches(password, foundMember.getPassword());
+        if (matchPassword) {
+            foundMember.updateStatus(Member.Status.MEMBER_QUIT);
+            memberRepository.save(foundMember);
+        }
+        else {
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH);
+        }
+    }
+
     public void verifyExistsEmail(String email) {
         Optional<Member> findMembers = memberRepository.findByEmail(email);
         if (findMembers.isPresent()) {

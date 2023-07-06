@@ -14,7 +14,8 @@ public enum ExceptionCode {
     MEMBER_MISMATCH(403,"The login Member and the author are different"),
     MEMBER_WITHDRAWN(409, "Already with drawn Member"),
     MUSIC_NOT_FOUND(404,"Music not found"),
-    COMMENT_NOT_FOUND(404, "Comment not found");
+    COMMENT_NOT_FOUND(404, "Comment not found"),
+    PASSWORD_MISMATCH(404, "Password is not Correct");
 
     @Getter
     private int status;
