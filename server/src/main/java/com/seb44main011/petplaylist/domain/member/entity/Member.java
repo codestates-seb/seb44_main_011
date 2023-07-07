@@ -1,5 +1,6 @@
 package com.seb44main011.petplaylist.domain.member.entity;
 
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
 import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
@@ -30,14 +31,19 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     private Status status = Status.MEMBER_ACTIVE;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="PERSONALPLAYLIST_ID")
+    private PersonalPlayList personalPlayList;
+
     @Builder
-    public Member(long memberId, String email, String password, String name, String profile, Status status) {
+    public Member(long memberId, String email, String password, String name, String profile, Status status, PersonalPlayList personalPlayList) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
         this.name = name;
         this.profile = "기본 프로필 이미지";
         this.status = status;
+        this.personalPlayList = personalPlayList;
     }
 
     public enum Status {
@@ -60,7 +66,15 @@ public class Member extends BaseTimeEntity {
         this.password = password;
     }
 
+    public void updateName(String name) {
+        this.name = name;
+    }
+
     public void updateProfile(String profile) {
         this.profile = profile;
+    }
+
+    public void updatePersonalPlayList(PersonalPlayList personalPlayList) {
+        this.personalPlayList = personalPlayList;
     }
 }
