@@ -9,14 +9,12 @@ import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
 function SideBar() {
   return (
     <RootWrapper>
+      <NavLogo>
+        <DogLogoImg />
+      </NavLogo>
       <Nav>
         <SearchImg fill="#B4B4B7" />
       </Nav>
-      <NavLogo>
-        <NaN_0001>
-          <DogLogoImg />
-        </NaN_0001>
-      </NavLogo>
       <NavHome>
         <HomeImg fill="#84CBFF" />
         <Home_0001 href="/">Home</Home_0001>
@@ -40,223 +38,251 @@ function SideBar() {
     </RootWrapper>
   );
 }
-export default SideBar;
 
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
   border: solid 1px rgba(255, 255, 255, 0.16);
   position: relative;
   box-shadow: 0px 4px 5px 2px rgba(217, 217, 217, 0.5);
-  width: 245px;
-  height: 832px;
+  height: 100vh;
+  width: 20%;
+  max-width: 300px;
+  min-width: 200px;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
 `;
 
 const Nav = styled.div`
   overflow: hidden;
   background-color: white;
-  border-radius: 100px;
+  border-radius: 6.25rem;
   position: absolute;
-  left: 28px;
-  top: 140px;
-  right: 32px;
-  bottom: 656px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(20vw * 15.3125 / 20);
+  max-width: 250px;
+  height: 40px;
 `;
 
 const SearchImg = styled(SearchIcon)`
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   object-fit: cover;
   position: absolute;
-  left: 10px;
-  top: calc((calc((50% + 0px)) - 12px));
+  left: 0.625rem;
+  top: calc(50% - 0.75rem);
+  display: flex;
 `;
 
 const NavLogo = styled.div`
   position: absolute;
-  left: 69px;
-  top: 50px;
-  right: 66px;
-  bottom: 712px;
+  left: 4.3125rem;
+  top: 3.125rem;
+  right: 4.125rem;
+  bottom: 85vh;
+  display: flex;
 `;
 
-const NaN_0001 = styled.div`
-  position: absolute;
-  left: 17px;
-  top: 0px;
-  right: 17px;
-  bottom: 36px;
-`;
+// const NaN_0001 = styled.div`
+//   position: absolute;
+//   left: 1.0625rem;
+//   top: 0;
+//   right: 1.0625rem;
+//   bottom: 4.32vh;
+
+//   display: flex;
+// `;
 
 const DogLogoImg = styled(DogLogo)`
   object-fit: cover;
   position: absolute;
-  left: -16px;
-  top: -2px;
-  right: 7px;
-  bottom: -2px;
+  left: -1rem;
+  top: -0.125rem;
+  right: 0.4375rem;
+  bottom: -0.125rem;
+  display: flex;
 `;
 
 const NavHome = styled.div`
   position: absolute;
-  left: 41px;
-  top: 196px;
-  right: 118px;
-  bottom: 614px;
+  left: 2.5625rem;
+  top: 12.25rem;
+  right: 7.375rem;
+  bottom: 26.52vh;
+  display: flex;
 `;
 
 const HomeImg = styled(HomeIcon)`
   object-fit: cover;
   position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 64px;
-  bottom: 0px;
+  left: 0;
+  top: 0;
+  right: 4rem;
+  bottom: 0;
+  display: flex;
 `;
 
 const Home_0001 = styled.a`
   color: rgb(132, 203, 255);
   text-overflow: ellipsis;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: Quicksand, sans-serif;
   font-weight: 700;
   line-height: 100%;
   text-align: left;
   position: absolute;
-  left: 34px;
-  top: 1px;
-  right: 0px;
-  bottom: 3px;
+  left: 2.125rem;
+  top: 0.0625rem;
+  right: 0;
+  bottom: 0.1875rem;
   text-decoration: none;
+  display: flex;
 `;
 
 const NavMylist = styled.div`
   position: absolute;
-  left: 41px;
-  top: 280px;
-  right: 118px;
-  bottom: 530px;
+  left: 2.5625rem;
+  top: 17.5rem;
+  right: 7.375rem;
+  bottom: 63.56vh;
+  display: flex;
 `;
 
 const MyList = styled.a`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: Quicksand, sans-serif;
   font-weight: 700;
   line-height: 100%;
   text-align: left;
   position: absolute;
-  left: 34px;
-  top: 1px;
-  right: -4px;
-  bottom: 3px;
+  left: 2.125rem;
+  top: 0.0625rem;
+  right: -0.25rem;
+  bottom: 0.1875rem;
   text-decoration: none;
+  display: flex;
 `;
 
 const MyListImg = styled(MylistIcon)`
   object-fit: cover;
   position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 64px;
-  bottom: 0px;
+  left: 0;
+  top: 0;
+  right: 4rem;
+  bottom: 0;
+  display: flex;
 `;
 
 const NavTags = styled.div`
-  width: 95px;
-  height: 22px;
+  width: 5.9375rem;
+  height: 1.375rem;
   overflow: hidden;
   position: absolute;
-  left: 41px;
-  top: 238px;
+  left: 2.5625rem;
+  top: 14.875rem;
+  display: flex;
 `;
 
 const Tags = styled.a`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: Quicksand, sans-serif;
   font-weight: 700;
   line-height: 100%;
   text-align: left;
   position: absolute;
-  left: 34px;
-  top: 2px;
+  left: 2.125rem;
+  top: 0.125rem;
   text-decoration: none;
+  display: flex;
 `;
 
 const TagImg = styled(TagsIcon)`
   object-fit: cover;
   position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 73px;
-  bottom: 0px;
+  left: 0;
+  top: 0;
+  right: 4.5625rem;
+  bottom: 0;
+  display: flex;
 `;
 
 const ButtonLogout = styled.div`
-  width: 185px;
-  height: 40px;
+  width: 11.5625rem;
+  height: 2.5rem;
   position: absolute;
-  left: calc((calc((50% + 1px)) - 93px));
-  top: 743px;
+  left: calc((50% + 1px) - 5.8125rem);
+  top: 86.93vh;
+  display: flex;
 `;
 
 const Rectangle191 = styled.div`
   border: solid 1px rgb(209, 209, 209);
-  border-radius: 100px;
+  border-radius: 6.25rem;
   position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
 `;
 
 const Logout = styled.span`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-family: Quicksand, sans-serif;
   font-weight: 700;
-  line-height: 24px;
+  line-height: 1.5rem;
   text-align: left;
-  min-height: 25px;
+  min-height: 1.5625rem;
   position: absolute;
-  left: 64px;
-  top: 7px;
-  right: 63px;
-  bottom: 8px;
+  left: 4rem;
+  top: 0.4375rem;
+  right: 3.9375rem;
+  bottom: 0.5rem;
+  display: flex;
 `;
 
 const NavMypage = styled.div`
-  width: 106px;
-  height: 24px;
+  width: 6.625rem;
+  height: 1.5rem;
   position: absolute;
-  left: 41px;
-  top: 322px;
+  left: 2.5625rem;
+  top: 20.125rem;
+  display: flex;
 `;
 
 const MyPage = styled.a`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-family: Quicksand, sans-serif;
   font-weight: 700;
   line-height: 100%;
   text-align: left;
   position: absolute;
-  left: 36px;
-  top: 2px;
-  right: 0px;
-  bottom: 4px;
+  left: 2.25rem;
+  top: 0.125rem;
+  right: 0;
+  bottom: 0.25rem;
   text-decoration: none;
+  display: flex;
 `;
 
 const MypageImg = styled(MypageIcon)`
   object-fit: cover;
   position: absolute;
-  left: 0px;
-  top: 0px;
-  right: 84px;
-  bottom: 2px;
+  left: 0;
+  top: 0;
+  right: 5.25rem;
+  bottom: 0.125rem;
+  display: flex;
 `;
+
+export default SideBar;
