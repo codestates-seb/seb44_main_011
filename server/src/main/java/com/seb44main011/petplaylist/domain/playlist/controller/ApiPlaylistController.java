@@ -6,6 +6,8 @@ import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
 import com.seb44main011.petplaylist.domain.music.service.MusicService;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
+import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
 import com.seb44main011.petplaylist.domain.playlist.mapper.PlaylistMapper;
 import com.seb44main011.petplaylist.domain.playlist.service.MusicListService;
 import com.seb44main011.petplaylist.domain.playlist.service.PlaylistService;
@@ -31,6 +33,7 @@ import java.util.List;
 public class ApiPlaylistController {
     private final PlaylistMapper playlistMapper;
     private final MusicMapper musicMapper;
+    private final MusicListMapper musicListMapper;
     private final PlaylistService playlistService;
     private final MusicListService musicListService;
     private final MusicService musicService;
@@ -43,7 +46,10 @@ public class ApiPlaylistController {
     @PostMapping(value = "/{member-id}", name = "music_name")
     public ResponseEntity<?> postPersonalPlayList(@PathVariable("member-id")@Positive long id,
                                                   @Valid @RequestBody MusicDto.PostRequest postRequest){
-        playlistService.createPersonalMusicList(id, postRequest.getMusicId());
+        PersonalPlayList personalPlayList = playlistService.findPersonalPlayList(id);
+        Music music = musicService.findMusic(postRequest.getMusicId());
+        MusicList newMusicList = musicListMapper.memberAndMusicToMusicList(personalPlayList,music);
+        musicListService.addMusicList(newMusicList);
         URI location = UriCreator.createUri("/api/playlist");
         return ResponseEntity.created(location).build();
     }
@@ -55,7 +61,7 @@ public class ApiPlaylistController {
         Music.Category category = Music.Category.valueOf(dogOrCats.toUpperCase());
         Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page);
         List<Music> musicList = musicPage.getContent();
-        List<MusicList> likeMusic = playlistService.findPlayList(memberId).getMusicLists();
+        List<MusicList> likeMusic = playlistService.findPersonalPlayList(memberId).getMusicLists();
         List<PlaylistDto.ApiCategoryPlayListResponse> apiCategoryPlayListResponses = playlistMapper.musicListToCategoryPlayListApiResponse(musicList,likeMusic);
 
         return new ResponseEntity(
@@ -66,7 +72,9 @@ public class ApiPlaylistController {
     @DeleteMapping(value = "/{member-id}", name = "music_name")
     public ResponseEntity<?> deletePersonalPlayList(@PathVariable("member-id")@Positive long id,
                                                   @Valid @RequestBody MusicDto.DeleteRequest postRequest){
-        musicListService.deleteMusicList(id, postRequest.getMusicId());
+        PersonalPlayList personalPlayList = playlistService.findPersonalPlayList(id);
+        Music music = musicService.findMusic(postRequest.getMusicId());
+        musicListService.deleteMusicList(personalPlayList, music);
         return ResponseEntity.noContent().build();
     }
 

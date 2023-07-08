@@ -3,6 +3,7 @@ package com.seb44main011.petplaylist.domain.playlist.mapper;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -13,8 +14,9 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PlaylistMapper {
-    PlaylistDto.PublicCategoryPlayListResponse musicToCategoryPlayListResponse(Music music);
+//    PlaylistDto.PublicCategoryPlayListResponse musicToCategoryPlayListResponse(Music music);
 
+    PersonalPlayList personalPlayListToMemberId(Long personalPlayListId);
     List<PlaylistDto.PublicCategoryPlayListResponse> musicListToCategoryPlayListPublicResponse(List<Music> musicList);
 
     default List<PlaylistDto.ApiCategoryPlayListResponse> musicListToCategoryPlayListApiResponse(List<Music> musics, List<MusicList> musicListsList){

@@ -23,26 +23,26 @@ public class PlaylistService {
 
 
     public void createPersonalMusicList(long memberId, long musicId){
-        PersonalPlayList playList = findPlayList(memberId);
+        PersonalPlayList playList = findPersonalPlayList(memberId);
         Music findMusic = findMusicById(musicId);
         updatePersonalPlayList(playList,findMusic);
     }
 
-    public void deletePersonalMusicList(long memberId, long musicId){
-        PersonalPlayList playList = findPlayList(memberId);
-        Music findMusic = findMusicById(musicId);
-        deleteMusicList(playList,findMusic);
+//    public void deletePersonalMusicList(long memberId, long musicId){
+//        PersonalPlayList playList = findPersonalPlayList(memberId);
+//        Music findMusic = findMusicById(musicId);
+//        deleteMusicList(playList,findMusic);
+//
+//    }
 
-    }
+//    private void deleteMusicList(PersonalPlayList playList, Music music) {
+//        MusicList musicList = musicListService.findMusicListMusic(playList,music);
+//        log.info("Music List.Music id: {}",musicList.getMusic().getMusicId());
+//        playList.deleteMusicList(musicList);
+//        repository.save(playList);
+//    }
 
-    private void deleteMusicList(PersonalPlayList playList, Music music) {
-        MusicList musicList = musicListService.findMusicListMusic(playList,music);
-        log.info("Music List.Music id: {}",musicList.getMusic().getMusicId());
-        playList.deleteMusicList(musicList);
-        repository.save(playList);
-    }
-
-    public PersonalPlayList findPlayList(long memberId) {
+    public PersonalPlayList findPersonalPlayList(long memberId) {
        return repository.findByMember_MemberId(memberId)
                .orElseThrow(
                        ()->new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)

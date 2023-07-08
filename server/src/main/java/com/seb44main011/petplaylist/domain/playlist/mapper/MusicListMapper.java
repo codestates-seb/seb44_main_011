@@ -9,7 +9,7 @@ import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MusicListMapper {
-    default MusicList MemberAndMusicToMusicList(PersonalPlayList playList, Music music){
+    default MusicList memberAndMusicToMusicList(PersonalPlayList playList, Music music){
         return MusicList.builder()
                 .personalPlayList(playList)
                 .music(music)
