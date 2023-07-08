@@ -37,7 +37,7 @@ public class ApiPlaylistController {
     private final PlaylistService playlistService;
     private final MusicListService musicListService;
     private final MusicService musicService;
-    private final StubData stubData;
+//    private final StubData stubData;
 //    @PostMapping("/test")
 //    public void postTest(){
 //        stubData.insertData();
