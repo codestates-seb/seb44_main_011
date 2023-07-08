@@ -23,7 +23,7 @@ jobs:
       - name: Build with Gradle
         run: |
           cd server
-          cat ${{ SERVER_YML_DATA }} > /src/main/resources/application.yml
+          cat ${{ SERVER_YML_DATA }}> /src/main/resources/application.yml
           chmod +x gradlew
           mkdir -p ./build/generated-snippets
           ./gradlew build
