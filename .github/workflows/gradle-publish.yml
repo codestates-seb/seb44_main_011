@@ -20,10 +20,12 @@ jobs:
           java-version: 11
           distribution: 'temurin'
 
+      - name: Cat yml
+        run: |
+          cat "${{ secrets.SERVER_YML_DATA }}" > ./server/src/main/resources/application.yml
       - name: Build with Gradle
         run: |
           cd server
-          cat "${{ secrets.SERVER_YML_DATA }}" > ./src/main/resources/application.yml
           chmod +x gradlew
           mkdir -p ./build/generated-snippets
           ./gradlew build
