@@ -1,5 +1,7 @@
 package com.seb44main011.petplaylist.domain.music.controller;
 
+import com.seb44main011.petplaylist.domain.member.entity.Member;
+import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
@@ -20,16 +22,26 @@ import javax.validation.constraints.Positive;
 public class ApiMusicController {
     private final MusicMapper mapper;
     private final MusicService service;
+    private final MemberService memberService;
+
+    //TODO: 시큐리티 적용 시 구현 시작 예정 (현재 토큰인증 구현 x)
+
     @GetMapping(value = "/musics",params = {"music_name"})
     public ResponseEntity<?> getPublicMusicByTitle(@RequestParam(name = "music_name")String musicTitle){
-        Music findMusic = service.findMusic(musicTitle);
-        MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic);
+        Music findMusic = service.serchMusic(musicTitle);
+        Member findMember = memberService.findVerifiedMember(1L);
+        boolean likes = findMember.getPersonalPlayList().getMusicLists().stream()
+                .anyMatch(musicList -> musicList.getMusic().getMusicId()==findMusic.getMusicId());
+        MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic,likes);
         return ResponseEntity.ok().body(response);
     }
     @GetMapping(value = "/musics",params = {"music_id"})
     public ResponseEntity<?> getPublicMusicById(@RequestParam(name = "music_id")@Positive long musicId){
-        Music findMusic = service.findMusic(musicId);
-        MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic);
+        Music findMusic = service.serchMusic(musicId);
+        Member findMember = memberService.findVerifiedMember(1L);
+        boolean likes = findMember.getPersonalPlayList().getMusicLists().stream()
+                .anyMatch(musicList -> musicList.getMusic().getMusicId()==findMusic.getMusicId());
+        MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic,likes);
         return ResponseEntity.ok().body(response);
     }
 }

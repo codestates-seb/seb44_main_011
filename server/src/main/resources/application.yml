@@ -22,11 +22,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    defer-datasource-initialization: true
-#  sql:
-#    init:
-#      data-locations: classpath*:db/h2/data
-#      schema-locations: classpath*:db/h2/schema.sql
 logging:
   level:
     seb44pre036:
