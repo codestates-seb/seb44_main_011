@@ -1,3 +1,6 @@
+export const BaseURL =
+  "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080";
 export const PostLogin = "";
-export const PostSignUp = "";
+export const PostSignUp =
+  "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/public/signup";
 export const DeleteUser = "";
