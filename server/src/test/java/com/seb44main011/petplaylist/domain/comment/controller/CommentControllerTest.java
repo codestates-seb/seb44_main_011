@@ -10,6 +10,7 @@ import com.seb44main011.petplaylist.domain.comment.service.CommentService;
 import com.seb44main011.petplaylist.domain.comment.stub.CommentTestData;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
+import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
@@ -27,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.times;
@@ -183,6 +186,7 @@ class CommentControllerTest {
                 mockMvc.perform(
                         delete("/api/music/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
                                 .accept(MediaType.APPLICATION_JSON)
+
                 );
 
         verify(commentService, times(1)).deleteComment(anyLong());
@@ -206,4 +210,63 @@ class CommentControllerTest {
                 );
     }
 
+    @Test
+    @DisplayName("댓글리스트 조회 테스트")
+    void getCommentTest() throws Exception {
+        Comment commentData = CommentTestData.MockComment.getCommentData();
+        Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1,6);
+        CommentDto.Response response = new CommentDto.Response(1L,1L,"네임","내용",LocalDateTime.now(),LocalDateTime.now());
+
+        List<CommentDto.Response> commentList = List.of(response);
+
+        given(commentMapper.commentDtoResponseToListCommentDtoResponse(Mockito.anyList()))
+                .willReturn(commentList);
+
+
+        given(commentService.getComments(Mockito.anyLong(), Mockito.anyInt()))
+                .willReturn(commentPageData);
+
+
+
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/public/musics/{music-id}/comments",commentData.getMusic().getMusicId())
+                                .param("page", "1")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                );
+
+        actions
+                .andExpect(status().isOk())
+                .andDo(
+                        MockMvcRestDocumentation.document("해당 곡의 전체 댓글조회",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                ResourceDocumentation.resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("댓글 조회")
+                                                .pathParameters(
+                                                        ResourceDocumentation.parameterWithName("music-id").description("음악 식별자")
+                                                )
+                                                .responseFields(
+                                                        PayloadDocumentation.fieldWithPath("data").type(JsonFieldType.ARRAY).description("댓글 리스트"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].commentId").type(JsonFieldType.NUMBER).description("댓글 번호"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].name").type(JsonFieldType.STRING).description("사용자 닉네임"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].comment").type(JsonFieldType.STRING).description("댓글 내용"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성시간"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
+                                                        PayloadDocumentation.fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                                        PayloadDocumentation.fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("페이지 번호"),
+                                                        PayloadDocumentation.fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("페이지 크기"),
+                                                        PayloadDocumentation.fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("총 댓글 개수"),
+                                                        PayloadDocumentation.fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("총 페이지 개수")
+
+                                                )
+                                                .build()
+                                )
+                        )
+
+                );
+    }
 }
