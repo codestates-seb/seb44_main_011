@@ -146,7 +146,7 @@ class CommentControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        patch("/api/music/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
+                        patch("/api/musics/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(context)
@@ -184,7 +184,7 @@ class CommentControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        delete("/api/music/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
+                        delete("/api/musics/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
                                 .accept(MediaType.APPLICATION_JSON)
 
                 );
