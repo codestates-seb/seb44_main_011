@@ -11,6 +11,40 @@
   "tags" : [ ],
   "paths" : {
     "/api/members/{member-id}" : {
+      "delete" : {
+        "tags" : [ "api" ],
+        "summary" : "회원탈퇴",
+        "description" : "회원탈퇴",
+        "operationId" : "회원탈퇴 예제",
+        "parameters" : [ {
+          "name" : "member-id",
+          "in" : "path",
+          "description" : "사용자 식별자",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-members-member-id684151845"
+              },
+              "examples" : {
+                "회원탈퇴 예제" : {
+                  "value" : "{\n  \"password\" : \"a12341234\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      },
       "patch" : {
         "tags" : [ "api" ],
         "summary" : "회원 정보 수정",
@@ -124,6 +158,72 @@
         "responses" : {
           "204" : {
             "description" : "204"
+          }
+        }
+      }
+    },
+    "/api/musics/1/comments" : {
+      "post" : {
+        "tags" : [ "api" ],
+        "summary" : "댓글 작성",
+        "description" : "댓글 작성",
+        "operationId" : "인증된 사용자의 댓글 작성",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-musics-1-comments-1230103686"
+              },
+              "examples" : {
+                "인증된 사용자의 댓글 작성" : {
+                  "value" : "{\n  \"memberId\" : 1,\n  \"musicId\" : 1,\n  \"comment\" : \"댓글입니다.\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-musics-1-comments-334285559"
+                },
+                "examples" : {
+                  "인증된 사용자의 댓글 작성" : {
+                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-08T23:42:47.803861\",\n  \"modifiedAt\" : \"2023-07-08T23:42:47.803876\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/music/1/comments/1" : {
+      "patch" : {
+        "tags" : [ "api" ],
+        "summary" : "댓글 수정",
+        "description" : "댓글 수정",
+        "operationId" : "인증된 사용자의 댓글 수정",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-music-1-comments-1-2146354092"
+              },
+              "examples" : {
+                "인증된 사용자의 댓글 수정" : {
+                  "value" : "{\n  \"commentId\" : 1,\n  \"comment\" : \"수정 코멘트\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200"
           }
         }
       }
@@ -350,6 +450,15 @@
           }
         }
       },
+      "api-members-member-id684151845" : {
+        "type" : "object",
+        "properties" : {
+          "password" : {
+            "type" : "string",
+            "description" : "비밀번호"
+          }
+        }
+      },
       "api-playlist-member-id1424350679" : {
         "type" : "object",
         "properties" : {
@@ -419,6 +528,23 @@
           }
         }
       },
+      "api-musics-1-comments-1230103686" : {
+        "type" : "object",
+        "properties" : {
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 정보(번호)"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "댓글 내용"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "사용자 정보(번호)"
+          }
+        }
+      },
       "api-members-member-id-793076289" : {
         "type" : "object",
         "properties" : {
@@ -433,6 +559,19 @@
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "api-music-1-comments-1-2146354092" : {
+        "type" : "object",
+        "properties" : {
+          "commentId" : {
+            "type" : "number",
+            "description" : "수정 대상 댓글 번호"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "수정 댓글 내용"
           }
         }
       },
@@ -514,6 +653,35 @@
           "memberId" : {
             "type" : "number",
             "description" : "사용자 식별자"
+          }
+        }
+      },
+      "api-musics-1-comments-334285559" : {
+        "type" : "object",
+        "properties" : {
+          "createdAt" : {
+            "type" : "string",
+            "description" : "작성 시간"
+          },
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 번호"
+          },
+          "modifiedAt" : {
+            "type" : "string",
+            "description" : "수정 시간"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "사용자 닉네임"
+          },
+          "commentId" : {
+            "type" : "number",
+            "description" : "댓글 번호"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "댓글 내용"
           }
         }
       },

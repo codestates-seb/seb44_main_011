@@ -27,7 +27,7 @@ public class MusicList {
     private Music music;
 
     @Column(nullable = false)
-    private boolean liked = true;
+    private boolean liked =true;
 
 
 

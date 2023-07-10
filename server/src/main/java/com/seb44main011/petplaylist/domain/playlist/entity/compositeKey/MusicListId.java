@@ -5,10 +5,10 @@ import lombok.*;
 import java.io.Serializable;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Builder
 public class MusicListId implements Serializable {
     private Long personalPlayList;
     private Long music;

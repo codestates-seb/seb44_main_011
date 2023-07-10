@@ -6,18 +6,30 @@ import { ReactComponent as Catpli } from "../../assets/imgs/catpli.svg";
 import Toggle from "./Toggle";
 
 const DogImg = styled(Dog)`
-  align-items: end;
-  margin-top: 52px;
+  align-self: flex-end;
+  width: 50%;
+  height: auto;
 `;
 
 const CatImg = styled(Cat)`
-  align-items: end;
-  margin-top: 52px;
+  align-self: flex-end;
+  width: 50%;
+  height: auto;
+`;
+
+const BannerDogpliLogo = styled(Dogpli)`
+  width: 70%;
+  height: 60%;
+`;
+
+const BannerCatpliLogo = styled(Catpli)`
+  width: 70%;
+  height: 60%;
 `;
 
 const BannerContainer = styled.div`
-  width: 915px;
-  height: 300px;
+  width: 100%;
+  height: 35%;
   border-radius: 15px;
   background: var(--gradation-banner);
   position: relative;
@@ -31,7 +43,7 @@ const PliContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px;
+  justify-content: center;
 `;
 
 interface BannerProps {
@@ -56,7 +68,7 @@ const Banner = ({ buttonData, activeOption, gap, onClick }: BannerProps) => {
   return (
     <BannerContainer>
       <PliContainer>
-        {activeOption === "dog" ? <Dogpli /> : <Catpli />}
+        {activeOption === "dog" ? <BannerDogpliLogo /> : <BannerCatpliLogo />}
         <Toggle
           activeOption={activeOption}
           onClick={handleToggleClick}

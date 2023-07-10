@@ -7,10 +7,21 @@ import {
   ANIMAL_CATEGORY,
   TOGGLE_CATEGORY,
 } from "../constants/CategoryConstants";
-import MusicList from "../components/MusicList";
+import { MusicList } from "../components/MusicList";
+import { logginedMusicList } from "../constants/MusicData";
 
+const HomeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 3%;
+  width: 100%;
+  max-width: 1800px;
+  height: 100vh;
+  min-width: 700px;
+`;
 const HomsListTitle = styled.div`
-  width: 915px;
+  width: 100%;
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -29,7 +40,7 @@ const Home = () => {
   };
 
   return (
-    <>
+    <HomeContainer>
       <Banner
         buttonData={TOGGLE_CATEGORY}
         activeOption={isDogpli}
@@ -50,8 +61,8 @@ const Home = () => {
           onClick={handleAnimalButton}
         />
       </HomsListTitle>
-      <MusicList></MusicList>
-    </>
+      <MusicList musicList={logginedMusicList.data.member_playList} />
+    </HomeContainer>
   );
 };
 

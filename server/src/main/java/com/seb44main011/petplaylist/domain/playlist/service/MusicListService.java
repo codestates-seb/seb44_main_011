@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -22,20 +22,35 @@ public class MusicListService {
     private final MusicListRepository repository;
     public final MusicListMapper mapper;
 
-
-    public MusicList CreateMusicList(PersonalPlayList playList, Music music){
-        return mapper.MemberAndMusicToMusicList(playList,music);
+    public void addMusicList(MusicList musicList){
+        verifyExistsMusicList(musicList);
+        repository.save(musicList);
     }
 
-//    public List<Music> findMusicListMusics(PersonalPlayList playList, Music music){
-//
-//    }
-    public MusicList findMusicListMusic(PersonalPlayList playList, Music music){
-        log.info("Music Id:{}", music.getMusicId());
-        return repository.findByMusic_MusicIdAndPersonalPlayList_PersonalPlayListId(music.getMusicId(),playList.getPersonalPlayListId())
+    public MusicList createMusicList(PersonalPlayList playList, Music music){
+        return mapper.memberAndMusicToMusicList(playList,music);
+    }
+
+    public void deleteMusicList(PersonalPlayList playList, Music music){
+        MusicList getMusicList = getMusicList(music.getMusicId(),playList.getPersonalPlayListId());
+        repository.delete(getMusicList);
+    }
+
+    private void verifyExistsMusicList(MusicList musicList) {
+        Optional<MusicList> optionalMusicList = repository.findByMusic_MusicIdAndPersonalPlayList_PersonalPlayListId(
+                musicList.getMusic().getMusicId(),musicList.getPersonalPlayList().getPersonalPlayListId());
+        if (optionalMusicList.isPresent()){
+            throw new BusinessLogicException(ExceptionCode.LIKED_MUSIC_EXISTS);
+        }
+    }
+
+    private MusicList getMusicList(long musicId,long memberId) {
+        return repository.findByMusic_MusicIdAndPersonalPlayList_PersonalPlayListId(musicId, memberId)
                 .orElseThrow(
                         () -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND)
                 );
     }
+
+
 
 }
