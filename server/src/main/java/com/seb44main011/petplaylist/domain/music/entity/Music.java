@@ -63,11 +63,11 @@ public class Music extends BaseTimeEntity {
     }
 
     public enum Tags{
-        RELAXING("편안한"),
-        UPBEAT("흥겨운"),
-        HAPPY("행복한"),
-        CALM("차분한"),
-        SERENE("고요한");
+        RELAXING("relaxing"),
+        UPBEAT("upbeat"),
+        HAPPY("happy"),
+        CALM("calm"),
+        SERENE("serene");
 
         @Getter
         private final String tags;
