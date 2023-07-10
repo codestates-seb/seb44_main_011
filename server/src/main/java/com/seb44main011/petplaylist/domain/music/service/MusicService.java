@@ -4,6 +4,7 @@ import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
+import com.seb44main011.petplaylist.global.utils.PageNationCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -54,7 +55,7 @@ public class MusicService {
     }
 
     public Page<Music> findCategoryAndTagsPageMusic(Music.Category category, String tags, int page) {
-        Pageable pageable = getPageOfViewDesc(page);
+        Pageable pageable = PageNationCreator.getPageOfDesc(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"view");
         if (tags == null){
             return repository.findByCategory(category,pageable);
         }
@@ -64,10 +65,5 @@ public class MusicService {
         }
 
 
-    }
-
-
-    private Pageable getPageOfViewDesc(int page) {
-        return PageRequest.of(page-1, PAGESIZE, Sort.by("view").descending());
     }
 }
