@@ -19,6 +19,5 @@ public interface MusicMapper {
                 .tags(music.getTags().getTags())
                 .build();
     }
-
     Music musicToMusicPostDto(MusicDto.PostRequest musicDtoPostRequest);
 }
