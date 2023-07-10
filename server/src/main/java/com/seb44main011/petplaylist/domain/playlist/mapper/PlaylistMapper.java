@@ -17,6 +17,18 @@ public interface PlaylistMapper {
 //    PlaylistDto.PublicCategoryPlayListResponse musicToCategoryPlayListResponse(Music music);
 
     PersonalPlayList personalPlayListToMemberId(Long personalPlayListId);
+    default PlaylistDto.PlayListResponse musicListToPlayListResponse(MusicList musicList){
+        return PlaylistDto.PlayListResponse.builder()
+                .musicId(musicList.getMusic().getMusicId())
+                .title(musicList.getMusic().getTitle())
+                .music_url(musicList.getMusic().getMusic_url())
+                .image_url(musicList.getMusic().getImage_url())
+                .tags(musicList.getMusic().getTags().getTags())
+                .category(musicList.getMusic().getCategory().getCategory())
+                .liked(musicList.isLiked())
+                .build();
+    }
+    List<PlaylistDto.PlayListResponse> musicListToPlayListResponseList(List<MusicList> musicListList);
     List<PlaylistDto.PublicCategoryPlayListResponse> musicListToCategoryPlayListPublicResponse(List<Music> musicList);
 
     default List<PlaylistDto.ApiCategoryPlayListResponse> musicListToCategoryPlayListApiResponse(List<Music> musics, List<MusicList> musicListsList){
