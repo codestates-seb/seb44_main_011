@@ -108,12 +108,65 @@ public class ApiPlayListControllerTest {
                                 )
                         );
     }
+    @Test
+    @DisplayName("회원의 개인 플레이 리스트 조회(좋아요 리스트)")
+    public void getAllMusicListTest() throws Exception{
+        List<PlaylistDto.ApiResponse> responseList =TestData.ResponseData.Api.getPlayListResponseList();
+        Page<MusicList> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,responseList.size());
+
+        given(musicListService.findPersonalMusicListsPage(Mockito.anyLong(),Mockito.anyInt())).willReturn(pageTestData);
+        given(playlistMapper.musicListToPlayListResponseList(Mockito.anyList())).willReturn(responseList);
+
+        ResultActions actions =
+                mockMvc.perform(
+                                get(API_PLAYLIST_URL+"/{member-id}",1)
+                                        .accept(MediaType.APPLICATION_JSON)
+                                        .param("page", String.valueOf(pageTestData.getNumber()+1))
+
+                        )
+                        .andExpect(status().isOk())
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("회원의 개인 플레이 리스트 조회(좋아요 리스트)"
+                                        ,preprocessRequest(prettyPrint())
+                                        ,preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("개인 플레이 리스트 조회(좋아요 리스트) API")
+                                                        .pathParameters(
+                                                                parameterWithName("member-id").type(SimpleType.NUMBER).description("회원 식별 Id")
+                                                        )
+                                                        .requestParameters(
+                                                                parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자")
+                                                        )
+                                                        .responseFields(
+                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                                                fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 식별 Id"),
+                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("음악 타이틀(제목)"),
+                                                                fieldWithPath("data.[].music_url").type(JsonFieldType.STRING).description("음악의 URL"),
+                                                                fieldWithPath("data.[].image_url").type(JsonFieldType.STRING).description("음악 이미지의 URL"),
+                                                                fieldWithPath("data.[].category").type(JsonFieldType.STRING).description("조회한 카테고리"),
+                                                                fieldWithPath("data.[].tags").type(JsonFieldType.STRING).description("조회한 태그"),
+                                                                fieldWithPath("data.[].liked").type(JsonFieldType.BOOLEAN).description("좋아요 여부(개인 플레이 리스트)"),
+                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
+                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
+                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
+                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
+
+
+
+    }
 
     @Test
     @DisplayName("카테고리 태그별 조회 테스트(로그인 된 회원)")
-    public void GetCategoryAndTagFromMemberTest() throws Exception {
+    public void getCategoryAndTagFromMemberTest() throws Exception {
 
-        List<PlaylistDto.ApiCategoryPlayListResponse> apiResponses = TestData.ResponseData.Api.getApiCategoryPlayListResponseList();
+        List<PlaylistDto.ApiResponse> apiResponses = TestData.ResponseData.Api.getApiCategorySerchPlayListResponseList();
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(1,apiResponses.size()+50);
 
         given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt())).willReturn(testPageData);
