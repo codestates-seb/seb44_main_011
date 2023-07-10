@@ -62,7 +62,7 @@ public class CommentController {
                 .body(multiResponseDto);
     }
 
-    @PatchMapping("/api/music/{music-id}/comments/{comments-id}")
+    @PatchMapping("/api/musics/{music-id}/comments/{comments-id}")
     public ResponseEntity<?> patchComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, @Valid @RequestBody CommentDto.Patch requestBody) {
         Comment comment = commentMapper.commentPatchToComment(requestBody);
         commentService.updateComment(comment);
@@ -70,7 +70,7 @@ public class CommentController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/api/music/{music-id}/comments/{comments-id}")
+    @DeleteMapping("/api/musics/{music-id}/comments/{comments-id}")
     public ResponseEntity<?> deleteComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId) {
         commentService.deleteComment(commentId);
 
