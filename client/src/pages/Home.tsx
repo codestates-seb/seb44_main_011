@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import Banner from "../components/commons/Banner";
 import CategoryBtns from "../components/commons/CategoryBtns";
@@ -8,7 +8,10 @@ import {
   TOGGLE_CATEGORY,
 } from "../constants/CategoryConstants";
 import { MusicList } from "../components/MusicList";
-import { logginedMusicList } from "../constants/MusicData";
+import axios from "axios";
+import Pagination from "../components/Pagination";
+import { Music } from "../types/Music";
+import { PageInfo } from "../types/PageInfo";
 
 const HomeContainer = styled.div`
   display: flex;
@@ -27,17 +30,44 @@ const HomsListTitle = styled.div`
   justify-content: space-between;
   margin-bottom: 12px;
 `;
+
 const Home = () => {
   const [isDogpli, setIsDogpli] = useState(ANIMAL_CATEGORY[0]?.id);
   const [isTopChart, setIsTopChart] = useState(LIST_CATEGORY[0]?.id);
-
-  const handleAnimalButton = (buttonId: string) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [musicList, setMusicList] = useState<{
+    data: Music[];
+    pageInfo: PageInfo;
+  }>({
+    data: [],
+    pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
+  });
+  const handleAnimalButton = async (buttonId: string) => {
     setIsDogpli(buttonId);
+    setCurrentPage(1);
+
+    try {
+      const response = await axios.get(
+        `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/public/playlist/${buttonId}s?page=${currentPage}`
+      );
+
+      setMusicList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleListButton = (buttonId: string) => {
     setIsTopChart(buttonId);
   };
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    handleAnimalButton(isDogpli);
+  }, [currentPage]);
 
   return (
     <HomeContainer>
@@ -61,7 +91,12 @@ const Home = () => {
           onClick={handleAnimalButton}
         />
       </HomsListTitle>
-      <MusicList musicList={logginedMusicList.data.member_playList} />
+      <MusicList musicList={musicList} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={musicList.pageInfo?.totalPages || 0}
+        onPageChange={handlePageChange}
+      />
     </HomeContainer>
   );
 };

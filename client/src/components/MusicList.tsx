@@ -1,10 +1,10 @@
 import { styled } from "styled-components";
 import { ReactComponent as Liked } from "../assets/icons/liked.svg";
-import listImg from "../assets/imgs/listimg.png";
-
+import { ReactComponent as Disliked } from "../assets/icons/disliked.svg";
+import { Music } from "../types/Music";
 const MusicListContainer = styled.div`
-  width: 915px;
-  height: 52px;
+  width: 100%;
+  height: 5%;
   border-radius: 10px;
   border: 1px solid var(--gray-200);
   background: var(--gray-100);
@@ -13,6 +13,8 @@ const MusicListContainer = styled.div`
   font-family: var(--font-quicksand);
   justify-content: space-between;
   font-size: 14px;
+  color: var(--black);
+  margin-bottom: 12px;
 
   img {
     display: flex;
@@ -33,16 +35,25 @@ const Tag = styled.span`
   font-size: 12px;
 `;
 
-const MusicList = () => {
-  return (
-    <MusicListContainer>
-      <img src={listImg} alt="listimg" />
-      <span>Let me love you</span>
-      <Tag>#발랄한</Tag>
-      <span>4:17</span>
-      <Liked />
-    </MusicListContainer>
-  );
+type MusicListProps = {
+  musicList: {
+    data?: Music[];
+  };
 };
 
-export default MusicList;
+export const MusicList: React.FC<MusicListProps> = ({ musicList }) => {
+  const data = musicList.data;
+  return (
+    <>
+      {data?.map((music) => (
+        <MusicListContainer key={music.musicId}>
+          <img src={music.image_url} alt="listimg" />
+          <span>{music.title}</span>
+          <Tag>{music.tags}</Tag>
+          <span>4:17</span>
+          {music.likes ? <Liked /> : <Disliked />}
+        </MusicListContainer>
+      ))}
+    </>
+  );
+};
