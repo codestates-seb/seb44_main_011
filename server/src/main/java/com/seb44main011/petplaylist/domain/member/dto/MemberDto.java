@@ -1,5 +1,6 @@
 package com.seb44main011.petplaylist.domain.member.dto;
 
+import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,19 +59,19 @@ public class MemberDto {
         private String profile;
     }
 
-//    @Getter
-//    @Builder
-//    public static class MyPageResponse {
-//        @Email(message = "이메일 형식이여야 합니다.")
-//        @NotBlank(message = "공백이 아니여야 합니다.")
-//        private String email;
-//
-//        @NotBlank(message = "공백이 아니여야 합니다.")
-//        @Pattern(regexp = "^[가-힣A-Za-z0-9]{2,7}$",
-//                message = "닉네임은 2 ~ 7자 사이여야 합니다.")
-//        private String name;
-//        private List<PlaylistDto.MyPagePlaylistResponse> musicLists;
-//    }
+    @Getter
+    @Builder
+    public static class MyPageResponse {
+        @Email(message = "이메일 형식이여야 합니다.")
+        @NotBlank(message = "공백이 아니여야 합니다.")
+        private String email;
+
+        @NotBlank(message = "공백이 아니여야 합니다.")
+        @Pattern(regexp = "^[가-힣A-Za-z0-9]{2,7}$",
+                message = "닉네임은 2 ~ 7자 사이여야 합니다.")
+        private String name;
+        private List<Music> musicLists;
+    }
 
     @Getter
     @NoArgsConstructor
