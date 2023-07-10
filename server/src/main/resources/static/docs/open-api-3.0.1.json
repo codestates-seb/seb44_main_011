@@ -1,0 +1,248 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "펫플리 API 문서",
+    "description" : "Spring REST Docs with SwaggerUI.",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/api/members/{member-id}" : {
+      "delete" : {
+        "tags" : [ "api" ],
+        "summary" : "회원탈퇴",
+        "description" : "회원탈퇴",
+        "operationId" : "회원탈퇴 예제",
+        "parameters" : [ {
+          "name" : "member-id",
+          "in" : "path",
+          "description" : "사용자 식별자",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "api" ],
+        "summary" : "회원 정보 수정",
+        "description" : "회원 정보 수정",
+        "operationId" : "회원정보 수정 테스트",
+        "parameters" : [ {
+          "name" : "member-id",
+          "in" : "path",
+          "description" : "사용자 식별자",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api-members-member-id-120263164"
+              },
+              "examples" : {
+                "회원정보 수정 테스트" : {
+                  "value" : "{\r\n  \"name\" : \"내가진짜홍길동\",\r\n  \"profile\" : \"수정된 프로필 이미지\"\r\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-members-member-id-793076289"
+                },
+                "examples" : {
+                  "회원정보 수정 테스트" : {
+                    "value" : "{\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"name\" : \"내가진짜홍길동\",\r\n  \"profile\" : \"수정된 프로필 이미지\"\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/musics" : {
+      "get" : {
+        "tags" : [ "public" ],
+        "summary" : "인증되지 않은 사용자의 음악 상세 조회",
+        "description" : "인증되지 않은 사용자의 음악 상세 조회",
+        "operationId" : "인증되지 않은 사용자의 음악 상세 조회(곡 제목)",
+        "parameters" : [ {
+          "name" : "music_name",
+          "in" : "query",
+          "description" : "검색을 위한 음악의 이름",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/public-musics-384126822"
+                },
+                "examples" : {
+                  "인증되지 않은 사용자의 음악 상세 조회(곡 제목)" : {
+                    "value" : "{\r\n  \"musicId\" : 1,\r\n  \"title\" : \"곡의 이름입니다\",\r\n  \"music_url\" : \"/music/test.mp3\",\r\n  \"image_url\" : \"/img/test.jpg\",\r\n  \"tags\" : \"강아지\"\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/public/signup" : {
+      "post" : {
+        "tags" : [ "public" ],
+        "summary" : "회원 가입",
+        "description" : "회원 가입",
+        "operationId" : "회원가입 예제",
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/public-signup-1374076140"
+              },
+              "examples" : {
+                "회원가입 예제" : {
+                  "value" : "{\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"password\" : \"a12341234\",\r\n  \"name\" : \"내가바로홍길동\"\r\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/public-signup917238402"
+                },
+                "examples" : {
+                  "회원가입 예제" : {
+                    "value" : "{\r\n  \"memberId\" : 1,\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"name\" : \"내가바로홍길동\"\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "api-members-member-id-120263164" : {
+        "type" : "object",
+        "properties" : {
+          "profile" : {
+            "type" : "string",
+            "description" : "프로필 이미지"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "닉네임"
+          }
+        }
+      },
+      "public-musics-384126822" : {
+        "type" : "object",
+        "properties" : {
+          "music_url" : {
+            "type" : "string",
+            "description" : "곡 url"
+          },
+          "musicId" : {
+            "type" : "number",
+            "description" : "회원 식별 Id"
+          },
+          "image_url" : {
+            "type" : "string",
+            "description" : "이미지 url"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "곡 이름"
+          },
+          "tags" : {
+            "type" : "string",
+            "description" : "곡의 태그"
+          }
+        }
+      },
+      "api-members-member-id-793076289" : {
+        "type" : "object",
+        "properties" : {
+          "profile" : {
+            "type" : "string",
+            "description" : "변경된 프로필 이미지"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "닉네임"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "사용자 이메일"
+          }
+        }
+      },
+      "public-signup917238402" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "닉네임"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "사용자 이메일"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "사용자 식별자"
+          }
+        }
+      },
+      "public-signup-1374076140" : {
+        "type" : "object",
+        "properties" : {
+          "password" : {
+            "type" : "string",
+            "description" : "비밀번호"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "닉네임"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "사용자 이메일"
+          }
+        }
+      }
+    }
+  }
+}
