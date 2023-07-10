@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class CommentController {
 
 
     @PostMapping("/api/musics/{music-id}/comments")
-    public ResponseEntity<?> postComment(@PathVariable("music-id") long musicId,@Valid @RequestBody CommentDto.Post requestBody) {
+    public ResponseEntity<?> postComment(@PathVariable("music-id") long musicId, @Valid @RequestBody CommentDto.Post requestBody) {
         Long memberId = requestBody.getMemberId();
 
         Comment comment = commentMapper.commentPostToComment(requestBody);
@@ -43,7 +44,7 @@ public class CommentController {
     }
 
     @GetMapping("/public/musics/{music-id}/comments")
-    public ResponseEntity<?> getComments(@PathVariable("music-id") long musicId, @RequestParam("page") int page) {
+    public ResponseEntity<?> getComments(@PathVariable("music-id") long musicId, @RequestParam("page") @Positive int page) {
         Page<Comment> musicComments = commentService.getComments(musicId, page);
 
         int totalPages = musicComments.getTotalPages();
