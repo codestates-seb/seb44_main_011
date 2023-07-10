@@ -34,7 +34,7 @@ public class MusicListService {
 
     public Page<MusicList> findPersonalMusicListsPage(long memberId,int page){
         List<MusicList> musicListList = findPersonalMusicLists(memberId);
-        Pageable pageable = PageNationCreator.getPageOfDesc(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"view");
+        Pageable pageable = PageNationCreator.getPageOfDesc(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX);
         return PageNationCreator.createPage(musicListList,pageable);
     }
 
