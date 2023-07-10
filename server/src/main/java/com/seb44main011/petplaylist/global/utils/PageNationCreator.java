@@ -11,8 +11,16 @@ public  class PageNationCreator {
         return PageRequest.of(page-1, pageSize, Sort.by(ColumnToSort).descending());
 
     }
+    public static Pageable getPageOfDesc(int page,int pageSize){
+        return PageRequest.of(page-1, pageSize);
+
+    }
     public static Pageable getPageOfASC(int page,int pageSize,String ColumnToSort){
         return PageRequest.of(page-1, pageSize, Sort.by(ColumnToSort).ascending());
+
+    }
+    public static Pageable getPageOfASC(int page,int pageSize){
+        return PageRequest.of(page-1, pageSize);
 
     }
     public static <T> Page<T> createPage(List<T> pageContentList, Pageable pageable){
