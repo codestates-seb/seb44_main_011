@@ -60,26 +60,28 @@ public class ApiPlaylistController {
 
 
     @GetMapping(value = "/{member-id}", params = {"page"})
-    public ResponseEntity<?> getPersonalMusicList(@PathVariable("member-id")@Positive long memberId,
+    public ResponseEntity<?> getPersonalPlayList(@PathVariable("member-id")@Positive long memberId,
                                                   @Valid @RequestParam(name = "page", defaultValue = "1") @Positive int page){
         Page<MusicList> musicListList = musicListService.findPersonalMusicListsPage(memberId,page);
-        List<PlaylistDto.PlayListResponse> responseMusic = playlistMapper.musicListToPlayListResponseList(musicListList.getContent());
+        List<PlaylistDto.ApiResponse> responseMusic = playlistMapper.musicListToPlayListResponseList(musicListList.getContent());
         return new ResponseEntity<>(
                 new MultiResponseDto<>(responseMusic,musicListList), HttpStatus.OK);
 
     }
+
     @GetMapping(value = "/{dogOrCats}/id/{memberId}",params = {"page"})
-    public ResponseEntity<?> getCategoryAndTagsPlayList(@PathVariable(name = "dogOrCats") String dogOrCats,@PathVariable(name = "memberId") long memberId,
+    public ResponseEntity<?> getPersonalPlayListByCategoryAndTags(@PathVariable(name = "dogOrCats") String dogOrCats,@PathVariable(name = "memberId") long memberId,
                                                         @RequestParam(name = "page", defaultValue = "1") int page,
                                                         @RequestParam(name = "tags",required = false)String tags){
+
         Music.Category category = Music.Category.valueOf(dogOrCats.toUpperCase());
         Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page);
         List<Music> musicList = musicPage.getContent();
         List<MusicList> likeMusic = playlistService.findPersonalPlayList(memberId).getMusicLists();
-        List<PlaylistDto.ApiCategoryPlayListResponse> apiCategoryPlayListResponses = playlistMapper.musicListToCategoryPlayListApiResponse(musicList,likeMusic);
+        List<PlaylistDto.ApiResponse> apiResponse = playlistMapper.musicListToCategoryPlayListApiResponse(musicList,likeMusic);
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(apiCategoryPlayListResponses,musicPage), HttpStatus.OK);
+                new MultiResponseDto<>(apiResponse,musicPage), HttpStatus.OK);
 
     }
 
