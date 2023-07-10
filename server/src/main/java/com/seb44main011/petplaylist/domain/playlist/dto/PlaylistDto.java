@@ -11,7 +11,7 @@ public class PlaylistDto {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class PublicCategoryPlayListResponse {
+    public static class PublicResponse {
         private Long musicId;
         private String title;
         private String music_url;
@@ -26,7 +26,7 @@ public class PlaylistDto {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class ApiCategoryPlayListResponse{
+    public static class ApiResponse {
         private Long musicId;
         private String title;
         private String music_url;
@@ -39,20 +39,20 @@ public class PlaylistDto {
         private boolean liked;
     }
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class PlayListResponse{
-        private Long musicId;
-        private String title;
-        private String music_url;
-
-        private String image_url;
-
-        private String category;
-
-        private String tags;
-        private boolean liked;
-    }
+//    @Getter
+//    @Builder
+//    @AllArgsConstructor
+//    @NoArgsConstructor
+//    public static class PlayListResponse{
+//        private Long musicId;
+//        private String title;
+//        private String music_url;
+//
+//        private String image_url;
+//
+//        private String category;
+//
+//        private String tags;
+//        private boolean liked;
+//    }
 }

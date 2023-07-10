@@ -1,5 +1,6 @@
 package com.seb44main011.petplaylist.domain.comment.service;
 
+import com.seb44main011.petplaylist.domain.comment.dto.CommentDto;
 import com.seb44main011.petplaylist.domain.comment.entity.Comment;
 import com.seb44main011.petplaylist.domain.comment.repository.CommentRepository;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
@@ -7,9 +8,14 @@ import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
+import com.seb44main011.petplaylist.domain.music.service.MusicService;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -45,15 +51,13 @@ public class CommentService {
 
     }
 
-    /**
-     * 음악에서 댓글 리스트 받아와서 조회하는 로직 추가해야함
-     *
-     */
+    public Page<Comment> getComments(long musicId, int page) {
+        Music targetMusic = musicRepository.findById(musicId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
+        Pageable pageable = PageRequest.of(page-1, 6, Sort.by("createdAt").descending());
+        Page<Comment> commentsPage = commentRepository.findByMusic_MusicId(musicId, pageable);
 
-//    public Page<Comment> getComments(long musicId, int page, int size) {
-//        Music targetMusic = musicRepository.findById(musicId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
-//        return commentRepository.findAll(PageRequest.of(page, size));
-//    }
+        return commentsPage;
+    }
 
     public void deleteComment(Long commentId) {
         Comment targetComment = commentRepository.findById(commentId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
