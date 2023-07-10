@@ -230,7 +230,7 @@ class CommentControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        get("/public/musics/{music-id}/comments",commentData.getMusic().getMusicId())
+                        get("/public/musics/{music-id}/comments", commentData.getMusic().getMusicId())
                                 .param("page", "1")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -247,6 +247,9 @@ class CommentControllerTest {
                                                 .description("댓글 조회")
                                                 .pathParameters(
                                                         ResourceDocumentation.parameterWithName("music-id").description("음악 식별자")
+                                                )
+                                                .requestParameters(
+                                                        ResourceDocumentation.parameterWithName("page").description("페이지 번호")
                                                 )
                                                 .responseFields(
                                                         PayloadDocumentation.fieldWithPath("data").type(JsonFieldType.ARRAY).description("댓글 리스트"),
