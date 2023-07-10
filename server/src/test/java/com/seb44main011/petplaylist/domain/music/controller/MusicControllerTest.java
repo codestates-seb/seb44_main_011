@@ -54,8 +54,8 @@ public class MusicControllerTest {
 //    }
 
     @Test
-    @DisplayName("인증되지 않은 사용자의 음악 상세 조회")
-    void getPublicMusic() throws Exception {
+    @DisplayName("인증되지 않은 사용자의 음악 상세 조회(title)")
+    void getPublicMusicFromTitle() throws Exception {
         //given
         MusicDto.PublicResponse response = TestData.MockMusic.getPublicResponseData();
         Music mockMusic = TestData.MockMusic.getMusicData();
@@ -84,7 +84,7 @@ public class MusicControllerTest {
                                                                 parameterWithName("music_name").description("검색을 위한 음악의 이름")
                                                         )
                                                         .responseFields(
-                                                                fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("회원 식별 Id"),
+                                                                fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("곡 식별 Id"),
                                                                 fieldWithPath("title").type(JsonFieldType.STRING).description("곡 이름"),
                                                                 fieldWithPath("music_url").type(JsonFieldType.STRING).description("곡 url"),
                                                                 fieldWithPath("image_url").type(JsonFieldType.STRING).description("이미지 url"),
@@ -93,6 +93,50 @@ public class MusicControllerTest {
                                         )
 
                                         )
+
+                        );
+    }
+
+    @Test
+    @DisplayName("인증되지 않은 사용자의 음악 상세 조회(id)")
+    void getPublicMusicFromId() throws Exception {
+        //given
+        MusicDto.PublicResponse response = TestData.MockMusic.getPublicResponseData();
+        Music mockMusic = TestData.MockMusic.getMusicData();
+        String content = gson.toJson(response);
+
+        given(service.serchMusic(Mockito.anyLong())).willReturn(mockMusic);
+        given(mapper.publicResponseToMusic(Mockito.any(Music.class))).willReturn(response);
+
+
+        ResultActions actions =
+                mockMvc.perform(
+                                get(PUBLIC_MUSIC_URL)
+                                        .param("music_id",String.valueOf(mockMusic.getMusicId()))
+                                        .accept(MediaType.APPLICATION_JSON)
+
+                        )
+                        .andExpect(status().isOk())
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("인증되지 않은 사용자의 음악 상세 조회(곡 id)"
+                                        ,preprocessRequest(prettyPrint())
+                                        ,preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("인증되지 않은 사용자의 음악 상세 조회")
+                                                        .requestParameters(
+                                                                parameterWithName("music_id").description("검색을 위한 음악의 id")
+                                                        )
+                                                        .responseFields(
+                                                                fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("곡 식별 Id"),
+                                                                fieldWithPath("title").type(JsonFieldType.STRING).description("곡 이름"),
+                                                                fieldWithPath("music_url").type(JsonFieldType.STRING).description("곡 url"),
+                                                                fieldWithPath("image_url").type(JsonFieldType.STRING).description("이미지 url"),
+                                                                fieldWithPath("tags").type(JsonFieldType.STRING).description("곡의 태그"))
+                                                        .build()
+                                        )
+
+                                )
 
                         );
     }
