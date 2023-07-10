@@ -6,6 +6,7 @@ import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Entity(name="MUSIC")
@@ -35,6 +36,9 @@ public class Music extends BaseTimeEntity {
     @Column(nullable = false)
     private String image_url;
 
+    @Column
+    private long view;
+
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private Category category;
@@ -47,8 +51,8 @@ public class Music extends BaseTimeEntity {
     private List<MusicList> personalPlayLists;
 
     public enum Category{
-        DOGS("강아지"),
-        CATS("고양이");
+        DOGS("dogs"),
+        CATS("cats");
 
         @Getter
         private final String category;
@@ -71,6 +75,9 @@ public class Music extends BaseTimeEntity {
         Tags(String tags) {
             this.tags = tags;
         }
+    }
+    public void incrementView() {
+        this.view++;
     }
 
 

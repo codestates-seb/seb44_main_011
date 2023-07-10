@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Server/.gitignore
+# @author 신영호
+.github/workflows/

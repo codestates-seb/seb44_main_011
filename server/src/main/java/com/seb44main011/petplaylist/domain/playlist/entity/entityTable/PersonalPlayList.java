@@ -40,13 +40,10 @@ public class PersonalPlayList extends BaseTimeEntity {
         this.musicLists.add(musicList);
     }
     public void deleteMusicList(MusicList musicList){
-       if(this.musicLists.contains(musicList)) {
-           musicLists.remove(musicList);
-       }
-       else {
-           throw new RuntimeException("리스트 오류 입니다");
-       }
-
+        if (musicLists != null) {
+            musicLists.remove(musicList);
+            musicList=null;
+        }
     }
 
     public void insertMember(Member member) {
