@@ -6,7 +6,7 @@ import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg"
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function SideBar() {
   return (
@@ -22,7 +22,7 @@ function SideBar() {
       </NavLogo>
       <NavHome>
         <Link className="home" to="/">
-          <HomeImg fill="#84CBFF"/>
+          <HomeImg fill="#84CBFF" />
           <Home_0001>Home</Home_0001>
         </Link>
       </NavHome>
@@ -133,8 +133,8 @@ const HomeImg = styled(HomeIcon)`
   bottom: 0px;
 `;
 
-const Home_0001 = styled.a`
-  color: rgb(132, 203, 255);
+const Home_0001 = styled.span`
+  color: #84CBFF;
   text-overflow: ellipsis;
   font-size: 18px;
   font-family: Quicksand, sans-serif;
@@ -157,7 +157,7 @@ const NavMylist = styled.div`
   bottom: 530px;
 `;
 
-const MyList = styled.a`
+const MyList = styled.span`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
   font-size: 18px;
@@ -191,7 +191,7 @@ const NavTags = styled.div`
   top: 238px;
 `;
 
-const Tags = styled.a`
+const Tags = styled.span`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
   font-size: 18px;
@@ -256,8 +256,8 @@ const NavMypage = styled.div`
   top: 322px;
 `;
 
-const MyPage = styled.a`
-  color: rgb(180, 180, 183);
+const MyPage = styled.span`
+  color: #B4B4B7;
   text-overflow: ellipsis;
   font-size: 18px;
   font-family: Quicksand, sans-serif;
