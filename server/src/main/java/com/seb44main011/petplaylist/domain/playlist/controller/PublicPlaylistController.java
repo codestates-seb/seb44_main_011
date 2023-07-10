@@ -21,17 +21,29 @@ public class PublicPlaylistController {
     private final PlaylistMapper playlistMapper;
     private final MusicMapper musicMapper;
     private final MusicService musicService;
+
+    @GetMapping(params = {"page"})
+    public ResponseEntity<?> getAllMusicList(@RequestParam(value = "page", defaultValue = "1") int page){
+        Page<Music> musicPage = musicService.findMusicListAll(page);
+        List<Music> musicList = musicPage.getContent();
+        List<PlaylistDto.PublicResponse> publicResponses = playlistMapper.musicListToPublicResponse(musicList);
+
+        return ResponseEntity.ok().body(
+                new MultiResponseDto<>(publicResponses,musicPage)
+        );
+    }
+
     @GetMapping(value = "/{dogOrCats}",params = {"page"})
-    public ResponseEntity<?> getCategoryAndTagsPlayList(@PathVariable String dogOrCats
-                                                        ,@RequestParam(value = "page", defaultValue = "1") int page
-                                                        ,@RequestParam(value = "tags",required = false)String tags){
+    public ResponseEntity<?> getMusicListByCategoryAndTags(@PathVariable String dogOrCats
+                                                        , @RequestParam(value = "page", defaultValue = "1") int page
+                                                        , @RequestParam(value = "tags",required = false)String tags){
         Music.Category category = Music.Category.valueOf(dogOrCats.toUpperCase());
         Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page);
         List<Music> musicList = musicPage.getContent();
-        List<PlaylistDto.PublicCategoryPlayListResponse> playListResponses = playlistMapper.musicListToCategoryPlayListPublicResponse(musicList);
+        List<PlaylistDto.PublicResponse> publicResponses = playlistMapper.musicListToPublicResponse(musicList);
 
         return new ResponseEntity(
-                new MultiResponseDto<>(playListResponses,musicPage), HttpStatus.OK);
+                new MultiResponseDto<>(publicResponses,musicPage), HttpStatus.OK);
 
     }
 }

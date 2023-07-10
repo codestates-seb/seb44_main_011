@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,12 +28,13 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping("/api/playlist")
 @Slf4j
 @RequiredArgsConstructor
 public class ApiPlaylistController {
-    private final PlaylistMapper playlistMapper;
     private final MusicMapper musicMapper;
+    private final PlaylistMapper playlistMapper;
     private final MusicListMapper musicListMapper;
     private final PlaylistService playlistService;
     private final MusicListService musicListService;
@@ -44,28 +46,42 @@ public class ApiPlaylistController {
 //    }
 
     @PostMapping(value = "/{member-id}", name = "music_name")
-    public ResponseEntity<?> postPersonalPlayList(@PathVariable("member-id")@Positive long id,
+    public ResponseEntity<?> postPersonalPlayList(@PathVariable("member-id")@Positive long memberId,
                                                   @Valid @RequestBody MusicDto.PostRequest postRequest){
-        PersonalPlayList personalPlayList = playlistService.findPersonalPlayList(id);
+        PersonalPlayList personalPlayList = playlistService.findPersonalPlayList(memberId);
         Music music = musicService.findMusic(postRequest.getMusicId());
+
         MusicList newMusicList = musicListMapper.memberAndMusicToMusicList(personalPlayList,music);
+
         musicListService.addMusicList(newMusicList);
         URI location = UriCreator.createUri("/api/playlist");
         return ResponseEntity.created(location).build();
     }
 
+
+    @GetMapping(value = "/{member-id}", params = {"page"})
+    public ResponseEntity<?> getPersonalPlayList(@PathVariable("member-id")@Positive long memberId,
+                                                  @Valid @RequestParam(name = "page", defaultValue = "1") @Positive int page){
+        Page<MusicList> musicListList = musicListService.findPersonalMusicListsPage(memberId,page);
+        List<PlaylistDto.ApiResponse> responseMusic = playlistMapper.musicListToPlayListResponseList(musicListList.getContent());
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(responseMusic,musicListList), HttpStatus.OK);
+
+    }
+
     @GetMapping(value = "/{dogOrCats}/id/{memberId}",params = {"page"})
-    public ResponseEntity<?> getCategoryAndTagsPlayList(@PathVariable(name = "dogOrCats") String dogOrCats,@PathVariable(name = "memberId") long memberId,
+    public ResponseEntity<?> getPersonalPlayListByCategoryAndTags(@PathVariable(name = "dogOrCats") String dogOrCats,@PathVariable(name = "memberId") long memberId,
                                                         @RequestParam(name = "page", defaultValue = "1") int page,
                                                         @RequestParam(name = "tags",required = false)String tags){
+
         Music.Category category = Music.Category.valueOf(dogOrCats.toUpperCase());
         Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page);
         List<Music> musicList = musicPage.getContent();
         List<MusicList> likeMusic = playlistService.findPersonalPlayList(memberId).getMusicLists();
-        List<PlaylistDto.ApiCategoryPlayListResponse> apiCategoryPlayListResponses = playlistMapper.musicListToCategoryPlayListApiResponse(musicList,likeMusic);
+        List<PlaylistDto.ApiResponse> apiResponse = playlistMapper.musicListToCategoryPlayListApiResponse(musicList,likeMusic);
 
-        return new ResponseEntity(
-                new MultiResponseDto<>(apiCategoryPlayListResponses,musicPage), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(apiResponse,musicPage), HttpStatus.OK);
 
     }
 

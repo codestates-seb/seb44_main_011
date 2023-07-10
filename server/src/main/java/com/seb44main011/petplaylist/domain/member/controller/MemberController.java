@@ -4,6 +4,7 @@ import com.seb44main011.petplaylist.domain.member.dto.MemberDto;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.mapper.MemberMapper;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
+import com.seb44main011.petplaylist.global.common.SingleResponseDto;
 import com.seb44main011.petplaylist.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -43,12 +44,16 @@ public class MemberController {
         return ResponseEntity.ok().location(location).body(memberMapper.memberToMemberDtoPatchResponse(updateMember));
     }
 
-//    @GetMapping("/api/members/{member-id}")
-//    public ResponseEntity getMember(@Valid
-//                                    @PathVariable("member-id") @Positive long memberId) {
-//        Member findMember = memberService.findMember(memberId);
-//        MemberDto.MyPageResponse myPageResponse =
-//    }
+    @GetMapping("/api/members/{member-id}")
+    public ResponseEntity getMyPage(@Valid
+                                    @PathVariable("member-id") @Positive long memberId) {
+        Member findMember = memberService.findMember(memberId);
+        MemberDto.MyPageResponse myPageResponse = memberMapper.memberToMyPageResponse(findMember);
+
+        URI location = UriCreator.createUri("/api/members", findMember.getMemberId());
+
+        return ResponseEntity.ok().location(location).body(myPageResponse);
+    }
 
     @DeleteMapping("/api/members/{member-id}")
     public ResponseEntity deleteMember(@Valid
