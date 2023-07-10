@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import Banner from "../components/commons/Banner";
 import CategoryBtns from "../components/commons/CategoryBtns";
@@ -8,7 +8,10 @@ import {
   TOGGLE_CATEGORY,
 } from "../constants/CategoryConstants";
 import { MusicList } from "../components/MusicList";
-import { logginedMusicList } from "../constants/MusicData";
+import Pagination from "../components/Pagination";
+import { useAllMusicData } from "../hooks/useAllMusicData";
+import { Music } from "../types/Music";
+import { PageInfo } from "../types/PageInfo";
 
 const HomeContainer = styled.div`
   display: flex;
@@ -17,9 +20,9 @@ const HomeContainer = styled.div`
   margin: 3%;
   width: 100%;
   max-width: 1800px;
-  height: 100vh;
   min-width: 700px;
 `;
+
 const HomsListTitle = styled.div`
   width: 100%;
   display: flex;
@@ -27,17 +30,47 @@ const HomsListTitle = styled.div`
   justify-content: space-between;
   margin-bottom: 12px;
 `;
+
+type MusicListData = {
+  data: Music[];
+  pageInfo?: PageInfo;
+};
+
 const Home = () => {
   const [isDogpli, setIsDogpli] = useState(ANIMAL_CATEGORY[0]?.id);
   const [isTopChart, setIsTopChart] = useState(LIST_CATEGORY[0]?.id);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const handleAnimalButton = (buttonId: string) => {
+  const [musicList, setMusicList] = useState<MusicListData>({
+    data: [],
+    pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
+  });
+
+  const { data: musicListData, requestPath } = useAllMusicData(
+    isDogpli,
+    currentPage
+  );
+
+  useEffect(() => {
+    setMusicList({ data: musicListData });
+  }, [musicListData]);
+
+  const handleAnimalButton = (buttonId: string, tags?: string) => {
     setIsDogpli(buttonId);
+    setCurrentPage(1);
   };
 
   const handleListButton = (buttonId: string) => {
     setIsTopChart(buttonId);
   };
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    useAllMusicData(isDogpli, currentPage);
+  }, [isDogpli, currentPage]);
 
   return (
     <HomeContainer>
@@ -61,7 +94,12 @@ const Home = () => {
           onClick={handleAnimalButton}
         />
       </HomsListTitle>
-      <MusicList musicList={logginedMusicList.data.member_playList} />
+      <MusicList musicList={musicList} requestPath={requestPath} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={musicList.pageInfo?.totalPages || 0}
+        onPageChange={handlePageChange}
+      />
     </HomeContainer>
   );
 };
