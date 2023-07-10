@@ -9,6 +9,7 @@ import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,27 +22,6 @@ public class PlaylistService {
     private final MusicListService musicListService;
     private final PlaylistRepository repository;
 
-
-    public void createPersonalMusicList(long memberId, long musicId){
-        PersonalPlayList playList = findPersonalPlayList(memberId);
-        Music findMusic = findMusicById(musicId);
-        updatePersonalPlayList(playList,findMusic);
-    }
-
-//    public void deletePersonalMusicList(long memberId, long musicId){
-//        PersonalPlayList playList = findPersonalPlayList(memberId);
-//        Music findMusic = findMusicById(musicId);
-//        deleteMusicList(playList,findMusic);
-//
-//    }
-
-//    private void deleteMusicList(PersonalPlayList playList, Music music) {
-//        MusicList musicList = musicListService.findMusicListMusic(playList,music);
-//        log.info("Music List.Music id: {}",musicList.getMusic().getMusicId());
-//        playList.deleteMusicList(musicList);
-//        repository.save(playList);
-//    }
-
     public PersonalPlayList findPersonalPlayList(long memberId) {
        return repository.findByMember_MemberId(memberId)
                .orElseThrow(
@@ -49,15 +29,12 @@ public class PlaylistService {
                );
 
     }
-    private Music findMusicById(long musicId) {
-        return musicService.findMusic(musicId);
-    }
 
 
-    private void updatePersonalPlayList(PersonalPlayList playList, Music music) {
-        MusicList musicList = musicListService.createMusicList(playList,music);
-        playList.insertMusicList(musicList);
-        repository.save(playList);
-    }
+//    private void updatePersonalPlayList(PersonalPlayList playList, Music music) {
+//        MusicList musicList = musicListService.createMusicList(playList,music);
+//        playList.insertMusicList(musicList);
+//        repository.save(playList);
+//    }
 
 }
