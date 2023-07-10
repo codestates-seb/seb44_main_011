@@ -16,10 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class MusicService {
-    private final int PAGESIZE = 6;
     private final MusicRepository repository;
     public Music serchMusic(String musicTitle){
         Music findMusic= findVerifiedMusic(musicTitle);
@@ -54,8 +52,15 @@ public class MusicService {
                         new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
     }
 
+    @Transactional(readOnly = true)
+    public Page<Music> findMusicListAll(int page){
+        Pageable pageable = getPageInfo(page);
+        return repository.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
     public Page<Music> findCategoryAndTagsPageMusic(Music.Category category, String tags, int page) {
-        Pageable pageable = PageNationCreator.getPageOfDesc(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"view");
+        Pageable pageable = getPageInfo(page);
         if (tags == null){
             return repository.findByCategory(category,pageable);
         }
@@ -63,7 +68,9 @@ public class MusicService {
             Music.Tags valueOfTags =Music.Tags.valueOf(tags.toUpperCase());
             return repository.findByCategoryAndTags(category,valueOfTags,pageable);
         }
+    }
 
-
+    private static Pageable getPageInfo(int page) {
+        return PageNationCreator.getPageOfDesc(page, PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX, "view");
     }
 }
