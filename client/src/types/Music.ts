@@ -5,5 +5,5 @@ export interface Music {
   image_url: string;
   category: string;
   tags: string;
-  likes?: boolean;
+  liked?: boolean;
 }
