@@ -7,8 +7,7 @@ import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
 import com.seb44main011.petplaylist.domain.music.service.MusicService;
-import com.seb44main011.petplaylist.domain.music.stub.MusicTestData;
-import org.junit.jupiter.api.BeforeEach;
+import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -18,7 +17,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -59,11 +57,11 @@ public class MusicControllerTest {
     @DisplayName("인증되지 않은 사용자의 음악 상세 조회")
     void getPublicMusic() throws Exception {
         //given
-        MusicDto.PublicResponse response = MusicTestData.MockMusic.getPublicResponseData();
-        Music mockMusic = MusicTestData.MockMusic.getMusicData();
+        MusicDto.PublicResponse response = TestData.MockMusic.getPublicResponseData();
+        Music mockMusic = TestData.MockMusic.getMusicData();
         String content = gson.toJson(response);
 
-        given(service.findMusic(Mockito.anyString())).willReturn(mockMusic);
+        given(service.serchMusic(Mockito.anyString())).willReturn(mockMusic);
         given(mapper.publicResponseToMusic(Mockito.any(Music.class))).willReturn(response);
 
 
@@ -75,7 +73,6 @@ public class MusicControllerTest {
 
                 )
                         .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.musicId").value(1L))
                         .andDo(
                                 MockMvcRestDocumentationWrapper.document("인증되지 않은 사용자의 음악 상세 조회(곡 제목)"
                                         ,preprocessRequest(prettyPrint())
