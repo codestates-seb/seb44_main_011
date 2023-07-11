@@ -35,6 +35,7 @@ public interface MemberMapper {
                     .musicId(insertMusic.getMusicId())
                     .music_url(insertMusic.getMusic_url())
                     .image_url(insertMusic.getImage_url())
+                    .playtime(insertMusic.getPlaytime())
                     .tags(insertMusic.getTags().getTags())
                     .title(insertMusic.getTitle())
                     .category(insertMusic.getCategory().getCategory())
