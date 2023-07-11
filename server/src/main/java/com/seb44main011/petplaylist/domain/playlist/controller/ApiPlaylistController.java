@@ -11,7 +11,7 @@ import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
 import com.seb44main011.petplaylist.domain.playlist.service.MusicListService;
 import com.seb44main011.petplaylist.global.common.MultiResponseDto;
-import com.seb44main011.petplaylist.global.stubData.StubData;
+//import com.seb44main011.petplaylist.global.stubData.StubData;
 import com.seb44main011.petplaylist.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,11 +38,11 @@ public class ApiPlaylistController {
     private final MemberService memberService;
     private final MusicListService musicListService;
     private final MusicService musicService;
-    private final StubData stubData;
-    @PostMapping("/test")
-    public void postTest(){
-        stubData.insertData();
-    }
+//    private final StubData stubData;
+//    @PostMapping("/test")
+//    public void postTest(){
+//        stubData.insertData();
+//    }
 
     @PostMapping(value = "/{member-id}", name = "music_name")
     public ResponseEntity<?> postPersonalPlayList(@PathVariable("member-id")@Positive long memberId,
