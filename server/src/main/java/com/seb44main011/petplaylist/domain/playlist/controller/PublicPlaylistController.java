@@ -21,7 +21,7 @@ public class PublicPlaylistController {
     private final MusicService musicService;
 
     @GetMapping(params = {"page"})
-    public ResponseEntity<?> getAllMusicList(@RequestParam(value = "page", defaultValue = "1") int page){
+    public ResponseEntity<?> getAllMusicListFromNonMember(@RequestParam(value = "page", defaultValue = "1") int page){
         Page<Music> musicPage = musicService.findMusicListAll(page);
         List<Music> musicList = musicPage.getContent();
         List<PlaylistDto.PublicResponse> publicResponses = mapper.musicListToPublicResponse(musicList);
