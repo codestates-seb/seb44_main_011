@@ -1,12 +1,11 @@
 package com.seb44main011.petplaylist.domain.music.entity;
 
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 
 import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Entity(name="MUSIC")
@@ -14,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Music extends BaseTimeEntity {
     @Builder
-    public Music(long musicId, String title, String music_url, String image_url, Category category, Tags tags, List<MusicList> personalPlayLists) {
+    public Music(long musicId, String title, String music_url, String image_url, Category category, Tags tags, List<PlayList> personalPlayLists) {
         this.musicId = musicId;
         this.title = title;
         this.music_url = music_url;
@@ -48,7 +47,7 @@ public class Music extends BaseTimeEntity {
     private Tags tags;
 
     @OneToMany(mappedBy = "music",cascade = CascadeType.ALL)
-    private List<MusicList> personalPlayLists;
+    private List<PlayList> personalPlayLists;
 
     public enum Category{
         DOGS("dogs"),

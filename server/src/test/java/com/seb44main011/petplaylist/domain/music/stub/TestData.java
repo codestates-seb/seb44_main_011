@@ -4,8 +4,7 @@ import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -53,17 +52,17 @@ public class TestData {
         }
 
     }
-    public static class MockPersonalPlayList{
-        public static PersonalPlayList getPersonalPlayList(){
-            return PersonalPlayList.builder()
-                    .member(MemberTestData.MockMember.getMemberData())
-                    .build();
-        }
-    }
+//    public static class MockPersonalPlayList{
+//        public static PersonalPlayList getPersonalPlayList(){
+//            return PersonalPlayList.builder()
+//                    .member(MemberTestData.MockMember.getMemberData())
+//                    .build();
+//        }
+//    }
     public static class MockMusicList{
-        public static MusicList getMusicListData(){
-            return MusicList.builder()
-                    .personalPlayList(TestData.MockPersonalPlayList.getPersonalPlayList())
+        public static PlayList getMusicListData(){
+            return PlayList.builder()
+                    .member(MemberTestData.MockMember.getMemberData())
                     .music(TestData.MockMusic.getMusicData())
                     .build();
         }

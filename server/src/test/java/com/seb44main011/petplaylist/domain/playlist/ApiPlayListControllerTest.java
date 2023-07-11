@@ -4,17 +4,18 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.SimpleType;
 import com.google.gson.Gson;
+import com.seb44main011.petplaylist.domain.member.entity.Member;
+import com.seb44main011.petplaylist.domain.member.service.MemberService;
+import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.service.MusicService;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
-import com.seb44main011.petplaylist.domain.playlist.mapper.PlaylistMapper;
+
 import com.seb44main011.petplaylist.domain.playlist.service.MusicListService;
-import com.seb44main011.petplaylist.domain.playlist.service.PlaylistService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -54,7 +55,7 @@ public class ApiPlayListControllerTest {
     private Gson gson;
 
     @MockBean
-    private PlaylistService playlistService;
+    private MemberService memberService;
     @MockBean
     private MusicService musicService;
     @MockBean
@@ -63,9 +64,6 @@ public class ApiPlayListControllerTest {
     @MockBean
     private MusicListMapper musicListMapper;
 
-    @MockBean
-    private PlaylistMapper playlistMapper;
-
     private final String API_PLAYLIST_URL = "/api/playlist";
     private final String API_PLAYLIST_GET_URL = "/api/playlist/{dogOrCats}/id/{member-id}";
 
@@ -73,13 +71,13 @@ public class ApiPlayListControllerTest {
     @DisplayName("개인 플레이 리스트 추가(좋아요) 기능 테스트")
     public void postPersonalPlayListTest() throws Exception {
         MusicDto.PostRequest postRequestData = TestData.MockMusic.getPostRequestData();
-        MusicList MockmusicList =TestData.MockMusicList.getMusicListData();
+        PlayList mockmusicList =TestData.MockMusicList.getMusicListData();
         String content = gson.toJson(postRequestData);
 
-        given(playlistService.findPersonalPlayList(Mockito.anyLong())).willReturn(TestData.MockPersonalPlayList.getPersonalPlayList());
+        given(memberService.findMember(Mockito.anyLong())).willReturn(MemberTestData.MockMember.getMemberData());
         given(musicService.findMusic(Mockito.anyLong())).willReturn(TestData.MockMusic.getMusicData());
-        given(musicListMapper.memberAndMusicToMusicList(Mockito.any(PersonalPlayList.class),Mockito.any(Music.class))).willReturn(MockmusicList);
-        doNothing().when(musicListService).addMusicList(Mockito.any(MusicList.class));
+        given(musicListMapper.memberAndMusicToMusicList(Mockito.any(Member.class),Mockito.any(Music.class))).willReturn(mockmusicList);
+        doNothing().when(musicListService).addMusicList(Mockito.any(PlayList.class));
 
         ResultActions actions =
                 mockMvc.perform(
@@ -112,10 +110,10 @@ public class ApiPlayListControllerTest {
     @DisplayName("회원의 개인 플레이 리스트 조회(좋아요 리스트)")
     public void getAllMusicListTest() throws Exception{
         List<PlaylistDto.ApiResponse> responseList =TestData.ResponseData.Api.getPlayListResponseList();
-        Page<MusicList> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,responseList.size());
+        Page<PlayList> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,responseList.size());
 
         given(musicListService.findPersonalMusicListsPage(Mockito.anyLong(),Mockito.anyInt())).willReturn(pageTestData);
-        given(playlistMapper.musicListToPlayListResponseList(Mockito.anyList())).willReturn(responseList);
+        given(musicListMapper.musicListToPlayListResponseList(Mockito.anyList())).willReturn(responseList);
 
         ResultActions actions =
                 mockMvc.perform(
@@ -170,8 +168,8 @@ public class ApiPlayListControllerTest {
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(1,apiResponses.size()+50);
 
         given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt())).willReturn(testPageData);
-        given(playlistService.findPersonalPlayList(Mockito.anyLong())).willReturn(TestData.MockPersonalPlayList.getPersonalPlayList());
-        given(playlistMapper.musicListToCategoryPlayListApiResponse(Mockito.anyList(),Mockito.anyList())).willReturn(apiResponses);
+        given(memberService.findMember(Mockito.anyLong())).willReturn(MemberTestData.MockMember.getMemberData());
+        given(musicListMapper.musicListToCategoryPlayListApiResponse(Mockito.anyList(),Mockito.anyList())).willReturn(apiResponses);
 
         ResultActions actions =
                 mockMvc.perform(
@@ -228,7 +226,7 @@ public class ApiPlayListControllerTest {
         MusicDto.DeleteRequest postRequestData = TestData.MockMusic.getDeleteRequestData();
         String content = gson.toJson(postRequestData);
 
-        doNothing().when(musicListService).deleteMusicList(Mockito.any(PersonalPlayList.class),Mockito.any(Music.class));
+        doNothing().when(musicListService).deleteMusicList(Mockito.any(Member.class),Mockito.any(Music.class));
 
 
         ResultActions actions =
