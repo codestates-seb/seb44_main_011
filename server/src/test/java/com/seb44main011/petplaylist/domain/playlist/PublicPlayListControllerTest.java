@@ -4,14 +4,14 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.SimpleType;
 import com.google.gson.Gson;
+import com.seb44main011.petplaylist.domain.member.service.MemberService;
+import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.service.MusicService;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
-import com.seb44main011.petplaylist.domain.playlist.mapper.PlaylistMapper;
 import com.seb44main011.petplaylist.domain.playlist.service.MusicListService;
-import com.seb44main011.petplaylist.domain.playlist.service.PlaylistService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ public class PublicPlayListControllerTest {
     private Gson gson;
 
     @MockBean
-    private PlaylistService playlistService;
+    private MemberService memberService;
     @MockBean
     private MusicService musicService;
     @MockBean
@@ -59,8 +59,6 @@ public class PublicPlayListControllerTest {
     @MockBean
     private MusicListMapper musicListMapper;
 
-    @MockBean
-    private PlaylistMapper playlistMapper;
 
     private final String PUBLIC_PLAYLIST_URL = "/public/playlist";
 
@@ -76,7 +74,7 @@ public class PublicPlayListControllerTest {
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(2,publicResponseList.size()+6);
 
         given(musicService.findMusicListAll(Mockito.anyInt())).willReturn(testPageData);
-        given(playlistMapper.musicListToPublicResponse(Mockito.anyList())).willReturn(publicResponseList);
+        given(musicListMapper.musicListToPublicResponse(Mockito.anyList())).willReturn(publicResponseList);
 
         ResultActions actions =
                 mockMvc.perform(
@@ -124,8 +122,8 @@ public class PublicPlayListControllerTest {
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(2,publicResponseList.size()+46);
 
         given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt())).willReturn(testPageData);
-        given(playlistService.findPersonalPlayList(Mockito.anyLong())).willReturn(TestData.MockPersonalPlayList.getPersonalPlayList());
-        given(playlistMapper.musicListToPublicResponse(Mockito.anyList())).willReturn(publicResponseList);
+        given(memberService.findMember(Mockito.anyLong())).willReturn(MemberTestData.MockMember.getMemberData());
+        given(musicListMapper.musicListToPublicResponse(Mockito.anyList())).willReturn(publicResponseList);
 
         ResultActions actions =
                 mockMvc.perform(

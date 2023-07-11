@@ -195,16 +195,16 @@ public class MemberControllerTest {
                                                         PayloadDocumentation.fieldWithPath("name").description("닉네임"),
                                                         PayloadDocumentation.fieldWithPath("email").description("이메일"),
                                                         PayloadDocumentation.fieldWithPath("musicLists").type(JsonFieldType.ARRAY).description("뮤직리스트"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].createdAt").description("생성일"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].modifiedAt").description("수정일"),
+//                                                        PayloadDocumentation.fieldWithPath("playLists.[].createdAt").description("생성일"),
+//                                                        PayloadDocumentation.fieldWithPath("playLists.[].modifiedAt").description("수정일"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].musicId").description("음악 식별자"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].title").description("곡 이름"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].music_url").description("곡 저장 위치"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].image_url").description("곡 이미지 저장 위치"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].view").description("곡 조회수"),
+//                                                        PayloadDocumentation.fieldWithPath("playLists.[].view").description("곡 조회수"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].category").description("카테고리"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].tags").description("태그"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].personalPlayLists").description("개인플레이리스트")
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].tags").description("태그")
+//                                                        PayloadDocumentation.fieldWithPath("playLists.[].personalPlayLists").description("개인플레이리스트")
                                                 )
                                                 .build()
                                 )
