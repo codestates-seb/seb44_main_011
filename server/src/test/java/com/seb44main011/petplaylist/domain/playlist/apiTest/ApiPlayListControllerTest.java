@@ -1,4 +1,4 @@
-package com.seb44main011.petplaylist.domain.playlist;
+package com.seb44main011.petplaylist.domain.playlist.apiTest;
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
@@ -14,8 +14,8 @@ import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
-
 import com.seb44main011.petplaylist.domain.playlist.service.MusicListService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -41,14 +41,13 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ApiPlayListControllerTest {
+public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -66,6 +65,53 @@ public class ApiPlayListControllerTest {
 
     private final String API_PLAYLIST_URL = "/api/playlist";
     private final String API_PLAYLIST_GET_URL = "/api/playlist/{dogOrCats}/id/{member-id}";
+    private List<PlaylistDto.ApiResponse> pageContentResponse;
+    @BeforeEach
+    void init(){
+        this.pageContentResponse=TestData.ResponseData.Api.getPlayListResponseList();
+    }
+
+    @Test
+    @DisplayName("전체 음악 리스트 조회 기능 테스트")
+    public void getAllMusicListFromMemberTest() throws Exception {
+        Page<Music> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size());
+
+        given(musicListService.findPersonalMusicLists(Mockito.anyLong())).willReturn(List.of(TestData.MockMusicList.getMusicListData()));
+        given(musicService.findMusicListAll(Mockito.anyInt())).willReturn(pageTestData);
+        given(musicListMapper.musicListToApiResponse(Mockito.anyList(), Mockito.anyList())).willReturn(pageContentResponse);
+
+        ResultActions actions =
+                mockMvc.perform(
+                                get(API_PLAYLIST_URL)
+                                        .accept(MediaType.APPLICATION_JSON)
+                                        .param("member-id",String.valueOf(MemberTestData.MockMember.getMemberData().getMemberId()))
+                                        .param("page", String.valueOf(pageTestData.getNumber()+1))
+
+                        )
+                        .andExpect(status().isOk())
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("회원의 전체 음악 리스트 조회 기능"
+                                        ,preprocessRequest(prettyPrint())
+                                        ,preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("회원의 전체 음악 리스트 조회 기능 API")
+                                                        .requestParameters(
+                                                                parameterWithName("member-id").type(SimpleType.NUMBER).description("회원 식별 Id"),
+                                                                parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자")
+                                                        )
+                                                        .responseFields(
+                                                                getApiPlayListPageField()
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
+
+
+
+
+    }
 
     @Test
     @DisplayName("개인 플레이 리스트 추가(좋아요) 기능 테스트")
@@ -109,11 +155,10 @@ public class ApiPlayListControllerTest {
     @Test
     @DisplayName("회원의 개인 플레이 리스트 조회(좋아요 리스트)")
     public void getAllMusicListTest() throws Exception{
-        List<PlaylistDto.ApiResponse> responseList =TestData.ResponseData.Api.getPlayListResponseList();
-        Page<PlayList> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,responseList.size());
+        Page<PlayList> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size());
 
         given(musicListService.findPersonalMusicListsPage(Mockito.anyLong(),Mockito.anyInt())).willReturn(pageTestData);
-        given(musicListMapper.musicListToPlayListResponseList(Mockito.anyList())).willReturn(responseList);
+        given(musicListMapper.musicListToPlayListResponseList(Mockito.anyList())).willReturn(pageContentResponse);
 
         ResultActions actions =
                 mockMvc.perform(
@@ -137,19 +182,7 @@ public class ApiPlayListControllerTest {
                                                                 parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자")
                                                         )
                                                         .responseFields(
-                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
-                                                                fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 식별 Id"),
-                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("음악 타이틀(제목)"),
-                                                                fieldWithPath("data.[].music_url").type(JsonFieldType.STRING).description("음악의 URL"),
-                                                                fieldWithPath("data.[].image_url").type(JsonFieldType.STRING).description("음악 이미지의 URL"),
-                                                                fieldWithPath("data.[].category").type(JsonFieldType.STRING).description("조회한 카테고리"),
-                                                                fieldWithPath("data.[].tags").type(JsonFieldType.STRING).description("조회한 태그"),
-                                                                fieldWithPath("data.[].liked").type(JsonFieldType.BOOLEAN).description("좋아요 여부(개인 플레이 리스트)"),
-                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
-                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
-                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
-                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
-                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                                getApiPlayListPageField()
                                                         )
                                                         .build()
                                         )
@@ -164,19 +197,18 @@ public class ApiPlayListControllerTest {
     @DisplayName("카테고리 태그별 조회 테스트(로그인 된 회원)")
     public void getCategoryAndTagFromMemberTest() throws Exception {
 
-        List<PlaylistDto.ApiResponse> apiResponses = TestData.ResponseData.Api.getApiCategorySerchPlayListResponseList();
-        Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(1,apiResponses.size()+50);
+        Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size()+50);
 
         given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt())).willReturn(testPageData);
         given(memberService.findMember(Mockito.anyLong())).willReturn(MemberTestData.MockMember.getMemberData());
-        given(musicListMapper.musicListToCategoryPlayListApiResponse(Mockito.anyList(),Mockito.anyList())).willReturn(apiResponses);
+        given(musicListMapper.musicListToApiResponse(Mockito.anyList(),Mockito.anyList())).willReturn(pageContentResponse);
 
         ResultActions actions =
                 mockMvc.perform(
                                 get(API_PLAYLIST_GET_URL,"DOGS",1)
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("page", String.valueOf(testPageData.getNumber()+1))
-                                        .param("tags",apiResponses.get(0).getCategory())
+                                        .param("tags",pageContentResponse.get(0).getCategory())
 
                         )
                         .andExpect(status().isOk())
@@ -196,19 +228,7 @@ public class ApiPlayListControllerTest {
                                                                 parameterWithName("tags").type(SimpleType.STRING).description("조회 할 태그").optional()
                                                         )
                                                         .responseFields(
-                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
-                                                                fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 식별 Id"),
-                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("음악 타이틀(제목)"),
-                                                                fieldWithPath("data.[].music_url").type(JsonFieldType.STRING).description("음악의 URL"),
-                                                                fieldWithPath("data.[].image_url").type(JsonFieldType.STRING).description("음악 이미지의 URL"),
-                                                                fieldWithPath("data.[].category").type(JsonFieldType.STRING).description("조회한 카테고리"),
-                                                                fieldWithPath("data.[].tags").type(JsonFieldType.STRING).description("조회한 태그"),
-                                                                fieldWithPath("data.[].liked").type(JsonFieldType.BOOLEAN).description("좋아요 여부(개인 플레이 리스트)"),
-                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
-                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
-                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
-                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
-                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                                getApiPlayListPageField()
                                                         )
                                                         .build()
                                         )
@@ -226,7 +246,7 @@ public class ApiPlayListControllerTest {
         MusicDto.DeleteRequest postRequestData = TestData.MockMusic.getDeleteRequestData();
         String content = gson.toJson(postRequestData);
 
-        doNothing().when(musicListService).deleteMusicList(Mockito.any(Member.class),Mockito.any(Music.class));
+        doNothing().when(musicListService).deletePlayList(Mockito.any(Member.class),Mockito.any(Music.class));
 
 
         ResultActions actions =
@@ -258,4 +278,7 @@ public class ApiPlayListControllerTest {
 
 
     }
+
+
+
 }

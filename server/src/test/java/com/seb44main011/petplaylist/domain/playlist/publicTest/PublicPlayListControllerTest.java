@@ -1,4 +1,4 @@
-package com.seb44main011.petplaylist.domain.playlist;
+package com.seb44main011.petplaylist.domain.playlist.publicTest;
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
@@ -24,26 +24,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import java.util.List;
-
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class PublicPlayListControllerTest {
+public class PublicPlayListControllerTest extends PublicFieldDescriptor{
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -76,6 +72,7 @@ public class PublicPlayListControllerTest {
         given(musicService.findMusicListAll(Mockito.anyInt())).willReturn(testPageData);
         given(musicListMapper.musicListToPublicResponse(Mockito.anyList())).willReturn(publicResponseList);
 
+
         ResultActions actions =
                 mockMvc.perform(
                                 get(PUBLIC_PLAYLIST_URL)
@@ -95,18 +92,7 @@ public class PublicPlayListControllerTest {
                                                                 parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자")
                                                         )
                                                         .responseFields(
-                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
-                                                                fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 식별 Id"),
-                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("음악 타이틀(제목)"),
-                                                                fieldWithPath("data.[].music_url").type(JsonFieldType.STRING).description("음악의 URL"),
-                                                                fieldWithPath("data.[].image_url").type(JsonFieldType.STRING).description("음악 이미지의 URL"),
-                                                                fieldWithPath("data.[].category").type(JsonFieldType.STRING).description("조회한 카테고리"),
-                                                                fieldWithPath("data.[].tags").type(JsonFieldType.STRING).description("조회한 태그"),
-                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
-                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
-                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
-                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
-                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                                getPublicPlayListPage()
                                                         )
                                                         .build()
                                         )
@@ -149,18 +135,7 @@ public class PublicPlayListControllerTest {
                                                                 parameterWithName("tags").type(SimpleType.STRING).description("조회 할 태그").optional()
                                                         )
                                                         .responseFields(
-                                                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
-                                                                fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 식별 Id"),
-                                                                fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("음악 타이틀(제목)"),
-                                                                fieldWithPath("data.[].music_url").type(JsonFieldType.STRING).description("음악의 URL"),
-                                                                fieldWithPath("data.[].image_url").type(JsonFieldType.STRING).description("음악 이미지의 URL"),
-                                                                fieldWithPath("data.[].category").type(JsonFieldType.STRING).description("조회한 카테고리"),
-                                                                fieldWithPath("data.[].tags").type(JsonFieldType.STRING).description("조회한 태그"),
-                                                                fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이징 정보"),
-                                                                fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("현재 페이지"),
-                                                                fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
-                                                                fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
-                                                                fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")
+                                                                getPublicPlayListPage()
                                                         )
                                                         .build()
                                         )
@@ -170,4 +145,6 @@ public class PublicPlayListControllerTest {
 
 
     }
+
+
 }
