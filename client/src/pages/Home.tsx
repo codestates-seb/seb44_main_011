@@ -9,9 +9,8 @@ import {
 } from "../constants/CategoryConstants";
 import { MusicList } from "../components/MusicList";
 import Pagination from "../components/Pagination";
-import { useAllMusicData } from "../hooks/useAllMusicData";
-import { Music } from "../types/Music";
-import { PageInfo } from "../types/PageInfo";
+import useAllMusicData from "../hooks/useAllMusicData";
+import axios from "axios";
 
 const HomeContainer = styled.div`
   display: flex;
@@ -31,29 +30,13 @@ const HomsListTitle = styled.div`
   margin-bottom: 12px;
 `;
 
-type MusicListData = {
-  data: Music[];
-  pageInfo?: PageInfo;
-};
-
 const Home = () => {
   const [isDogpli, setIsDogpli] = useState(ANIMAL_CATEGORY[0]?.id);
   const [isTopChart, setIsTopChart] = useState(LIST_CATEGORY[0]?.id);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLikedClick, setIsLikedClick] = useState(false);
 
-  const [musicList, setMusicList] = useState<MusicListData>({
-    data: [],
-    pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
-  });
-
-  const { data: musicListData, requestPath } = useAllMusicData(
-    isDogpli,
-    currentPage
-  );
-
-  useEffect(() => {
-    setMusicList({ data: musicListData });
-  }, [musicListData]);
+  const musicList = useAllMusicData(isDogpli, currentPage, isLikedClick);
 
   const handleAnimalButton = (buttonId: string, tags?: string) => {
     setIsDogpli(buttonId);
@@ -68,9 +51,36 @@ const Home = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleLike = async (musicId: number, liked?: boolean) => {
+    // const memberId = localStorage.getItem("memberId");
+    const memberId = 6;
+
+    if (!memberId) {
+      alert("로그인이 필요합니다.");
+    } else {
+      try {
+        const response = await axios.request({
+          method: liked ? "DELETE" : "POST",
+          url: `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/api/playlist/${memberId}`,
+          data: {
+            musicId: musicId,
+          },
+        });
+
+        if (response.status === 201 || response.status === 204) {
+          setIsLikedClick(true);
+        } else {
+          console.error("좋아요 처리에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   useEffect(() => {
-    useAllMusicData(isDogpli, currentPage);
-  }, [isDogpli, currentPage]);
+    setIsLikedClick(false);
+  }, [currentPage, isDogpli, isLikedClick]);
 
   return (
     <HomeContainer>
@@ -94,7 +104,7 @@ const Home = () => {
           onClick={handleAnimalButton}
         />
       </HomsListTitle>
-      <MusicList musicList={musicList} requestPath={requestPath} />
+      <MusicList musicList={musicList.data} handleLike={handleLike} />
       <Pagination
         currentPage={currentPage}
         totalPages={musicList.pageInfo?.totalPages || 0}

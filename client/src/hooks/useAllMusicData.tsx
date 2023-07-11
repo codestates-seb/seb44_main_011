@@ -6,21 +6,20 @@ import { PageInfo } from "../types/PageInfo";
 type MusicListData = {
   data: Music[];
   pageInfo?: PageInfo;
-  requestPath: string;
 };
 
-export const useAllMusicData = (
+const useAllMusicData = (
   isDogpli: string,
-  currentPage: number
+  currentPage: number,
+  isLikedClick: boolean
 ): MusicListData => {
   const [musicList, setMusicList] = useState<MusicListData>({
     data: [],
     pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
-    requestPath: "",
   });
 
   // const memberId = localStorage.getItem("memberId");
-  const memberId = 1;
+  const memberId = 6;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +45,9 @@ export const useAllMusicData = (
     };
 
     fetchData();
-  }, [isDogpli, currentPage]);
+  }, [isDogpli, currentPage, isLikedClick]);
 
   return musicList;
 };
+
+export default useAllMusicData;
