@@ -1,10 +1,13 @@
 package com.seb44main011.petplaylist.domain.member.entity;
 
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity(name = "MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -31,19 +34,21 @@ public class Member extends BaseTimeEntity {
     @Builder.Default
     private Status status = Status.MEMBER_ACTIVE;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="PERSONALPLAYLIST_ID")
-    private PersonalPlayList personalPlayList;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name="PERSONALPLAYLIST_ID")
+//    private PersonalPlayList personalPlayList;
+    @OneToMany(mappedBy = "member",cascade =CascadeType.ALL)
+    private List<PlayList> playLists;
 
     @Builder
-    public Member(long memberId, String email, String password, String name, String profile, Status status, PersonalPlayList personalPlayList) {
+    public Member(long memberId, String email, String password, String name, String profile, Status status, List<PlayList> playLists) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
         this.name = name;
         this.profile = "기본 프로필 이미지";
         this.status = status;
-        this.personalPlayList = personalPlayList;
+        this.playLists = new ArrayList<>();
     }
 
     public enum Status {
@@ -74,7 +79,4 @@ public class Member extends BaseTimeEntity {
         this.profile = profile;
     }
 
-    public void updatePersonalPlayList(PersonalPlayList personalPlayList) {
-        this.personalPlayList = personalPlayList;
-    }
 }

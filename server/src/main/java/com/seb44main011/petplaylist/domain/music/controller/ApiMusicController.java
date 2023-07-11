@@ -30,7 +30,7 @@ public class ApiMusicController {
     public ResponseEntity<?> getPublicMusicByTitle(@RequestParam(name = "music_name")String musicTitle){
         Music findMusic = service.serchMusic(musicTitle);
         Member findMember = memberService.findVerifiedMember(1L);
-        boolean likes = findMember.getPersonalPlayList().getMusicLists().stream()
+        boolean likes = findMember.getPlayLists().stream()
                 .anyMatch(musicList -> musicList.getMusic().getMusicId()==findMusic.getMusicId());
         MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic,likes);
         return ResponseEntity.ok().body(response);
@@ -39,7 +39,7 @@ public class ApiMusicController {
     public ResponseEntity<?> getPublicMusicById(@RequestParam(name = "music_id")@Positive long musicId){
         Music findMusic = service.serchMusic(musicId);
         Member findMember = memberService.findVerifiedMember(1L);
-        boolean likes = findMember.getPersonalPlayList().getMusicLists().stream()
+        boolean likes = findMember.getPlayLists().stream()
                 .anyMatch(musicList -> musicList.getMusic().getMusicId()==findMusic.getMusicId());
         MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic,likes);
         return ResponseEntity.ok().body(response);
