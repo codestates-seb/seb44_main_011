@@ -9,6 +9,8 @@ import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
 import { Link, NavLink } from "react-router-dom";
 
 function SideBar() {
+
+
   return (
     <RootWrapper>
       <Nav>
@@ -76,10 +78,17 @@ const Nav = styled.div`
 const InputField = styled.input`
   border: none;
   position: relative;
-  left: 35px;
-  top: 7px;
-  height: 20px;
-  width: 132px;
+  left: 0px;
+  top: 0px;
+  height: 30px;
+  width: 139px;
+  outline: none;
+  border-radius: 20px;
+  padding-left: 40px;
+
+  &:focus {
+    border: 2px solid #84cbff;
+  }
 `;
 
 const SearchImg = styled(SearchIcon)`
@@ -134,7 +143,7 @@ const HomeImg = styled(HomeIcon)`
 `;
 
 const Home_0001 = styled.span`
-  color: #84CBFF;
+  color: #84cbff;
   text-overflow: ellipsis;
   font-size: 18px;
   font-family: Quicksand, sans-serif;
@@ -257,7 +266,7 @@ const NavMypage = styled.div`
 `;
 
 const MyPage = styled.span`
-  color: #B4B4B7;
+  color: #b4b4b7;
   text-overflow: ellipsis;
   font-size: 18px;
   font-family: Quicksand, sans-serif;
@@ -280,222 +289,3 @@ const MypageImg = styled(MypageIcon)`
   right: 84px;
   bottom: 2px;
 `;
-
-// const RootWrapper = styled.div`
-//   background-color: rgb(240, 243, 243);
-//   border: solid 0.0625rem rgba(255, 255, 255, 0.16);
-//   position: relative;
-//   box-shadow: 0rem 0.25rem 0.3125rem 0.125rem rgba(217, 217, 217, 0.5);
-//   width: 15.3125rem;
-//   height: 52rem;
-// `;
-
-// const Nav = styled.div`
-//   overflow: hidden;
-//   background-color: white;
-//   border-radius: 6.25rem;
-//   position: absolute;
-//   left: 1.75rem;
-//   top: 8.75rem;
-//   right: 2rem;
-//   bottom: 41rem;
-// `;
-
-// const SearchImg = styled(SearchIcon)`
-//   width: 1.5rem;
-//   height: 1.5rem;
-//   object-fit: cover;
-//   position: absolute;
-//   left: 0.625rem;
-//   top: calc((50% + 0rem) - 0.75rem);
-// `;
-
-// const NavLogo = styled.div`
-//   position: absolute;
-//   left: 4.3125rem;
-//   top: 3.125rem;
-//   right: 4.125rem;
-//   bottom: 44.5rem;
-// `;
-
-// const NaN_0001 = styled.div`
-//   position: absolute;
-//   left: 1.0625rem;
-//   top: 0rem;
-//   right: 1.0625rem;
-//   bottom: 2.25rem;
-// `;
-
-// const DogLogoImg = styled(DogLogo)`
-//   object-fit: cover;
-//   position: absolute;
-//   left: -1rem;
-//   top: -0.125rem;
-//   right: 0.4375rem;
-//   bottom: -0.125rem;
-// `;
-
-// const NavHome = styled.div`
-//   position: absolute;
-//   left: 2.5625rem;
-//   top: 10.375rem;
-//   right: 7.375rem;
-//   bottom: 38.375rem;
-// `;
-
-// const HomeImg = styled(HomeIcon)`
-//   object-fit: cover;
-//   position: absolute;
-//   left: 0rem;
-//   top: 0rem;
-//   right: 4rem;
-//   bottom: 0rem;
-// `;
-
-// const Home_0001 = styled.a`
-//   color: rgb(132, 203, 255);
-//   text-overflow: ellipsis;
-//   font-size: 1.125rem;
-//   font-family: Quicksand, sans-serif;
-//   font-weight: 700;
-//   line-height: 100%;
-//   text-align: left;
-//   position: absolute;
-//   left: 2.125rem;
-//   top: 0.0625rem;
-//   right: 0rem;
-//   bottom: 0.1875rem;
-//   text-decoration: none;
-// `;
-
-// const NavMylist = styled.div`
-//   position: absolute;
-//   left: 2.5625rem;
-//   top: 14rem;
-//   right: 7.375rem;
-//   bottom: 23.125rem;
-// `;
-
-// const MyList = styled.a`
-//   color: rgb(180, 180, 183);
-//   text-overflow: ellipsis;
-//   font-size: 1.125rem;
-//   font-family: Quicksand, sans-serif;
-//   font-weight: 700;
-//   line-height: 100%;
-//   text-align: left;
-//   position: absolute;
-//   left: 2.125rem;
-//   top: 0.0625rem;
-//   right: -0.25rem;
-//   bottom: 0.1875rem;
-//   text-decoration: none;
-// `;
-
-// const MyListImg = styled(MylistIcon)`
-//   object-fit: cover;
-//   position: absolute;
-//   left: 0rem;
-//   top: 0rem;
-//   right: 4rem;
-//   bottom: 0rem;
-// `;
-
-// const NavTags = styled.div`
-//   width: 5.9375rem;
-//   height: 1.375rem;
-//   overflow: hidden;
-//   position: absolute;
-//   left: 2.5625rem;
-//   top: 11.875rem;
-// `;
-
-// const Tags = styled.a`
-//   color: rgb(180, 180, 183);
-//   text-overflow: ellipsis;
-//   font-size: 1.125rem;
-//   font-family: Quicksand, sans-serif;
-//   font-weight: 700;
-//   line-height: 100%;
-//   text-align: left;
-//   position: absolute;
-//   left: 2.125rem;
-//   top: 0.125rem;
-//   text-decoration: none;
-// `;
-
-// const TagImg = styled(TagsIcon)`
-//   object-fit: cover;
-//   position: absolute;
-//   left: 0rem;
-//   top: 0rem;
-//   right: 4.5625rem;
-//   bottom: 0rem;
-// `;
-
-// const ButtonLogout = styled.div`
-//   width: 11.5625rem;
-//   height: 2.5rem;
-//   position: absolute;
-//   left: calc((calc((50% + 0.0625rem)) - 5.8125rem));
-//   top: 46.4375rem;
-// `;
-
-// const Rectangle191 = styled.div`
-//   border: solid 0.0625rem rgb(209, 209, 209);
-//   border-radius: 6.25rem;
-//   position: absolute;
-//   left: 0rem;
-//   top: 0rem;
-//   right: 0rem;
-//   bottom: 0rem;
-// `;
-
-// const Logout = styled.span`
-//   color: rgb(180, 180, 183);
-//   text-overflow: ellipsis;
-//   font-size: 0.875rem;
-//   font-family: Quicksand, sans-serif;
-//   font-weight: 700;
-//   line-height: 1.5rem;
-//   text-align: left;
-//   min-height: 1.5625rem;
-//   position: absolute;
-//   left: 4rem;
-//   top: 0.4375rem;
-//   right: 3.9375rem;
-//   bottom: 0.5rem;
-// `;
-
-// const NavMypage = styled.div`
-//   width: 6.625rem;
-//   height: 1.5rem;
-//   position: absolute;
-//   left: 2.5625rem;
-//   top: 16.125rem;
-// `;
-
-// const MyPage = styled.a`
-//   color: rgb(180, 180, 183);
-//   text-overflow: ellipsis;
-//   font-size: 1.125rem;
-//   font-family: Quicksand, sans-serif;
-//   font-weight: 700;
-//   line-height: 100%;
-//   text-align: left;
-//   position: absolute;
-//   left: 2.25rem;
-//   top: 0.125rem;
-//   right: 0rem;
-//   bottom: 0.25rem;
-//   text-decoration: none;
-// `;
-
-// const MypageImg = styled(MypageIcon)`
-//   object-fit: cover;
-//   position: absolute;
-//   left: 0rem;
-//   top: 0rem;
-//   right: 5.25rem;
-//   bottom: 0.125rem;
-// `;
