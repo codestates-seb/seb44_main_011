@@ -37,7 +37,7 @@ public interface MusicListMapper {
 
     List<PlaylistDto.PublicResponse> musicListToPublicResponse(List<Music> musicList);
 
-    default List<PlaylistDto.ApiResponse> musicListToCategoryPlayListApiResponse(List<Music> musics, List<PlayList> playListsList){
+    default List<PlaylistDto.ApiResponse> musicListToApiResponse(List<Music> musics, List<PlayList> playListsList){
         Set<Long> musicIds = playListsList.stream()
                 .map(m->m.getMusic().getMusicId())
                 .collect(Collectors.toSet());
@@ -50,8 +50,31 @@ public interface MusicListMapper {
                             .title(music.getTitle())
                             .music_url(music.getMusic_url())
                             .image_url(music.getImage_url())
+                            .playtime(music.getPlaytime())
                             .tags(music.getTags().getTags())
                             .liked(likes)
+                            .build();
+
+                })
+                .collect(Collectors.toList());
+
+        return apiResponse;
+
+    }
+
+    default List<PlaylistDto.ApiResponse> musicListToApiResponseFromId(List<Music> musics,int memberId){
+        List<PlaylistDto.ApiResponse> apiResponse = musics.stream()
+                .map(music ->{
+                    return PlaylistDto.ApiResponse.builder()
+                            .musicId(music.getMusicId())
+                            .category(music.getCategory().getCategory())
+                            .title(music.getTitle())
+                            .music_url(music.getMusic_url())
+                            .image_url(music.getImage_url())
+                            .playtime(music.getPlaytime())
+                            .tags(music.getTags().getTags())
+                            .liked(music.getPersonalPlayLists().stream()
+                                    .anyMatch(m->m.getMusic().getMusicId()==memberId))
                             .build();
 
                 })

@@ -14,6 +14,7 @@ public interface MusicMapper {
                 .image_url(music.getImage_url())
                 .music_url(music.getMusic_url())
                 .musicId(music.getMusicId())
+                .playtime(music.getPlaytime())
                 .title(music.getTitle())
                 .liked(likes)
                 .tags(music.getTags().getTags())

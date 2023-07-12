@@ -40,7 +40,7 @@ public class ApiPlaylistController {
     private final MusicService musicService;
 //    private final StubData stubData;
 //    @PostMapping("/test")
-//    public void postTest(){
+//    public void postTest() throws InterruptedException {
 //        stubData.insertData();
 //    }
 
@@ -57,14 +57,28 @@ public class ApiPlaylistController {
         return ResponseEntity.created(location).build();
     }
 
+    @GetMapping(params = {"member-id","page"})
+    public ResponseEntity<?> getAllMusicListFromMember(@RequestParam(name = "member-id") @Positive int memberId,
+                                                       @RequestParam(name = "page", defaultValue = "1") @Positive int page) {
+
+        List<PlayList> memberPlayList = musicListService.findPersonalMusicLists(memberId);
+        Page<Music> musicPage= musicService.findMusicListAll(page);
+        List<Music> musicList = musicPage.getContent();
+        List<PlaylistDto.ApiResponse> responseMusic = musicListMapper.musicListToApiResponse(musicList,memberPlayList);
+
+        return  new ResponseEntity<>(
+                new MultiResponseDto<>(responseMusic,musicPage), HttpStatus.OK);
+
+    }
+
 
     @GetMapping(value = "/{member-id}", params = {"page"})
     public ResponseEntity<?> getPersonalPlayList(@PathVariable("member-id")@Positive long memberId,
                                                   @Valid @RequestParam(name = "page", defaultValue = "1") @Positive int page){
-        Page<PlayList> musicListList = musicListService.findPersonalMusicListsPage(memberId,page);
-        List<PlaylistDto.ApiResponse> responseMusic = musicListMapper.musicListToPlayListResponseList(musicListList.getContent());
+        Page<PlayList> playListPage = musicListService.findPersonalMusicListsPage(memberId,page);
+        List<PlaylistDto.ApiResponse> responseMusic = musicListMapper.musicListToPlayListResponseList(playListPage.getContent());
         return new ResponseEntity<>(
-                new MultiResponseDto<>(responseMusic,musicListList), HttpStatus.OK);
+                new MultiResponseDto<>(responseMusic,playListPage), HttpStatus.OK);
 
     }
 
@@ -77,7 +91,7 @@ public class ApiPlaylistController {
         Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page);
         List<Music> musicList = musicPage.getContent();
         List<PlayList> likeMusic = memberService.findMember(memberId).getPlayLists();
-        List<PlaylistDto.ApiResponse> apiResponse = musicListMapper.musicListToCategoryPlayListApiResponse(musicList,likeMusic);
+        List<PlaylistDto.ApiResponse> apiResponse = musicListMapper.musicListToApiResponse(musicList,likeMusic);
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(apiResponse,musicPage), HttpStatus.OK);
@@ -89,7 +103,7 @@ public class ApiPlaylistController {
                                                   @Valid @RequestBody MusicDto.DeleteRequest postRequest){
         Member member = memberService.findMember(id);
         Music music = musicService.findMusic(postRequest.getMusicId());
-        musicListService.deleteMusicList(member, music);
+        musicListService.deletePlayList(member, music);
         return ResponseEntity.noContent().build();
     }
 

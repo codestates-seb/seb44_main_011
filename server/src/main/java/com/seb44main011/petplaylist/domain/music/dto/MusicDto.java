@@ -1,9 +1,7 @@
 package com.seb44main011.petplaylist.domain.music.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.validation.constraints.NotNull;
 
 public class MusicDto {
@@ -31,10 +29,12 @@ public class MusicDto {
     @Getter
     @Builder
     public static class PublicResponse{
+        @Setter
         private Long musicId;
         private String title;
         private String music_url;
         private String image_url;
+        private String playtime;
         private String tags;
 
     }
@@ -46,6 +46,7 @@ public class MusicDto {
         private String title;
         private String music_url;
         private String image_url;
+        private String playtime;
         private String tags;
         private boolean liked;
 

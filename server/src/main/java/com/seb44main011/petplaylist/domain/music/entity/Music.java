@@ -13,15 +13,20 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Music extends BaseTimeEntity {
     @Builder
-    public Music(long musicId, String title, String music_url, String image_url, Category category, Tags tags, List<PlayList> personalPlayLists) {
+    public Music(long musicId, String title, String music_url, String image_url, String playtime, long view, Category category, Tags tags, List<PlayList> personalPlayLists) {
         this.musicId = musicId;
         this.title = title;
         this.music_url = music_url;
         this.image_url = image_url;
+        this.playtime = playtime;
+        this.view = view;
         this.category = category;
         this.tags = tags;
         this.personalPlayLists = personalPlayLists;
     }
+
+
+
 
 
     @Id
@@ -34,6 +39,8 @@ public class Music extends BaseTimeEntity {
     private String music_url;
     @Column(nullable = false)
     private String image_url;
+    @Column(nullable = false)
+    private String playtime;
 
     @Column
     private long view;

@@ -49,7 +49,7 @@ public class MusicListService {
 //        return mapper.memberAndMusicToMusicList(playList,music);
 //    }
 
-    public void deleteMusicList(Member member, Music music){
+    public void deletePlayList(Member member, Music music){
         PlayList getPlayList = getMusicList(music.getMusicId(),member.getMemberId());
         repository.delete(getPlayList);
     }
