@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { styled } from "styled-components";
 import UserInfo from "../assets/imgs/UserInfo.png";
 
@@ -10,7 +10,14 @@ function EditProfile() {
       <Profile>
         <ProfileImage>Profile Image</ProfileImage>
         <UserInfoImg src={UserInfo} />
+        <ChangeImg>파일 선택 </ChangeImg>
+        <NickName>Nickname</NickName>
+        <NickNameInput></NickNameInput>
       </Profile>
+      <ButtonWrapper>
+        <Cancle>취소</Cancle>
+        <Save>프로필 저장</Save>
+      </ButtonWrapper>
     </Wrapper>
   );
 }
@@ -29,6 +36,7 @@ const Profile = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 50px;
 `;
 
 const Title = styled.div`
@@ -55,10 +63,71 @@ const ProfileImage = styled.span`
   line-height: 100%;
   text-align: left;
   color: black;
+  align-items: flex-start;
+  display: flex;
+  width: 250px;
 `;
 const UserInfoImg = styled.img`
   width: 270px;
   height: 270px;
-  left: 0px;
-  top: 36px;ß
+`;
+
+const ChangeImg = styled.button`
+  width: 84px;
+  height: 30px;
+  border: 1px solid #8e8e8e;
+  border-radius: 7px;
+  color: #8e8e8e;
+  background-color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+`;
+const NickName = styled.span`
+  text-overflow: ellipsis;
+  font-size: 24px;
+  font-family: Quicksand, sans-serif;
+  font-weight: 500;
+  line-height: 100%;
+  color: black;
+  align-items: flex-start;
+  display: flex;
+  width: 250px;
+  margin-top: 50px;
+`;
+
+const NickNameInput = styled.input`
+  border: 1px solid black;
+  position: relative;
+  height: 30px;
+  width: 245px;
+  outline: none;
+  border-radius: 5px;
+  margin-top: 10px;
+`;
+
+const Cancle = styled.button`
+  width: 84px;
+  height: 30px;
+  border: 1px solid #8e8e8e;
+  border-radius: 7px;
+  color: #8e8e8e;
+  background-color: #fff;
+  cursor: pointer;
+  margin-right: 20px;
+`;
+const Save = styled.button`
+  width: 84px;
+  height: 30px;
+  border: 1px solid #bbe2ff;
+  border-radius: 7px;
+  color: #fff;
+  background-color: #84cbff;
+  cursor: pointer;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
 `;

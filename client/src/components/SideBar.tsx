@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
@@ -9,7 +9,11 @@ import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
 import { Link, NavLink } from "react-router-dom";
 
 function SideBar() {
+  const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
 
+  const handleTagsMenuToggle = () => {
+    setIsTagsMenuOpen(isTagsMenuOpen);
+  };
 
   return (
     <RootWrapper>
@@ -34,11 +38,19 @@ function SideBar() {
           <MyListImg fill="#B4B4B7" />
         </Link>
       </NavMylist>
-      <NavTags>
+      <NavTags onClick={handleTagsMenuToggle}>
         <Link className="tags" to="/tags">
           <Tags>Tags</Tags>
           <TagImg fill="#B4B4B7" />
         </Link>
+        {isTagsMenuOpen && (
+          <DropdownMenu>
+            <MenuItem>Tag 1</MenuItem>
+            <MenuItem>Tag 2</MenuItem>
+            <MenuItem>Tag 3</MenuItem>
+            <MenuItem>Tag 4</MenuItem>
+          </DropdownMenu>
+        )}
       </NavTags>
       <ButtonLogout>
         <Rectangle191 />
@@ -54,6 +66,23 @@ function SideBar() {
   );
 }
 export default SideBar;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  min-width: 150px;
+  z-index: 1;
+`;
+
+const MenuItem = styled.div`
+  padding: 8px 16px;
+  color: #333333;
+  cursor: pointer;
+`;
 
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
