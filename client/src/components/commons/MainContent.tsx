@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 
 const MainContent = styled.div`
-  width: 100%;
   height: 100vh;
+  width: 100%;
   margin: 0px 5%;
   display: flex;
   -webkit-box-align: center;

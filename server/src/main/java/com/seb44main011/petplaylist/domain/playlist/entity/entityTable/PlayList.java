@@ -3,6 +3,7 @@ package com.seb44main011.petplaylist.domain.playlist.entity.entityTable;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.playlist.entity.compositeKey.PlayListId;
+import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @IdClass(PlayListId.class)
-public class PlayList {
+public class PlayList extends BaseTimeEntity {
     @Builder
     public PlayList(Member member, Music music) {
         this.member = member;

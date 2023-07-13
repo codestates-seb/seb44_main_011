@@ -1,7 +1,7 @@
 package com.seb44main011.petplaylist.domain.playlist.controller;
 
 import com.seb44main011.petplaylist.domain.music.entity.Music;
-import com.seb44main011.petplaylist.domain.music.service.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
 import com.seb44main011.petplaylist.global.common.MultiResponseDto;
@@ -21,7 +21,7 @@ public class PublicPlaylistController {
     private final MusicService musicService;
 
     @GetMapping(params = {"page"})
-    public ResponseEntity<?> getAllMusicList(@RequestParam(value = "page", defaultValue = "1") int page){
+    public ResponseEntity<?> getAllMusicListFromNonMember(@RequestParam(value = "page", defaultValue = "1") int page){
         Page<Music> musicPage = musicService.findMusicListAll(page);
         List<Music> musicList = musicPage.getContent();
         List<PlaylistDto.PublicResponse> publicResponses = mapper.musicListToPublicResponse(musicList);

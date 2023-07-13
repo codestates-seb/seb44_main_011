@@ -9,9 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 
 public class TestData {
@@ -27,6 +31,7 @@ public class TestData {
                     .title(title)
                     .music_url(music_url)
                     .image_url(image_url)
+                    .playtime("3:20")
                     .build();
         }
         public static MusicDto.PublicResponse getPublicResponseData(){
@@ -35,7 +40,20 @@ public class TestData {
                     .title(title)
                     .music_url(music_url)
                     .image_url(image_url)
+                    .playtime("3:20")
                     .tags(Music.Category.DOGS.getCategory())
+                    .build();
+
+        }
+        public static MusicDto.ApiResponse getApiResponseData(){
+            return MusicDto.ApiResponse.builder()
+                    .musicId(1L)
+                    .title(title)
+                    .music_url(music_url)
+                    .image_url(image_url)
+                    .playtime("3:20")
+                    .tags(Music.Category.DOGS.getCategory())
+                    .liked(true)
                     .build();
 
         }
@@ -82,6 +100,7 @@ public class TestData {
                         .title("노래제목입니다.")
                         .music_url("test.com/test/test.mp3")
                         .image_url("test.com/test/test.jpg")
+                        .playtime("3:20")
                         .category(Music.Category.DOGS.getCategory())
                         .tags(Music.Tags.RELAXING.getTags())
                         .liked(true)
@@ -93,6 +112,7 @@ public class TestData {
                         .title("노래제목입니다.")
                         .music_url("test.com/test/test.mp3")
                         .image_url("test.com/test/test.jpg")
+                        .playtime("3:20")
                         .category(Music.Category.DOGS.getCategory())
                         .tags(Music.Tags.RELAXING.getTags())
                         .liked(true)
@@ -107,6 +127,7 @@ public class TestData {
                                 .title("노래제목입니다.")
                                 .music_url("test.com/test2/test2.mp3")
                                 .image_url("test.com/test2/test2.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.DOGS.getCategory())
                                 .tags(Music.Tags.RELAXING.getTags())
                                 .liked(false)
@@ -116,6 +137,7 @@ public class TestData {
                                 .title("노래제목입니다.")
                                 .music_url("test.com/test4/test4.mp3")
                                 .image_url("test.com/test4/test4.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.DOGS.getCategory())
                                 .tags(Music.Tags.RELAXING.getTags())
                                 .liked(true)
@@ -130,6 +152,7 @@ public class TestData {
                                 .title("노래제목입니다.")
                                 .music_url("test.com/test2/test2.mp3")
                                 .image_url("test.com/test2/test2.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.DOGS.getCategory())
                                 .tags(Music.Tags.RELAXING.getTags())
                                 .liked(true)
@@ -137,6 +160,7 @@ public class TestData {
                         PlaylistDto.ApiResponse.builder()
                                 .musicId(3L)
                                 .title("노래제목입니다.")
+                                .playtime("3:20")
                                 .music_url("test.com/test4/test4.mp3")
                                 .image_url("test.com/test4/test4.jpg")
                                 .category(Music.Category.DOGS.getCategory())
@@ -148,6 +172,7 @@ public class TestData {
                                 .title("노래제목입니다")
                                 .music_url("test.com/test2/test4.mp3")
                                 .image_url("test.com/test2/test4.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build()
@@ -162,6 +187,7 @@ public class TestData {
                         .title("노래제목입니다.")
                         .music_url("test.com/test/test.mp3")
                         .image_url("test.com/test/test.jpg")
+                        .playtime("3:20")
                         .category(Music.Category.CATS.getCategory())
                         .tags(Music.Tags.HAPPY.getTags())
                         .build();
@@ -174,6 +200,7 @@ public class TestData {
                                 .title("7번째 곡")
                                 .music_url("test.com/test1/test1.mp3")
                                 .image_url("test.com/test1/test1.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build(),
@@ -182,6 +209,7 @@ public class TestData {
                                 .title("8번째 곡")
                                 .music_url("test.com/test2/test2.mp3")
                                 .image_url("test.com/test2/test2.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build(),
@@ -190,6 +218,7 @@ public class TestData {
                                 .title("9번째 곡")
                                 .music_url("test.com/test2/test3.mp3")
                                 .image_url("test.com/test2/test3.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build(),
@@ -198,6 +227,7 @@ public class TestData {
                                 .title("10번째 곡")
                                 .music_url("test.com/test2/test4.mp3")
                                 .image_url("test.com/test2/test4.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build()
