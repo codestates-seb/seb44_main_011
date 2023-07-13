@@ -5,7 +5,6 @@ import Home from "./pages/Home";
 import MainContent from "./components/commons/MainContent";
 import SideBar from "./components/SideBar";
 import { styled } from "styled-components";
-import MyList from "./pages/MyList";
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -23,7 +22,6 @@ function App() {
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/tags" element={<Tags />} />
             <Route path="/" element={<Home />} />
-            <Route path="/mylist" element={<MyList />} />
           </Routes>
         </MainContent>
       </MainWrapper>
