@@ -1,8 +1,23 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { styled } from "styled-components";
 import UserInfo from "../assets/imgs/UserInfo.png";
+import { useNavigate } from "react-router-dom";
+import ImageModal from "./ImageModal";
 
 function EditProfile() {
+  const movePage = useNavigate();
+
+  function goMypage() {
+    movePage("/mypage");
+  }
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = () => {
+    setModalOpen(true);
+  };
+
+
   return (
     <Wrapper>
       <Title>Edit Profile</Title>
@@ -10,12 +25,13 @@ function EditProfile() {
       <Profile>
         <ProfileImage>Profile Image</ProfileImage>
         <UserInfoImg src={UserInfo} />
-        <ChangeImg>파일 선택 </ChangeImg>
+        <ChangeImg onClick={showModal}>파일 선택 </ChangeImg>
+        {modalOpen && <ImageModal setModalOpen={setModalOpen} />}
         <NickName>Nickname</NickName>
         <NickNameInput></NickNameInput>
       </Profile>
       <ButtonWrapper>
-        <Cancle>취소</Cancle>
+        <Cancle onClick={goMypage}>취소</Cancle>
         <Save>프로필 저장</Save>
       </ButtonWrapper>
     </Wrapper>
