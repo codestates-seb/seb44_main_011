@@ -53,7 +53,7 @@ const Home = () => {
 
   const handleLike = async (musicId: number, liked?: boolean) => {
     // const memberId = localStorage.getItem("memberId");
-    const memberId = 6;
+    const memberId = 1;
 
     if (!memberId) {
       alert("로그인이 필요합니다.");

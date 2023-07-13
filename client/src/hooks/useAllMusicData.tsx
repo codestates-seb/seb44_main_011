@@ -19,7 +19,7 @@ const useAllMusicData = (
   });
 
   // const memberId = localStorage.getItem("memberId");
-  const memberId = 6;
+  const memberId = 1;
 
   useEffect(() => {
     const fetchData = async () => {
