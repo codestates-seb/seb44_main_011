@@ -1,19 +1,18 @@
-import React from "react";
 import SideBar from "../components/SideBar";
+import EditProfile from "../components/EditProfile";
 import { styled } from "styled-components";
-import { MypageInfo } from "../components/MypageInfo";
 
-function Mypage() {
+function Edit() {
   return (
     <Wrapper>
       <SideBar />
-      <MypageInfo />
+      <EditProfile />
     </Wrapper>
   );
 }
 
-export default Mypage;
+export default Edit;
 
 const Wrapper = styled.div`
   display: flex;
-`
+`;
