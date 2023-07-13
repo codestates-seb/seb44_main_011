@@ -1,6 +1,5 @@
 package com.seb44main011.petplaylist.domain.comment.service;
 
-import com.seb44main011.petplaylist.domain.comment.dto.CommentDto;
 import com.seb44main011.petplaylist.domain.comment.entity.Comment;
 import com.seb44main011.petplaylist.domain.comment.repository.CommentRepository;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
@@ -8,7 +7,7 @@ import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
-import com.seb44main011.petplaylist.domain.music.service.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;

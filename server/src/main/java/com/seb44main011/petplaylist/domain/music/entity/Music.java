@@ -31,7 +31,7 @@ public class Music extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long musicId;
+    private Long musicId;
 
     @Column(nullable = false)
     private String title;
@@ -86,7 +86,14 @@ public class Music extends BaseTimeEntity {
         this.view++;
     }
 
+    public void insertMusic_url(String music_url) {
+        this.music_url = music_url;
+    }
 
-
-
+    public void insertImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+    public void insertPlaytime(String playtime) {
+        this.playtime = playtime;
+    }
 }

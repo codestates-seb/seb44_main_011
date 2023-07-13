@@ -14,6 +14,7 @@ public enum ExceptionCode {
     MEMBER_MISMATCH(403,"The login Member and the author are different"),
     MEMBER_WITHDRAWN(409, "Already with drawn Member"),
     MUSIC_NOT_FOUND(404,"Music not found"),
+    MUSIC_EXISTS(409,"Music EXISTS"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
     PASSWORD_MISMATCH(404, "Password is not Correct"),
     LIKED_MUSIC_EXISTS(409, "Already exists in the personal playlist");

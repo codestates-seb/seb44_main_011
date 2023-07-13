@@ -5,16 +5,15 @@ import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
-import com.seb44main011.petplaylist.domain.music.service.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
+import java.util.Objects;
+
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -24,24 +23,22 @@ public class ApiMusicController {
     private final MusicService service;
     private final MemberService memberService;
 
-    //TODO: 시큐리티 적용 시 구현 시작 예정 (현재 토큰인증 구현 x)
+    //TODO: 시큐리티 적용 시 구현 수정
 
-    @GetMapping(value = "/musics",params = {"music_name"})
-    public ResponseEntity<?> getPublicMusicByTitle(@RequestParam(name = "music_name")String musicTitle){
+    @GetMapping(value = "/musics/{member-id}",params = {"music_name"})
+    public ResponseEntity<?> getApiMusicByTitle(@RequestParam(name = "music_name")String musicTitle,
+                                                @PathVariable("member-id") @Positive long memberId){
         Music findMusic = service.serchMusic(musicTitle);
-        Member findMember = memberService.findVerifiedMember(1L);
-        boolean likes = findMember.getPlayLists().stream()
-                .anyMatch(musicList -> musicList.getMusic().getMusicId()==findMusic.getMusicId());
-        MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic,likes);
+        Member findMember = memberService.findVerifiedMember(memberId);
+        MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic,findMember);
         return ResponseEntity.ok().body(response);
     }
-    @GetMapping(value = "/musics",params = {"music_id"})
-    public ResponseEntity<?> getPublicMusicById(@RequestParam(name = "music_id")@Positive long musicId){
+    @GetMapping(value = "/musics/{member-id}",params = {"music_id"})
+    public ResponseEntity<?> getApiMusicById(@RequestParam(name = "music_id")@Positive long musicId,
+                                             @PathVariable("member-id") @Positive long memberId){
         Music findMusic = service.serchMusic(musicId);
-        Member findMember = memberService.findVerifiedMember(1L);
-        boolean likes = findMember.getPlayLists().stream()
-                .anyMatch(musicList -> musicList.getMusic().getMusicId()==findMusic.getMusicId());
-        MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic,likes);
+        Member findMember = memberService.findVerifiedMember(memberId);
+        MusicDto.ApiResponse response= mapper.apiResponseToMusic(findMusic,findMember);
         return ResponseEntity.ok().body(response);
     }
 }

@@ -26,6 +26,7 @@ public interface MusicListMapper {
                 .title(playList.getMusic().getTitle())
                 .music_url(playList.getMusic().getMusic_url())
                 .image_url(playList.getMusic().getImage_url())
+                .playtime(playList.getMusic().getPlaytime())
                 .tags(playList.getMusic().getTags().getTags())
                 .category(playList.getMusic().getCategory().getCategory())
                 .liked(playList.isLiked())

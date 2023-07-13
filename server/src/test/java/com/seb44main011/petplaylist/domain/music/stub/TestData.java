@@ -45,6 +45,18 @@ public class TestData {
                     .build();
 
         }
+        public static MusicDto.ApiResponse getApiResponseData(){
+            return MusicDto.ApiResponse.builder()
+                    .musicId(1L)
+                    .title(title)
+                    .music_url(music_url)
+                    .image_url(image_url)
+                    .playtime("3:20")
+                    .tags(Music.Category.DOGS.getCategory())
+                    .liked(true)
+                    .build();
+
+        }
 
         public static MusicDto.PostRequest getPostRequestData(){
             return MusicDto.PostRequest.builder()
