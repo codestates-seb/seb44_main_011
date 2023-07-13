@@ -1,7 +1,9 @@
 package com.seb44main011.petplaylist.domain.playlist.entity.entityTable;
 
+import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
-import com.seb44main011.petplaylist.domain.playlist.entity.compositeKey.MusicListId;
+import com.seb44main011.petplaylist.domain.playlist.entity.compositeKey.PlayListId;
+import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,17 +12,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Entity
-@IdClass(MusicListId.class)
-public class MusicList {
+@IdClass(PlayListId.class)
+public class PlayList extends BaseTimeEntity {
     @Builder
-    public MusicList(PersonalPlayList personalPlayList, Music music) {
-        this.personalPlayList = personalPlayList;
+    public PlayList(Member member, Music music) {
+        this.member = member;
         this.music = music;
     }
     @Id
     @ManyToOne
-    @JoinColumn(name="PERSONALPLAYLIST_ID")
-    private PersonalPlayList personalPlayList;
+    @JoinColumn(name="MEMBER_ID")
+    private Member member;
     @Id
     @ManyToOne
     @JoinColumn(name="MUSIC_ID")
@@ -35,7 +37,4 @@ public class MusicList {
         this.music = music;
     }
 
-    public void updatePersonalPlayList(PersonalPlayList personalPlayList) {
-        this.personalPlayList = personalPlayList;
-    }
 }

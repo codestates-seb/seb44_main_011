@@ -9,7 +9,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Builder
-public class MusicListId implements Serializable {
-    private Long personalPlayList;
+public class PlayListId implements Serializable {
+    private Long member;
     private Long music;
 }

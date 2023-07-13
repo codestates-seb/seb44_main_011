@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.PayloadDocumentation;
 import org.springframework.test.web.servlet.MockMvc;
@@ -160,6 +161,47 @@ public class MemberControllerTest {
                                                 )
                                                 .requestFields(
                                                         PayloadDocumentation.fieldWithPath("password").description("비밀번호")
+                                                )
+                                                .responseFields()
+                                                .build()
+                                )
+                        )
+                );
+    }
+
+    @Test
+    @DisplayName("회원정보 조회 테스트")
+    public void getMyPageTest() throws Exception {
+        BDDMockito.given(memberService.findMember(Mockito.anyLong())).willReturn(testMember);
+        BDDMockito.given(memberMapper.memberToMyPageResponse(testMember)).willReturn(MemberTestData.getMyPageResponse());
+
+        mockMvc.perform(
+                        RestDocumentationRequestBuilders.get("/api/members/{member-id}", testMember.getMemberId())
+                                .accept(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(
+                        MockMvcRestDocumentationWrapper.document("회원조회 예제",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                ResourceDocumentation.resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("회원조회")
+                                                .pathParameters(
+                                                        ResourceDocumentation.parameterWithName("member-id").description("사용자 식별자")
+                                                )
+                                                .requestFields()
+                                                .responseFields(
+                                                        PayloadDocumentation.fieldWithPath("name").description("닉네임"),
+                                                        PayloadDocumentation.fieldWithPath("email").description("이메일"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists").type(JsonFieldType.ARRAY).description("뮤직리스트"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].musicId").description("음악 식별자"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].title").description("곡 이름"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].music_url").description("곡 저장 위치"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].image_url").description("곡 이미지 저장 위치"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].playtime").description("곡 재생 시간"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].category").description("카테고리"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].tags").description("태그")
                                                 )
                                                 .build()
                                 )

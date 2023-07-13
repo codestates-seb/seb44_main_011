@@ -9,6 +9,11 @@ spring:
 #            scope:
 #              - email
 #              - profile
+  servlet:
+    multipart:
+      maxFileSize: 20MB
+      maxRequestSize: 20MB
+      enabled: true
   h2:
     console:
       enabled: true
@@ -30,6 +35,15 @@ logging:
       springframework:
         orm:
           jpa: DEBUG
+
+  logback:
+    rollingpolicy:
+      max-file-size: 50MB
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}-%i.log
+  file:
+    name: logs/main-project.log
+
+
 server:
   servlet:
     encoding:
@@ -47,3 +61,16 @@ springdoc:
   swagger-ui:
     url: /docs/open-api-3.0.1.json
     path: /docs/swagger
+
+
+cloud:
+  aws:
+    credentials:
+      access-key: accessKey
+      secret-key: secretKey
+    s3:
+      bucket: My-bucket-name
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
