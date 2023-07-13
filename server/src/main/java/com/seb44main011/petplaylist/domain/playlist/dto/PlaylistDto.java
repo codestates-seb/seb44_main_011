@@ -17,6 +17,7 @@ public class PlaylistDto {
         private String music_url;
 
         private String image_url;
+        private String playtime;
 
         private String category;
 
@@ -32,6 +33,7 @@ public class PlaylistDto {
         private String music_url;
 
         private String image_url;
+        private String playtime;
 
         private String category;
 
