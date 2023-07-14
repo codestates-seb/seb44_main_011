@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import Banner from "../components/commons/Banner";
 import CategoryBtns from "../components/commons/CategoryBtns";
@@ -8,7 +8,9 @@ import {
   TOGGLE_CATEGORY,
 } from "../constants/CategoryConstants";
 import { MusicList } from "../components/MusicList";
-import { logginedMusicList } from "../constants/MusicData";
+import Pagination from "../components/Pagination";
+import useAllMusicData from "../hooks/useAllMusicData";
+import axios from "axios";
 
 const HomeContainer = styled.div`
   display: flex;
@@ -17,9 +19,9 @@ const HomeContainer = styled.div`
   margin: 3%;
   width: 100%;
   max-width: 1800px;
-  height: 100vh;
   min-width: 700px;
 `;
+
 const HomsListTitle = styled.div`
   width: 100%;
   display: flex;
@@ -27,17 +29,58 @@ const HomsListTitle = styled.div`
   justify-content: space-between;
   margin-bottom: 12px;
 `;
+
 const Home = () => {
   const [isDogpli, setIsDogpli] = useState(ANIMAL_CATEGORY[0]?.id);
   const [isTopChart, setIsTopChart] = useState(LIST_CATEGORY[0]?.id);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLikedClick, setIsLikedClick] = useState(false);
 
-  const handleAnimalButton = (buttonId: string) => {
+  const musicList = useAllMusicData(isDogpli, currentPage, isLikedClick);
+
+  const handleAnimalButton = (buttonId: string, tags?: string) => {
     setIsDogpli(buttonId);
+    setCurrentPage(1);
   };
 
   const handleListButton = (buttonId: string) => {
     setIsTopChart(buttonId);
   };
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleLike = async (musicId: number, liked?: boolean) => {
+    // const memberId = localStorage.getItem("memberId");
+    const memberId = 1;
+
+    if (!memberId) {
+      alert("로그인이 필요합니다.");
+    } else {
+      try {
+        const response = await axios.request({
+          method: liked ? "DELETE" : "POST",
+          url: `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/api/playlist/${memberId}`,
+          data: {
+            musicId: musicId,
+          },
+        });
+
+        if (response.status === 201 || response.status === 204) {
+          setIsLikedClick(true);
+        } else {
+          console.error("좋아요 처리에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    setIsLikedClick(false);
+  }, [currentPage, isDogpli, isLikedClick]);
 
   return (
     <HomeContainer>
@@ -61,7 +104,12 @@ const Home = () => {
           onClick={handleAnimalButton}
         />
       </HomsListTitle>
-      <MusicList musicList={logginedMusicList.data.member_playList} />
+      <MusicList musicList={musicList.data} handleLike={handleLike} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={musicList.pageInfo?.totalPages || 0}
+        onPageChange={handlePageChange}
+      />
     </HomeContainer>
   );
 };

@@ -3,7 +3,7 @@ package com.seb44main011.petplaylist.domain.music.controller;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
-import com.seb44main011.petplaylist.domain.music.service.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

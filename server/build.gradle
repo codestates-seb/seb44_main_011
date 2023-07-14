@@ -58,10 +58,21 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'com.jayway.jsonpath:json-path:2.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+
+	//s3 업로드
+	implementation 'software.amazon.awssdk:s3:2.17.41'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
+
+	//mp3 파일 리더 의존성
+	implementation 'javazoom:jlayer:1.0.1'
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+
 }
 
 // Task 및 설정 추가
@@ -69,13 +80,13 @@ tasks.named('test') {
 tasks.withType(GenerateSwaggerUI) {
 	dependsOn 'openapi3'
 
-	//기존 파일 삭제했다가, build 에 출력한 json 정적파일 복사 (안해도 됨 → local 확인용)
-//	delete file('src/main/resources/static/docs/')
-//	copy {
-//		from "build/resources/main/static/docs"
-//		into "src/main/resources/static/docs/"
-//
-//	}
+//	기존 파일 삭제했다가, build 에 출력한 json 정적파일 복사 (안해도 됨 → local 확인용)
+	delete file('src/main/resources/static/docs/')
+	copy {
+		from "build/resources/main/static/docs"
+		into "src/main/resources/static/docs/"
+
+	}
 }
 
 //openAPI 작성 자동화를 위해 패키징 전에 openapi3 테스크 선실행을 유발

@@ -1,12 +1,11 @@
 package com.seb44main011.petplaylist.domain.music.entity;
 
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 
 import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Entity(name="MUSIC")
@@ -14,20 +13,25 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Music extends BaseTimeEntity {
     @Builder
-    public Music(long musicId, String title, String music_url, String image_url, Category category, Tags tags, List<MusicList> personalPlayLists) {
+    public Music(long musicId, String title, String music_url, String image_url, String playtime, long view, Category category, Tags tags, List<PlayList> personalPlayLists) {
         this.musicId = musicId;
         this.title = title;
         this.music_url = music_url;
         this.image_url = image_url;
+        this.playtime = playtime;
+        this.view = view;
         this.category = category;
         this.tags = tags;
         this.personalPlayLists = personalPlayLists;
     }
 
 
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long musicId;
+    private Long musicId;
 
     @Column(nullable = false)
     private String title;
@@ -35,6 +39,8 @@ public class Music extends BaseTimeEntity {
     private String music_url;
     @Column(nullable = false)
     private String image_url;
+    @Column(nullable = false)
+    private String playtime;
 
     @Column
     private long view;
@@ -47,8 +53,12 @@ public class Music extends BaseTimeEntity {
     @Column(nullable = false)
     private Tags tags;
 
+    @Enumerated(value =  EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.ACTIVE;
+
     @OneToMany(mappedBy = "music",cascade = CascadeType.ALL)
-    private List<MusicList> personalPlayLists;
+    private List<PlayList> personalPlayLists;
 
     public enum Category{
         DOGS("dogs"),
@@ -61,13 +71,24 @@ public class Music extends BaseTimeEntity {
             this.category = category;
         }
     }
+    public enum Status{
+        ACTIVE("active"),
+        INACTIVE("inactive");
+
+        @Getter
+        private final String status;
+
+        Status(String status) {
+            this.status = status;
+        }
+    }
 
     public enum Tags{
-        RELAXING("편안한"),
-        UPBEAT("흥겨운"),
-        HAPPY("행복한"),
-        CALM("차분한"),
-        SERENE("고요한");
+        RELAXING("relaxing"),
+        UPBEAT("upbeat"),
+        HAPPY("happy"),
+        CALM("calm"),
+        SERENE("serene");
 
         @Getter
         private final String tags;
@@ -80,7 +101,18 @@ public class Music extends BaseTimeEntity {
         this.view++;
     }
 
+    public void insertMusic_url(String music_url) {
+        this.music_url = music_url;
+    }
 
+    public void insertImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+    public void insertPlaytime(String playtime) {
+        this.playtime = playtime;
+    }
 
-
+    public void convertStatus(Status status) {
+        this.status = status;
+    }
 }

@@ -4,16 +4,15 @@ import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.MusicList;
-import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PersonalPlayList;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
 
 
 public class TestData {
@@ -29,6 +28,7 @@ public class TestData {
                     .title(title)
                     .music_url(music_url)
                     .image_url(image_url)
+                    .playtime("3:20")
                     .build();
         }
         public static MusicDto.PublicResponse getPublicResponseData(){
@@ -37,7 +37,20 @@ public class TestData {
                     .title(title)
                     .music_url(music_url)
                     .image_url(image_url)
+                    .playtime("3:20")
                     .tags(Music.Category.DOGS.getCategory())
+                    .build();
+
+        }
+        public static MusicDto.ApiResponse getApiResponseData(){
+            return MusicDto.ApiResponse.builder()
+                    .musicId(1L)
+                    .title(title)
+                    .music_url(music_url)
+                    .image_url(image_url)
+                    .playtime("3:20")
+                    .tags(Music.Category.DOGS.getCategory())
+                    .liked(true)
                     .build();
 
         }
@@ -54,17 +67,17 @@ public class TestData {
         }
 
     }
-    public static class MockPersonalPlayList{
-        public static PersonalPlayList getPersonalPlayList(){
-            return PersonalPlayList.builder()
-                    .member(MemberTestData.MockMember.getMemberData())
-                    .build();
-        }
-    }
+    //    public static class MockPersonalPlayList{
+//        public static PersonalPlayList getPersonalPlayList(){
+//            return PersonalPlayList.builder()
+//                    .member(MemberTestData.MockMember.getMemberData())
+//                    .build();
+//        }
+//    }
     public static class MockMusicList{
-        public static MusicList getMusicListData(){
-            return MusicList.builder()
-                    .personalPlayList(TestData.MockPersonalPlayList.getPersonalPlayList())
+        public static PlayList getMusicListData(){
+            return PlayList.builder()
+                    .member(MemberTestData.MockMember.getMemberData())
                     .music(TestData.MockMusic.getMusicData())
                     .build();
         }
@@ -78,86 +91,140 @@ public class TestData {
             }
         }
         public static class Api {
-            public static PlaylistDto.ApiCategoryPlayListResponse getApiCategoryPlayListResponse() {
-                return PlaylistDto.ApiCategoryPlayListResponse.builder()
+            public static PlaylistDto.ApiResponse getApiCategoryPlayListResponse() {
+                return PlaylistDto.ApiResponse.builder()
                         .musicId(1L)
                         .title("노래제목입니다.")
                         .music_url("test.com/test/test.mp3")
                         .image_url("test.com/test/test.jpg")
+                        .playtime("3:20")
+                        .category(Music.Category.DOGS.getCategory())
+                        .tags(Music.Tags.RELAXING.getTags())
+                        .liked(true)
+                        .build();
+            }
+            public static PlaylistDto.ApiResponse getPlayListResponse() {
+                return PlaylistDto.ApiResponse.builder()
+                        .musicId(1L)
+                        .title("노래제목입니다.")
+                        .music_url("test.com/test/test.mp3")
+                        .image_url("test.com/test/test.jpg")
+                        .playtime("3:20")
                         .category(Music.Category.DOGS.getCategory())
                         .tags(Music.Tags.RELAXING.getTags())
                         .liked(true)
                         .build();
             }
 
-            public static List<PlaylistDto.ApiCategoryPlayListResponse> getApiCategoryPlayListResponseList() {
+            public static List<PlaylistDto.ApiResponse> getApiCategorySerchPlayListResponseList() {
                 return List.of(
                         getApiCategoryPlayListResponse(),
-                        PlaylistDto.ApiCategoryPlayListResponse.builder()
+                        PlaylistDto.ApiResponse.builder()
                                 .musicId(1L)
                                 .title("노래제목입니다.")
                                 .music_url("test.com/test2/test2.mp3")
                                 .image_url("test.com/test2/test2.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.DOGS.getCategory())
                                 .tags(Music.Tags.RELAXING.getTags())
                                 .liked(false)
                                 .build(),
-                        PlaylistDto.ApiCategoryPlayListResponse.builder()
+                        PlaylistDto.ApiResponse.builder()
                                 .musicId(1L)
                                 .title("노래제목입니다.")
                                 .music_url("test.com/test4/test4.mp3")
                                 .image_url("test.com/test4/test4.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.DOGS.getCategory())
                                 .tags(Music.Tags.RELAXING.getTags())
                                 .liked(true)
                                 .build()
                 );
             }
+            public static List<PlaylistDto.ApiResponse> getPlayListResponseList() {
+                return List.of(
+                        getPlayListResponse(),
+                        PlaylistDto.ApiResponse.builder()
+                                .musicId(2L)
+                                .title("노래제목입니다.")
+                                .music_url("test.com/test2/test2.mp3")
+                                .image_url("test.com/test2/test2.jpg")
+                                .playtime("3:20")
+                                .category(Music.Category.DOGS.getCategory())
+                                .tags(Music.Tags.RELAXING.getTags())
+                                .liked(true)
+                                .build(),
+                        PlaylistDto.ApiResponse.builder()
+                                .musicId(3L)
+                                .title("노래제목입니다.")
+                                .playtime("3:20")
+                                .music_url("test.com/test4/test4.mp3")
+                                .image_url("test.com/test4/test4.jpg")
+                                .category(Music.Category.DOGS.getCategory())
+                                .tags(Music.Tags.HAPPY.getTags())
+                                .liked(true)
+                                .build(),
+                        PlaylistDto.ApiResponse.builder()
+                                .musicId(4L)
+                                .title("노래제목입니다")
+                                .music_url("test.com/test2/test4.mp3")
+                                .image_url("test.com/test2/test4.jpg")
+                                .playtime("3:20")
+                                .category(Music.Category.CATS.getCategory())
+                                .tags(Music.Tags.HAPPY.getTags())
+                                .build()
+                );
+            }
         }
 
         public static class Public{
-            public static PlaylistDto.PublicCategoryPlayListResponse getPublicCategoryPlayListResponse(){
-                return PlaylistDto.PublicCategoryPlayListResponse.builder()
+            public static PlaylistDto.PublicResponse getPublicCategoryPlayListResponse(){
+                return PlaylistDto.PublicResponse.builder()
                         .musicId(1L)
                         .title("노래제목입니다.")
                         .music_url("test.com/test/test.mp3")
                         .image_url("test.com/test/test.jpg")
+                        .playtime("3:20")
                         .category(Music.Category.CATS.getCategory())
                         .tags(Music.Tags.HAPPY.getTags())
                         .build();
             }
 
-            public static List<PlaylistDto.PublicCategoryPlayListResponse> getPublicCategoryPlayListResponseList(){
+            public static List<PlaylistDto.PublicResponse> getPublicCategoryPlayListResponseList(){
                 return List.of(
-                        PlaylistDto.PublicCategoryPlayListResponse.builder()
+                        PlaylistDto.PublicResponse.builder()
                                 .musicId(7L)
                                 .title("7번째 곡")
                                 .music_url("test.com/test1/test1.mp3")
                                 .image_url("test.com/test1/test1.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build(),
-                        PlaylistDto.PublicCategoryPlayListResponse.builder()
+                        PlaylistDto.PublicResponse.builder()
                                 .musicId(8L)
                                 .title("8번째 곡")
                                 .music_url("test.com/test2/test2.mp3")
                                 .image_url("test.com/test2/test2.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build(),
-                        PlaylistDto.PublicCategoryPlayListResponse.builder()
+                        PlaylistDto.PublicResponse.builder()
                                 .musicId(9L)
                                 .title("9번째 곡")
                                 .music_url("test.com/test2/test3.mp3")
                                 .image_url("test.com/test2/test3.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build(),
-                        PlaylistDto.PublicCategoryPlayListResponse.builder()
+                        PlaylistDto.PublicResponse.builder()
                                 .musicId(10L)
                                 .title("10번째 곡")
                                 .music_url("test.com/test2/test4.mp3")
                                 .image_url("test.com/test2/test4.jpg")
+                                .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build()
@@ -167,4 +234,3 @@ public class TestData {
         }
     }
 }
-
