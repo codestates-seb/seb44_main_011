@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-/server
+
 .env
+# Server/.gitignore
+# @author 신영호
+.github/workflows/
