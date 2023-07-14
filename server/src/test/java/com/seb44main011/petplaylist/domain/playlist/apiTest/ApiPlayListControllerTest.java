@@ -50,7 +50,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     @Autowired
     private MockMvc mockMvc;
@@ -64,17 +63,14 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     @MockBean
     private MusicListService musicListService;
 
-    @MockBean
-    private MusicListRepository musicListRepository;
-
-    @MockBean
-    private MusicRepository musicRepository;
+//    @MockBean
+//    private MusicListRepository musicListRepository;
+//
+//    @MockBean
+//    private MusicRepository musicRepository;
 
     @MockBean
     private MusicListMapper musicListMapper;
-    @MockBean
-    private S3Service service;
-
     private final String API_PLAYLIST_URL = "/api/playlist";
     private final String API_PLAYLIST_GET_URL = "/api/playlist/{dogOrCats}/id/{member-id}";
     private List<PlaylistDto.ApiResponse> pageContentResponse;
