@@ -10,6 +10,7 @@ import com.seb44main011.petplaylist.domain.comment.service.CommentService;
 import com.seb44main011.petplaylist.domain.comment.stub.CommentTestData;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.global.common.MultiResponseDto;
 import org.junit.jupiter.api.DisplayName;
@@ -26,6 +27,7 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -67,11 +69,13 @@ class CommentControllerTest {
 
     @MockBean
     private CommentMapper commentMapper;
+    @MockBean
+    private S3Service s3service;
 
 
     @Test
     @DisplayName("댓글 작성 테스트")
-
+    @WithMockUser
     void postCommentTest() throws Exception {
 
         Comment commentData = CommentTestData.MockComment.getCommentData();
@@ -129,6 +133,7 @@ class CommentControllerTest {
 
     @Test
     @DisplayName("댓글 수정 테스트")
+    @WithMockUser
     void patchCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
         String context = gson.toJson(CommentDto.Patch.builder()
@@ -172,6 +177,7 @@ class CommentControllerTest {
 
     @Test
     @DisplayName("댓글 삭제 테스트")
+    @WithMockUser
     void deleteCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
 
@@ -206,6 +212,7 @@ class CommentControllerTest {
 
     @Test
     @DisplayName("댓글리스트 조회 테스트")
+    @WithMockUser
     void getCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
         Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1,6);

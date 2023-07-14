@@ -10,6 +10,7 @@ import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.global.MusicFieldDescriptor;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -48,10 +50,13 @@ public class MusicApiControllerTest extends MusicFieldDescriptor {
     private MemberService memberService;
     @MockBean
     private MusicMapper mapper;
+    @MockBean
+    private S3Service s3service;
 
     private final String API_MUSIC_URL = "/api/musics/{member-id}";
     @Test
     @DisplayName("인증된 사용자의 음악 상세 조회")
+    @WithMockUser
     void getPublicMusicFromTitle() throws Exception {
         //given
         MusicDto.ApiResponse response = TestData.MockMusic.getApiResponseData();

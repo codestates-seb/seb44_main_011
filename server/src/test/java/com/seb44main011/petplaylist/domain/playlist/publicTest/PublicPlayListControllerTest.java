@@ -8,6 +8,7 @@ import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
@@ -24,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
@@ -54,6 +56,8 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
 
     @MockBean
     private MusicListMapper musicListMapper;
+    @MockBean
+    private S3Service service;
 
 
     private final String PUBLIC_PLAYLIST_URL = "/public/playlist";
@@ -66,6 +70,7 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
 
     @Test
     @DisplayName("비회원 전체 플레이 리스트 조회 테스트")
+    @WithMockUser
     public void getAllMusicListTest() throws Exception{
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(2,publicResponseList.size()+6);
 
@@ -103,6 +108,7 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
 
     @Test
     @DisplayName("카테고리 태그별 조회 테스트(비 로그인)")
+    @WithMockUser
     public void getCategoryAndTagFromMemberTest() throws Exception {
 
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(2,publicResponseList.size()+46);

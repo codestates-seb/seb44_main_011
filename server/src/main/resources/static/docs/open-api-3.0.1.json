@@ -10,6 +10,48 @@
   } ],
   "tags" : [ ],
   "paths" : {
+    "/api/playlist" : {
+      "get" : {
+        "tags" : [ "api" ],
+        "summary" : "회원의 전체 음악 리스트 조회 기능 API",
+        "description" : "회원의 전체 음악 리스트 조회 기능 API",
+        "operationId" : "회원의 전체 음악 리스트 조회 기능",
+        "parameters" : [ {
+          "name" : "member-id",
+          "in" : "query",
+          "description" : "회원 식별 Id",
+          "required" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "가져올 페이지 숫자",
+          "required" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-playlist651717824"
+                },
+                "examples" : {
+                  "회원의 전체 음악 리스트 조회 기능" : {
+                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 1,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test/test.mp3\",\n    \"image_url\" : \"test.com/test/test.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 2,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 3,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test4/test4.mp3\",\n    \"image_url\" : \"test.com/test4/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"happy\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 4,\n    \"title\" : \"노래제목입니다\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\",\n    \"liked\" : false\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 4,\n    \"totalPages\" : 1\n  }\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/members/{member-id}" : {
       "get" : {
         "tags" : [ "api" ],
@@ -31,11 +73,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-members-member-id775592164"
+                  "$ref" : "#/components/schemas/api-members-member-id-494690480"
                 },
                 "examples" : {
                   "회원조회 예제" : {
-                    "value" : "{\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"name\" : \"내가바로홍길동\",\r\n  \"musicLists\" : [ {\r\n    \"musicId\" : 7,\r\n    \"title\" : \"7번째 곡\",\r\n    \"music_url\" : \"test.com/test1/test1.mp3\",\r\n    \"image_url\" : \"test.com/test1/test1.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 8,\r\n    \"title\" : \"8번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 9,\r\n    \"title\" : \"9번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test3.mp3\",\r\n    \"image_url\" : \"test.com/test2/test3.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 10,\r\n    \"title\" : \"10번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  } ]\r\n}"
+                    "value" : "{\n  \"email\" : \"hgd@gmail.com\",\n  \"name\" : \"내가바로홍길동\",\n  \"musicLists\" : [ {\n    \"musicId\" : 7,\n    \"title\" : \"7번째 곡\",\n    \"music_url\" : \"test.com/test1/test1.mp3\",\n    \"image_url\" : \"test.com/test1/test1.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 8,\n    \"title\" : \"8번째 곡\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 9,\n    \"title\" : \"9번째 곡\",\n    \"music_url\" : \"test.com/test2/test3.mp3\",\n    \"image_url\" : \"test.com/test2/test3.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 10,\n    \"title\" : \"10번째 곡\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  } ]\n}"
                   }
                 }
               }
@@ -65,7 +107,7 @@
               },
               "examples" : {
                 "회원탈퇴 예제" : {
-                  "value" : "{\r\n  \"password\" : \"a12341234\"\r\n}"
+                  "value" : "{\n  \"password\" : \"a12341234\"\n}"
                 }
               }
             }
@@ -99,7 +141,7 @@
               },
               "examples" : {
                 "회원정보 수정 테스트" : {
-                  "value" : "{\r\n  \"name\" : \"내가진짜홍길동\",\r\n  \"profile\" : \"수정된 프로필 이미지\"\r\n}"
+                  "value" : "{\n  \"name\" : \"내가진짜홍길동\",\n  \"profile\" : \"수정된 프로필 이미지\"\n}"
                 }
               }
             }
@@ -115,7 +157,60 @@
                 },
                 "examples" : {
                   "회원정보 수정 테스트" : {
-                    "value" : "{\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"name\" : \"내가진짜홍길동\",\r\n  \"profile\" : \"수정된 프로필 이미지\"\r\n}"
+                    "value" : "{\n  \"email\" : \"hgd@gmail.com\",\n  \"name\" : \"내가진짜홍길동\",\n  \"profile\" : \"수정된 프로필 이미지\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/musics/{member-id}" : {
+      "get" : {
+        "tags" : [ "api" ],
+        "summary" : "(로그인 상태)사용자의 음악 상세 조회",
+        "description" : "(로그인 상태)사용자의 음악 상세 조회",
+        "operationId" : "(로그인 상태)사용자의 음악 상세 조회(곡 ",
+        "parameters" : [ {
+          "name" : "member-id",
+          "in" : "path",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "music_id",
+          "in" : "query",
+          "description" : "검색을 위한 음악의 id",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "music_name",
+          "in" : "query",
+          "description" : "검색을 위한 음악의 이름",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/api-musics-member-id-1646314032"
+                },
+                "examples" : {
+                  "(로그인 상태)사용자의 음악 상세 조회(곡 id)" : {
+                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\",\n  \"liked\" : true\n}"
+                  },
+                  "(로그인 상태)사용자의 음악 상세 조회(곡 제목)" : {
+                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\",\n  \"liked\" : true\n}"
                   }
                 }
               }
@@ -153,11 +248,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist-member-id452722795"
+                  "$ref" : "#/components/schemas/api-playlist651717824"
                 },
                 "examples" : {
                   "회원의 개인 플레이 리스트 조회(좋아요 리스트)" : {
-                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 1,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test/test.mp3\",\r\n    \"image_url\" : \"test.com/test/test.jpg\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 2,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 3,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test4/test4.mp3\",\r\n    \"image_url\" : \"test.com/test4/test4.jpg\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"happy\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 4,\r\n    \"title\" : \"노래제목입니다\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\",\r\n    \"liked\" : false\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 4,\r\n    \"totalPages\" : 1\r\n  }\r\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 1,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test/test.mp3\",\n    \"image_url\" : \"test.com/test/test.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 2,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 3,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test4/test4.mp3\",\n    \"image_url\" : \"test.com/test4/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"happy\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 4,\n    \"title\" : \"노래제목입니다\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\",\n    \"liked\" : false\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 4,\n    \"totalPages\" : 1\n  }\n}"
                   }
                 }
               }
@@ -187,7 +282,7 @@
               },
               "examples" : {
                 "개인 플레이 리스트(좋아요)에 곡 추가" : {
-                  "value" : "{\r\n  \"musicId\" : 1\r\n}"
+                  "value" : "{\n  \"musicId\" : 1\n}"
                 }
               }
             }
@@ -221,7 +316,7 @@
               },
               "examples" : {
                 "개인 플레이 리스트(좋아요) 곡 삭제" : {
-                  "value" : "{\r\n  \"musicId\" : 1\r\n}"
+                  "value" : "{\n  \"musicId\" : 1\n}"
                 }
               }
             }
@@ -257,7 +352,7 @@
               },
               "examples" : {
                 "인증된 사용자의 댓글 작성" : {
-                  "value" : "{\r\n  \"memberId\" : 1,\r\n  \"musicId\" : 1,\r\n  \"comment\" : \"댓글입니다.\"\r\n}"
+                  "value" : "{\n  \"memberId\" : 1,\n  \"musicId\" : 1,\n  \"comment\" : \"댓글입니다.\"\n}"
                 }
               }
             }
@@ -273,7 +368,7 @@
                 },
                 "examples" : {
                   "인증된 사용자의 댓글 작성" : {
-                    "value" : "{\r\n  \"commentId\" : 1,\r\n  \"musicId\" : 1,\r\n  \"name\" : \"네임\",\r\n  \"comment\" : \"내용\",\r\n  \"createdAt\" : \"2023-07-12T15:15:18.6343573\",\r\n  \"modifiedAt\" : \"2023-07-12T15:15:18.6343573\"\r\n}"
+                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-14T10:20:54.402613\",\n  \"modifiedAt\" : \"2023-07-14T10:20:54.402629\"\n}"
                   }
                 }
               }
@@ -341,7 +436,7 @@
               },
               "examples" : {
                 "인증된 사용자의 댓글 수정" : {
-                  "value" : "{\r\n  \"commentId\" : 1,\r\n  \"comment\" : \"수정 코멘트\"\r\n}"
+                  "value" : "{\n  \"commentId\" : 1,\n  \"comment\" : \"수정 코멘트\"\n}"
                 }
               }
             }
@@ -399,11 +494,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist-member-id452722795"
+                  "$ref" : "#/components/schemas/api-playlist651717824"
                 },
                 "examples" : {
                   "카테고리 테크별 조회 API(로그인 된 회원)" : {
-                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 1,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test/test.mp3\",\r\n    \"image_url\" : \"test.com/test/test.jpg\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 1,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : false\r\n  }, {\r\n    \"musicId\" : 1,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test4/test4.mp3\",\r\n    \"image_url\" : \"test.com/test4/test4.jpg\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 53,\r\n    \"totalPages\" : 9\r\n  }\r\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 1,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test/test.mp3\",\n    \"image_url\" : \"test.com/test/test.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 2,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 3,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test4/test4.mp3\",\n    \"image_url\" : \"test.com/test4/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"happy\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 4,\n    \"title\" : \"노래제목입니다\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\",\n    \"liked\" : false\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 54,\n    \"totalPages\" : 9\n  }\n}"
                   }
                 }
               }
@@ -419,18 +514,18 @@
         "description" : "인증되지 않은 사용자의 음악 상세 조회",
         "operationId" : "인증되지 않은 사용자의 음악 상세 조회(곡 ",
         "parameters" : [ {
-          "name" : "music_id",
+          "name" : "music_name",
           "in" : "query",
-          "description" : "검색을 위한 음악의 id",
-          "required" : true,
+          "description" : "검색을 위한 음악의 이름",
+          "required" : false,
           "schema" : {
             "type" : "string"
           }
         }, {
-          "name" : "music_name",
+          "name" : "music_id",
           "in" : "query",
-          "description" : "검색을 위한 음악의 이름",
-          "required" : true,
+          "description" : "검색을 위한 음악의 id",
+          "required" : false,
           "schema" : {
             "type" : "string"
           }
@@ -441,14 +536,14 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/public-musics1687916599"
+                  "$ref" : "#/components/schemas/public-musics1039852064"
                 },
                 "examples" : {
-                  "인증되지 않은 사용자의 음악 상세 조회(곡 id)" : {
-                    "value" : "{\r\n  \"musicId\" : 1,\r\n  \"title\" : \"곡의 이름입니다\",\r\n  \"music_url\" : \"/music/test.mp3\",\r\n  \"image_url\" : \"/img/test.jpg\",\r\n  \"tags\" : \"dogs\"\r\n}"
-                  },
                   "인증되지 않은 사용자의 음악 상세 조회(곡 제목)" : {
-                    "value" : "{\r\n  \"musicId\" : 1,\r\n  \"title\" : \"곡의 이름입니다\",\r\n  \"music_url\" : \"/music/test.mp3\",\r\n  \"image_url\" : \"/img/test.jpg\",\r\n  \"tags\" : \"dogs\"\r\n}"
+                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\"\n}"
+                  },
+                  "인증되지 않은 사용자의 음악 상세 조회(곡 id)" : {
+                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\"\n}"
                   }
                 }
               }
@@ -478,11 +573,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/public-playlist-152598876"
+                  "$ref" : "#/components/schemas/public-playlist-820289437"
                 },
                 "examples" : {
                   "전체 플레이 리스트 조회 API(비 로그인)" : {
-                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 7,\r\n    \"title\" : \"7번째 곡\",\r\n    \"music_url\" : \"test.com/test1/test1.mp3\",\r\n    \"image_url\" : \"test.com/test1/test1.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 8,\r\n    \"title\" : \"8번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 9,\r\n    \"title\" : \"9번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test3.mp3\",\r\n    \"image_url\" : \"test.com/test2/test3.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 10,\r\n    \"title\" : \"10번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 2,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 10,\r\n    \"totalPages\" : 2\r\n  }\r\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 7,\n    \"title\" : \"7번째 곡\",\n    \"music_url\" : \"test.com/test1/test1.mp3\",\n    \"image_url\" : \"test.com/test1/test1.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 8,\n    \"title\" : \"8번째 곡\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 9,\n    \"title\" : \"9번째 곡\",\n    \"music_url\" : \"test.com/test2/test3.mp3\",\n    \"image_url\" : \"test.com/test2/test3.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 10,\n    \"title\" : \"10번째 곡\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 2,\n    \"size\" : 6,\n    \"totalElements\" : 10,\n    \"totalPages\" : 2\n  }\n}"
                   }
                 }
               }
@@ -505,7 +600,7 @@
               },
               "examples" : {
                 "회원가입 예제" : {
-                  "value" : "{\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"password\" : \"a12341234\",\r\n  \"name\" : \"내가바로홍길동\"\r\n}"
+                  "value" : "{\n  \"email\" : \"hgd@gmail.com\",\n  \"password\" : \"a12341234\",\n  \"name\" : \"내가바로홍길동\"\n}"
                 }
               }
             }
@@ -521,7 +616,7 @@
                 },
                 "examples" : {
                   "회원가입 예제" : {
-                    "value" : "{\r\n  \"memberId\" : 1,\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"name\" : \"내가바로홍길동\"\r\n}"
+                    "value" : "{\n  \"memberId\" : 1,\n  \"email\" : \"hgd@gmail.com\",\n  \"name\" : \"내가바로홍길동\"\n}"
                   }
                 }
               }
@@ -567,11 +662,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/public-playlist-152598876"
+                  "$ref" : "#/components/schemas/public-playlist-820289437"
                 },
                 "examples" : {
                   "카테고리 테크별 조회 API(비 로그인)" : {
-                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 7,\r\n    \"title\" : \"7번째 곡\",\r\n    \"music_url\" : \"test.com/test1/test1.mp3\",\r\n    \"image_url\" : \"test.com/test1/test1.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 8,\r\n    \"title\" : \"8번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 9,\r\n    \"title\" : \"9번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test3.mp3\",\r\n    \"image_url\" : \"test.com/test2/test3.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 10,\r\n    \"title\" : \"10번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 2,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 50,\r\n    \"totalPages\" : 9\r\n  }\r\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 7,\n    \"title\" : \"7번째 곡\",\n    \"music_url\" : \"test.com/test1/test1.mp3\",\n    \"image_url\" : \"test.com/test1/test1.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 8,\n    \"title\" : \"8번째 곡\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 9,\n    \"title\" : \"9번째 곡\",\n    \"music_url\" : \"test.com/test2/test3.mp3\",\n    \"image_url\" : \"test.com/test2/test3.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 10,\n    \"title\" : \"10번째 곡\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 2,\n    \"size\" : 6,\n    \"totalElements\" : 50,\n    \"totalPages\" : 9\n  }\n}"
                   }
                 }
               }
@@ -613,7 +708,7 @@
                 },
                 "examples" : {
                   "해당 곡의 전체 댓글조회" : {
-                    "value" : "{\r\n  \"data\" : [ {\r\n    \"commentId\" : 1,\r\n    \"musicId\" : 1,\r\n    \"name\" : \"네임\",\r\n    \"comment\" : \"내용\",\r\n    \"createdAt\" : \"2023-07-10T18:06:41.2218266\",\r\n    \"modifiedAt\" : \"2023-07-10T18:06:41.2218266\"\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 6,\r\n    \"totalPages\" : 1\r\n  }\r\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-14T10:20:54.484245\",\n    \"modifiedAt\" : \"2023-07-14T10:20:54.484255\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
                   }
                 }
               }
@@ -631,66 +726,6 @@
           "password" : {
             "type" : "string",
             "description" : "비밀번호"
-          }
-        }
-      },
-      "public-playlist-152598876" : {
-        "type" : "object",
-        "properties" : {
-          "data" : {
-            "type" : "array",
-            "description" : "결과 데이터",
-            "items" : {
-              "type" : "object",
-              "properties" : {
-                "music_url" : {
-                  "type" : "string",
-                  "description" : "음악의 URL"
-                },
-                "musicId" : {
-                  "type" : "number",
-                  "description" : "음악 식별 Id"
-                },
-                "image_url" : {
-                  "type" : "string",
-                  "description" : "음악 이미지의 URL"
-                },
-                "category" : {
-                  "type" : "string",
-                  "description" : "조회한 카테고리"
-                },
-                "title" : {
-                  "type" : "string",
-                  "description" : "음악 타이틀(제목)"
-                },
-                "tags" : {
-                  "type" : "string",
-                  "description" : "조회한 태그"
-                }
-              }
-            }
-          },
-          "pageInfo" : {
-            "type" : "object",
-            "properties" : {
-              "size" : {
-                "type" : "number",
-                "description" : "한 페이지에 속하는 데이터 개수"
-              },
-              "totalPages" : {
-                "type" : "number",
-                "description" : "전체 페이지 개수"
-              },
-              "page" : {
-                "type" : "number",
-                "description" : "현재 페이지"
-              },
-              "totalElements" : {
-                "type" : "number",
-                "description" : "전체 데이터 개수"
-              }
-            },
-            "description" : "페이징 정보"
           }
         }
       },
@@ -741,31 +776,6 @@
           }
         }
       },
-      "public-musics1687916599" : {
-        "type" : "object",
-        "properties" : {
-          "music_url" : {
-            "type" : "string",
-            "description" : "곡 url"
-          },
-          "musicId" : {
-            "type" : "number",
-            "description" : "곡 식별 Id"
-          },
-          "image_url" : {
-            "type" : "string",
-            "description" : "이미지 url"
-          },
-          "title" : {
-            "type" : "string",
-            "description" : "곡 이름"
-          },
-          "tags" : {
-            "type" : "string",
-            "description" : "곡의 태그"
-          }
-        }
-      },
       "public-signup-1374076140" : {
         "type" : "object",
         "properties" : {
@@ -780,6 +790,39 @@
           "email" : {
             "type" : "string",
             "description" : "사용자 이메일"
+          }
+        }
+      },
+      "api-musics-member-id-1646314032" : {
+        "type" : "object",
+        "properties" : {
+          "music_url" : {
+            "type" : "string",
+            "description" : "곡 url"
+          },
+          "musicId" : {
+            "type" : "number",
+            "description" : "곡 식별 Id"
+          },
+          "image_url" : {
+            "type" : "string",
+            "description" : "이미지 url"
+          },
+          "playtime" : {
+            "type" : "string",
+            "description" : "재생 시간"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "곡 이름"
+          },
+          "liked" : {
+            "type" : "boolean",
+            "description" : "좋아요 여부"
+          },
+          "tags" : {
+            "type" : "string",
+            "description" : "곡의 태그"
           }
         }
       },
@@ -802,6 +845,56 @@
           "musicId" : {
             "type" : "number",
             "description" : "음악 식별 Id"
+          }
+        }
+      },
+      "api-members-member-id-494690480" : {
+        "type" : "object",
+        "properties" : {
+          "musicLists" : {
+            "type" : "array",
+            "description" : "뮤직리스트",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "music_url" : {
+                  "type" : "string",
+                  "description" : "곡 저장 위치"
+                },
+                "musicId" : {
+                  "type" : "number",
+                  "description" : "음악 식별자"
+                },
+                "image_url" : {
+                  "type" : "string",
+                  "description" : "곡 이미지 저장 위치"
+                },
+                "playtime" : {
+                  "type" : "string",
+                  "description" : "곡 재생 시간"
+                },
+                "category" : {
+                  "type" : "string",
+                  "description" : "카테고리"
+                },
+                "title" : {
+                  "type" : "string",
+                  "description" : "곡 이름"
+                },
+                "tags" : {
+                  "type" : "string",
+                  "description" : "태그"
+                }
+              }
+            }
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "닉네임"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "이메일"
           }
         }
       },
@@ -882,7 +975,7 @@
           }
         }
       },
-      "api-playlist-member-id452722795" : {
+      "api-playlist651717824" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -903,6 +996,10 @@
                   "type" : "string",
                   "description" : "음악 이미지의 URL"
                 },
+                "playtime" : {
+                  "type" : "string",
+                  "description" : "재생 시간"
+                },
                 "category" : {
                   "type" : "string",
                   "description" : "조회한 카테고리"
@@ -914,6 +1011,70 @@
                 "liked" : {
                   "type" : "boolean",
                   "description" : "좋아요 여부(개인 플레이 리스트)"
+                },
+                "tags" : {
+                  "type" : "string",
+                  "description" : "조회한 태그"
+                }
+              }
+            }
+          },
+          "pageInfo" : {
+            "type" : "object",
+            "properties" : {
+              "size" : {
+                "type" : "number",
+                "description" : "한 페이지에 속하는 데이터 개수"
+              },
+              "totalPages" : {
+                "type" : "number",
+                "description" : "전체 페이지 개수"
+              },
+              "page" : {
+                "type" : "number",
+                "description" : "현재 페이지"
+              },
+              "totalElements" : {
+                "type" : "number",
+                "description" : "전체 데이터 개수"
+              }
+            },
+            "description" : "페이징 정보"
+          }
+        }
+      },
+      "public-playlist-820289437" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "description" : "결과 데이터",
+            "items" : {
+              "type" : "object",
+              "properties" : {
+                "music_url" : {
+                  "type" : "string",
+                  "description" : "음악의 URL"
+                },
+                "musicId" : {
+                  "type" : "number",
+                  "description" : "음악 식별 Id"
+                },
+                "image_url" : {
+                  "type" : "string",
+                  "description" : "음악 이미지의 URL"
+                },
+                "playtime" : {
+                  "type" : "string",
+                  "description" : "재생시간"
+                },
+                "category" : {
+                  "type" : "string",
+                  "description" : "조회한 카테고리"
+                },
+                "title" : {
+                  "type" : "string",
+                  "description" : "음악 타이틀(제목)"
                 },
                 "tags" : {
                   "type" : "string",
@@ -975,49 +1136,32 @@
           }
         }
       },
-      "api-members-member-id775592164" : {
+      "public-musics1039852064" : {
         "type" : "object",
         "properties" : {
-          "musicLists" : {
-            "type" : "array",
-            "description" : "뮤직리스트",
-            "items" : {
-              "type" : "object",
-              "properties" : {
-                "music_url" : {
-                  "type" : "string",
-                  "description" : "곡 저장 위치"
-                },
-                "musicId" : {
-                  "type" : "number",
-                  "description" : "음악 식별자"
-                },
-                "image_url" : {
-                  "type" : "string",
-                  "description" : "곡 이미지 저장 위치"
-                },
-                "category" : {
-                  "type" : "string",
-                  "description" : "카테고리"
-                },
-                "title" : {
-                  "type" : "string",
-                  "description" : "곡 이름"
-                },
-                "tags" : {
-                  "type" : "string",
-                  "description" : "태그"
-                }
-              }
-            }
-          },
-          "name" : {
+          "music_url" : {
             "type" : "string",
-            "description" : "닉네임"
+            "description" : "곡 url"
           },
-          "email" : {
+          "musicId" : {
+            "type" : "number",
+            "description" : "곡 식별 Id"
+          },
+          "image_url" : {
             "type" : "string",
-            "description" : "이메일"
+            "description" : "이미지 url"
+          },
+          "playtime" : {
+            "type" : "string",
+            "description" : "재생 시간"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "곡 이름"
+          },
+          "tags" : {
+            "type" : "string",
+            "description" : "곡의 태그"
           }
         }
       }

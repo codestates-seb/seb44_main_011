@@ -6,6 +6,8 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.seb44main011.petplaylist.domain.music.util.ByteArrayInputStreamUtil;
 import com.seb44main011.petplaylist.domain.music.util.MP3DurationCalculator;
+import com.seb44main011.petplaylist.global.error.BusinessLogicException;
+import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import javazoom.jl.decoder.Bitstream;
 import javazoom.jl.decoder.BitstreamException;
 import lombok.SneakyThrows;
@@ -13,9 +15,10 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
+import java.io.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static com.seb44main011.petplaylist.domain.music.constant.StorageConstants.BUCKET_MUSIC_PATH;
@@ -24,13 +27,17 @@ import static com.seb44main011.petplaylist.domain.music.constant.StorageConstant
 
 
 @Service
-public class S3Service extends ByteArrayInputStreamUtil implements StorageService{
+public class S3Service extends ByteArrayInputStreamUtil implements StorageService<List<String>,List<MultipartFile>>{
 
 
     private final AmazonS3 amazonS3Client;
 
+    @Value("${cloud.aws.s3.dns}")
+    private String S3_SERVER_DNS;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
+    @Value("${cloud.aws.s3.disable-path}")
+    private String convertPath;
 
     private final Map<String,String> mapMusicUrl =new HashMap<>();
 
@@ -48,6 +55,36 @@ public class S3Service extends ByteArrayInputStreamUtil implements StorageServic
         return mapMusicUrl;
     }
 
+    @Override
+    public Map<String,String> deactivateFile(List<String> urlList) {
+        for (String convertUrl: urlList) {
+            String deactivateFile= deactivateS3File(convertUrl);
+            setMusicFileUrl(deactivateFile,MUSIC_FILE_TYPE);
+        }
+        return mapMusicUrl;
+    }
+
+    @SneakyThrows
+    private String deactivateS3File(String url) {
+        String getOldName = getOldFilePath(url);
+        String getNewName = setConvertFilePath(getOldName);
+        return moveS3(getOldName,getNewName);
+    }
+
+
+    private String setConvertFilePath(String musicUrl)  {
+            return convertPath+musicUrl;
+    }
+
+    private String getOldFilePath(String musicUrl) {
+        if (musicUrl.startsWith(S3_SERVER_DNS+BUCKET_IMG_PATH)){
+            return musicUrl.replaceAll(".*/img/", BUCKET_IMG_PATH);
+        }
+        else if (musicUrl.startsWith(S3_SERVER_DNS+BUCKET_MUSIC_PATH)){
+            return musicUrl.replaceAll(".*/music/", BUCKET_MUSIC_PATH);
+        }
+        throw new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND_INS3);
+    }
 
 
     private void setMusicFileUrl(String key, String ext) {
@@ -107,6 +144,18 @@ public class S3Service extends ByteArrayInputStreamUtil implements StorageServic
         objectMetadata.setContentType(multipartFile.getContentType());
         objectMetadata.setContentLength(multipartFile.getSize());
         return objectMetadata;
+    }
+    private String moveS3(String oldSource, String newSource){
+        oldSource = URLDecoder.decode(oldSource, StandardCharsets.UTF_8);
+        newSource = URLDecoder.decode(newSource, StandardCharsets.UTF_8);
+        amazonS3Client.copyObject(bucket, oldSource, bucket, newSource);
+        deleteS3(oldSource);
+        return newSource;
+    }
+
+    private void deleteS3(String source) {
+
+        amazonS3Client.deleteObject(bucket, source);
     }
 
 
