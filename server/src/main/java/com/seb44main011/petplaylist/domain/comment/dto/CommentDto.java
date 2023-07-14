@@ -38,6 +38,7 @@ public class CommentDto {
         private Long musicId;
         private String name;
         private String comment;
+        private String profile;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

@@ -82,7 +82,7 @@ class CommentControllerTest {
 
         //given
         CommentDto.Post post = new CommentDto.Post(1L, 1L, "댓글입니다.");
-        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, "네임", "내용", LocalDateTime.now(), LocalDateTime.now());
+        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now());
 
         given(commentService.saveComment(Mockito.any(CommentDto.Post.class)))
                 .willReturn(responseComment);
@@ -120,6 +120,7 @@ class CommentControllerTest {
                                                         PayloadDocumentation.fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
                                                         PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 닉네임"),
                                                         PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용"),
+                                                        PayloadDocumentation.fieldWithPath("profile").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
                                                         PayloadDocumentation.fieldWithPath("createdAt").type(JsonFieldType.STRING).description("작성 시간"),
                                                         PayloadDocumentation.fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정 시간")
                                                 )
@@ -217,7 +218,7 @@ class CommentControllerTest {
         Comment commentData = CommentTestData.MockComment.getCommentData();
         Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1,6);
         List<CommentDto.Response> responseList = new ArrayList<>();
-        responseList.add(new CommentDto.Response(1L, 1L, "네임", "내용", LocalDateTime.now(), LocalDateTime.now()));
+        responseList.add(new CommentDto.Response(1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now()));
 
         MultiResponseDto multiResponseDto = new MultiResponseDto(responseList, commentPageData);
 
@@ -256,6 +257,7 @@ class CommentControllerTest {
                                                         PayloadDocumentation.fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
                                                         PayloadDocumentation.fieldWithPath("data.[].name").type(JsonFieldType.STRING).description("사용자 닉네임"),
                                                         PayloadDocumentation.fieldWithPath("data.[].comment").type(JsonFieldType.STRING).description("댓글 내용"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].profile").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
                                                         PayloadDocumentation.fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성시간"),
                                                         PayloadDocumentation.fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
                                                         PayloadDocumentation.fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),

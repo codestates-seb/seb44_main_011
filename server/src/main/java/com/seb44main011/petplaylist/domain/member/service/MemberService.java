@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final StorageService storageService;
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
@@ -86,5 +88,12 @@ public class MemberService {
 
         return findMember.orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    public void setMemberProfileImage(long memberId, MultipartFile profileImage) {
+        Member targetMember = findMember(memberId);
+        targetMember.setProfile(profileImage.getOriginalFilename());
+        storageService.store(profileImage);
+        memberRepository.save(targetMember);
     }
 }

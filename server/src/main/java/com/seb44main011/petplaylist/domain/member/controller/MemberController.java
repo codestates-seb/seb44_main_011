@@ -4,12 +4,15 @@ import com.seb44main011.petplaylist.domain.member.dto.MemberDto;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.mapper.MemberMapper;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
+import com.seb44main011.petplaylist.domain.member.service.StorageService;
 import com.seb44main011.petplaylist.global.common.SingleResponseDto;
 import com.seb44main011.petplaylist.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -63,5 +66,12 @@ public class MemberController {
         URI location = UriCreator.createUri("/public/signup");
 
         return ResponseEntity.ok().location(location).build();
+    }
+
+    @PostMapping(value = "/api/members/{member-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity setMemberProfile(@RequestPart MultipartFile profileImage) {
+
+
+        return ResponseEntity.ok().build();
     }
 }
