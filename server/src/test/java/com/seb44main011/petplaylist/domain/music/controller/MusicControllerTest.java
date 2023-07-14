@@ -7,6 +7,7 @@ import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.global.MusicFieldDescriptor;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -45,6 +47,8 @@ public class MusicControllerTest extends MusicFieldDescriptor {
     private MusicService service;
     @MockBean
     private MusicMapper mapper;
+    @MockBean
+    private S3Service s3service;
 
     private final String PUBLIC_MUSIC_URL = "/public/musics";
 

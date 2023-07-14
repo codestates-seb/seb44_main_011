@@ -10,6 +10,7 @@ import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
@@ -28,6 +29,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -62,6 +64,8 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
 
     @MockBean
     private MusicListMapper musicListMapper;
+    @MockBean
+    private S3Service service;
 
     private final String API_PLAYLIST_URL = "/api/playlist";
     private final String API_PLAYLIST_GET_URL = "/api/playlist/{dogOrCats}/id/{member-id}";
@@ -73,6 +77,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
 
     @Test
     @DisplayName("전체 음악 리스트 조회 기능 테스트")
+    @WithMockUser
     public void getAllMusicListFromMemberTest() throws Exception {
         Page<Music> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size());
 
@@ -115,6 +120,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
 
     @Test
     @DisplayName("개인 플레이 리스트 추가(좋아요) 기능 테스트")
+    @WithMockUser
     public void postPersonalPlayListTest() throws Exception {
         MusicDto.PostRequest postRequestData = TestData.MockMusic.getPostRequestData();
         PlayList mockmusicList =TestData.MockMusicList.getMusicListData();

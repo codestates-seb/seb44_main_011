@@ -10,16 +10,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admin/music")
 @RequiredArgsConstructor
 @Slf4j
-public class MusicFileInsertController {
+public class MusicFileController {
     private final MusicService service;
     private final MusicMapper mapper;
-    @RequestMapping(value = "/music", method = RequestMethod.POST,consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @RequestMapping(method = RequestMethod.POST,consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> postMusicFile(@RequestPart(value = "img") MultipartFile imgFile,
                                            @RequestPart(value = "mp3") MultipartFile mp3Files,
                                            @RequestPart(value = "request") MusicDto.PostMusicFile musicData){
@@ -27,4 +28,10 @@ public class MusicFileInsertController {
         service.uploadMusic(multipartFiles,musicData);
         return ResponseEntity.ok().build();
     }
+    @DeleteMapping(value = "/id/{music-Id}")
+    public ResponseEntity<?> DeleteMusicFile(@PathVariable("music-Id") @Positive long musicId){
+        service.deleteMusicFile(musicId);
+        return ResponseEntity.noContent().build();
+    }
 }
+

@@ -53,6 +53,10 @@ public class Music extends BaseTimeEntity {
     @Column(nullable = false)
     private Tags tags;
 
+    @Enumerated(value =  EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.ACTIVE;
+
     @OneToMany(mappedBy = "music",cascade = CascadeType.ALL)
     private List<PlayList> personalPlayLists;
 
@@ -65,6 +69,17 @@ public class Music extends BaseTimeEntity {
 
         Category(String category) {
             this.category = category;
+        }
+    }
+    public enum Status{
+        ACTIVE("active"),
+        INACTIVE("inactive");
+
+        @Getter
+        private final String status;
+
+        Status(String status) {
+            this.status = status;
         }
     }
 
@@ -95,5 +110,9 @@ public class Music extends BaseTimeEntity {
     }
     public void insertPlaytime(String playtime) {
         this.playtime = playtime;
+    }
+
+    public void convertStatus(Status status) {
+        this.status = status;
     }
 }

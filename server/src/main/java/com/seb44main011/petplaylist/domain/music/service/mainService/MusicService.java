@@ -4,6 +4,7 @@ import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.service.storageService.StorageService;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
@@ -26,9 +27,9 @@ import java.util.Optional;
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
-public class MusicService {
+public class MusicService  {
     private final MusicRepository repository;
-    private final StorageService storageService;
+    private final StorageService<List<String>,List<MultipartFile>> storageService;
     private final MusicMapper mapper;
 
     public void uploadMusic(List<MultipartFile> files, MusicDto.PostMusicFile postMusicFile) {
@@ -39,15 +40,32 @@ public class MusicService {
     }
 
     public Music serchMusic(String musicTitle){
-        Music findMusic= findVerifiedMusic(musicTitle);
+        Music findMusic= findMusic(musicTitle);
         inViewMusic(findMusic);
         return repository.save(findMusic);
     }
 
     public Music serchMusic(long musicId){
-        Music findMusic= findVerifiedMusic(musicId);
+        Music findMusic= findMusic(musicId);
         inViewMusic(findMusic);
         return repository.save(findMusic);
+    }
+
+    public void deleteMusicFile(long musicId) {
+        Music findMusic = findMusic(musicId);
+        convertMusicStatus(findMusic);
+
+    }
+
+    private void convertMusicStatus(Music music) {
+        if (music.getStatus().equals(Music.Status.ACTIVE)) {
+            Map<String,String> saveUploadFile = storageService.deactivateFile(List.of(music.getMusic_url(),music.getImage_url()));
+            updateMusicToS3Data(music, saveUploadFile);
+            music.convertStatus(Music.Status.INACTIVE);
+        }else {
+            throw new BusinessLogicException(ExceptionCode.HIDDEN_MUSIC);
+        }
+        repository.save(music);
     }
 
     private static void inViewMusic(Music findMusic) {
@@ -72,14 +90,14 @@ public class MusicService {
             return repository.findByCategoryAndTags(category,valueOfTags,pageable);
         }
     }
-
+    @Transactional(readOnly = true)
     public Music findMusic(String musicTitle){
-        return findVerifiedMusic(musicTitle);
+        return findMusicByTitle(musicTitle);
     }
 
-
+    @Transactional(readOnly = true)
     public Music findMusic(long musicId){
-        return findVerifiedMusic(musicId);
+        return findMusicByTitle(musicId);
     }
 
 
@@ -92,9 +110,19 @@ public class MusicService {
     }
 
 
-    @Transactional(readOnly = true)
-    public Music findVerifiedMusic(String musicTitle) {
-        return repository.findByTitle(musicTitle)
+
+    private Music findMusicByTitle(String musicTitle) {
+        Music music = repository.findByTitle(musicTitle)
+                .orElseThrow(()->
+                        new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
+        if (music.getStatus().equals(Music.Status.INACTIVE)){
+            throw new BusinessLogicException(ExceptionCode.HIDDEN_MUSIC);
+        }
+        return music;
+    }
+
+    private Music findMusicByTitle(long musicId) {
+        return repository.findById(musicId)
                 .orElseThrow(()->
                         new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
     }
@@ -103,19 +131,21 @@ public class MusicService {
         repository.save(music);
     }
 
-    private Music findVerifiedMusic(long musicId) {
-        return repository.findById(musicId)
-                .orElseThrow(()->
-                        new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
-    }
+
     @SneakyThrows
     private Music saveUploadS3(List<MultipartFile> files, Music music) {
         Map<String,String> saveUploadFile = storageService.saveUploadFile(files);
-        music.insertMusic_url(saveUploadFile.get("music_url"));
-        music.insertImage_url(saveUploadFile.get("image_url"));
-        music.insertPlaytime(saveUploadFile.get("playtime"));
+        updateMusicToS3Data(music, saveUploadFile);
         return music;
 
+    }
+
+    private static void updateMusicToS3Data(Music music, Map<String, String> saveUploadFile) {
+        music.insertMusic_url(saveUploadFile.get("music_url"));
+        music.insertImage_url(saveUploadFile.get("image_url"));
+        if (saveUploadFile.containsKey("playtime")) {
+            music.insertPlaytime(saveUploadFile.get("playtime"));
+        }
     }
 
     private static Pageable getPageInfo(int page) {
