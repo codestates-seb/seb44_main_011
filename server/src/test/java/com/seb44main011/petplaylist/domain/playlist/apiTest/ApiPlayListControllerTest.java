@@ -9,12 +9,14 @@ import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
+import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
+import com.seb44main011.petplaylist.domain.playlist.repository.MusicListRepository;
 import com.seb44main011.petplaylist.domain.playlist.service.MusicListService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,6 +63,12 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     private MusicService musicService;
     @MockBean
     private MusicListService musicListService;
+
+    @MockBean
+    private MusicListRepository musicListRepository;
+
+    @MockBean
+    private MusicRepository musicRepository;
 
     @MockBean
     private MusicListMapper musicListMapper;
