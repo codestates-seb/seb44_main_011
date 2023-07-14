@@ -51,10 +51,7 @@ server:
 User:
   mail:
     admin: ADMIN@ADMIN.com
-#jwt:
-#  key: ${JWT_SECRET_KEY}
-#  access-token-expiration-minutes: 100
-#  refresh-token-expiration-minutes: 180
+
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
@@ -76,3 +73,8 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+
+
+
+

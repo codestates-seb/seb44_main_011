@@ -63,11 +63,6 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     @MockBean
     private MusicListService musicListService;
 
-//    @MockBean
-//    private MusicListRepository musicListRepository;
-//
-//    @MockBean
-//    private MusicRepository musicRepository;
 
     @MockBean
     private MusicListMapper musicListMapper;
