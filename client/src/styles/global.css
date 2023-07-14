@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap');
+
+
+:root {
+    --font-quicksand: 'Quicksand', sans-serif;
+    --font-gaegu: 'Gaegu', cursive;
+
+    --white: #ffffff;
+    --black: #212121;
+    --gray-100: #f5f6f6;
+    --gray-200: #f0f3f3;
+    --gray-300: #d1d1d1;
+    --gray-400: #b4b4b7;
+    --gray-500: #8E8E8E;
+    --primary: #84cbff;
+    --accent: #ff7777;
+    --pink: #ffd7d7;
+    --skyblue-100: #BBE2FF;
+    --skyblue-200: #67B6FF;
+    --skyblue-300: #3AA1FF;
+    --gradation-intro: linear-gradient(135deg, var(--skyblue-100) 0%, var(--pink) 100%);
+    --gradation-banner: linear-gradient(180deg, var(--skyblue-100) 0%, var(--pink) 100%);
+    --gradation-player: linear-gradient(180deg, var(--gray-300) 0%, var(--black) 100%);
+}
+
