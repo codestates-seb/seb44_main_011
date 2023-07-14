@@ -368,7 +368,7 @@
                 },
                 "examples" : {
                   "인증된 사용자의 댓글 작성" : {
-                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-14T19:47:58.099468\",\n  \"modifiedAt\" : \"2023-07-14T19:47:58.099482\"\n}"
+                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-14T20:38:57.886207\",\n  \"modifiedAt\" : \"2023-07-14T20:38:57.886222\"\n}"
                   }
                 }
               }
@@ -708,7 +708,7 @@
                 },
                 "examples" : {
                   "해당 곡의 전체 댓글조회" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-14T19:47:58.185276\",\n    \"modifiedAt\" : \"2023-07-14T19:47:58.18529\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-14T20:38:58.008773\",\n    \"modifiedAt\" : \"2023-07-14T20:38:58.008783\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
                   }
                 }
               }
@@ -1107,35 +1107,6 @@
           }
         }
       },
-      "public-musics1039852064" : {
-        "type" : "object",
-        "properties" : {
-          "music_url" : {
-            "type" : "string",
-            "description" : "곡 url"
-          },
-          "musicId" : {
-            "type" : "number",
-            "description" : "곡 식별 Id"
-          },
-          "image_url" : {
-            "type" : "string",
-            "description" : "이미지 url"
-          },
-          "playtime" : {
-            "type" : "string",
-            "description" : "재생 시간"
-          },
-          "title" : {
-            "type" : "string",
-            "description" : "곡 이름"
-          },
-          "tags" : {
-            "type" : "string",
-            "description" : "곡의 태그"
-          }
-        }
-      },
       "api-musics-music-id-comments-334285559" : {
         "type" : "object",
         "properties" : {
@@ -1162,6 +1133,35 @@
           "comment" : {
             "type" : "string",
             "description" : "댓글 내용"
+          }
+        }
+      },
+      "public-musics1039852064" : {
+        "type" : "object",
+        "properties" : {
+          "music_url" : {
+            "type" : "string",
+            "description" : "곡 url"
+          },
+          "musicId" : {
+            "type" : "number",
+            "description" : "곡 식별 Id"
+          },
+          "image_url" : {
+            "type" : "string",
+            "description" : "이미지 url"
+          },
+          "playtime" : {
+            "type" : "string",
+            "description" : "재생 시간"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "곡 이름"
+          },
+          "tags" : {
+            "type" : "string",
+            "description" : "곡의 태그"
           }
         }
       }
