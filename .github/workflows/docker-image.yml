@@ -34,7 +34,6 @@ jobs:
         run: |
           cd server
           chmod +x gradlew
-          mkdir -p ./build/generated-snippets
           ./gradlew build
 
 
