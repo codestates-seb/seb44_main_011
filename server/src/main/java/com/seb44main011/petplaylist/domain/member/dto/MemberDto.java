@@ -1,7 +1,5 @@
 package com.seb44main011.petplaylist.domain.member.dto;
 
-import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
-import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,7 +37,7 @@ public class MemberDto {
     public static class LogInPost {
         @Email(message = "이메일 형식이여야 합니다.")
         @NotBlank(message = "공백이 아니여야 합니다.")
-        private String email;
+        private String username;
 
         @NotBlank(message = "공백이 아니여야 합니다.")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,16}$",
@@ -101,6 +99,7 @@ public class MemberDto {
     @Builder
     public static class LogInResponse {
         private long memberId;
+        private String email;
     }
 
     @Getter

@@ -9,13 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.payload.JsonFieldType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 
 public class TestData {
@@ -70,7 +67,7 @@ public class TestData {
         }
 
     }
-//    public static class MockPersonalPlayList{
+    //    public static class MockPersonalPlayList{
 //        public static PersonalPlayList getPersonalPlayList(){
 //            return PersonalPlayList.builder()
 //                    .member(MemberTestData.MockMember.getMemberData())
@@ -237,4 +234,3 @@ public class TestData {
         }
     }
 }
-

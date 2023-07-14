@@ -39,6 +39,16 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
+    public Member findByMemberFromEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        Member findMember = member.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
+        );
+        isMemberActive(findMember);
+
+        return findMember;
+    }
+
     public Member findMember(long memberId) {
         Member foundMember = findVerifiedMember(memberId);
         isMemberActive(foundMember);

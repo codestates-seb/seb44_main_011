@@ -26,7 +26,7 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String profile;
 
     @Enumerated(value = EnumType.STRING)
@@ -40,8 +40,13 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member",cascade =CascadeType.ALL)
     private List<PlayList> playLists;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private OAuthCheck oAuthCheck = OAuthCheck.NO_OAUTH;
+
     @Builder
-    public Member(long memberId, String email, String password, String name, String profile, Status status, List<PlayList> playLists) {
+    public Member(long memberId, String email, String password, String name, String profile, Status status, List<PlayList> playLists, OAuthCheck oAuthCheck) {
         this.memberId = memberId;
         this.email = email;
         this.password = password;
@@ -49,6 +54,7 @@ public class Member extends BaseTimeEntity {
         this.profile = "기본 프로필 이미지";
         this.status = status;
         this.playLists = new ArrayList<>();
+        this.oAuthCheck = oAuthCheck;
     }
 
     public enum Status {
@@ -59,6 +65,20 @@ public class Member extends BaseTimeEntity {
         private final String status;
 
         Status(String status) {
+            this.status = status;
+        }
+    }
+
+    public enum OAuthCheck {
+        GOOGLE("GOOGLE"),
+        NAVER("NAVER"),
+        KAKAO("KAKAO"),
+        NO_OAUTH("No_OAuth_Member");
+
+        @Getter
+        private final String status;
+
+        OAuthCheck(String status) {
             this.status = status;
         }
     }
@@ -79,4 +99,19 @@ public class Member extends BaseTimeEntity {
         this.profile = profile;
     }
 
+    public void updateMemberId(long memberId) {
+        this.memberId = memberId;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updatePlayLists(List<PlayList> playLists) {
+        this.playLists = playLists;
+    }
+
+    public void updateOAuth(OAuthCheck oAuthCheck) {
+        this.oAuthCheck = oAuthCheck;
+    }
 }

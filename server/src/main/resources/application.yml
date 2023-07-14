@@ -1,14 +1,14 @@
 spring:
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          google:
-#            clientId: ${GOOGLE_CLIENT_ID}
-#            clientSecret: ${GOOGLE_CLIENT_SECRET}
-#            scope:
-#              - email
-#              - profile
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
   servlet:
     multipart:
       maxFileSize: 20MB
@@ -48,9 +48,9 @@ server:
   servlet:
     encoding:
       force-response: true
-#mail:
-#  address:
-#    admin: admin@gmail.com
+User:
+  mail:
+    admin: ADMIN@ADMIN.com
 #jwt:
 #  key: ${JWT_SECRET_KEY}
 #  access-token-expiration-minutes: 100

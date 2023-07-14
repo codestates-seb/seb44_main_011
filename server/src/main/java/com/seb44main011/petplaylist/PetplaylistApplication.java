@@ -6,11 +6,10 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 public class PetplaylistApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PetplaylistApplication.class, args);
 	}
-
 }
