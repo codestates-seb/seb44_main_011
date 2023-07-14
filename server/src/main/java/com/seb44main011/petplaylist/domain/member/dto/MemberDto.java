@@ -99,6 +99,7 @@ public class MemberDto {
     @Builder
     public static class LogInResponse {
         private long memberId;
+        private String email;
     }
 
     @Getter

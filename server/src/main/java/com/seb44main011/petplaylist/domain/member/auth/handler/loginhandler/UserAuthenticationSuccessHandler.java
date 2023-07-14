@@ -42,6 +42,7 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
         response.setHeader("Location", "/api/members" + member.getMemberId());
         MemberDto.LogInResponse logInResponse = MemberDto.LogInResponse.builder()
                 .memberId(member.getMemberId())
+                .email(member.getEmail())
                 .build();
 
         response.getWriter().write(gson.toJson(logInResponse, MemberDto.LogInResponse.class));
