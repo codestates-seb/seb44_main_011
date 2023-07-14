@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useRef } from "react";
 import axios from "axios";
 import { PostSignUp } from "../utils/Url";
+import { Form } from "../components/commons/Form";
 
 type FormValues = {
   name: string;
@@ -28,18 +29,21 @@ function SignUp() {
   passwordRef.current = watch("password");
 
   const onSubmit = async (data: FormValues) => {
-    console.log("signup 데이터: ", data);
+    const dataA = {
+      email: data.email,
+      password: data.password,
+      name: data.name,
+    };
+    console.log("signup 데이터: ", dataA);
     await axios
-      .post(PostSignUp, {
-        data,
-      })
+      .post(PostSignUp, dataA)
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Modal>
-        <Text value="SignUp" />
+    <Modal>
+      <Text value="SignUp" />
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <InputContainer>
           <InBox
             id="name"
@@ -106,9 +110,9 @@ function SignUp() {
           )}
         </InputContainer>
         <Bluebutton value="SignUp" />
-        <Share />
-      </Modal>
-    </form>
+      </Form>
+      <Share />
+    </Modal>
   );
 }
 

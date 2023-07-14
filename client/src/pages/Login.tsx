@@ -7,6 +7,7 @@ import { EmailRegEx, PasswordRegEx } from "../utils/Check";
 import { useForm } from "react-hook-form";
 import axios, { AxiosError } from "axios";
 import { PostLogin } from "../utils/Url";
+import { Form } from "../components/commons/Form";
 
 type FormValues = {
   email: string;
@@ -33,9 +34,9 @@ function Login() {
       .catch((error) => console.log(error));
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Modal>
-        <Text value="Login" />
+    <Modal>
+      <Text value="Login" />
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <InputContainer>
           <InBox
             id="email"
@@ -66,9 +67,9 @@ function Login() {
           {errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
         </InputContainer>
         <Bluebutton value="Login" />
-        <Share />
-      </Modal>
-    </form>
+      </Form>
+      <Share />
+    </Modal>
   );
 }
 
