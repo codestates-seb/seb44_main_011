@@ -6,4 +6,4 @@ COPY server/build/libs/server-0.0.1-SNAPSHOT.jar app.jar
 
 RUN mkdir /logs
 
-ENTRYPOINT ["java", "-jar", "app.jar", "-spring.profiles.active=server"]
+ENTRYPOINT ["java -jar app.jar -spring.profiles.active=server"]
