@@ -12,6 +12,7 @@ class PetplaylistApplicationTests {
 	@MockBean
 	private S3Service s3service;
 	@Test
+	@WithMockUser
 	void contextLoads() {
 	}
 

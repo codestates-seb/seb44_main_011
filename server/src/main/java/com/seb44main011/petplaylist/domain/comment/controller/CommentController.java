@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -26,53 +27,54 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
 
-
     @PostMapping("/api/musics/{music-id}/comments")
     public ResponseEntity<?> postComment(@PathVariable("music-id") long musicId, @Valid @RequestBody CommentDto.Post requestBody) {
-        Long memberId = requestBody.getMemberId();
 
-        Comment comment = commentMapper.commentPostToComment(requestBody);
-        Comment saveComment = commentService.saveComment(comment,memberId, musicId);
+        CommentDto.Response saveComment = commentService.saveComment(requestBody);
 
         URI location = UriComponentsBuilder
                 .newInstance()
                 .path("/public/musics/" + musicId + "/comments/{comment-Id}")
-                .buildAndExpand(comment.getCommentId())
+                .buildAndExpand(saveComment.getCommentId())
                 .toUri();
 
-        return ResponseEntity.created(location).body(commentMapper.commentToCommentResponseDto(saveComment));
+
+        return ResponseEntity.created(location).body(saveComment);
     }
 
     @GetMapping("/public/musics/{music-id}/comments")
     public ResponseEntity<?> getComments(@PathVariable("music-id") long musicId, @RequestParam("page") @Positive int page) {
-        Page<Comment> musicComments = commentService.getComments(musicId, page);
+        MultiResponseDto musicComments = commentService.getComments(musicId, page);
 
-        int totalPages = musicComments.getTotalPages();
-        long totalElements = musicComments.getTotalElements();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Pages", String.valueOf(totalPages));
-        headers.add("X-Total-Elements", String.valueOf(totalElements));
+//        int totalPages = musicComments.getTotalPages();
+//        long totalElements = musicComments.getTotalElements();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("X-Total-Pages", String.valueOf(totalPages));
+//        headers.add("X-Total-Elements", String.valueOf(totalElements));
 
-        List<Comment> content = musicComments.getContent();
-        List<CommentDto.Response> responses = commentMapper.commentDtoResponseToListCommentDtoResponse(content);
-
-        MultiResponseDto multiResponseDto = new MultiResponseDto(responses, musicComments);
         return ResponseEntity.ok()
-                .headers(headers)
-                .body(multiResponseDto);
+//                .headers(headers)
+                .body(musicComments);
     }
 
     @PatchMapping("/api/musics/{music-id}/comments/{comments-id}")
     public ResponseEntity<?> patchComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, @Valid @RequestBody CommentDto.Patch requestBody) {
-        Comment comment = commentMapper.commentPatchToComment(requestBody);
-        commentService.updateComment(comment);
+//      Patch시 작성자와 수정 요청자가 동일한지 확인하고 수정해야함
+        // 로직 수정필요
+        long memberId = 1L;
+//        Comment comment = commentMapper.commentPatchToComment(requestBody);
+        commentService.updateComment(requestBody, memberId);
 
         return ResponseEntity.ok().build();
     }
 
+
+    //이렇게 삭제하면 안됨 로직 수정필요
     @DeleteMapping("/api/musics/{music-id}/comments/{comments-id}")
-    public ResponseEntity<?> deleteComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId) {
-        commentService.deleteComment(commentId);
+    public ResponseEntity<?> deleteComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, Principal principal) {
+        //인증정보에서 memberId 가져오는 로직 추가
+        long memberId = 1L; //추후 수정
+        commentService.deleteComment(commentId, memberId);
 
         return ResponseEntity.ok().build();
     }

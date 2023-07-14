@@ -27,6 +27,7 @@ import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -54,6 +55,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원가입 테스트")
+    @WithMockUser
     public void postMemberTest() throws Exception {
         BDDMockito.given(memberService.createMember(Mockito.any(Member.class))).willReturn(testMember);
         BDDMockito.given(memberMapper.memberDtoSignUpPostToMember(Mockito.any(MemberDto.SignUpPost.class))).willReturn(testMember);
@@ -92,6 +94,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원정보 수정 테스트")
+    @WithMockUser
     public void patchMemberTest() throws Exception {
         String context = gson.toJson(MemberDto.Patch.builder()
                 .name("내가진짜홍길동")
@@ -138,6 +141,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원탈퇴 테스트")
+    @WithMockUser
     public void deleteMemberTest() throws Exception {
         String password = gson.toJson(MemberDto.Delete.builder()
                 .password("a12341234")
@@ -174,6 +178,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원정보 조회 테스트")
+    @WithMockUser
     public void getMyPageTest() throws Exception {
         BDDMockito.given(memberService.findMember(Mockito.anyLong())).willReturn(testMember);
         BDDMockito.given(memberMapper.memberToMyPageResponse(testMember)).willReturn(MemberTestData.getMyPageResponse());

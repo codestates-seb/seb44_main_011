@@ -70,6 +70,7 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
 
     @Test
     @DisplayName("비회원 전체 플레이 리스트 조회 테스트")
+    @WithMockUser
     public void getAllMusicListTest() throws Exception{
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(2,publicResponseList.size()+6);
 
@@ -107,6 +108,7 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
 
     @Test
     @DisplayName("카테고리 태그별 조회 테스트(비 로그인)")
+    @WithMockUser
     public void getCategoryAndTagFromMemberTest() throws Exception {
 
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(2,publicResponseList.size()+46);

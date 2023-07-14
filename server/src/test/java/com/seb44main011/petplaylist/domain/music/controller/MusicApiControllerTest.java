@@ -23,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -55,6 +56,7 @@ public class MusicApiControllerTest extends MusicFieldDescriptor {
     private final String API_MUSIC_URL = "/api/musics/{member-id}";
     @Test
     @DisplayName("인증된 사용자의 음악 상세 조회")
+    @WithMockUser
     void getPublicMusicFromTitle() throws Exception {
         //given
         MusicDto.ApiResponse response = TestData.MockMusic.getApiResponseData();
