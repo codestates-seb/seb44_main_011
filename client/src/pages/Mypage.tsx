@@ -6,6 +6,7 @@ import { MypageInfo } from "../components/MypageInfo";
 function Mypage() {
   return (
     <Wrapper>
+      <SideBar />
       <MypageInfo />
     </Wrapper>
   );

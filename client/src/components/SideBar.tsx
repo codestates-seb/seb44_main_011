@@ -1,26 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
 import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg";
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
-import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
-import { Link, NavLink } from "react-router-dom";
+import DogLogo from "../../src/assets/imgs/doglogo.png";
+import { Link } from "react-router-dom";
 
 function SideBar() {
   const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
-
-  function checkLoginStatus() {
-    // 로그인 상태 확인 로직
-    setIsLoggedIn(true);
-  }
-
 
   const handleTagsMenuToggle = () => {
     setIsTagsMenuOpen(isTagsMenuOpen);
@@ -28,15 +17,17 @@ function SideBar() {
 
   return (
     <RootWrapper>
-      <NavLogo>
-        <NaN_0001>
-          <DogLogoImg />
-        </NaN_0001>
-      </NavLogo>
       <Nav>
         <InputField type="text" />
         <SearchImg fill="#B4B4B7" />
       </Nav>
+      <NavLogo>
+        <NaN_0001>
+          <DogLogoImg>
+            <img src={DogLogo} alt="DogLogo" />
+          </DogLogoImg>
+        </NaN_0001>
+      </NavLogo>
       <NavHome>
         <Link className="home" to="/">
           <HomeImg fill="#84CBFF" />
@@ -63,26 +54,16 @@ function SideBar() {
           </DropdownMenu>
         )}
       </NavTags>
+      <ButtonLogout>
+        <Rectangle191 />
+        <Logout>LOGOUT</Logout>
+      </ButtonLogout>
       <NavMypage>
         <Link className="mypage" to="/mypage">
           <MyPage id="mypageText">MyPage</MyPage>
           <MypageImg id="mypageImg" fill="#B4B4B7" />
         </Link>
       </NavMypage>
-      <ButtonWrapper>
-        {/* {isLoggedIn ? (
-          <>
-            <Logout>LOGOUT</Logout>
-          </>
-        ) : (
-          <>
-            <Login>LOGIN</Login>
-            <Signup>SIGNUP</Signup>
-          </>
-        )} */}
-        <Login>LOGIN</Login>
-        <Signup>SIGNUP</Signup>
-      </ButtonWrapper>
     </RootWrapper>
   );
 }
@@ -110,32 +91,22 @@ const RootWrapper = styled.div`
   border: solid 1px rgba(255, 255, 255, 0.16);
   position: sticky;
   box-shadow: 0px 4px 5px 2px rgba(217, 217, 217, 0.5);
-  width: 245px;
-  min-width: 245px;
+  width: 16%;
+  top: 0;
+  flex-shrink: 0;
+  min-width: 200px;
   max-width: 350px;
-  display: flex;
 `;
-// const RootWrapper = styled.div`
-//   background-color: rgb(240, 243, 243);
-//   border: solid 1px rgba(255, 255, 255, 0.16);
-//   position: sticky;
-//   box-shadow: 0px 4px 5px 2px rgba(217, 217, 217, 0.5);
-//   width: 16%;
-//   top: 0;
-//   flex-shrink: 0;
-//   min-width: 200px;
-//   max-width: 350px;
-// `;
 
 const Nav = styled.div`
   overflow: hidden;
   background-color: white;
   border-radius: 100px;
   position: absolute;
-  display: flex;
   left: 28px;
   top: 140px;
   right: 32px;
+  bottom: 656px;
 `;
 
 const InputField = styled.input`
@@ -168,6 +139,7 @@ const NavLogo = styled.div`
   left: 69px;
   top: 50px;
   right: 66px;
+  bottom: 712px;
 `;
 
 const NaN_0001 = styled.div`
@@ -175,9 +147,10 @@ const NaN_0001 = styled.div`
   left: 17px;
   top: 0px;
   right: 17px;
+  bottom: 36px;
 `;
 
-const DogLogoImg = styled(DogLogo)`
+const DogLogoImg = styled.div`
   object-fit: cover;
   position: absolute;
   left: -16px;
@@ -191,6 +164,7 @@ const NavHome = styled.div`
   left: 41px;
   top: 196px;
   right: 118px;
+  bottom: 614px;
 `;
 
 const HomeImg = styled(HomeIcon)`
@@ -199,7 +173,7 @@ const HomeImg = styled(HomeIcon)`
   left: 0px;
   top: 0px;
   right: 64px;
-
+  bottom: 0px;
 `;
 
 const Home_0001 = styled.span`
@@ -214,7 +188,7 @@ const Home_0001 = styled.span`
   left: 34px;
   top: 1px;
   right: 0px;
-
+  bottom: 3px;
   text-decoration: none;
 `;
 
@@ -223,7 +197,7 @@ const NavMylist = styled.div`
   left: 41px;
   top: 280px;
   right: 118px;
-
+  bottom: 530px;
 `;
 
 const MyList = styled.span`
@@ -238,6 +212,7 @@ const MyList = styled.span`
   left: 34px;
   top: 1px;
   right: -4px;
+  bottom: 3px;
   text-decoration: none;
 `;
 
@@ -247,7 +222,7 @@ const MyListImg = styled(MylistIcon)`
   left: 0px;
   top: 0px;
   right: 64px;
-
+  bottom: 0px;
 `;
 
 const NavTags = styled.div`
@@ -279,65 +254,41 @@ const TagImg = styled(TagsIcon)`
   left: 0px;
   top: 0px;
   right: 73px;
-
+  bottom: 0px;
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonLogout = styled.div`
   width: 185px;
   height: 40px;
   position: absolute;
   left: calc((calc((50% + 1px)) - 93px));
   top: 743px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
-const Logout = styled.button`
+const Rectangle191 = styled.div`
   border: solid 1px rgb(209, 209, 209);
   border-radius: 100px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+`;
+
+const Logout = styled.span`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
   font-size: 14px;
   font-family: Quicksand, sans-serif;
   font-weight: 700;
   line-height: 24px;
+  text-align: left;
   min-height: 25px;
   position: absolute;
-  cursor: pointer;
-  width: 185px;
-  height: 40px;
-`;
-const Login = styled.button`
-  border: solid 1px #84CBFF;
-  border-radius: 100px;
-  color: #84CBFF;
-  background-color: #fff;
-  text-overflow: ellipsis;
-  font-size: 14px;
-  font-family: Quicksand, sans-serif;
-  font-weight: 700;
-  line-height: 24px;
-  min-height: 25px;
-  cursor: pointer;
-  width: 88px;
-  height: 40px;
-  margin-right: 10px;
-`;
-const Signup = styled.button`
-  border: solid 1px #84CBFF;
-  border-radius: 100px;
-  color: #fff;
-  background-color: #84CBFF;
-  text-overflow: ellipsis;
-  font-size: 14px;
-  font-family: Quicksand, sans-serif;
-  font-weight: 700;
-  line-height: 24px;
-  min-height: 25px;
-  cursor: pointer;
-  width: 88px;
-  height: 40px;
+  left: 64px;
+  top: 7px;
+  right: 63px;
+  bottom: 8px;
 `;
 
 const NavMypage = styled.div`
@@ -360,7 +311,7 @@ const MyPage = styled.span`
   left: 36px;
   top: 2px;
   right: 0px;
-
+  bottom: 4px;
   text-decoration: none;
 `;
 
@@ -370,5 +321,5 @@ const MypageImg = styled(MypageIcon)`
   left: 0px;
   top: 0px;
   right: 84px;
-
+  bottom: 2px;
 `;

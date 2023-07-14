@@ -8,10 +8,9 @@ type MusicListData = {
   pageInfo?: PageInfo;
 };
 
-const useAllMusicData = (
-  isDogpli: string,
-  currentPage: number,
-  isLikedClick: boolean
+const useMyMusicData = (
+  isLikedClick: boolean,
+  currentPage?: number
 ): MusicListData => {
   const [musicList, setMusicList] = useState<MusicListData>({
     data: [],
@@ -22,30 +21,32 @@ const useAllMusicData = (
 
   useEffect(() => {
     const fetchData = async () => {
-      let requestPath = `/public/playlist/${isDogpli}s`;
-      if (memberId) {
-        requestPath = `/api/playlist/${isDogpli}s/id/${memberId}`;
-      }
+      const requestPath = `/api/playlist/${memberId}`;
 
       try {
         const response = await axios.get(
           `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080${requestPath}`,
           {
             params: {
-              page: currentPage,
+              page: currentPage || 1,
             },
           }
         );
         setMusicList(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error(error);
+        setMusicList({
+          data: [],
+          pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
+        });
       }
     };
 
     fetchData();
-  }, [isDogpli, currentPage, isLikedClick]);
+  }, [currentPage, isLikedClick]);
 
   return musicList;
 };
 
-export default useAllMusicData;
+export default useMyMusicData;
