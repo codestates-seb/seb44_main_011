@@ -31,7 +31,9 @@ jobs:
       - name: Cat yml
         run: |
           touch /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application-server.yml
+          touch /home/runner/work/seb44_main_011/seb44_main_011/server/build/resources/main/static/docs/open-api-3.0.1.json
           echo "${{ secrets.SERVER_YML_DATA }}" > /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application-server.yml
+
       - name: Build with Gradle
         run: |
           cd server
