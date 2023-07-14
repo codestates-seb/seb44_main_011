@@ -114,6 +114,3 @@ jobs:
             sh custom_sh/deploy-client-active.sh
           EOF
 
-
-
-
