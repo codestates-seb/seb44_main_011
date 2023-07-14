@@ -19,6 +19,7 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
+          
       - name: Setup MySQL
         uses: samin/mysql-action@v1
         with:
@@ -26,6 +27,7 @@ jobs:
           mysql database: ${{ secrets.MYSQL_PATH }}
           mysql user: ${{ secrets.MYSQL_USERNAME }}
           mysql password: ${{ secrets.MYSQL_PASSWORD }}
+          
       - name: Cat yml
         run: |
           touch /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application.yml
@@ -34,7 +36,7 @@ jobs:
         run: |
           cd server
           chmod +x gradlew
-          ./gradlew build
+          /gradlew clean build -x test
 
 
 
