@@ -4,6 +4,7 @@ const InText = styled.h2`
   font-weight: 400;
   font-size: 48px;
   margin-bottom: 50px;
+  color: var(--black);
 `;
 type Props = {
   value: string;
