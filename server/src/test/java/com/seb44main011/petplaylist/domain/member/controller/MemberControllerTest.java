@@ -9,6 +9,7 @@ import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.mapper.MemberMapper;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,8 @@ public class MemberControllerTest {
     private  MemberService memberService;
     @MockBean
     private MemberMapper memberMapper;
+    @MockBean
+    private S3Service s3service;
     private Member testMember;
     private String memberContext;
 

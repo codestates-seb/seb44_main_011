@@ -10,6 +10,7 @@ import com.seb44main011.petplaylist.domain.comment.service.CommentService;
 import com.seb44main011.petplaylist.domain.comment.stub.CommentTestData;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
@@ -64,6 +65,8 @@ class CommentControllerTest {
 
     @MockBean
     private CommentMapper commentMapper;
+    @MockBean
+    private S3Service s3service;
 
 
     @Test

@@ -70,6 +70,7 @@ cloud:
       secret-key: secretKey
     s3:
       bucket: My-bucket-name
+      dns: S3dns
     region:
       static: ap-northeast-2
     stack:
