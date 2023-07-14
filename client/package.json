@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.11.0",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "react": "^18.2.0",
@@ -24,6 +25,7 @@
     "@babel/core": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
+    "@types/node": "^20.4.2",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
