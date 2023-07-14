@@ -10,7 +10,9 @@ import com.seb44main011.petplaylist.domain.comment.service.CommentService;
 import com.seb44main011.petplaylist.domain.comment.stub.CommentTestData;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
+import com.seb44main011.petplaylist.global.common.MultiResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import org.junit.jupiter.api.Test;
@@ -25,10 +27,13 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -64,24 +69,22 @@ class CommentControllerTest {
 
     @MockBean
     private CommentMapper commentMapper;
+    @MockBean
+    private S3Service s3service;
 
 
     @Test
     @DisplayName("댓글 작성 테스트")
+    @WithMockUser
     void postCommentTest() throws Exception {
 
         Comment commentData = CommentTestData.MockComment.getCommentData();
 
         //given
         CommentDto.Post post = new CommentDto.Post(1L, 1L, "댓글입니다.");
-        Comment comment = new Comment();
-        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, "네임", "내용", LocalDateTime.now(), LocalDateTime.now() );
+        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, "네임", "내용", LocalDateTime.now(), LocalDateTime.now());
 
-        given(commentMapper.commentPostToComment(Mockito.any(CommentDto.Post.class)))
-                .willReturn(comment);
-        given(commentService.saveComment(Mockito.any(Comment.class),Mockito.anyLong(), Mockito.anyLong()))
-                .willReturn(comment);
-        given(commentMapper.commentToCommentResponseDto(Mockito.any(Comment.class)))
+        given(commentService.saveComment(Mockito.any(CommentDto.Post.class)))
                 .willReturn(responseComment);
 
         String content = gson.toJson(post);
@@ -98,50 +101,46 @@ class CommentControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", is(startsWith("/public/musics/"))))
                 .andDo(
-                MockMvcRestDocumentation.document("인증된 사용자의 댓글 작성",
-                        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-                        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
-                        ResourceDocumentation.resource(
-                                ResourceSnippetParameters.builder()
-                                        .description("댓글 작성")
-                                        .pathParameters(
-                                                ResourceDocumentation.parameterWithName("music-id").description("음악 식별자")
-                                        )
-                                        .requestFields(
-                                                PayloadDocumentation.fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("사용자 정보(번호)"),
-                                                PayloadDocumentation.fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("음악 정보(번호)"),
-                                                PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용")
-                                        )
-                                        .responseFields(
-                                                PayloadDocumentation.fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("댓글 번호"),
-                                                PayloadDocumentation.fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
-                                                PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 닉네임"),
-                                                PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용"),
-                                                PayloadDocumentation.fieldWithPath("createdAt").type(JsonFieldType.STRING).description("작성 시간"),
-                                                PayloadDocumentation.fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정 시간")
-                                        )
-                                        .build()
+                        MockMvcRestDocumentation.document("인증된 사용자의 댓글 작성",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                ResourceDocumentation.resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("댓글 작성")
+                                                .pathParameters(
+                                                        ResourceDocumentation.parameterWithName("music-id").description("음악 식별자")
+                                                )
+                                                .requestFields(
+                                                        PayloadDocumentation.fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("사용자 정보(번호)"),
+                                                        PayloadDocumentation.fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("음악 정보(번호)"),
+                                                        PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용")
+                                                )
+                                                .responseFields(
+                                                        PayloadDocumentation.fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("댓글 번호"),
+                                                        PayloadDocumentation.fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
+                                                        PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 닉네임"),
+                                                        PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용"),
+                                                        PayloadDocumentation.fieldWithPath("createdAt").type(JsonFieldType.STRING).description("작성 시간"),
+                                                        PayloadDocumentation.fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정 시간")
+                                                )
+                                                .build()
+                                )
                         )
-                )
 
-        );
+                );
 
     }
 
     @Test
     @DisplayName("댓글 수정 테스트")
+    @WithMockUser
     void patchCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
-        CommentDto.Patch patch = new CommentDto.Patch(1L, "댓글입니다.");
-        Comment comment = new Comment();
         String context = gson.toJson(CommentDto.Patch.builder()
                         .commentId(1L)
                 .comment("수정 코멘트")
                 .build());
 
-
-        given(commentMapper.commentPatchToComment(Mockito.any(CommentDto.Patch.class)))
-                .willReturn(comment);
 
 
         ResultActions actions =
@@ -151,7 +150,7 @@ class CommentControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(context)
                 );
-        verify(commentService, times(1)).updateComment(any(Comment.class));
+        verify(commentService, times(1)).updateComment(any(CommentDto.Patch.class), anyLong());
         actions
                 .andExpect(status().isOk())
                 .andDo(
@@ -178,6 +177,7 @@ class CommentControllerTest {
 
     @Test
     @DisplayName("댓글 삭제 테스트")
+    @WithMockUser
     void deleteCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
 
@@ -189,7 +189,7 @@ class CommentControllerTest {
 
                 );
 
-        verify(commentService, times(1)).deleteComment(anyLong());
+        verify(commentService, times(1)).deleteComment(anyLong(), anyLong());
         actions
                 .andExpect(status().isOk())
                 .andDo(
@@ -212,19 +212,18 @@ class CommentControllerTest {
 
     @Test
     @DisplayName("댓글리스트 조회 테스트")
+    @WithMockUser
     void getCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
         Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1,6);
-        CommentDto.Response response = new CommentDto.Response(1L,1L,"네임","내용",LocalDateTime.now(),LocalDateTime.now());
+        List<CommentDto.Response> responseList = new ArrayList<>();
+        responseList.add(new CommentDto.Response(1L, 1L, "네임", "내용", LocalDateTime.now(), LocalDateTime.now()));
 
-        List<CommentDto.Response> commentList = List.of(response);
+        MultiResponseDto multiResponseDto = new MultiResponseDto(responseList, commentPageData);
 
-        given(commentMapper.commentDtoResponseToListCommentDtoResponse(Mockito.anyList()))
-                .willReturn(commentList);
+        given(commentService.getComments(anyLong(), anyInt()))
+                .willReturn(multiResponseDto);
 
-
-        given(commentService.getComments(Mockito.anyLong(), Mockito.anyInt()))
-                .willReturn(commentPageData);
 
 
 

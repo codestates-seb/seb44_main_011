@@ -9,6 +9,7 @@ import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.mapper.MemberMapper;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,7 @@ import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -40,6 +42,8 @@ public class MemberControllerTest {
     private  MemberService memberService;
     @MockBean
     private MemberMapper memberMapper;
+    @MockBean
+    private S3Service s3service;
     private Member testMember;
     private String memberContext;
 
@@ -51,6 +55,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원가입 테스트")
+    @WithMockUser
     public void postMemberTest() throws Exception {
         BDDMockito.given(memberService.createMember(Mockito.any(Member.class))).willReturn(testMember);
         BDDMockito.given(memberMapper.memberDtoSignUpPostToMember(Mockito.any(MemberDto.SignUpPost.class))).willReturn(testMember);
@@ -89,6 +94,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원정보 수정 테스트")
+    @WithMockUser
     public void patchMemberTest() throws Exception {
         String context = gson.toJson(MemberDto.Patch.builder()
                 .name("내가진짜홍길동")
@@ -135,6 +141,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원탈퇴 테스트")
+    @WithMockUser
     public void deleteMemberTest() throws Exception {
         String password = gson.toJson(MemberDto.Delete.builder()
                 .password("a12341234")
@@ -171,6 +178,7 @@ public class MemberControllerTest {
 
     @Test
     @DisplayName("회원정보 조회 테스트")
+    @WithMockUser
     public void getMyPageTest() throws Exception {
         BDDMockito.given(memberService.findMember(Mockito.anyLong())).willReturn(testMember);
         BDDMockito.given(memberMapper.memberToMyPageResponse(testMember)).willReturn(MemberTestData.getMyPageResponse());
@@ -195,16 +203,13 @@ public class MemberControllerTest {
                                                         PayloadDocumentation.fieldWithPath("name").description("닉네임"),
                                                         PayloadDocumentation.fieldWithPath("email").description("이메일"),
                                                         PayloadDocumentation.fieldWithPath("musicLists").type(JsonFieldType.ARRAY).description("뮤직리스트"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].createdAt").description("생성일"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].modifiedAt").description("수정일"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].musicId").description("음악 식별자"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].title").description("곡 이름"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].music_url").description("곡 저장 위치"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].image_url").description("곡 이미지 저장 위치"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].view").description("곡 조회수"),
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].playtime").description("곡 재생 시간"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].category").description("카테고리"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].tags").description("태그"),
-                                                        PayloadDocumentation.fieldWithPath("musicLists.[].personalPlayLists").description("개인플레이리스트")
+                                                        PayloadDocumentation.fieldWithPath("musicLists.[].tags").description("태그")
                                                 )
                                                 .build()
                                 )

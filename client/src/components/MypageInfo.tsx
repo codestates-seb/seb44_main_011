@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import UserInfo from "../assets/imgs/UserInfo.png";
 import { useNavigate } from "react-router-dom";
+import DeleteModal from "./DeleteModal";
 
 export function MypageInfo() {
   const navigate = useNavigate();
 
   const handleBtnEdit = () => {
     navigate("/mypage/edit");
-  }
+  };
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const showModal = () => {
+    setModalOpen(true);
+  };
 
   return (
     <Wrapper>
@@ -18,7 +25,8 @@ export function MypageInfo() {
         <UserEmail>firerock@naver.com</UserEmail>
         <ButtonWrapper>
           <ProfileBtn onClick={handleBtnEdit}>프로필수정</ProfileBtn>
-          <DeleteBtn>회원탈퇴</DeleteBtn>
+          <DeleteBtn onClick={showModal}>회원탈퇴</DeleteBtn>
+          {modalOpen && <DeleteModal setModalOpen={setModalOpen} />}
         </ButtonWrapper>
       </Profile>
     </Wrapper>

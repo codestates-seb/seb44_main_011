@@ -3,6 +3,7 @@ package com.seb44main011.petplaylist.domain.member.stub;
 import com.seb44main011.petplaylist.domain.member.dto.MemberDto;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
+import com.seb44main011.petplaylist.domain.music.stub.TestData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class MemberTestData {
         return MemberDto.MyPageResponse.builder()
                 .name(MockMember.name)
                 .email(MockMember.email)
-                .musicLists(MockPersonalList.getMusicList())
+                .musicLists(TestData.ResponseData.Public.getPublicCategoryPlayListResponseList())
                 .build();
     }
 
