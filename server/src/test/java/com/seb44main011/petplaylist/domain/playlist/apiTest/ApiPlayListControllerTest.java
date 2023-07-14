@@ -159,6 +159,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                         );
     }
     @Test
+    @WithMockUser
     @DisplayName("회원의 개인 플레이 리스트 조회(좋아요 리스트)")
     public void getAllMusicListTest() throws Exception{
         Page<PlayList> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size());
@@ -200,6 +201,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     }
 
     @Test
+    @WithMockUser
     @DisplayName("카테고리 태그별 조회 테스트(로그인 된 회원)")
     public void getCategoryAndTagFromMemberTest() throws Exception {
 
@@ -246,6 +248,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     }
 
     @Test
+    @WithMockUser
     @DisplayName("개인 플레이 리스트 삭제(좋아요 삭제) 기능 테스트")
     public void deletePersonalPlayListTest() throws Exception {
 
