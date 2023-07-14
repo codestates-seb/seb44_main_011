@@ -6,9 +6,9 @@ type User = {
   Refresh: string;
 };
 const initialUser: User = {
-  memberId: 1,
-  Authorization: "Bearer {access-token}",
-  Refresh: "{refresh-token}",
+  memberId: 0,
+  Authorization: "",
+  Refresh: "",
 };
 
 const initialState = {
