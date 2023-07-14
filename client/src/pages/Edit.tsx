@@ -5,7 +5,6 @@ import { styled } from "styled-components";
 function Edit() {
   return (
     <Wrapper>
-      <SideBar />
       <EditProfile />
     </Wrapper>
   );
