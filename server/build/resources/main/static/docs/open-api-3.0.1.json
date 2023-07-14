@@ -368,7 +368,7 @@
                 },
                 "examples" : {
                   "인증된 사용자의 댓글 작성" : {
-                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-14T10:20:54.402613\",\n  \"modifiedAt\" : \"2023-07-14T10:20:54.402629\"\n}"
+                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-14T13:58:24.147376\",\n  \"modifiedAt\" : \"2023-07-14T13:58:24.147391\"\n}"
                   }
                 }
               }
@@ -708,7 +708,7 @@
                 },
                 "examples" : {
                   "해당 곡의 전체 댓글조회" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-14T10:20:54.484245\",\n    \"modifiedAt\" : \"2023-07-14T10:20:54.484255\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-14T13:58:24.243314\",\n    \"modifiedAt\" : \"2023-07-14T13:58:24.243326\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
                   }
                 }
               }
@@ -898,23 +898,6 @@
           }
         }
       },
-      "api-musics-music-id-comments-1230103686" : {
-        "type" : "object",
-        "properties" : {
-          "musicId" : {
-            "type" : "number",
-            "description" : "음악 정보(번호)"
-          },
-          "comment" : {
-            "type" : "string",
-            "description" : "댓글 내용"
-          },
-          "memberId" : {
-            "type" : "number",
-            "description" : "사용자 정보(번호)"
-          }
-        }
-      },
       "public-musics-music-id-comments924576111" : {
         "type" : "object",
         "properties" : {
@@ -972,6 +955,23 @@
               }
             },
             "description" : "페이지 정보"
+          }
+        }
+      },
+      "api-musics-music-id-comments-1230103686" : {
+        "type" : "object",
+        "properties" : {
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 정보(번호)"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "댓글 내용"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "사용자 정보(번호)"
           }
         }
       },
