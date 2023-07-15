@@ -38,7 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MusicApiControllerTest extends MusicFieldDescriptor {
     @Autowired
     private MockMvc mockMvc;
@@ -50,8 +49,6 @@ public class MusicApiControllerTest extends MusicFieldDescriptor {
     private MemberService memberService;
     @MockBean
     private MusicMapper mapper;
-    @MockBean
-    private S3Service s3service;
 
     private final String API_MUSIC_URL = "/api/musics/{member-id}";
     @Test
