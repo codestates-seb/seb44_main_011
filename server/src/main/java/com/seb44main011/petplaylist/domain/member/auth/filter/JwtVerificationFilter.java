@@ -80,7 +80,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    private static void createUsernamePasswordAuthenticationToken(String subject) {
+    private void createUsernamePasswordAuthenticationToken(String subject) {
         List<GrantedAuthority> authorities =  JwtTokenizer.getADMIN_SUBJECT().equals(subject)
                 ? AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ADMIN", "ROLE_USER", "USER")
                 : AuthorityUtils.createAuthorityList("ROLE_USER", "USER");
