@@ -22,7 +22,7 @@ public class JwtTokenizer {
     @Getter
     @Setter
     @Value("${User.mail.admin}")
-    private static String ADMIN_SUBJECT;
+    private String ADMIN_SUBJECT;
 
     @Getter
     @Value("kevin1234123412341234123412341234")
