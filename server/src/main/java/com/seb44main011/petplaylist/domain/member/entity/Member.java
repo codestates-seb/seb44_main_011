@@ -50,7 +50,6 @@ public class Member extends BaseTimeEntity {
         this.name = name;
         this.profile = "기본 프로필 이미지";
         this.status = MEMBER_ACTIVE;
-        this.playLists = new ArrayList<>();
         this.oAuthCheck = OAuthCheck.NO_OAUTH;
     }
 

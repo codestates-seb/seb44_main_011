@@ -51,7 +51,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         } catch (BusinessLogicException re) {
             request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
 
-        }catch (Exception e) {
+        }
+        catch (Exception e) {
             request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
         }
 
