@@ -43,7 +43,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             createUsernamePasswordAuthenticationToken(claims, authorities);
         }
         catch (ExpiredJwtException ne) {
-            reDelegeateAccessToken(request, response, encodeKey);
+            reDelegateAccessToken(request, response, encodeKey);
         }
         catch (ClassCastException ce) {
             request.setAttribute("exception", ExceptionCode.ACCESS_DENIED);
@@ -58,7 +58,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void reDelegeateAccessToken(HttpServletRequest request, HttpServletResponse response, String encodeKey) {
+    private void reDelegateAccessToken(HttpServletRequest request, HttpServletResponse response, String encodeKey) {
         try {
             String getTonkenRe = request.getHeader("Refresh");
             String subject = jwtTokenizer.getSubject(getTonkenRe, encodeKey);
