@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MusicService  {
     private final MusicRepository repository;
-    private final StorageService<List<String>,List<MultipartFile>> storageService;
+    private final S3Service storageService;
     private final MusicMapper mapper;
 
     public void uploadMusic(List<MultipartFile> files, MusicDto.PostMusicFile postMusicFile) {

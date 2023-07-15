@@ -3,7 +3,12 @@ import Text from "../components/commons/H2Text";
 import { InputContainer, InBox, ErrorMsg } from "../components/commons/Input";
 import Bluebutton from "../components/commons/Bluebutton";
 import Share from "../components/commons/Share";
-import { EmailRegEx, PasswordRegEx } from "../utils/Check";
+import {
+  EmailRegEx,
+  PasswordRegEx,
+  PasswordMin,
+  PasswordMax,
+} from "../utils/Check";
 import { useForm } from "react-hook-form";
 import axios, { AxiosError } from "axios";
 import { PostLogin } from "../utils/Url";
@@ -56,10 +61,18 @@ function Login() {
             type="password"
             {...register("password", {
               required: "비밀번호는 필수 입력입니다.",
+              minLength: {
+                value: PasswordMin,
+                message: "비밀번호는 최소 8자 이상이어야 합니다.",
+              },
+              maxLength: {
+                value: PasswordMax,
+                message: "비밀번호는 최대 16자 이하이어야 합니다.",
+              },
               pattern: {
                 value: PasswordRegEx,
                 message:
-                  "비밀번호는 최소 8자 이상 최대 16자 이하이어야 합니다.",
+                  "비밀번호는 최소 영문자 1개와 숫자 1개가 포함되어야 합니다.",
               },
             })}
             placeholder="password"

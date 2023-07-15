@@ -54,6 +54,7 @@ public class MusicControllerTest extends MusicFieldDescriptor {
 
     @Test
     @DisplayName("인증되지 않은 사용자의 음악 상세 조회")
+    @WithMockUser
     void getPublicMusicFromTitle() throws Exception {
         //given
         MusicDto.PublicResponse response = TestData.MockMusic.getPublicResponseData();
