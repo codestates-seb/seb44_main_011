@@ -52,6 +52,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers("/public/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/api/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("USER")
                         .antMatchers("/api/members/**").authenticated()
