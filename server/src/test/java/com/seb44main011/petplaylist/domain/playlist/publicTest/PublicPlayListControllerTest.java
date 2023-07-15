@@ -40,7 +40,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PublicPlayListControllerTest extends PublicFieldDescriptor{
     @Autowired
     private MockMvc mockMvc;

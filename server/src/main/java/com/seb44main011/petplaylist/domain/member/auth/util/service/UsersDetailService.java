@@ -6,6 +6,7 @@ import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,12 +15,14 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class UsersDetailService implements UserDetailsService {
     private final MemberRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        log.info("UserDetailService in username: {}",username);
         Optional<Member> optionalMember = repository.findByEmail(username);
         Member member = optionalMember.orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)

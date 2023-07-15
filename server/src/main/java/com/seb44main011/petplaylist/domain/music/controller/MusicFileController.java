@@ -1,6 +1,7 @@
 package com.seb44main011.petplaylist.domain.music.controller;
 
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
+import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,8 @@ public class MusicFileController {
                                            @RequestPart(value = "mp3") MultipartFile mp3Files,
                                            @RequestPart(value = "request") MusicDto.PostMusicFile musicData){
         List<MultipartFile> multipartFiles =List.of(imgFile,mp3Files);
-        service.uploadMusic(multipartFiles,musicData);
-        return ResponseEntity.ok().build();
+        Music response = service.uploadMusic(multipartFiles,musicData);
+        return ResponseEntity.ok(mapper.publicResponseToMusic(response));
     }
     @DeleteMapping(value = "/id/{music-Id}")
     public ResponseEntity<?> DeleteMusicFile(@PathVariable("music-Id") @Positive long musicId){

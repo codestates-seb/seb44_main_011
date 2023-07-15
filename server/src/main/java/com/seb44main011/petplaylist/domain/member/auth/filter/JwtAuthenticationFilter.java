@@ -5,6 +5,7 @@ import com.seb44main011.petplaylist.domain.member.auth.jwt.DelegateTokenService;
 import com.seb44main011.petplaylist.domain.member.dto.MemberDto;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final DelegateTokenService delegateTokenService;
@@ -27,7 +29,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             MemberDto.LogInPost logInPost = objectMapper.readValue(request.getInputStream(), MemberDto.LogInPost.class);
+            log.info("logInPost: {}",logInPost.getUsername());
+            log.info("logInPost: {}",logInPost.getPassword());
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(logInPost.getUsername(), logInPost.getPassword());
+            log.info("logInPost: {}",logInPost.getUsername());
+            log.info("logInPost: {}",logInPost.getPassword());
 
             return authenticationManager.authenticate(authenticationToken);
         } catch (IOException e) {
