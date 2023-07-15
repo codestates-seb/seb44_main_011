@@ -36,8 +36,8 @@ jobs:
       - name: Build with Gradle
         run: |
           cd server
-          chmod 777 gradlew
-          sudo ./gradlew build
+          chmod +x gradlew
+          ./gradlew build
 
 
 
