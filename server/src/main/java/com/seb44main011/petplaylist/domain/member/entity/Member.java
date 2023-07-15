@@ -8,8 +8,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.seb44main011.petplaylist.domain.member.entity.Member.Status.MEMBER_ACTIVE;
-
 @Getter
 @Entity(name = "MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -49,7 +47,8 @@ public class Member extends BaseTimeEntity {
         this.password = password;
         this.name = name;
         this.profile = "기본 프로필 이미지";
-        this.status = MEMBER_ACTIVE;
+        this.status = Status.MEMBER_ACTIVE;
+        this.playLists = new ArrayList<>();
         this.oAuthCheck = OAuthCheck.NO_OAUTH;
     }
 
