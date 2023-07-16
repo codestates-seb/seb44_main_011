@@ -1,4 +1,4 @@
-= 펫플리 관리자 API 문서
+= 팻플리 관리자 API 문서
 :sectnums:
 :toc: left
 :toclevels: 4
@@ -23,7 +23,7 @@ include::{snippets}/음악 파일 S3 저장 기능(admin)/http-request.adoc[]
 .request(form-data)
 include::{snippets}/음악 파일 S3 저장 기능(admin)/request-parts.adoc[]
 .musicInfo 형식(json)
-include::{snippets}/음악 파일 S3 저장 기능(admin)/request-part-request-body.adoc[]
+include::{snippets}/음악 파일 S3 저장 기능(admin)/request-part-musicInfo-body.adoc[]
 ***
 ==== API 응답
 .response-json
