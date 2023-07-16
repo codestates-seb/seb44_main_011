@@ -37,7 +37,7 @@ jobs:
         run: |
           cd server
           chmod +x gradlew
-          ./gradlew clean
+          ./gradlew cleanBuildCache
           ./gradlew build
 
 
