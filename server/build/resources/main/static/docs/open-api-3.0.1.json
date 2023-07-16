@@ -10,6 +10,29 @@
   } ],
   "tags" : [ ],
   "paths" : {
+    "/admin/music" : {
+      "post" : {
+        "tags" : [ "admin" ],
+        "operationId" : "음악 파일 S3 저장 기능(admin)",
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/admin-music1984186965"
+                },
+                "examples" : {
+                  "음악 파일 S3 저장 기능(admin)" : {
+                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"calm\"\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/playlist" : {
       "get" : {
         "tags" : [ "api" ],
@@ -368,7 +391,7 @@
                 },
                 "examples" : {
                   "인증된 사용자의 댓글 작성" : {
-                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-15T22:10:12.14115\",\n  \"modifiedAt\" : \"2023-07-15T22:10:12.141166\"\n}"
+                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-17T00:15:42.80421\",\n  \"modifiedAt\" : \"2023-07-17T00:15:42.804226\"\n}"
                   }
                 }
               }
@@ -540,10 +563,10 @@
                 },
                 "examples" : {
                   "인증되지 않은 사용자의 음악 상세 조회(곡 제목)" : {
-                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\"\n}"
+                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"calm\"\n}"
                   },
                   "인증되지 않은 사용자의 음악 상세 조회(곡 id)" : {
-                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\"\n}"
+                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"calm\"\n}"
                   }
                 }
               }
@@ -708,7 +731,7 @@
                 },
                 "examples" : {
                   "해당 곡의 전체 댓글조회" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-15T22:10:12.265172\",\n    \"modifiedAt\" : \"2023-07-15T22:10:12.265181\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-17T00:15:42.946252\",\n    \"modifiedAt\" : \"2023-07-17T00:15:42.946263\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
                   }
                 }
               }
@@ -839,6 +862,35 @@
           }
         }
       },
+      "admin-music1984186965" : {
+        "type" : "object",
+        "properties" : {
+          "music_url" : {
+            "type" : "string",
+            "description" : "음악 mp3 파일 url"
+          },
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 식별 Id"
+          },
+          "image_url" : {
+            "type" : "string",
+            "description" : "음악 img 파일 url"
+          },
+          "playtime" : {
+            "type" : "string",
+            "description" : "음악 재생 시간"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "음악 타이틀"
+          },
+          "tags" : {
+            "type" : "string",
+            "description" : "음악 태그"
+          }
+        }
+      },
       "api-playlist-member-id1424350679" : {
         "type" : "object",
         "properties" : {
@@ -895,23 +947,6 @@
           "email" : {
             "type" : "string",
             "description" : "이메일"
-          }
-        }
-      },
-      "api-musics-music-id-comments-1230103686" : {
-        "type" : "object",
-        "properties" : {
-          "musicId" : {
-            "type" : "number",
-            "description" : "음악 정보(번호)"
-          },
-          "comment" : {
-            "type" : "string",
-            "description" : "댓글 내용"
-          },
-          "memberId" : {
-            "type" : "number",
-            "description" : "사용자 정보(번호)"
           }
         }
       },
@@ -972,6 +1007,23 @@
               }
             },
             "description" : "페이지 정보"
+          }
+        }
+      },
+      "api-musics-music-id-comments-1230103686" : {
+        "type" : "object",
+        "properties" : {
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 정보(번호)"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "댓글 내용"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "사용자 정보(번호)"
           }
         }
       },

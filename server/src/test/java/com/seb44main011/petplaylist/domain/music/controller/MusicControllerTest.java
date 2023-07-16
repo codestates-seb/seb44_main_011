@@ -37,7 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-
 public class MusicControllerTest extends MusicFieldDescriptor {
     @Autowired
     private MockMvc mockMvc;

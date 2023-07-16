@@ -1,0 +1,32 @@
+= 펫플리 관리자 API 문서
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: 목차
+:source-highlighter: prettify
+
+Shin Young Ho <sim808917@gamil.com>
+
+v1.0.0, 2023.07.16
+
+
+***
+== AdminController(Admin page)
+=== 음악 등록
+==== API 요청
+.curl-request(CLI 요청)
+include::{snippets}/음악 파일 S3 저장 기능(admin)/curl-request.adoc[]
+
+.http-request(http 요청)
+include::{snippets}/음악 파일 S3 저장 기능(admin)/http-request.adoc[]
+====== 요청 형식
+.request(form-data)
+include::{snippets}/음악 파일 S3 저장 기능(admin)/request-parts.adoc[]
+.musicInfo 형식(json)
+include::{snippets}/음악 파일 S3 저장 기능(admin)/request-part-request-body.adoc[]
+***
+==== API 응답
+.response-json
+include::{snippets}/음악 파일 S3 저장 기능(admin)/response-body.adoc[]
+.response-type
+include::{snippets}/음악 파일 S3 저장 기능(admin)/response-fields.adoc[]
