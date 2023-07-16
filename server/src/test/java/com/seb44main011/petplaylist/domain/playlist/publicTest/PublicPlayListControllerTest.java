@@ -41,22 +41,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
 public class PublicPlayListControllerTest extends PublicFieldDescriptor{
+    //TODO: 배포시 자꾸 에라가 나는 이슈가 있음 .. SQL연결 관련 이슈 있다가 없다가 함 ㅋㅋ 해결 해야함.
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private Gson gson;
-
     @MockBean
     private MemberService memberService;
     @MockBean
     private MusicService musicService;
     @MockBean
-    private MusicListService musicListService;
-
-    @MockBean
     private MusicListMapper musicListMapper;
-    @MockBean
-    private S3Service service;
+
 
 
     private final String PUBLIC_PLAYLIST_URL = "/public/playlist";
