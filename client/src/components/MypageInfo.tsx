@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import UserInfo from "../assets/imgs/UserInfo.png";
+// import UserInfo from "../assets/imgs/UserInfo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 import EditProfile from "./EditProfile";
