@@ -274,17 +274,19 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
                   </WriteBtn>
                 </ButtonContainer>
               ) : (
-                <>
-                  <ButtonContainer>
-                    <IconBtn onClick={() => handleEdit(comment.commentId)}>
-                      <EditIcon fill="#F5F6F6" />
-                    </IconBtn>
-                    <IconBtn>
-                      <DeleteIcon fill="#F5F6F6" />
-                    </IconBtn>
-                  </ButtonContainer>
-                  <span>{calculateTimeAgo(comment.createdAt)}</span>
-                </>
+                Number(memberId) === comment.memberId && (
+                  <>
+                    <ButtonContainer>
+                      <IconBtn onClick={() => handleEdit(comment.commentId)}>
+                        <EditIcon fill="#F5F6F6" />
+                      </IconBtn>
+                      <IconBtn>
+                        <DeleteIcon fill="#F5F6F6" />
+                      </IconBtn>
+                    </ButtonContainer>
+                    <span>{calculateTimeAgo(comment.createdAt)}</span>
+                  </>
+                )
               )}
             </CommentList>
           ))
