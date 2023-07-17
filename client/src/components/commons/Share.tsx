@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import Google from "../../assets/imgs/google.svg";
-import Naver from "../../assets/imgs/naver.svg";
 import Kakao from "../../assets/imgs/kakao.svg";
 import { useGoogleLogin } from "@react-oauth/google";
-import { Naver_URL, Naver_Redirect_URL } from "../../utils/Url";
+import { Naver_Redirect_URL } from "../../utils/Url";
 const ShareContainer = styled.div`
   width: 200px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 30px;
   img {
     cursor: pointer;
@@ -44,20 +43,16 @@ function Share() {
     });
     naverLogin.init();
   };
-  const NaverLogin = () => {
-    window.location.href = Naver_URL;
-  };
   useEffect(() => {
     initializeNaverLogin();
   }, []);
   return (
     <ShareContainer>
       <img onClick={() => login()} src={Google} alt="Google" />
-      <img onClick={() => NaverLogin()} src={Naver} alt="Naver" />
-      <img src={Kakao} alt="Kakao" />
       <NaverDiv>
         <div id="naverIdLogin" />
       </NaverDiv>
+      <img src={Kakao} alt="Kakao" />
     </ShareContainer>
   );
 }

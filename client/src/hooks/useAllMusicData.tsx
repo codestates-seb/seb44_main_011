@@ -1,7 +1,8 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { useState, useEffect } from "react";
 import { Music } from "../types/Music";
 import { PageInfo } from "../types/PageInfo";
+import { GetPublicPlaylist, GetApiPlaylist } from "../utils/Url";
 
 type MusicListData = {
   data: Music[];
@@ -18,24 +19,28 @@ const useAllMusicData = (
     pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
   });
 
-  const memberId = localStorage.getItem("memberId");
-
   useEffect(() => {
     const fetchData = async () => {
-      let requestPath = `/public/playlist/${isDogpli}s`;
-      if (memberId) {
-        requestPath = `/api/playlist/${isDogpli}s/id/${memberId}`;
+      const memberId = localStorage.getItem("memberId");
+      const accessToken = localStorage.getItem("accessToken");
+
+      const config: AxiosRequestConfig = {
+        params: {
+          page: currentPage,
+        },
+      };
+
+      if (memberId && accessToken) {
+        config.headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+        config.url = `${GetApiPlaylist}/${isDogpli}s/id/${memberId}`;
+      } else {
+        config.url = `${GetPublicPlaylist}/${isDogpli}s`;
       }
 
       try {
-        const response = await axios.get(
-          `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080${requestPath}`,
-          {
-            params: {
-              page: currentPage,
-            },
-          }
-        );
+        const response = await axios.get(config.url, config);
         setMusicList(response.data);
       } catch (error) {
         console.error(error);
