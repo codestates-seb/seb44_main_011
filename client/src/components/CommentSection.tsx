@@ -137,7 +137,7 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
   const [isInputActive, setIsInputActive] = useState(false);
   const [isCommentChanged, setIsCommentChanged] = useState(false);
   const [editCommentId, setEditCommentId] = useState<number | null>(null);
-  const [editComment, setEditComment] = useState("");
+  // const [editComment, setEditComment] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const commentData: CommentData = useCommentData({
     musicId,
@@ -213,8 +213,7 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
     setEditCommentId(commentId);
   };
 
-  const handleEditCancel = (comment: string) => {
-    setEditComment(comment);
+  const handleEditCancel = () => {
     setEditCommentId(null);
   };
 
@@ -266,10 +265,7 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
               {editCommentId === comment.commentId ? (
                 <ButtonContainer>
                   <WriteBtn type="button">수정완료</WriteBtn>
-                  <WriteBtn
-                    type="button"
-                    onClick={() => handleEditCancel(comment.comment)}
-                  >
+                  <WriteBtn type="button" onClick={() => handleEditCancel()}>
                     수정취소
                   </WriteBtn>
                 </ButtonContainer>
