@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
@@ -7,18 +7,50 @@ import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg"
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
 import { Link, NavLink } from "react-router-dom";
+import Login from "../pages/Login";
+import SignUp from "../pages/SignUp";
 
 function SideBar() {
   const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [Signmodal, setSignModal] = useState(false);
+  const modalRef = useRef(null);
+  const isLogin = localStorage.getItem("memberId");
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
 
+
+  console.log(isLogin);
   useEffect(() => {
     checkLoginStatus();
   }, []);
 
+  const showLoginModal = () => {
+    setModalOpen(!modalOpen);
+  };
+  const showSignModal = () => {
+    setSignModal(!Signmodal);
+  };
+  const logout = () => {
+    localStorage.removeItem("memberId");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refresh");
+    window.location.replace("/");
+  };
+  const modalSideClick = (e: React.MouseEvent | React.TouchEvent) => {
+    if (modalRef.current === e.target) {
+      setModalOpen(!modalOpen);
+    }
+  };
+  const modalSideClick2 = (e: React.MouseEvent | React.TouchEvent) => {
+    if (modalRef.current === e.target) {
+      setSignModal(!Signmodal);
+    }
+  };
   function checkLoginStatus() {
     // 로그인 상태 확인 로직
     setIsLoggedIn(true);
@@ -101,25 +133,33 @@ function SideBar() {
           />
         </NavMypage>
       </Link>
-      <ButtonWrapper>
-        {/* {isLoggedIn ? (
-        <>
-          <Logout>LOGOUT</Logout>
-        </>
-      ) : (
-        <>
-          <Login>LOGIN</Login>
-          <Signup>SIGNUP</Signup>
-        </>
-      )} */}
-        <Login>LOGIN</Login>
-        <Signup>SIGNUP</Signup>
-      </ButtonWrapper>
+        <ButtonWrapper>
+          {isLogin ? (
+            <>
+              <Logout onClick={() => logout()}>LOGOUT</Logout>
+            </>
+          ) : (
+            <>
+              <Login1 onClick={() => showLoginModal()}>LOGIN</Login1>
+              <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
+            </>
+          )}
+        </ButtonWrapper>
     </RootWrapper>
   );
 }
 export default SideBar;
-
+const ModalBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  position: fixed;
+  backdrop-filter: blur(10px);
+  animation: showview 2s forwards;
+`;
 const DropdownMenu = styled.div`
   position: absolute;
   top: 100%;
@@ -325,7 +365,8 @@ const Logout = styled.button`
   width: 185px;
   height: 40px;
 `;
-const Login = styled.button`
+
+const Login1 = styled.button`
   border: solid 1px #84cbff;
   border-radius: 100px;
   color: #84cbff;
