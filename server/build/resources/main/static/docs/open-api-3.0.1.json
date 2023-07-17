@@ -33,6 +33,26 @@
         }
       }
     },
+    "/admin/music/id/{music-Id}" : {
+      "delete" : {
+        "tags" : [ "admin" ],
+        "operationId" : "음원 파일 비활성화 기능(admin)",
+        "parameters" : [ {
+          "name" : "music-Id",
+          "in" : "path",
+          "description" : "음악 식별 Id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204"
+          }
+        }
+      }
+    },
     "/api/playlist" : {
       "get" : {
         "tags" : [ "api" ],
@@ -55,6 +75,14 @@
           "schema" : {
             "type" : "number"
           }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "정렬기준(new,old)",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -62,7 +90,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist651717824"
+                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
                 },
                 "examples" : {
                   "회원의 전체 음악 리스트 조회 기능" : {
@@ -271,7 +299,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist651717824"
+                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
                 },
                 "examples" : {
                   "회원의 개인 플레이 리스트 조회(좋아요 리스트)" : {
@@ -391,7 +419,7 @@
                 },
                 "examples" : {
                   "인증된 사용자의 댓글 작성" : {
-                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-17T00:15:42.80421\",\n  \"modifiedAt\" : \"2023-07-17T00:15:42.804226\"\n}"
+                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-17T14:48:10.672397\",\n  \"modifiedAt\" : \"2023-07-17T14:48:10.672411\"\n}"
                   }
                 }
               }
@@ -517,7 +545,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist651717824"
+                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
                 },
                 "examples" : {
                   "카테고리 테크별 조회 API(로그인 된 회원)" : {
@@ -588,6 +616,14 @@
           "required" : true,
           "schema" : {
             "type" : "number"
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "정렬 기준(new,old)",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
           }
         } ],
         "responses" : {
@@ -731,7 +767,7 @@
                 },
                 "examples" : {
                   "해당 곡의 전체 댓글조회" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-17T00:15:42.946252\",\n    \"modifiedAt\" : \"2023-07-17T00:15:42.946263\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-17T14:48:10.751662\",\n    \"modifiedAt\" : \"2023-07-17T14:48:10.751675\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
                   }
                 }
               }
@@ -950,6 +986,23 @@
           }
         }
       },
+      "api-musics-music-id-comments-1230103686" : {
+        "type" : "object",
+        "properties" : {
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 정보(번호)"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "댓글 내용"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "사용자 정보(번호)"
+          }
+        }
+      },
       "public-musics-music-id-comments924576111" : {
         "type" : "object",
         "properties" : {
@@ -1010,24 +1063,7 @@
           }
         }
       },
-      "api-musics-music-id-comments-1230103686" : {
-        "type" : "object",
-        "properties" : {
-          "musicId" : {
-            "type" : "number",
-            "description" : "음악 정보(번호)"
-          },
-          "comment" : {
-            "type" : "string",
-            "description" : "댓글 내용"
-          },
-          "memberId" : {
-            "type" : "number",
-            "description" : "사용자 정보(번호)"
-          }
-        }
-      },
-      "api-playlist651717824" : {
+      "api-playlist-member-id651717824" : {
         "type" : "object",
         "properties" : {
           "data" : {
