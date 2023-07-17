@@ -52,6 +52,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers("/public/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/api/**").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("USER")
                         .antMatchers("/api/members/**").authenticated()
@@ -73,6 +74,7 @@ public class SecurityConfiguration {
         configuration.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:3000", "http://localhost:5173"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

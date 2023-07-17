@@ -61,16 +61,8 @@ class CommentControllerTest {
     @MockBean
     private CommentService commentService;
 
-    @MockBean
-    private MemberService memberService;
 
-    @MockBean
-    private MusicRepository musicRepository;
 
-    @MockBean
-    private CommentMapper commentMapper;
-    @MockBean
-    private S3Service s3service;
 
 
     @Test

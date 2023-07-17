@@ -18,7 +18,7 @@ const ToggleBase = styled.div`
   padding: 0 4px;
 `;
 
-const ToggleCircle = styled.div<{ activeOption: string }>`
+const ToggleCircle = styled.div<{ $activeOption: string }>`
   display: flex;
   width: 90px;
   height: 35px;
@@ -28,13 +28,13 @@ const ToggleCircle = styled.div<{ activeOption: string }>`
   position: absolute;
   margin: 0 0.25rem;
   transition: 0.3s;
-  left: ${({ activeOption }) => (activeOption === "dog" ? "0" : "92px")};
+  left: ${({ $activeOption }) => ($activeOption === "dog" ? "0" : "92px")};
 `;
 
 interface ToggleProps {
   onClick: (buttonId: string) => void;
   gap?: string;
-  activeOption: string;
+  $activeOption: string;
   buttonData: {
     id: string;
     text: string;
@@ -45,7 +45,7 @@ interface ToggleProps {
   }[];
 }
 
-const Toggle = ({ activeOption, onClick, gap, buttonData }: ToggleProps) => {
+const Toggle = ({ $activeOption, onClick, gap, buttonData }: ToggleProps) => {
   const toggleHandler = (buttonId: string): void => {
     onClick(buttonId);
   };
@@ -53,12 +53,12 @@ const Toggle = ({ activeOption, onClick, gap, buttonData }: ToggleProps) => {
   return (
     <ToggleContainer>
       <ToggleBase>
-        <ToggleCircle activeOption={activeOption} />
+        <ToggleCircle $activeOption={$activeOption} />
         <CategoryBtns
           buttonData={buttonData}
-          activeOption={activeOption}
+          $activeOption={$activeOption}
           onClick={toggleHandler}
-          gap={gap}
+          $gap={gap}
         />
       </ToggleBase>
     </ToggleContainer>

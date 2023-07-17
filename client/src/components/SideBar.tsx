@@ -13,10 +13,16 @@ import SignUp from "../pages/SignUp";
 function SideBar() {
   const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [currentMenu, setCurrentMenu] = useState<string>("hello");
+
 
   console.log(isLogin);
   useEffect(() => {
@@ -50,54 +56,83 @@ function SideBar() {
     setIsLoggedIn(true);
   }
 
-  const handleTagsMenuToggle = () => {
+  const handleClickMenu = (e: any) => {
+    setCurrentMenu(e.target.id);
+  };
+
+  const handleTagsMenuToggle = (e: any) => {
     setIsTagsMenuOpen(isTagsMenuOpen);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      performSearch();
+    }
+  };
+
+  const performSearch = () => {
+    console.log("검색어:", searchQuery);
+    // 여기에서 검색을 수행하는 로직을 추가하세요.
+    // 검색 결과에 따라 필요한 동작을 처리합니다.
+  };
+
   return (
-    <>
-      <RootWrapper>
-        <NavLogo>
-          <NaN_0001>
-            <DogLogoImg />
-          </NaN_0001>
-        </NavLogo>
-        <Nav>
-          <InputField type="text" />
-          <SearchImg fill="#B4B4B7" />
-        </Nav>
-        <NavHome>
-          <Link className="home" to="/">
-            <HomeImg fill="#84CBFF" />
-            <Home_0001>Home</Home_0001>
-          </Link>
+    <RootWrapper>
+      <NavLogo>
+        <NaN_0001>
+          <DogLogoImg />
+        </NaN_0001>
+      </NavLogo>
+      <Nav>
+        <InputField
+          type="text"
+          value={searchQuery}
+          onChange={handleInputChange}
+          onKeyPress={handleInputKeyPress}
+        />
+        <SearchImg fill="#B4B4B7" />
+      </Nav>
+      <Link className="home" to="/">
+        <NavHome id="home" onClick={() => handleClickMenu("home")}>
+          <HomeImg fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"} />
+          <Home_0001>Home</Home_0001>
         </NavHome>
-        <NavMylist>
-          <Link className="mylist" to="/mylist">
-            <MyList>MyList</MyList>
-            <MyListImg fill="#B4B4B7" />
-          </Link>
+      </Link>
+      <Link className="mylist" to="/mylist">
+        <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
+          <MyList>MyList</MyList>
+          <MyListImg fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"} />
         </NavMylist>
-        <NavTags onClick={handleTagsMenuToggle}>
-          <Link className="tags" to="/tags">
+      </Link>
+      <Link className="tags" to="/tags">
+        <div onClick={handleTagsMenuToggle}>
+          <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
             <Tags>Tags</Tags>
-            <TagImg fill="#B4B4B7" />
-          </Link>
-          {isTagsMenuOpen && (
-            <DropdownMenu>
-              <MenuItem>Tag 1</MenuItem>
-              <MenuItem>Tag 2</MenuItem>
-              <MenuItem>Tag 3</MenuItem>
-              <MenuItem>Tag 4</MenuItem>
-            </DropdownMenu>
-          )}
-        </NavTags>
-        <NavMypage>
-          <Link className="mypage" to="/mypage">
-            <MyPage id="mypageText">MyPage</MyPage>
-            <MypageImg id="mypageImg" fill="#B4B4B7" />
-          </Link>
+            <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
+            {isTagsMenuOpen && (
+              <DropdownMenu>
+                <MenuItem>Tag 1</MenuItem>
+                <MenuItem>Tag 2</MenuItem>
+                <MenuItem>Tag 3</MenuItem>
+                <MenuItem>Tag 4</MenuItem>
+              </DropdownMenu>
+            )}
+          </NavTags>
+        </div>
+      </Link>
+      <Link className="mypage" to="/mypage">
+        <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
+          <MyPage id="mypageText">MyPage</MyPage>
+          <MypageImg
+            id="mypageImg"
+            fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
+          />
         </NavMypage>
+      </Link>
         <ButtonWrapper>
           {isLogin ? (
             <>
@@ -109,21 +144,8 @@ function SideBar() {
               <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
             </>
           )}
-          {/* <Login>LOGIN</Login>
-        <Signup>SIGNUP</Signup> */}
         </ButtonWrapper>
-      </RootWrapper>
-      {modalOpen && (
-        <ModalBackground ref={modalRef} onClick={modalSideClick}>
-          <Login />
-        </ModalBackground>
-      )}
-      {Signmodal && (
-        <ModalBackground ref={modalRef} onClick={modalSideClick2}>
-          <SignUp />
-        </ModalBackground>
-      )}
-    </>
+    </RootWrapper>
   );
 }
 export default SideBar;
@@ -165,17 +187,6 @@ const RootWrapper = styled.div`
   max-width: 350px;
   display: flex;
 `;
-// const RootWrapper = styled.div`
-//   background-color: rgb(240, 243, 243);
-//   border: solid 1px rgba(255, 255, 255, 0.16);
-//   position: sticky;
-//   box-shadow: 0px 4px 5px 2px rgba(217, 217, 217, 0.5);
-//   width: 16%;
-//   top: 0;
-//   flex-shrink: 0;
-//   min-width: 200px;
-//   max-width: 350px;
-// `;
 
 const Nav = styled.div`
   overflow: hidden;
@@ -354,6 +365,7 @@ const Logout = styled.button`
   width: 185px;
   height: 40px;
 `;
+
 const Login1 = styled.button`
   border: solid 1px #84cbff;
   border-radius: 100px;

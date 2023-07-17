@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components";
 
-const CategoryBtnsContainer = styled.div<{ gap?: string }>`
+const CategoryBtnsContainer = styled.div<{ $gap?: string }>`
   display: flex;
   flex-direction: row;
-  ${({ gap }) => gap && `gap: ${gap}px`};
+  ${({ $gap }) => $gap && `gap: ${$gap}px`};
   cursor: pointer;
 `;
 
 const CategoryContainer = styled.button<{
-  active?: boolean;
+  $active?: string;
   color: string;
   fontSize: string;
   fontWeight: string;
@@ -20,7 +20,7 @@ const CategoryContainer = styled.button<{
   justify-content: center;
   z-index: 1;
   font-family: var(--font-quicksand);
-  color: ${({ active, color }) => (active ? color : "#fff")};
+  color: ${({ $active, color }) => ($active === "true" ? color : "#fff")};
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ fontWeight }) => fontWeight};
 
@@ -29,8 +29,8 @@ const CategoryContainer = styled.button<{
     fill: ${({ color }) => color};
   }
 
-  ${({ active }) =>
-    !active &&
+  ${({ $active }) =>
+    $active === "false" &&
     css`
       color: var(--gray-300);
       > svg {
@@ -47,7 +47,7 @@ const CategoryContainer = styled.button<{
 `;
 
 interface CategoryButtonProps {
-  active: boolean;
+  $active: string;
   onClick: () => void;
   text: string;
   color: string;
@@ -57,7 +57,7 @@ interface CategoryButtonProps {
 }
 
 const CategoryButton: React.FC<CategoryButtonProps> = ({
-  active,
+  $active,
   onClick,
   text,
   color,
@@ -66,7 +66,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
   icon: Icon,
 }) => (
   <CategoryContainer
-    active={active}
+    $active={$active}
     color={color}
     fontSize={fontSize}
     fontWeight={fontWeight}
@@ -86,28 +86,28 @@ interface CategoryBtnsProps {
     fontWeight: string;
     icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   }[];
-  activeOption: string;
+  $activeOption: string;
   onClick: (option: string) => void;
-  gap?: string;
+  $gap?: string;
 }
 
 const CategoryBtns: React.FC<CategoryBtnsProps> = ({
   buttonData = [],
-  activeOption,
+  $activeOption,
   onClick,
-  gap = "0",
+  $gap = "0",
 }) => {
   const handleButtonClick = (buttonId: string) => {
     onClick(buttonId);
   };
 
   return (
-    <CategoryBtnsContainer gap={gap}>
+    <CategoryBtnsContainer $gap={$gap}>
       {buttonData.map((data) => {
         return (
           <CategoryButton
             key={data.id}
-            active={activeOption === data.id}
+            $active={($activeOption === data.id).toString()}
             onClick={() => handleButtonClick(data.id)}
             text={data.text}
             color={data.color}

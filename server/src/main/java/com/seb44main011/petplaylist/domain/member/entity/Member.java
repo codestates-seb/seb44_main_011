@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Entity(name = "MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
 public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,19 +30,14 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    @Builder.Default
     private Status status = Status.MEMBER_ACTIVE;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name="PERSONALPLAYLIST_ID")
-//    private PersonalPlayList personalPlayList;
     @OneToMany(mappedBy = "member",cascade =CascadeType.ALL)
-    private List<PlayList> playLists;
+    private List<PlayList> playLists= new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    @Builder.Default
-    private OAuthCheck oAuthCheck = OAuthCheck.NO_OAUTH;
+    private OAuthCheck oAuthCheck= OAuthCheck.NO_OAUTH;
 
     @Builder
     public Member(long memberId, String email, String password, String name, String profile, Status status, List<PlayList> playLists, OAuthCheck oAuthCheck) {
@@ -52,9 +46,9 @@ public class Member extends BaseTimeEntity {
         this.password = password;
         this.name = name;
         this.profile = "기본 프로필 이미지";
-        this.status = status;
+        this.status = Status.MEMBER_ACTIVE;
         this.playLists = new ArrayList<>();
-        this.oAuthCheck = oAuthCheck;
+        this.oAuthCheck = OAuthCheck.NO_OAUTH;
     }
 
     public enum Status {

@@ -37,7 +37,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MusicControllerTest extends MusicFieldDescriptor {
     @Autowired
     private MockMvc mockMvc;
@@ -47,8 +46,6 @@ public class MusicControllerTest extends MusicFieldDescriptor {
     private MusicService service;
     @MockBean
     private MusicMapper mapper;
-    @MockBean
-    private S3Service s3service;
 
     private final String PUBLIC_MUSIC_URL = "/public/musics";
 

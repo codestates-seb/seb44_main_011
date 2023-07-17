@@ -10,6 +10,29 @@
   } ],
   "tags" : [ ],
   "paths" : {
+    "/admin/music" : {
+      "post" : {
+        "tags" : [ "admin" ],
+        "operationId" : "음악 파일 S3 저장 기능(admin)",
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/admin-music1984186965"
+                },
+                "examples" : {
+                  "음악 파일 S3 저장 기능(admin)" : {
+                    "value" : "{\r\n  \"musicId\" : 1,\r\n  \"title\" : \"곡의 이름입니다\",\r\n  \"music_url\" : \"/music/test.mp3\",\r\n  \"image_url\" : \"/img/test.jpg\",\r\n  \"playtime\" : \"3:20\",\r\n  \"tags\" : \"calm\"\r\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/playlist" : {
       "get" : {
         "tags" : [ "api" ],
@@ -39,11 +62,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist651717824"
+                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
                 },
                 "examples" : {
                   "회원의 전체 음악 리스트 조회 기능" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 1,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test/test.mp3\",\n    \"image_url\" : \"test.com/test/test.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 2,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 3,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test4/test4.mp3\",\n    \"image_url\" : \"test.com/test4/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"happy\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 4,\n    \"title\" : \"노래제목입니다\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\",\n    \"liked\" : false\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 4,\n    \"totalPages\" : 1\n  }\n}"
+                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 1,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test/test.mp3\",\r\n    \"image_url\" : \"test.com/test/test.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 2,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 3,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test4/test4.mp3\",\r\n    \"image_url\" : \"test.com/test4/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"happy\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 4,\r\n    \"title\" : \"노래제목입니다\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\",\r\n    \"liked\" : false\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 4,\r\n    \"totalPages\" : 1\r\n  }\r\n}"
                   }
                 }
               }
@@ -77,7 +100,7 @@
                 },
                 "examples" : {
                   "회원조회 예제" : {
-                    "value" : "{\n  \"email\" : \"hgd@gmail.com\",\n  \"name\" : \"내가바로홍길동\",\n  \"musicLists\" : [ {\n    \"musicId\" : 7,\n    \"title\" : \"7번째 곡\",\n    \"music_url\" : \"test.com/test1/test1.mp3\",\n    \"image_url\" : \"test.com/test1/test1.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 8,\n    \"title\" : \"8번째 곡\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 9,\n    \"title\" : \"9번째 곡\",\n    \"music_url\" : \"test.com/test2/test3.mp3\",\n    \"image_url\" : \"test.com/test2/test3.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 10,\n    \"title\" : \"10번째 곡\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  } ]\n}"
+                    "value" : "{\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"name\" : \"내가바로홍길동\",\r\n  \"musicLists\" : [ {\r\n    \"musicId\" : 7,\r\n    \"title\" : \"7번째 곡\",\r\n    \"music_url\" : \"test.com/test1/test1.mp3\",\r\n    \"image_url\" : \"test.com/test1/test1.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 8,\r\n    \"title\" : \"8번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 9,\r\n    \"title\" : \"9번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test3.mp3\",\r\n    \"image_url\" : \"test.com/test2/test3.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 10,\r\n    \"title\" : \"10번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  } ]\r\n}"
                   }
                 }
               }
@@ -107,7 +130,7 @@
               },
               "examples" : {
                 "회원탈퇴 예제" : {
-                  "value" : "{\n  \"password\" : \"a12341234\"\n}"
+                  "value" : "{\r\n  \"password\" : \"a12341234\"\r\n}"
                 }
               }
             }
@@ -141,7 +164,7 @@
               },
               "examples" : {
                 "회원정보 수정 테스트" : {
-                  "value" : "{\n  \"name\" : \"내가진짜홍길동\",\n  \"profile\" : \"수정된 프로필 이미지\"\n}"
+                  "value" : "{\r\n  \"name\" : \"내가진짜홍길동\",\r\n  \"profile\" : \"수정된 프로필 이미지\"\r\n}"
                 }
               }
             }
@@ -157,7 +180,7 @@
                 },
                 "examples" : {
                   "회원정보 수정 테스트" : {
-                    "value" : "{\n  \"email\" : \"hgd@gmail.com\",\n  \"name\" : \"내가진짜홍길동\",\n  \"profile\" : \"수정된 프로필 이미지\"\n}"
+                    "value" : "{\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"name\" : \"내가진짜홍길동\",\r\n  \"profile\" : \"수정된 프로필 이미지\"\r\n}"
                   }
                 }
               }
@@ -207,10 +230,10 @@
                 },
                 "examples" : {
                   "(로그인 상태)사용자의 음악 상세 조회(곡 id)" : {
-                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\",\n  \"liked\" : true\n}"
+                    "value" : "{\r\n  \"musicId\" : 1,\r\n  \"title\" : \"곡의 이름입니다\",\r\n  \"music_url\" : \"/music/test.mp3\",\r\n  \"image_url\" : \"/img/test.jpg\",\r\n  \"playtime\" : \"3:20\",\r\n  \"tags\" : \"dogs\",\r\n  \"liked\" : true\r\n}"
                   },
                   "(로그인 상태)사용자의 음악 상세 조회(곡 제목)" : {
-                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\",\n  \"liked\" : true\n}"
+                    "value" : "{\r\n  \"musicId\" : 1,\r\n  \"title\" : \"곡의 이름입니다\",\r\n  \"music_url\" : \"/music/test.mp3\",\r\n  \"image_url\" : \"/img/test.jpg\",\r\n  \"playtime\" : \"3:20\",\r\n  \"tags\" : \"dogs\",\r\n  \"liked\" : true\r\n}"
                   }
                 }
               }
@@ -248,11 +271,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist651717824"
+                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
                 },
                 "examples" : {
                   "회원의 개인 플레이 리스트 조회(좋아요 리스트)" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 1,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test/test.mp3\",\n    \"image_url\" : \"test.com/test/test.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 2,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 3,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test4/test4.mp3\",\n    \"image_url\" : \"test.com/test4/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"happy\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 4,\n    \"title\" : \"노래제목입니다\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\",\n    \"liked\" : false\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 4,\n    \"totalPages\" : 1\n  }\n}"
+                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 1,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test/test.mp3\",\r\n    \"image_url\" : \"test.com/test/test.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 2,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 3,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test4/test4.mp3\",\r\n    \"image_url\" : \"test.com/test4/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"happy\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 4,\r\n    \"title\" : \"노래제목입니다\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\",\r\n    \"liked\" : false\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 4,\r\n    \"totalPages\" : 1\r\n  }\r\n}"
                   }
                 }
               }
@@ -282,7 +305,7 @@
               },
               "examples" : {
                 "개인 플레이 리스트(좋아요)에 곡 추가" : {
-                  "value" : "{\n  \"musicId\" : 1\n}"
+                  "value" : "{\r\n  \"musicId\" : 1\r\n}"
                 }
               }
             }
@@ -316,7 +339,7 @@
               },
               "examples" : {
                 "개인 플레이 리스트(좋아요) 곡 삭제" : {
-                  "value" : "{\n  \"musicId\" : 1\n}"
+                  "value" : "{\r\n  \"musicId\" : 1\r\n}"
                 }
               }
             }
@@ -352,7 +375,7 @@
               },
               "examples" : {
                 "인증된 사용자의 댓글 작성" : {
-                  "value" : "{\n  \"memberId\" : 1,\n  \"musicId\" : 1,\n  \"comment\" : \"댓글입니다.\"\n}"
+                  "value" : "{\r\n  \"memberId\" : 1,\r\n  \"musicId\" : 1,\r\n  \"comment\" : \"댓글입니다.\"\r\n}"
                 }
               }
             }
@@ -368,7 +391,7 @@
                 },
                 "examples" : {
                   "인증된 사용자의 댓글 작성" : {
-                    "value" : "{\n  \"commentId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"createdAt\" : \"2023-07-14T13:58:24.147376\",\n  \"modifiedAt\" : \"2023-07-14T13:58:24.147391\"\n}"
+                    "value" : "{\r\n  \"commentId\" : 1,\r\n  \"musicId\" : 1,\r\n  \"name\" : \"네임\",\r\n  \"comment\" : \"내용\",\r\n  \"createdAt\" : \"2023-07-17T14:28:17.2593623\",\r\n  \"modifiedAt\" : \"2023-07-17T14:28:17.2593623\"\r\n}"
                   }
                 }
               }
@@ -436,7 +459,7 @@
               },
               "examples" : {
                 "인증된 사용자의 댓글 수정" : {
-                  "value" : "{\n  \"commentId\" : 1,\n  \"comment\" : \"수정 코멘트\"\n}"
+                  "value" : "{\r\n  \"commentId\" : 1,\r\n  \"comment\" : \"수정 코멘트\"\r\n}"
                 }
               }
             }
@@ -494,11 +517,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist651717824"
+                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
                 },
                 "examples" : {
                   "카테고리 테크별 조회 API(로그인 된 회원)" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 1,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test/test.mp3\",\n    \"image_url\" : \"test.com/test/test.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 2,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"relaxing\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 3,\n    \"title\" : \"노래제목입니다.\",\n    \"music_url\" : \"test.com/test4/test4.mp3\",\n    \"image_url\" : \"test.com/test4/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"dogs\",\n    \"tags\" : \"happy\",\n    \"liked\" : true\n  }, {\n    \"musicId\" : 4,\n    \"title\" : \"노래제목입니다\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\",\n    \"liked\" : false\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 54,\n    \"totalPages\" : 9\n  }\n}"
+                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 1,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test/test.mp3\",\r\n    \"image_url\" : \"test.com/test/test.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 2,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"relaxing\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 3,\r\n    \"title\" : \"노래제목입니다.\",\r\n    \"music_url\" : \"test.com/test4/test4.mp3\",\r\n    \"image_url\" : \"test.com/test4/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"dogs\",\r\n    \"tags\" : \"happy\",\r\n    \"liked\" : true\r\n  }, {\r\n    \"musicId\" : 4,\r\n    \"title\" : \"노래제목입니다\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\",\r\n    \"liked\" : false\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 54,\r\n    \"totalPages\" : 9\r\n  }\r\n}"
                   }
                 }
               }
@@ -514,17 +537,17 @@
         "description" : "인증되지 않은 사용자의 음악 상세 조회",
         "operationId" : "인증되지 않은 사용자의 음악 상세 조회(곡 ",
         "parameters" : [ {
-          "name" : "music_name",
+          "name" : "music_id",
           "in" : "query",
-          "description" : "검색을 위한 음악의 이름",
+          "description" : "검색을 위한 음악의 id",
           "required" : false,
           "schema" : {
             "type" : "string"
           }
         }, {
-          "name" : "music_id",
+          "name" : "music_name",
           "in" : "query",
-          "description" : "검색을 위한 음악의 id",
+          "description" : "검색을 위한 음악의 이름",
           "required" : false,
           "schema" : {
             "type" : "string"
@@ -539,11 +562,11 @@
                   "$ref" : "#/components/schemas/public-musics1039852064"
                 },
                 "examples" : {
-                  "인증되지 않은 사용자의 음악 상세 조회(곡 제목)" : {
-                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\"\n}"
-                  },
                   "인증되지 않은 사용자의 음악 상세 조회(곡 id)" : {
-                    "value" : "{\n  \"musicId\" : 1,\n  \"title\" : \"곡의 이름입니다\",\n  \"music_url\" : \"/music/test.mp3\",\n  \"image_url\" : \"/img/test.jpg\",\n  \"playtime\" : \"3:20\",\n  \"tags\" : \"dogs\"\n}"
+                    "value" : "{\r\n  \"musicId\" : 1,\r\n  \"title\" : \"곡의 이름입니다\",\r\n  \"music_url\" : \"/music/test.mp3\",\r\n  \"image_url\" : \"/img/test.jpg\",\r\n  \"playtime\" : \"3:20\",\r\n  \"tags\" : \"calm\"\r\n}"
+                  },
+                  "인증되지 않은 사용자의 음악 상세 조회(곡 제목)" : {
+                    "value" : "{\r\n  \"musicId\" : 1,\r\n  \"title\" : \"곡의 이름입니다\",\r\n  \"music_url\" : \"/music/test.mp3\",\r\n  \"image_url\" : \"/img/test.jpg\",\r\n  \"playtime\" : \"3:20\",\r\n  \"tags\" : \"calm\"\r\n}"
                   }
                 }
               }
@@ -577,7 +600,7 @@
                 },
                 "examples" : {
                   "전체 플레이 리스트 조회 API(비 로그인)" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 7,\n    \"title\" : \"7번째 곡\",\n    \"music_url\" : \"test.com/test1/test1.mp3\",\n    \"image_url\" : \"test.com/test1/test1.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 8,\n    \"title\" : \"8번째 곡\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 9,\n    \"title\" : \"9번째 곡\",\n    \"music_url\" : \"test.com/test2/test3.mp3\",\n    \"image_url\" : \"test.com/test2/test3.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 10,\n    \"title\" : \"10번째 곡\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 2,\n    \"size\" : 6,\n    \"totalElements\" : 10,\n    \"totalPages\" : 2\n  }\n}"
+                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 7,\r\n    \"title\" : \"7번째 곡\",\r\n    \"music_url\" : \"test.com/test1/test1.mp3\",\r\n    \"image_url\" : \"test.com/test1/test1.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 8,\r\n    \"title\" : \"8번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 9,\r\n    \"title\" : \"9번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test3.mp3\",\r\n    \"image_url\" : \"test.com/test2/test3.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 10,\r\n    \"title\" : \"10번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 2,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 10,\r\n    \"totalPages\" : 2\r\n  }\r\n}"
                   }
                 }
               }
@@ -600,7 +623,7 @@
               },
               "examples" : {
                 "회원가입 예제" : {
-                  "value" : "{\n  \"email\" : \"hgd@gmail.com\",\n  \"password\" : \"a12341234\",\n  \"name\" : \"내가바로홍길동\"\n}"
+                  "value" : "{\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"password\" : \"a12341234\",\r\n  \"name\" : \"내가바로홍길동\"\r\n}"
                 }
               }
             }
@@ -616,7 +639,7 @@
                 },
                 "examples" : {
                   "회원가입 예제" : {
-                    "value" : "{\n  \"memberId\" : 1,\n  \"email\" : \"hgd@gmail.com\",\n  \"name\" : \"내가바로홍길동\"\n}"
+                    "value" : "{\r\n  \"memberId\" : 1,\r\n  \"email\" : \"hgd@gmail.com\",\r\n  \"name\" : \"내가바로홍길동\"\r\n}"
                   }
                 }
               }
@@ -666,7 +689,7 @@
                 },
                 "examples" : {
                   "카테고리 테크별 조회 API(비 로그인)" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"musicId\" : 7,\n    \"title\" : \"7번째 곡\",\n    \"music_url\" : \"test.com/test1/test1.mp3\",\n    \"image_url\" : \"test.com/test1/test1.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 8,\n    \"title\" : \"8번째 곡\",\n    \"music_url\" : \"test.com/test2/test2.mp3\",\n    \"image_url\" : \"test.com/test2/test2.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 9,\n    \"title\" : \"9번째 곡\",\n    \"music_url\" : \"test.com/test2/test3.mp3\",\n    \"image_url\" : \"test.com/test2/test3.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  }, {\n    \"musicId\" : 10,\n    \"title\" : \"10번째 곡\",\n    \"music_url\" : \"test.com/test2/test4.mp3\",\n    \"image_url\" : \"test.com/test2/test4.jpg\",\n    \"playtime\" : \"3:20\",\n    \"category\" : \"cats\",\n    \"tags\" : \"happy\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 2,\n    \"size\" : 6,\n    \"totalElements\" : 50,\n    \"totalPages\" : 9\n  }\n}"
+                    "value" : "{\r\n  \"data\" : [ {\r\n    \"musicId\" : 7,\r\n    \"title\" : \"7번째 곡\",\r\n    \"music_url\" : \"test.com/test1/test1.mp3\",\r\n    \"image_url\" : \"test.com/test1/test1.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 8,\r\n    \"title\" : \"8번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test2.mp3\",\r\n    \"image_url\" : \"test.com/test2/test2.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 9,\r\n    \"title\" : \"9번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test3.mp3\",\r\n    \"image_url\" : \"test.com/test2/test3.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  }, {\r\n    \"musicId\" : 10,\r\n    \"title\" : \"10번째 곡\",\r\n    \"music_url\" : \"test.com/test2/test4.mp3\",\r\n    \"image_url\" : \"test.com/test2/test4.jpg\",\r\n    \"playtime\" : \"3:20\",\r\n    \"category\" : \"cats\",\r\n    \"tags\" : \"happy\"\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 2,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 50,\r\n    \"totalPages\" : 9\r\n  }\r\n}"
                   }
                 }
               }
@@ -708,7 +731,7 @@
                 },
                 "examples" : {
                   "해당 곡의 전체 댓글조회" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"createdAt\" : \"2023-07-14T13:58:24.243314\",\n    \"modifiedAt\" : \"2023-07-14T13:58:24.243326\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
+                    "value" : "{\r\n  \"data\" : [ {\r\n    \"commentId\" : 1,\r\n    \"musicId\" : 1,\r\n    \"name\" : \"네임\",\r\n    \"comment\" : \"내용\",\r\n    \"createdAt\" : \"2023-07-17T14:28:17.4852934\",\r\n    \"modifiedAt\" : \"2023-07-17T14:28:17.4852934\"\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 6,\r\n    \"totalPages\" : 1\r\n  }\r\n}"
                   }
                 }
               }
@@ -839,6 +862,35 @@
           }
         }
       },
+      "admin-music1984186965" : {
+        "type" : "object",
+        "properties" : {
+          "music_url" : {
+            "type" : "string",
+            "description" : "음악 mp3 파일 url"
+          },
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 식별 Id"
+          },
+          "image_url" : {
+            "type" : "string",
+            "description" : "음악 img 파일 url"
+          },
+          "playtime" : {
+            "type" : "string",
+            "description" : "음악 재생 시간"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "음악 타이틀"
+          },
+          "tags" : {
+            "type" : "string",
+            "description" : "음악 태그"
+          }
+        }
+      },
       "api-playlist-member-id1424350679" : {
         "type" : "object",
         "properties" : {
@@ -895,6 +947,23 @@
           "email" : {
             "type" : "string",
             "description" : "이메일"
+          }
+        }
+      },
+      "api-musics-music-id-comments-1230103686" : {
+        "type" : "object",
+        "properties" : {
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 정보(번호)"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "댓글 내용"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "사용자 정보(번호)"
           }
         }
       },
@@ -958,24 +1027,7 @@
           }
         }
       },
-      "api-musics-music-id-comments-1230103686" : {
-        "type" : "object",
-        "properties" : {
-          "musicId" : {
-            "type" : "number",
-            "description" : "음악 정보(번호)"
-          },
-          "comment" : {
-            "type" : "string",
-            "description" : "댓글 내용"
-          },
-          "memberId" : {
-            "type" : "number",
-            "description" : "사용자 정보(번호)"
-          }
-        }
-      },
-      "api-playlist651717824" : {
+      "api-playlist-member-id651717824" : {
         "type" : "object",
         "properties" : {
           "data" : {

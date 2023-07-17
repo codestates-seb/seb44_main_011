@@ -11,6 +11,6 @@ import java.util.Optional;
 @Transactional
 public interface MusicRepository extends JpaRepository<Music, Long> {
     Optional<Music> findByTitle(String musicTitle);
-    Page<Music> findByCategory(Music.Category category, Pageable pageable);
-    Page<Music> findByCategoryAndTags(Music.Category category, Music.Tags tags,Pageable pageable);
+    Page<Music> findByCategoryAndStatus(Music.Category category, Music.Status status, Pageable pageable);
+    Page<Music> findByCategoryAndTagsAndStatus(Music.Category category, Music.Tags tags,Music.Status status,Pageable pageable);
 }

@@ -18,8 +18,7 @@ const useAllMusicData = (
     pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
   });
 
-  // const memberId = localStorage.getItem("memberId");
-  const memberId = 1;
+  const memberId = localStorage.getItem("memberId");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +36,6 @@ const useAllMusicData = (
             },
           }
         );
-        console.log(response.data);
         setMusicList(response.data);
       } catch (error) {
         console.error(error);
