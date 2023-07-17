@@ -74,7 +74,7 @@ class CommentControllerTest {
 
         //given
         CommentDto.Post post = new CommentDto.Post(1L, 1L, "댓글입니다.");
-        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now());
+        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, 1L,"네임", "내용", "", LocalDateTime.now(), LocalDateTime.now());
 
         given(commentService.saveComment(Mockito.any(CommentDto.Post.class)))
                 .willReturn(responseComment);
@@ -109,6 +109,7 @@ class CommentControllerTest {
                                                 )
                                                 .responseFields(
                                                         PayloadDocumentation.fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("댓글 번호"),
+                                                        PayloadDocumentation.fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
                                                         PayloadDocumentation.fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
                                                         PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 닉네임"),
                                                         PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용"),
@@ -143,7 +144,7 @@ class CommentControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(context)
                 );
-        verify(commentService, times(1)).updateComment(any(CommentDto.Patch.class), anyLong());
+        verify(commentService, times(1)).updateComment(any(CommentDto.Patch.class), anyString());
         actions
                 .andExpect(status().isOk())
                 .andDo(
@@ -182,7 +183,7 @@ class CommentControllerTest {
 
                 );
 
-        verify(commentService, times(1)).deleteComment(anyLong(), anyLong());
+        verify(commentService, times(1)).deleteComment(anyLong(), anyString());
         actions
                 .andExpect(status().isOk())
                 .andDo(
@@ -210,7 +211,7 @@ class CommentControllerTest {
         Comment commentData = CommentTestData.MockComment.getCommentData();
         Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1,6);
         List<CommentDto.Response> responseList = new ArrayList<>();
-        responseList.add(new CommentDto.Response(1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now()));
+        responseList.add(new CommentDto.Response(1L, 1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now()));
 
         MultiResponseDto multiResponseDto = new MultiResponseDto(responseList, commentPageData);
 
@@ -246,6 +247,7 @@ class CommentControllerTest {
                                                 .responseFields(
                                                         PayloadDocumentation.fieldWithPath("data").type(JsonFieldType.ARRAY).description("댓글 리스트"),
                                                         PayloadDocumentation.fieldWithPath("data.[].commentId").type(JsonFieldType.NUMBER).description("댓글 번호"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
                                                         PayloadDocumentation.fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
                                                         PayloadDocumentation.fieldWithPath("data.[].name").type(JsonFieldType.STRING).description("사용자 닉네임"),
                                                         PayloadDocumentation.fieldWithPath("data.[].comment").type(JsonFieldType.STRING).description("댓글 내용"),

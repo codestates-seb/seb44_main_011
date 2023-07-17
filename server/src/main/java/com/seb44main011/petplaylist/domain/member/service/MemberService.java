@@ -90,8 +90,9 @@ public class MemberService {
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
-    public void setMemberProfileImage(long memberId, MultipartFile profileImage) {
-        Member targetMember = findMember(memberId);
+    public void setMemberProfileImage(String email, MultipartFile profileImage) {
+        Member byEmail = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        Member targetMember = findMember(byEmail.getMemberId());
         targetMember.setProfile(profileImage.getOriginalFilename());
         storageService.store(profileImage);
         memberRepository.save(targetMember);

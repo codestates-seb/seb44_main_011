@@ -5,6 +5,7 @@ import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.mapper.MemberMapper;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.member.service.StorageService;
+import com.seb44main011.petplaylist.global.common.AuthenticationName;
 import com.seb44main011.petplaylist.global.common.SingleResponseDto;
 import com.seb44main011.petplaylist.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +70,9 @@ public class MemberController {
     }
 
     @PostMapping(value = "/api/members/{member-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity setMemberProfile(@RequestPart MultipartFile profileImage) {
+    public ResponseEntity setMemberProfile(@AuthenticationName String email, @RequestPart MultipartFile profileImage) {
+
+        memberService.setMemberProfileImage(email, profileImage);
 
 
         return ResponseEntity.ok().build();
