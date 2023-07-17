@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import MainContent from "./components/commons/MainContent";
 import SideBar from "./components/SideBar";
 import { styled } from "styled-components";
+import { MypageInfo } from "./components/MypageInfo";
+import { useState } from "react";
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -14,6 +16,7 @@ const MainWrapper = styled.main`
 `;
 
 function App() {
+  const [selectedImage, setSelectedImage] = useState("//Todo");
   return (
     <BrowserRouter>
       <MainWrapper>
@@ -21,6 +24,10 @@ function App() {
         <MainContent>
           <Routes>
             <Route path="/mypage" element={<Mypage />} />
+            <Route
+              path="/mypage"
+              element={<MypageInfo selectedImage={selectedImage} />}
+            />
             <Route path="/tags" element={<Tags />} />
             <Route path="/" element={<Home />} />
             <Route path="/mypage/edit" element={<Edit />} />
