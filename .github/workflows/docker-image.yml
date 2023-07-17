@@ -14,11 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: 11
-          distribution: 'temurin'
       - name: Setup MySQL
         uses: samin/mysql-action@v1
         with:
@@ -26,17 +21,29 @@ jobs:
           mysql database: ${{ secrets.MYSQL_PATH }}
           mysql user: ${{ secrets.MYSQL_USERNAME }}
           mysql password: ${{ secrets.MYSQL_PASSWORD }}
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3.3.0
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
       - name: Cat yml
         run: |
           touch /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application.yml
           echo "${{ secrets.SERVER_YML_DATA }}" > /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application.yml
 
+
       - name: Build with Gradle
         run: |
           cd server
-          chmod 777 gradlew
+          chmod 755 gradlew
           ./gradlew clean
           ./gradlew build
+
+
+
+
 
 
 
@@ -46,6 +53,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
@@ -53,12 +61,12 @@ jobs:
           file: server/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:latest
+          # ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:latest
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
       - name: Deploy to AWS EC2
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
@@ -71,6 +79,8 @@ jobs:
         node-version: [18.x]
         # 14.x, 16.x,
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+
 
     steps:
       - uses: actions/checkout@v3
@@ -102,6 +112,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-client-app:latest
           # ${{ secrets.DOCKER_HUB_USERNAME }}/my-app:latest
+
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
