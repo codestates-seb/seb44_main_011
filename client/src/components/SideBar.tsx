@@ -23,7 +23,6 @@ function SideBar() {
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
 
-
   console.log(isLogin);
   useEffect(() => {
     checkLoginStatus();
@@ -133,18 +132,18 @@ function SideBar() {
           />
         </NavMypage>
       </Link>
-        <ButtonWrapper>
-          {isLogin ? (
-            <>
-              <Logout onClick={() => logout()}>LOGOUT</Logout>
-            </>
-          ) : (
-            <>
-              <Login1 onClick={() => showLoginModal()}>LOGIN</Login1>
-              <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
-            </>
-          )}
-        </ButtonWrapper>
+      <ButtonWrapper>
+        {isLogin ? (
+          <>
+            <Logout onClick={() => logout()}>LOGOUT</Logout>
+          </>
+        ) : (
+          <>
+            <Login1 onClick={() => showLoginModal()}>LOGIN</Login1>
+            <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
+          </>
+        )}
+      </ButtonWrapper>
     </RootWrapper>
   );
 }

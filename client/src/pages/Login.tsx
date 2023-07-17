@@ -10,7 +10,7 @@ import {
   PasswordMax,
 } from "../utils/Check";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { PostLogin } from "../utils/Url";
 import { Form } from "../components/commons/Form";
 
