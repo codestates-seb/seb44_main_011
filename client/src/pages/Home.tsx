@@ -62,6 +62,7 @@ const Home = () => {
 
   const handleLike = async (musicId: number, liked?: boolean) => {
     const memberId = localStorage.getItem("memberId");
+    const accessToken = localStorage.getItem("accessToken");
 
     if (!memberId) {
       alert("로그인이 필요합니다.");
@@ -72,6 +73,9 @@ const Home = () => {
           url: `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/api/playlist/${memberId}`,
           data: {
             musicId: musicId,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
         });
 

@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "commentId": 1,
+      "musicId": 1,
+      "memberId": 1,
+      "name": "네임",
+      "comment": "내용",
+      "createdAt": "2023-07-14T05:19:04.036826",
+      "modifiedAt": "2023-07-14T05:19:04.036847"
+    },
+    {
+      "commentId": 2,
+      "musicId": 1,
+      "memberId": 2,
+      "name": "일곱글자일때는",
+      "comment": "어쩌고저쩌고아이고허리야아이고머리야아이고어깨야여섯글자만더",
+      "createdAt": "2023-07-12T05:19:04.036826",
+      "modifiedAt": "2023-07-14T05:19:04.036847"
+    },
+    {
+      "commentId": 3,
+      "musicId": 1,
+      "memberId": 3,
+      "name": "최소",
+      "comment": "글자",
+      "createdAt": "2023-07-11T05:19:04.036826",
+      "modifiedAt": "2023-07-14T05:19:04.036847"
+    },
+    {
+      "commentId": 4,
+      "musicId": 1,
+      "memberId": 4,
+      "name": "더미데이터",
+      "comment": "만들기귀찮다",
+      "createdAt": "2023-07-11T05:19:04.036826",
+      "modifiedAt": "2023-07-14T05:19:04.036847"
+    },
+    {
+      "commentId": 5,
+      "musicId": 1,
+      "memberId": 1,
+      "name": "두개만",
+      "comment": "더 만들면 확인 가능!",
+      "createdAt": "2023-07-11T05:19:04.036826",
+      "modifiedAt": "2023-07-14T05:19:04.036847"
+    },
+    {
+      "commentId": 6,
+      "musicId": 1,
+      "memberId": 5,
+      "name": "드디어",
+      "comment": "한페이지완성돼따",
+      "createdAt": "2023-07-11T05:19:04.036826",
+      "modifiedAt": "2023-07-14T05:19:04.036847"
+    }
+  ],
+  "pageInfo": {
+    "page": 1,
+    "size": 6,
+    "totalElements": 6,
+    "totalPages": 1
+  }
+}

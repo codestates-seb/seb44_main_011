@@ -11,3 +11,9 @@ export const Naver_URL = `https://nid.naver.com/oauth2.0/authorize?response_type
 }&state=false&redirect_uri=http://localhost:5173`;
 
 export const Naver_Redirect_URL = "http://localhost:5173";
+
+export const GetPublicPlaylist = `${BaseURL}/public/playlist`;
+
+export const GetApiPlaylist = `${BaseURL}/api/playlist`;
+
+export const GetComment = `${BaseURL}/public/musics`;

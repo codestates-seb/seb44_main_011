@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Music } from "../types/Music";
 import { PageInfo } from "../types/PageInfo";
+import { GetApiPlaylist } from "../utils/Url";
 
 type MusicListData = {
   data: Music[];
@@ -17,21 +18,20 @@ const useMyMusicData = (
     pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
   });
 
-  const memberId = localStorage.getItem("memberId");
-
   useEffect(() => {
-    const fetchData = async () => {
-      const requestPath = `/api/playlist/${memberId}`;
+    const memberId = localStorage.getItem("memberId");
+    const accessToken = localStorage.getItem("accessToken");
 
+    const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080${requestPath}`,
-          {
-            params: {
-              page: currentPage || 1,
-            },
-          }
-        );
+        const response = await axios.get(`${GetApiPlaylist}/${memberId}`, {
+          params: {
+            page: currentPage,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         setMusicList(response.data);
         console.log(response.data);
       } catch (error) {
