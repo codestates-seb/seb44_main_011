@@ -1,4 +1,3 @@
-import React from "react";
 import { keyframes, styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -93,7 +92,7 @@ const Content = styled.p`
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
-  line-height: 150%;  
+  line-height: 150%;
   margin-bottom: 60px;
 `;
 
@@ -120,7 +119,7 @@ const Confirm = styled.button`
   margin-left: 10px;
   width: 185px;
   height: 40px;
-  border: 1px solid #84CBFF;
+  border: 1px solid #84cbff;
   border-radius: 100px;
   color: var(--white);
   font-family: Gaegu;
@@ -128,7 +127,7 @@ const Confirm = styled.button`
   font-style: normal;
   font-weight: 700;
   line-height: 100%; /* 20px */
-  background-color: #84CBFF;
+  background-color: #84cbff;
   cursor: pointer;
 `;
 const Cancle = styled.button`
@@ -142,6 +141,6 @@ const Cancle = styled.button`
   font-style: normal;
   font-weight: 700;
   line-height: 100%; /* 20px */
-  background-color: #8E8E8E;
+  background-color: #8e8e8e;
   cursor: pointer;
 `;

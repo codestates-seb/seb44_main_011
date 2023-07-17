@@ -1,6 +1,5 @@
-import React from "react";
 import { keyframes, styled } from "styled-components";
-import UserInfo from "../assets/imgs/UserInfo.png";
+// import UserInfo from "../assets/imgs/UserInfo.png";
 import Sample1 from "../assets/imgs/sample1.jpeg";
 import Sample2 from "../assets/imgs/sample2.jpeg";
 import Sample3 from "../assets/imgs/sample3.jpeg";
@@ -111,15 +110,15 @@ const ButtonWrapper = styled.div`
   align-items: center;
   margin-bottom: 20px;
 `;
-const DefaultImg = styled.img`
-  width: 200px;
-  height: 200px;
-  box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.4);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: 15px;
-`;
+// const DefaultImg = styled.img`
+//   width: 200px;
+//   height: 200px;
+//   box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.4);
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: center;
+//   border-radius: 15px;
+// `;
 const SampelImg1 = styled.img`
   width: 200px;
   height: 200px;
