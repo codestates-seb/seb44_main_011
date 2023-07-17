@@ -142,7 +142,7 @@ public class TestData {
                 );
             }
             public static List<PlaylistDto.ApiResponse> getPlayListResponseList() {
-                return List.of(
+                return new ArrayList<>(List.of(
                         getPlayListResponse(),
                         PlaylistDto.ApiResponse.builder()
                                 .musicId(2L)
@@ -173,7 +173,7 @@ public class TestData {
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build()
-                );
+                ));
             }
         }
 
