@@ -28,7 +28,6 @@ function SignUp() {
     handleSubmit,
     watch,
     formState: { errors },
-    setError,
   } = useForm<FormValues>({ mode: "onBlur" });
 
   const passwordRef = useRef<string | null>(null);

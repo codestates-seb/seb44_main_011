@@ -6,7 +6,7 @@ import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg"
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 
@@ -23,8 +23,6 @@ function SideBar() {
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
 
-
-  console.log(isLogin);
   useEffect(() => {
     checkLoginStatus();
   }, []);
@@ -81,58 +79,61 @@ function SideBar() {
   };
 
   return (
-    <RootWrapper>
-      <NavLogo>
-        <NaN_0001>
-          <DogLogoImg />
-        </NaN_0001>
-      </NavLogo>
-      <Nav>
-        <InputField
-          type="text"
-          value={searchQuery}
-          onChange={handleInputChange}
-          onKeyPress={handleInputKeyPress}
-        />
-        <SearchImg fill="#B4B4B7" />
-      </Nav>
-      <Link className="home" to="/">
-        <NavHome id="home" onClick={() => handleClickMenu("home")}>
-          <HomeImg fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"} />
-          <Home_0001>Home</Home_0001>
-        </NavHome>
-      </Link>
-      <Link className="mylist" to="/mylist">
-        <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
-          <MyList>MyList</MyList>
-          <MyListImg fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"} />
-        </NavMylist>
-      </Link>
-      <Link className="tags" to="/tags">
-        <div onClick={handleTagsMenuToggle}>
-          <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
-            <Tags>Tags</Tags>
-            <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
-            {isTagsMenuOpen && (
-              <DropdownMenu>
-                <MenuItem>Tag 1</MenuItem>
-                <MenuItem>Tag 2</MenuItem>
-                <MenuItem>Tag 3</MenuItem>
-                <MenuItem>Tag 4</MenuItem>
-              </DropdownMenu>
-            )}
-          </NavTags>
-        </div>
-      </Link>
-      <Link className="mypage" to="/mypage">
-        <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
-          <MyPage id="mypageText">MyPage</MyPage>
-          <MypageImg
-            id="mypageImg"
-            fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
+    <>
+      <RootWrapper>
+        <NavLogo>
+          <NaN_0001>
+            <DogLogoImg />
+          </NaN_0001>
+        </NavLogo>
+        <Nav>
+          <InputField
+            type="text"
+            value={searchQuery}
+            onChange={handleInputChange}
+            onKeyPress={handleInputKeyPress}
           />
-        </NavMypage>
-      </Link>
+          <SearchImg fill="#B4B4B7" />
+        </Nav>
+        <Link className="home" to="/">
+          <NavHome id="home" onClick={() => handleClickMenu("home")}>
+            <HomeImg fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"} />
+            <Home_0001>Home</Home_0001>
+          </NavHome>
+        </Link>
+        <Link className="mylist" to="/mylist">
+          <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
+            <MyList>MyList</MyList>
+            <MyListImg
+              fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"}
+            />
+          </NavMylist>
+        </Link>
+        <Link className="tags" to="/tags">
+          <div onClick={handleTagsMenuToggle}>
+            <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
+              <Tags>Tags</Tags>
+              <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
+              {isTagsMenuOpen && (
+                <DropdownMenu>
+                  <MenuItem>Tag 1</MenuItem>
+                  <MenuItem>Tag 2</MenuItem>
+                  <MenuItem>Tag 3</MenuItem>
+                  <MenuItem>Tag 4</MenuItem>
+                </DropdownMenu>
+              )}
+            </NavTags>
+          </div>
+        </Link>
+        <Link className="mypage" to="/mypage">
+          <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
+            <MyPage id="mypageText">MyPage</MyPage>
+            <MypageImg
+              id="mypageImg"
+              fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
+            />
+          </NavMypage>
+        </Link>
         <ButtonWrapper>
           {isLogin ? (
             <>
@@ -145,7 +146,18 @@ function SideBar() {
             </>
           )}
         </ButtonWrapper>
-    </RootWrapper>
+      </RootWrapper>{" "}
+      {modalOpen && (
+        <ModalBackground ref={modalRef} onClick={modalSideClick}>
+          <Login />
+        </ModalBackground>
+      )}
+      {Signmodal && (
+        <ModalBackground ref={modalRef} onClick={modalSideClick2}>
+          <SignUp />
+        </ModalBackground>
+      )}
+    </>
   );
 }
 export default SideBar;
