@@ -7,11 +7,21 @@ public enum ExceptionCode {
     ACCESS_DENIED(401,"This account is inaccessible"),
     INVALID_TOKEN(401,"is not the same token as data"),
     UNAUTHORIZED(401,"invalid token Data"),
+    TOKEN_NOT_FOUND(401, "Token not found"),
     EXPIRED_TOKEN(401,"Token has expired"),
-    ACCOUNT_RESTRICTED(403,"oauth account user"),
-    USER_NOT_FOUND(404, "Member not found"),
-    USER_EXISTS(409,"USER EXISTS"),
-    USER_MISMATCH(403,"The login user and the author are different");
+    EXPIRED_REFRESH_TOKEN(401,"Refresh token has expired"),
+    ACCOUNT_RESTRICTED(403,"oauth account Member"),
+    MEMBER_NOT_FOUND(404, "Member not found"),
+    MEMBER_EXISTS(409,"Member EXISTS"),
+    MEMBER_MISMATCH(403,"The login Member and the author are different"),
+    MEMBER_WITHDRAWN(409, "Already with drawn Member"),
+    MUSIC_NOT_FOUND(404,"Music not found"),
+    MUSIC_NOT_FOUND_INS3(404,"Music not found in s3 server"),
+    HIDDEN_MUSIC(403,"Inactive music"),
+    MUSIC_EXISTS(409,"Music EXISTS"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
+    PASSWORD_MISMATCH(404, "Password is not Correct"),
+    LIKED_MUSIC_EXISTS(409, "Already exists in the personal playlist");
 
     @Getter
     private int status;
