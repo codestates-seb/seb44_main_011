@@ -17,6 +17,8 @@ import java.io.IOException;
 @Slf4j
 public class  UserAuthenticationFailureHandler implements AuthenticationFailureHandler {
     private static final String IssueAtAuthenticationProvider = HttpStatus.UNAUTHORIZED.getReasonPhrase();
+    private static final String InvalidCredentialsMessage = "Invalid credentials";
+
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
@@ -28,10 +30,9 @@ public class  UserAuthenticationFailureHandler implements AuthenticationFailureH
     }
 
     private static void sendErrorResponse(HttpServletResponse response, Gson gson, AuthenticationException exception) throws IOException {
-        String exceptionMessage =
-                exception.getClass().getName().equals(
-                        BadCredentialsException.class.getName()
-                ) ? IssueAtAuthenticationProvider : exception.getMessage();
+        String exceptionMessage = exception.getClass().getName().equals(BadCredentialsException.class.getName())
+                ? InvalidCredentialsMessage
+                : exception.getMessage();
         ErrorResponse errorResponse = getErrorResponse(exceptionMessage, response);
 
         response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
