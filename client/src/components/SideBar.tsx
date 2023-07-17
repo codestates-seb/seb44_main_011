@@ -21,7 +21,6 @@ function SideBar() {
     setIsLoggedIn(true);
   }
 
-
   const handleTagsMenuToggle = () => {
     setIsTagsMenuOpen(isTagsMenuOpen);
   };
@@ -199,7 +198,6 @@ const HomeImg = styled(HomeIcon)`
   left: 0px;
   top: 0px;
   right: 64px;
-
 `;
 
 const Home_0001 = styled.span`
@@ -223,7 +221,6 @@ const NavMylist = styled.div`
   left: 41px;
   top: 280px;
   right: 118px;
-
 `;
 
 const MyList = styled.span`
@@ -247,7 +244,6 @@ const MyListImg = styled(MylistIcon)`
   left: 0px;
   top: 0px;
   right: 64px;
-
 `;
 
 const NavTags = styled.div`
@@ -279,7 +275,6 @@ const TagImg = styled(TagsIcon)`
   left: 0px;
   top: 0px;
   right: 73px;
-
 `;
 
 const ButtonWrapper = styled.div`
@@ -309,9 +304,9 @@ const Logout = styled.button`
   height: 40px;
 `;
 const Login = styled.button`
-  border: solid 1px #84CBFF;
+  border: solid 1px #84cbff;
   border-radius: 100px;
-  color: #84CBFF;
+  color: #84cbff;
   background-color: #fff;
   text-overflow: ellipsis;
   font-size: 14px;
@@ -325,10 +320,10 @@ const Login = styled.button`
   margin-right: 10px;
 `;
 const Signup = styled.button`
-  border: solid 1px #84CBFF;
+  border: solid 1px #84cbff;
   border-radius: 100px;
   color: #fff;
-  background-color: #84CBFF;
+  background-color: #84cbff;
   text-overflow: ellipsis;
   font-size: 14px;
   font-family: Quicksand, sans-serif;
@@ -370,5 +365,4 @@ const MypageImg = styled(MypageIcon)`
   left: 0px;
   top: 0px;
   right: 84px;
-
 `;

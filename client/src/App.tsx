@@ -5,6 +5,7 @@ import Edit from "./pages/Edit";
 import Home from "./pages/Home";
 import MainContent from "./components/commons/MainContent";
 import SideBar from "./components/SideBar";
+import MyList from "./pages/MyList";
 import { styled } from "styled-components";
 
 const MainWrapper = styled.main`
@@ -20,6 +21,7 @@ function App() {
         <SideBar />
         <MainContent>
           <Routes>
+            <Route path="/mylist" element={<MyList />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/tags" element={<Tags />} />
             <Route path="/" element={<Home />} />

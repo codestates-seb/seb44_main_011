@@ -29,14 +29,13 @@ const BannerCatpliLogo = styled(Catpli)`
 
 const BannerContainer = styled.div`
   width: 100%;
-  height: 35%;
+  height: 300px;
   border-radius: 15px;
   background: var(--gradation-banner);
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-bottom: 30px;
 `;
 
 const PliContainer = styled.div`
@@ -55,12 +54,12 @@ interface BannerProps {
     fontWeight: string;
     icon?: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   }[];
-  activeOption: string;
+  $activeOption: string;
   onClick: (buttonId: string) => void;
   gap?: string;
 }
 
-const Banner = ({ buttonData, activeOption, gap, onClick }: BannerProps) => {
+const Banner = ({ buttonData, $activeOption, gap, onClick }: BannerProps) => {
   const handleToggleClick = (buttonId: string) => {
     onClick(buttonId);
   };
@@ -68,15 +67,15 @@ const Banner = ({ buttonData, activeOption, gap, onClick }: BannerProps) => {
   return (
     <BannerContainer>
       <PliContainer>
-        {activeOption === "dog" ? <BannerDogpliLogo /> : <BannerCatpliLogo />}
+        {$activeOption === "dog" ? <BannerDogpliLogo /> : <BannerCatpliLogo />}
         <Toggle
-          activeOption={activeOption}
+          $activeOption={$activeOption}
           onClick={handleToggleClick}
           gap={gap}
           buttonData={buttonData}
         />
       </PliContainer>
-      {activeOption === "dog" ? <DogImg /> : <CatImg />}
+      {$activeOption === "dog" ? <DogImg /> : <CatImg />}
     </BannerContainer>
   );
 };
