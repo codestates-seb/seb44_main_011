@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
@@ -11,21 +11,21 @@ import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 
 function SideBar() {
-  const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
 
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
+  // useEffect(() => {
+  //   checkLoginStatus();
+  // }, []);
+
 
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
@@ -49,105 +49,104 @@ function SideBar() {
       setSignModal(!Signmodal);
     }
   };
-  function checkLoginStatus() {
-    // 로그인 상태 확인 로직
-    setIsLoggedIn(true);
-  }
+  // function checkLoginStatus() {
+  //   // 로그인 상태 확인 로직
+  //   setIsLoggedIn(true);
+  // }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClickMenu = (e: any) => {
     setCurrentMenu(e.target.id);
   };
 
-  const handleTagsMenuToggle = (e: any) => {
-    setIsTagsMenuOpen(isTagsMenuOpen);
-  };
+  // const handleTagsMenuToggle = (e: any) => {
+  //   setIsTagsMenuOpen(isTagsMenuOpen);
+  // };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchQuery(e.target.value);
+  // };
 
-  const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      performSearch();
-    }
-  };
+  // const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     performSearch();
+  //   }
+  // };
 
-  const performSearch = () => {
-    console.log("검색어:", searchQuery);
-    // 여기에서 검색을 수행하는 로직을 추가하세요.
-    // 검색 결과에 따라 필요한 동작을 처리합니다.
-  };
+  // const performSearch = () => {
+  //   console.log("검색어:", searchQuery);
+  //   // 여기에서 검색을 수행하는 로직을 추가하세요.
+  //   // 검색 결과에 따라 필요한 동작을 처리합니다.
+  // };
 
   return (
     <>
-      <RootWrapper>
-        <NavLogo>
-          <NaN_0001>
-            <DogLogoImg />
-          </NaN_0001>
-        </NavLogo>
-        <Nav>
-          <InputField
-            type="text"
-            value={searchQuery}
-            onChange={handleInputChange}
-            onKeyPress={handleInputKeyPress}
+    <RootWrapper>
+      <NavLogo>
+        <NaN_0001>
+          <DogLogoImg />
+        </NaN_0001>
+      </NavLogo>
+      <Nav>
+        <InputField
+          type="text"
+          // value={searchQuery}
+          // onChange={handleInputChange}
+          // onKeyPress={handleInputKeyPress}
+        />
+        <SearchImg fill="#B4B4B7" />
+      </Nav>
+      <Link className="home" to="/">
+        <NavHome id="home" onClick={() => handleClickMenu("home")}>
+          <HomeImg fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"} />
+          <Home_0001>Home</Home_0001>
+        </NavHome>
+      </Link>
+      <Link className="mylist" to="/mylist">
+        <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
+          <MyList>MyList</MyList>
+          <MyListImg fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"} />
+        </NavMylist>
+      </Link>
+      <Link className="tags" to="/tags">
+        <div>
+          <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
+            <Tags>Tags</Tags>
+            <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
+            {/* {isTagsMenuOpen && (
+              <DropdownMenu>
+                <MenuItem>Tag 1</MenuItem>
+                <MenuItem>Tag 2</MenuItem>
+                <MenuItem>Tag 3</MenuItem>
+                <MenuItem>Tag 4</MenuItem>
+              </DropdownMenu>
+            )} */}
+          </NavTags>
+        </div>
+      </Link>
+      <Link className="mypage" to="/mypage">
+        <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
+          <MyPage id="mypageText">MyPage</MyPage>
+          <MypageImg
+            id="mypageImg"
+            fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
           />
-          <SearchImg fill="#B4B4B7" />
-        </Nav>
-        <Link className="home" to="/">
-          <NavHome id="home" onClick={() => handleClickMenu("home")}>
-            <HomeImg fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"} />
-            <Home_0001>Home</Home_0001>
-          </NavHome>
-        </Link>
-        <Link className="mylist" to="/mylist">
-          <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
-            <MyList>MyList</MyList>
-            <MyListImg
-              fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"}
-            />
-          </NavMylist>
-        </Link>
-        <Link className="tags" to="/tags">
-          <div onClick={handleTagsMenuToggle}>
-            <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
-              <Tags>Tags</Tags>
-              <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
-              {isTagsMenuOpen && (
-                <DropdownMenu>
-                  <MenuItem>Tag 1</MenuItem>
-                  <MenuItem>Tag 2</MenuItem>
-                  <MenuItem>Tag 3</MenuItem>
-                  <MenuItem>Tag 4</MenuItem>
-                </DropdownMenu>
-              )}
-            </NavTags>
-          </div>
-        </Link>
-        <Link className="mypage" to="/mypage">
-          <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
-            <MyPage id="mypageText">MyPage</MyPage>
-            <MypageImg
-              id="mypageImg"
-              fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
-            />
-          </NavMypage>
-        </Link>
-        <ButtonWrapper>
-          {isLogin ? (
-            <>
-              <Logout onClick={() => logout()}>LOGOUT</Logout>
-            </>
-          ) : (
-            <>
-              <Login1 onClick={() => showLoginModal()}>LOGIN</Login1>
-              <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
-            </>
-          )}
-        </ButtonWrapper>
-      </RootWrapper>{" "}
-      {modalOpen && (
+        </NavMypage>
+      </Link>
+      <ButtonWrapper>
+        {isLogin ? (
+          <>
+            <Logout onClick={() => logout()}>LOGOUT</Logout>
+          </>
+        ) : (
+          <>
+            <Login1 onClick={() => showLoginModal()}>LOGIN</Login1>
+            <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
+          </>
+        )}
+      </ButtonWrapper>
+    </RootWrapper>
+    {modalOpen && (
         <ModalBackground ref={modalRef} onClick={modalSideClick}>
           <Login />
         </ModalBackground>
@@ -172,22 +171,22 @@ const ModalBackground = styled.div`
   backdrop-filter: blur(10px);
   animation: showview 2s forwards;
 `;
-const DropdownMenu = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #ffffff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 8px 0;
-  min-width: 150px;
-  z-index: 1;
-`;
+// const DropdownMenu = styled.div`
+//   position: absolute;
+//   top: 100%;
+//   left: 0;
+//   background-color: #ffffff;
+//   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+//   padding: 8px 0;
+//   min-width: 150px;
+//   z-index: 1;
+// `;
 
-const MenuItem = styled.div`
-  padding: 8px 16px;
-  color: #333333;
-  cursor: pointer;
-`;
+// const MenuItem = styled.div`
+//   padding: 8px 16px;
+//   color: #333333;
+//   cursor: pointer;
+// `;
 
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
@@ -430,7 +429,6 @@ const MyPage = styled.span`
   left: 36px;
   top: 2px;
   right: 0px;
-
   text-decoration: none;
 `;
 

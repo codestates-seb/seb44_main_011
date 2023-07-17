@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
 import UserInfo from "../assets/imgs/UserInfo.png";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,6 @@ function EditProfile() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(UserInfo);
   const navigate = useNavigate();
-
 
   function goMypage() {
     movePage("/mypage");
