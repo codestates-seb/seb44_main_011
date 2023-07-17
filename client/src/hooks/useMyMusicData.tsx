@@ -21,6 +21,7 @@ const useMyMusicData = (
   useEffect(() => {
     const memberId = localStorage.getItem("memberId");
     const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refresh");
 
     const fetchData = async () => {
       try {
@@ -30,6 +31,7 @@ const useMyMusicData = (
           },
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            "x-refresh-token": refreshToken,
           },
         });
         setMusicList(response.data);

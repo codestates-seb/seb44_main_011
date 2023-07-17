@@ -23,6 +23,7 @@ const useAllMusicData = (
     const fetchData = async () => {
       const memberId = localStorage.getItem("memberId");
       const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refresh");
 
       const config: AxiosRequestConfig = {
         params: {
@@ -33,6 +34,7 @@ const useAllMusicData = (
       if (memberId && accessToken) {
         config.headers = {
           Authorization: `Bearer ${accessToken}`,
+          "x-refresh-token": refreshToken,
         };
         config.url = `${GetApiPlaylist}/${isDogpli}s/id/${memberId}`;
       } else {

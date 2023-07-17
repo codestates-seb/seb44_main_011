@@ -28,7 +28,6 @@ const StyledMusicList = styled.div<{ $active: string }>`
   cursor: pointer;
 
   span {
-    min-width: 150px;
     width: 50%;
   }
 

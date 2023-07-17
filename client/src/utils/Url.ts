@@ -16,4 +16,6 @@ export const GetPublicPlaylist = `${BaseURL}/public/playlist`;
 
 export const GetApiPlaylist = `${BaseURL}/api/playlist`;
 
-export const GetComment = `${BaseURL}/public/musics`;
+export const GetPublicMusic = `${BaseURL}/public/musics`;
+
+export const GetApiMusic = `${BaseURL}/api/musics`;

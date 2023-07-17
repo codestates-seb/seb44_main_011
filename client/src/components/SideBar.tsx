@@ -5,27 +5,21 @@ import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
 import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg";
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
-import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
+import DogLogo from "../../src/assets/imgs/doglogo.png";
 import { Link } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
-
 function SideBar() {
   // const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
-
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
-
   // const [searchQuery, setSearchQuery] = useState("");
-
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
-
   // useEffect(() => {
   //   checkLoginStatus();
   // }, []);
-
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -52,38 +46,32 @@ function SideBar() {
   //   // 로그인 상태 확인 로직
   //   setIsLoggedIn(true);
   // }
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClickMenu = (e: any) => {
     setCurrentMenu(e.target.id);
   };
-
   // const handleTagsMenuToggle = (e: any) => {
   //   setIsTagsMenuOpen(isTagsMenuOpen);
   // };
-
   // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setSearchQuery(e.target.value);
   // };
-
   // const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
   //   if (e.key === "Enter") {
   //     performSearch();
   //   }
   // };
-
   // const performSearch = () => {
   //   console.log("검색어:", searchQuery);
   //   // 여기에서 검색을 수행하는 로직을 추가하세요.
   //   // 검색 결과에 따라 필요한 동작을 처리합니다.
   // };
-
   return (
     <>
       <RootWrapper>
         <NavLogo>
           <NaN_0001>
-            <DogLogoImg />
+            <DogLogoImg src={DogLogo} />
           </NaN_0001>
         </NavLogo>
         <Nav>
@@ -176,19 +164,17 @@ const ModalBackground = styled.div`
 //   position: absolute;
 //   top: 100%;
 //   left: 0;
-//   background-color: #ffffff;
+//   background-color: #FFFFFF;
 //   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 //   padding: 8px 0;
 //   min-width: 150px;
 //   z-index: 1;
 // `;
-
 // const MenuItem = styled.div`
 //   padding: 8px 16px;
 //   color: #333333;
 //   cursor: pointer;
 // `;
-
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
   border: solid 1px rgba(255, 255, 255, 0.16);
@@ -199,7 +185,6 @@ const RootWrapper = styled.div`
   max-width: 350px;
   display: flex;
 `;
-
 const Nav = styled.div`
   overflow: hidden;
   background-color: white;
@@ -210,7 +195,6 @@ const Nav = styled.div`
   top: 140px;
   right: 32px;
 `;
-
 const InputField = styled.input`
   border: none;
   position: relative;
@@ -221,12 +205,10 @@ const InputField = styled.input`
   outline: none;
   border-radius: 20px;
   padding-left: 40px;
-
   &:focus {
     border: 2px solid #84cbff;
   }
 `;
-
 const SearchImg = styled(SearchIcon)`
   width: 24px;
   height: 24px;
@@ -235,22 +217,19 @@ const SearchImg = styled(SearchIcon)`
   left: 10px;
   top: calc((calc((50% + 0px)) - 12px));
 `;
-
 const NavLogo = styled.div`
   position: absolute;
   left: 69px;
   top: 50px;
   right: 66px;
 `;
-
 const NaN_0001 = styled.div`
   position: absolute;
   left: 17px;
   top: 0px;
   right: 17px;
 `;
-
-const DogLogoImg = styled(DogLogo)`
+const DogLogoImg = styled.img`
   object-fit: cover;
   position: absolute;
   left: -16px;
@@ -258,14 +237,12 @@ const DogLogoImg = styled(DogLogo)`
   right: 7px;
   bottom: -2px;
 `;
-
 const NavHome = styled.div`
   position: absolute;
   left: 41px;
   top: 196px;
   right: 118px;
 `;
-
 const HomeImg = styled(HomeIcon)`
   object-fit: cover;
   position: absolute;
@@ -273,7 +250,6 @@ const HomeImg = styled(HomeIcon)`
   top: 0px;
   right: 64px;
 `;
-
 const Home_0001 = styled.span`
   color: #84cbff;
   text-overflow: ellipsis;
@@ -286,17 +262,14 @@ const Home_0001 = styled.span`
   left: 34px;
   top: 1px;
   right: 0px;
-
   text-decoration: none;
 `;
-
 const NavMylist = styled.div`
   position: absolute;
   left: 41px;
   top: 280px;
   right: 118px;
 `;
-
 const MyList = styled.span`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
@@ -311,7 +284,6 @@ const MyList = styled.span`
   right: -4px;
   text-decoration: none;
 `;
-
 const MyListImg = styled(MylistIcon)`
   object-fit: cover;
   position: absolute;
@@ -319,7 +291,6 @@ const MyListImg = styled(MylistIcon)`
   top: 0px;
   right: 64px;
 `;
-
 const NavTags = styled.div`
   width: 95px;
   height: 22px;
@@ -328,7 +299,6 @@ const NavTags = styled.div`
   left: 41px;
   top: 238px;
 `;
-
 const Tags = styled.span`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
@@ -342,7 +312,6 @@ const Tags = styled.span`
   top: 2px;
   text-decoration: none;
 `;
-
 const TagImg = styled(TagsIcon)`
   object-fit: cover;
   position: absolute;
@@ -350,7 +319,6 @@ const TagImg = styled(TagsIcon)`
   top: 0px;
   right: 73px;
 `;
-
 const ButtonWrapper = styled.div`
   width: 185px;
   height: 40px;
@@ -361,7 +329,6 @@ const ButtonWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const Logout = styled.button`
   border: solid 1px rgb(209, 209, 209);
   border-radius: 100px;
@@ -377,7 +344,6 @@ const Logout = styled.button`
   width: 185px;
   height: 40px;
 `;
-
 const Login1 = styled.button`
   border: solid 1px #84cbff;
   border-radius: 100px;
@@ -409,7 +375,6 @@ const Signup = styled.button`
   width: 88px;
   height: 40px;
 `;
-
 const NavMypage = styled.div`
   width: 106px;
   height: 24px;
@@ -417,7 +382,6 @@ const NavMypage = styled.div`
   left: 41px;
   top: 322px;
 `;
-
 const MyPage = styled.span`
   color: #b4b4b7;
   text-overflow: ellipsis;
@@ -432,7 +396,6 @@ const MyPage = styled.span`
   right: 0px;
   text-decoration: none;
 `;
-
 const MypageImg = styled(MypageIcon)`
   object-fit: cover;
   position: absolute;
