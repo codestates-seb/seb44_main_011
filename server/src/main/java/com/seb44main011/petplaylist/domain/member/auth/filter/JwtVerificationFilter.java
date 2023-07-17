@@ -35,7 +35,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String encodeKey = jwtTokenizer.secretKeyEncodeBase64(jwtTokenizer.getSecretKeyString());
-        String getToken = request.getHeader("Authorization").replace("Bearer", "");
+        String getToken = request.getHeader("Authorization").replace("Bearer ", "");
         try {
 
             Map<String, Object> claims = jwtTokenizer.getClaims(getToken, encodeKey).getBody();
@@ -43,14 +43,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             createUsernamePasswordAuthenticationToken(claims, authorities);
         }
         catch (ExpiredJwtException ne) {
-            reDelegeateAccessToken(request, response, encodeKey);
+            reDelegateAccessToken(request, response, encodeKey);
         }
         catch (ClassCastException ce) {
             request.setAttribute("exception", ExceptionCode.ACCESS_DENIED);
 
-        } catch (BusinessLogicException re) {
+        }
+        catch (BusinessLogicException re) {
             request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
-
         }
         catch (Exception e) {
             request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
@@ -59,10 +59,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void reDelegeateAccessToken(HttpServletRequest request, HttpServletResponse response, String encodeKey) {
+    private void reDelegateAccessToken(HttpServletRequest request, HttpServletResponse response, String encodeKey) {
         try {
-            String getTonkenRe = request.getHeader("Refresh");
-            String subject = jwtTokenizer.getSubject(getTonkenRe, encodeKey);
+            String getTokenRe = request.getHeader("Refresh");
+            String subject = jwtTokenizer.getSubject(getTokenRe, encodeKey);
             createUsernamePasswordAuthenticationToken(subject);
             String accessToken =  delegateTokenService.delegateAccessToken(subject);
             response.setHeader("Authorization", "Bearer " + accessToken);
