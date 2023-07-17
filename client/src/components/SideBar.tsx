@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
@@ -7,87 +7,137 @@ import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg"
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
 import { Link, NavLink } from "react-router-dom";
+import Login from "../pages/Login";
+import SignUp from "../pages/SignUp";
 
 function SideBar() {
   const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [Signmodal, setSignModal] = useState(false);
+  const modalRef = useRef(null);
+  const isLogin = localStorage.getItem("memberId");
 
+  console.log(isLogin);
   useEffect(() => {
     checkLoginStatus();
   }, []);
 
+  const showLoginModal = () => {
+    setModalOpen(!modalOpen);
+  };
+  const showSignModal = () => {
+    setSignModal(!Signmodal);
+  };
+  const logout = () => {
+    localStorage.removeItem("memberId");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refresh");
+    window.location.replace("/");
+  };
+  const modalSideClick = (e: React.MouseEvent | React.TouchEvent) => {
+    if (modalRef.current === e.target) {
+      setModalOpen(!modalOpen);
+    }
+  };
+  const modalSideClick2 = (e: React.MouseEvent | React.TouchEvent) => {
+    if (modalRef.current === e.target) {
+      setSignModal(!Signmodal);
+    }
+  };
   function checkLoginStatus() {
     // 로그인 상태 확인 로직
     setIsLoggedIn(true);
   }
-
 
   const handleTagsMenuToggle = () => {
     setIsTagsMenuOpen(isTagsMenuOpen);
   };
 
   return (
-    <RootWrapper>
-      <NavLogo>
-        <NaN_0001>
-          <DogLogoImg />
-        </NaN_0001>
-      </NavLogo>
-      <Nav>
-        <InputField type="text" />
-        <SearchImg fill="#B4B4B7" />
-      </Nav>
-      <NavHome>
-        <Link className="home" to="/">
-          <HomeImg fill="#84CBFF" />
-          <Home_0001>Home</Home_0001>
-        </Link>
-      </NavHome>
-      <NavMylist>
-        <Link className="mylist" to="/mylist">
-          <MyList>MyList</MyList>
-          <MyListImg fill="#B4B4B7" />
-        </Link>
-      </NavMylist>
-      <NavTags onClick={handleTagsMenuToggle}>
-        <Link className="tags" to="/tags">
-          <Tags>Tags</Tags>
-          <TagImg fill="#B4B4B7" />
-        </Link>
-        {isTagsMenuOpen && (
-          <DropdownMenu>
-            <MenuItem>Tag 1</MenuItem>
-            <MenuItem>Tag 2</MenuItem>
-            <MenuItem>Tag 3</MenuItem>
-            <MenuItem>Tag 4</MenuItem>
-          </DropdownMenu>
-        )}
-      </NavTags>
-      <NavMypage>
-        <Link className="mypage" to="/mypage">
-          <MyPage id="mypageText">MyPage</MyPage>
-          <MypageImg id="mypageImg" fill="#B4B4B7" />
-        </Link>
-      </NavMypage>
-      <ButtonWrapper>
-        {/* {isLoggedIn ? (
-          <>
-            <Logout>LOGOUT</Logout>
-          </>
-        ) : (
-          <>
-            <Login>LOGIN</Login>
-            <Signup>SIGNUP</Signup>
-          </>
-        )} */}
-        <Login>LOGIN</Login>
-        <Signup>SIGNUP</Signup>
-      </ButtonWrapper>
-    </RootWrapper>
+    <>
+      <RootWrapper>
+        <NavLogo>
+          <NaN_0001>
+            <DogLogoImg />
+          </NaN_0001>
+        </NavLogo>
+        <Nav>
+          <InputField type="text" />
+          <SearchImg fill="#B4B4B7" />
+        </Nav>
+        <NavHome>
+          <Link className="home" to="/">
+            <HomeImg fill="#84CBFF" />
+            <Home_0001>Home</Home_0001>
+          </Link>
+        </NavHome>
+        <NavMylist>
+          <Link className="mylist" to="/mylist">
+            <MyList>MyList</MyList>
+            <MyListImg fill="#B4B4B7" />
+          </Link>
+        </NavMylist>
+        <NavTags onClick={handleTagsMenuToggle}>
+          <Link className="tags" to="/tags">
+            <Tags>Tags</Tags>
+            <TagImg fill="#B4B4B7" />
+          </Link>
+          {isTagsMenuOpen && (
+            <DropdownMenu>
+              <MenuItem>Tag 1</MenuItem>
+              <MenuItem>Tag 2</MenuItem>
+              <MenuItem>Tag 3</MenuItem>
+              <MenuItem>Tag 4</MenuItem>
+            </DropdownMenu>
+          )}
+        </NavTags>
+        <NavMypage>
+          <Link className="mypage" to="/mypage">
+            <MyPage id="mypageText">MyPage</MyPage>
+            <MypageImg id="mypageImg" fill="#B4B4B7" />
+          </Link>
+        </NavMypage>
+        <ButtonWrapper>
+          {isLogin ? (
+            <>
+              <Logout onClick={() => logout()}>LOGOUT</Logout>
+            </>
+          ) : (
+            <>
+              <Login1 onClick={() => showLoginModal()}>LOGIN</Login1>
+              <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
+            </>
+          )}
+          {/* <Login>LOGIN</Login>
+        <Signup>SIGNUP</Signup> */}
+        </ButtonWrapper>
+      </RootWrapper>
+      {modalOpen && (
+        <ModalBackground ref={modalRef} onClick={modalSideClick}>
+          <Login />
+        </ModalBackground>
+      )}
+      {Signmodal && (
+        <ModalBackground ref={modalRef} onClick={modalSideClick2}>
+          <SignUp />
+        </ModalBackground>
+      )}
+    </>
   );
 }
 export default SideBar;
-
+const ModalBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  position: fixed;
+  backdrop-filter: blur(10px);
+  animation: showview 2s forwards;
+`;
 const DropdownMenu = styled.div`
   position: absolute;
   top: 100%;
@@ -199,7 +249,6 @@ const HomeImg = styled(HomeIcon)`
   left: 0px;
   top: 0px;
   right: 64px;
-
 `;
 
 const Home_0001 = styled.span`
@@ -223,7 +272,6 @@ const NavMylist = styled.div`
   left: 41px;
   top: 280px;
   right: 118px;
-
 `;
 
 const MyList = styled.span`
@@ -247,7 +295,6 @@ const MyListImg = styled(MylistIcon)`
   left: 0px;
   top: 0px;
   right: 64px;
-
 `;
 
 const NavTags = styled.div`
@@ -279,7 +326,6 @@ const TagImg = styled(TagsIcon)`
   left: 0px;
   top: 0px;
   right: 73px;
-
 `;
 
 const ButtonWrapper = styled.div`
@@ -308,10 +354,10 @@ const Logout = styled.button`
   width: 185px;
   height: 40px;
 `;
-const Login = styled.button`
-  border: solid 1px #84CBFF;
+const Login1 = styled.button`
+  border: solid 1px #84cbff;
   border-radius: 100px;
-  color: #84CBFF;
+  color: #84cbff;
   background-color: #fff;
   text-overflow: ellipsis;
   font-size: 14px;
@@ -325,10 +371,10 @@ const Login = styled.button`
   margin-right: 10px;
 `;
 const Signup = styled.button`
-  border: solid 1px #84CBFF;
+  border: solid 1px #84cbff;
   border-radius: 100px;
   color: #fff;
-  background-color: #84CBFF;
+  background-color: #84cbff;
   text-overflow: ellipsis;
   font-size: 14px;
   font-family: Quicksand, sans-serif;
@@ -370,5 +416,4 @@ const MypageImg = styled(MypageIcon)`
   left: 0px;
   top: 0px;
   right: 84px;
-
 `;

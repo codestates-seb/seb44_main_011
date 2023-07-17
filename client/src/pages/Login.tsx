@@ -32,10 +32,19 @@ function Login() {
   } = useForm<FormValues>({ mode: "onBlur" });
 
   const onSubmit = async (data: FormValues) => {
-    console.log("회원 가입 데이터:", data);
+    console.log("로그인 데이터:", data);
     await axios
       .post<Response>(PostLogin, data)
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response.headers);
+        const accessToken = response.headers["authorization"] || null;
+        const refresh = response.headers["refresh"] || null;
+        const memberId = response.data.memberId || null;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refresh", refresh);
+        localStorage.setItem("memberId", memberId);
+        window.location.replace("/");
+      })
       .catch((error) => console.log(error));
   };
   return (
