@@ -42,7 +42,7 @@ function Login() {
         const memberId = 20;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refresh", refresh);
-        localStorage.setItem("memberId", memberId);
+        localStorage.setItem("memberId", `${memberId}`);
         window.location.replace("/");
       })
       .catch((error) => console.log(error));

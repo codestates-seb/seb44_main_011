@@ -1,4 +1,3 @@
-import Mypage from "./pages/Mypage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Tags from "./pages/Tags";
 import Edit from "./pages/Edit";
@@ -9,6 +8,7 @@ import MyList from "./pages/MyList";
 import { styled } from "styled-components";
 import { MypageInfo } from "./components/MypageInfo";
 import { useState } from "react";
+import MyPage from "./pages/MyPage";
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -26,7 +26,7 @@ function App() {
         <MainContent>
           <Routes>
             <Route path="/mylist" element={<MyList />} />
-            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/mypage" element={<MyPage />} />
             <Route
               path="/mypage"
               element={<MypageInfo selectedImage={selectedImage} />}

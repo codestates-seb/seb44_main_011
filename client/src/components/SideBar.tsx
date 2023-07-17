@@ -26,7 +26,6 @@ function SideBar() {
   //   checkLoginStatus();
   // }, []);
 
-
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -81,39 +80,41 @@ function SideBar() {
 
   return (
     <>
-    <RootWrapper>
-      <NavLogo>
-        <NaN_0001>
-          <DogLogoImg />
-        </NaN_0001>
-      </NavLogo>
-      <Nav>
-        <InputField
-          type="text"
-          // value={searchQuery}
-          // onChange={handleInputChange}
-          // onKeyPress={handleInputKeyPress}
-        />
-        <SearchImg fill="#B4B4B7" />
-      </Nav>
-      <Link className="home" to="/">
-        <NavHome id="home" onClick={() => handleClickMenu("home")}>
-          <HomeImg fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"} />
-          <Home_0001>Home</Home_0001>
-        </NavHome>
-      </Link>
-      <Link className="mylist" to="/mylist">
-        <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
-          <MyList>MyList</MyList>
-          <MyListImg fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"} />
-        </NavMylist>
-      </Link>
-      <Link className="tags" to="/tags">
-        <div>
-          <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
-            <Tags>Tags</Tags>
-            <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
-            {/* {isTagsMenuOpen && (
+      <RootWrapper>
+        <NavLogo>
+          <NaN_0001>
+            <DogLogoImg />
+          </NaN_0001>
+        </NavLogo>
+        <Nav>
+          <InputField
+            type="text"
+            // value={searchQuery}
+            // onChange={handleInputChange}
+            // onKeyPress={handleInputKeyPress}
+          />
+          <SearchImg fill="#B4B4B7" />
+        </Nav>
+        <Link className="home" to="/">
+          <NavHome id="home" onClick={() => handleClickMenu("home")}>
+            <HomeImg fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"} />
+            <Home_0001>Home</Home_0001>
+          </NavHome>
+        </Link>
+        <Link className="mylist" to="/mylist">
+          <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
+            <MyList>MyList</MyList>
+            <MyListImg
+              fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"}
+            />
+          </NavMylist>
+        </Link>
+        <Link className="tags" to="/tags">
+          <div>
+            <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
+              <Tags>Tags</Tags>
+              <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
+              {/* {isTagsMenuOpen && (
               <DropdownMenu>
                 <MenuItem>Tag 1</MenuItem>
                 <MenuItem>Tag 2</MenuItem>
@@ -121,32 +122,32 @@ function SideBar() {
                 <MenuItem>Tag 4</MenuItem>
               </DropdownMenu>
             )} */}
-          </NavTags>
-        </div>
-      </Link>
-      <Link className="mypage" to="/mypage">
-        <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
-          <MyPage id="mypageText">MyPage</MyPage>
-          <MypageImg
-            id="mypageImg"
-            fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
-          />
-        </NavMypage>
-      </Link>
-      <ButtonWrapper>
-        {isLogin ? (
-          <>
-            <Logout onClick={() => logout()}>LOGOUT</Logout>
-          </>
-        ) : (
-          <>
-            <Login1 onClick={() => showLoginModal()}>LOGIN</Login1>
-            <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
-          </>
-        )}
-      </ButtonWrapper>
-    </RootWrapper>
-    {modalOpen && (
+            </NavTags>
+          </div>
+        </Link>
+        <Link className="mypage" to="/mypage">
+          <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
+            <MyPage id="mypageText">MyPage</MyPage>
+            <MypageImg
+              id="mypageImg"
+              fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
+            />
+          </NavMypage>
+        </Link>
+        <ButtonWrapper>
+          {isLogin ? (
+            <>
+              <Logout onClick={() => logout()}>LOGOUT</Logout>
+            </>
+          ) : (
+            <>
+              <Login1 onClick={() => showLoginModal()}>LOGIN</Login1>
+              <Signup onClick={() => showSignModal()}>SIGNUP</Signup>
+            </>
+          )}
+        </ButtonWrapper>
+      </RootWrapper>
+      {modalOpen && (
         <ModalBackground ref={modalRef} onClick={modalSideClick}>
           <Login />
         </ModalBackground>
