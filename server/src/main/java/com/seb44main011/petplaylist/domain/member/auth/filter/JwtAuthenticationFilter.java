@@ -5,6 +5,8 @@ import com.seb44main011.petplaylist.domain.member.auth.jwt.DelegateTokenService;
 import com.seb44main011.petplaylist.domain.member.dto.MemberDto;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
