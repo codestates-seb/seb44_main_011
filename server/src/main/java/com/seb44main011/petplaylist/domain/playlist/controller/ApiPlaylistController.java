@@ -46,7 +46,7 @@ public class ApiPlaylistController {
 //        stubData.insertData();
 //    }
 
-    @PostMapping(value = "/{member-id}", name = "music_name")
+    @PostMapping(value = "/{member-id}")
     public ResponseEntity<?> postPersonalPlayList(@PathVariable("member-id")@Positive long memberId,
                                                   @Valid @RequestBody MusicDto.PostRequest postRequest,
                                                   @AuthenticationName String email){
@@ -57,7 +57,7 @@ public class ApiPlaylistController {
     }
 
     @GetMapping(params = {"member-id","page"})
-    public ResponseEntity<?> getAllMusicListFromMember(@RequestParam(name = "member-id") @Positive int memberId,
+    public ResponseEntity<?> getAllMusicListFromMember(@RequestParam(name = "member-id",required = false) @Positive int memberId,
                                                        @RequestParam(name = "page", defaultValue = "1") @Positive int page,
                                                        @AuthenticationName String email) {
         List<PlayList> memberPlayList = musicListService.findPersonalMusicLists(email);

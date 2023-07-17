@@ -1,20 +1,13 @@
 import { useState, useEffect } from "react";
 import { styled } from "styled-components";
-import Banner from "../components/commons/Banner";
-import Player from "../components/Player";
-import CategoryBtns from "../components/commons/CategoryBtns";
-import {
-  LIST_CATEGORY,
-  ANIMAL_CATEGORY,
-  TOGGLE_CATEGORY,
-} from "../constants/CategoryConstants";
 import { MusicList } from "../components/MusicList";
 import Pagination from "../components/Pagination";
-import useAllMusicData from "../hooks/useAllMusicData";
+import useMyMusicData from "../hooks/useMyMusicData";
 import axios from "axios";
+import Player from "../components/Player";
 import { Music } from "../types/Music";
 
-const HomeContainer = styled.div`
+const MyListContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,35 +15,34 @@ const HomeContainer = styled.div`
   width: 100%;
   max-width: 1800px;
   /* min-width: 700px; */
+  padding: 1px 6px;
 `;
 
-const HomsListTitle = styled.div`
+const MyListTitle = styled.div`
   width: 100%;
   display: flex;
-  align-items: end;
-  justify-content: space-between;
   margin-bottom: 12px;
-  margin-top: 30px;
+
+  > h1 {
+    font-family: var(--font-quicksand);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    color: var(--black);
+    text-align: center;
+    padding: 1px 6px;
+    margin-top: 30px;
+  }
 `;
 
-const Home = () => {
-  const [isDogpli, setIsDogpli] = useState(ANIMAL_CATEGORY[0]?.id);
-  const [isTopChart, setIsTopChart] = useState(LIST_CATEGORY[0]?.id);
+const MyList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLikedClick, setIsLikedClick] = useState(false);
   const [selectedMusic, setSelectedMusic] = useState<Music | null>(null);
   const [showMusicList, setShowMusicList] = useState(true);
 
-  const musicList = useAllMusicData(isDogpli, currentPage, isLikedClick);
-
-  const handleAnimalButton = (buttonId: string) => {
-    setIsDogpli(buttonId);
-    setCurrentPage(1);
-  };
-
-  const handleListButton = (buttonId: string) => {
-    setIsTopChart(buttonId);
-  };
+  const musicList = useMyMusicData(isLikedClick, currentPage);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -61,7 +53,8 @@ const Home = () => {
   };
 
   const handleLike = async (musicId: number, liked?: boolean) => {
-    const memberId = localStorage.getItem("memberId");
+    // const memberId = localStorage.getItem("memberId");
+    const memberId = 1;
 
     if (!memberId) {
       alert("로그인이 필요합니다.");
@@ -99,6 +92,7 @@ const Home = () => {
 
       if (response.status === 200) {
         setSelectedMusic(response.data);
+        console.log(response.data);
       } else {
         console.error("음악재생에 실패하였습니다.");
       }
@@ -109,44 +103,20 @@ const Home = () => {
 
   useEffect(() => {
     setIsLikedClick(false);
-  }, [currentPage, isDogpli, isLikedClick]);
-
-  useEffect(() => {
-    setSelectedMusic(null);
-  }, [isDogpli]);
+  }, [currentPage, isLikedClick]);
 
   return (
-    <HomeContainer>
-      {!selectedMusic ? (
-        <Banner
-          buttonData={TOGGLE_CATEGORY}
-          $activeOption={isDogpli}
-          onClick={handleAnimalButton}
-          gap="4"
-        />
-      ) : (
-        <Player
-          musicData={selectedMusic}
-          handleLike={handleLike}
-          handleCommentClick={handleCommentClick}
-        />
-      )}
-
+    <MyListContainer>
+      <Player
+        musicData={selectedMusic}
+        handleLike={handleLike}
+        handleCommentClick={handleCommentClick}
+      />
       {showMusicList && (
         <>
-          <HomsListTitle>
-            <CategoryBtns
-              buttonData={LIST_CATEGORY}
-              $activeOption={isTopChart}
-              onClick={handleListButton}
-              $gap="8"
-            />
-            <CategoryBtns
-              buttonData={ANIMAL_CATEGORY}
-              $activeOption={isDogpli}
-              onClick={handleAnimalButton}
-            />
-          </HomsListTitle>
+          <MyListTitle>
+            <h1>MYLIST</h1>
+          </MyListTitle>
           <MusicList
             musicList={musicList.data}
             handleLike={handleLike}
@@ -159,8 +129,8 @@ const Home = () => {
           />
         </>
       )}
-    </HomeContainer>
+    </MyListContainer>
   );
 };
 
-export default Home;
+export default MyList;
