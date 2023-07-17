@@ -17,7 +17,8 @@ const MainWrapper = styled.main`
 `;
 
 function App() {
-  const [selectedImage, setSelectedImage] = useState("//Todo");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedImage] = useState("//Todo");
   return (
     <BrowserRouter>
       <MainWrapper>
