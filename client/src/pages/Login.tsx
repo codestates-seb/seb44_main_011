@@ -10,7 +10,7 @@ import {
   PasswordMax,
 } from "../utils/Check";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { PostLogin } from "../utils/Url";
 import { Form } from "../components/commons/Form";
 
@@ -39,7 +39,7 @@ function Login() {
         console.log(response.headers);
         const accessToken = response.headers["authorization"] || null;
         const refresh = response.headers["refresh"] || null;
-        const memberId = response.data.memberId || null;
+        const memberId = 20;
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refresh", refresh);
         localStorage.setItem("memberId", memberId);

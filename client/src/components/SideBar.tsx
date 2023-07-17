@@ -22,10 +22,10 @@ function SideBar() {
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
 
-  console.log(isLogin);
   // useEffect(() => {
   //   checkLoginStatus();
   // }, []);
+
 
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
@@ -80,6 +80,7 @@ function SideBar() {
   // };
 
   return (
+    <>
     <RootWrapper>
       <NavLogo>
         <NaN_0001>
@@ -145,6 +146,17 @@ function SideBar() {
         )}
       </ButtonWrapper>
     </RootWrapper>
+    {modalOpen && (
+        <ModalBackground ref={modalRef} onClick={modalSideClick}>
+          <Login />
+        </ModalBackground>
+      )}
+      {Signmodal && (
+        <ModalBackground ref={modalRef} onClick={modalSideClick2}>
+          <SignUp />
+        </ModalBackground>
+      )}
+    </>
   );
 }
 export default SideBar;
