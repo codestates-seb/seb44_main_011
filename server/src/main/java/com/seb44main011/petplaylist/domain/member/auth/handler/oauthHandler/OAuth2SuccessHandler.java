@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,26 +36,29 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private void redirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException {
         String accessToken = "Bearer%20" + delegateTokenService.delegateAccessToken(member);
         String refreshToken = delegateTokenService.delegateRefreshToken(member);
-        String redirectURL = createURI(accessToken, refreshToken).toString();
+        Long memberId = member.getMemberId();
+        String redirectURL = createURI(accessToken, refreshToken, memberId).toString();
 
         getRedirectStrategy().sendRedirect(request, response, redirectURL);
     }
 
-    private URI createURI(String accessToken, String refreshToken) throws URISyntaxException {
+    private URI createURI(String accessToken, String refreshToken, Long memberId) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
+        queryParams.add("memberId", String.valueOf(memberId));
 
         return UriComponentsBuilder // 로컬 테스트용
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port(5173)
-                .path("/oAuht")
+                .path("/oauth")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
     }
+    ///oAuht
 
     //TODO: 서버 용
 
