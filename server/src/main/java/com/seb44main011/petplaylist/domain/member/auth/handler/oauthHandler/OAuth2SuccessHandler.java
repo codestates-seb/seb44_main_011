@@ -45,7 +45,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
-                .host("") // TODO: 클라이언트 주소로 변경 필요
+                .host("ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com") // TODO: 클라이언트 주소로 변경 필요
                 .path("oauth")
                 .queryParams(queryParams)
                 .build()

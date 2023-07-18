@@ -4,6 +4,8 @@ import com.seb44main011.petplaylist.domain.comment.entity.Comment;
 import com.seb44main011.petplaylist.domain.comment.mapper.CommentMapper;
 import com.seb44main011.petplaylist.domain.comment.dto.CommentDto;
 import com.seb44main011.petplaylist.domain.comment.service.CommentService;
+import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
+import com.seb44main011.petplaylist.global.common.AuthenticationName;
 import com.seb44main011.petplaylist.global.common.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
+    private final MusicService musicService;
 
     @PostMapping("/api/musics/{music-id}/comments")
     public ResponseEntity<?> postComment(@PathVariable("music-id") long musicId, @Valid @RequestBody CommentDto.Post requestBody) {
@@ -44,6 +47,7 @@ public class CommentController {
 
     @GetMapping("/public/musics/{music-id}/comments")
     public ResponseEntity<?> getComments(@PathVariable("music-id") long musicId, @RequestParam("page") @Positive int page) {
+
         MultiResponseDto musicComments = commentService.getComments(musicId, page);
 
 //        int totalPages = musicComments.getTotalPages();
@@ -58,23 +62,19 @@ public class CommentController {
     }
 
     @PatchMapping("/api/musics/{music-id}/comments/{comments-id}")
-    public ResponseEntity<?> patchComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, @Valid @RequestBody CommentDto.Patch requestBody) {
+    public ResponseEntity<?> patchComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, @Valid @RequestBody CommentDto.Patch requestBody, @AuthenticationName String email) {
 //      Patch시 작성자와 수정 요청자가 동일한지 확인하고 수정해야함
-        // 로직 수정필요
-        long memberId = 1L;
-//        Comment comment = commentMapper.commentPatchToComment(requestBody);
-        commentService.updateComment(requestBody, memberId);
+        commentService.updateComment(requestBody, email);
 
         return ResponseEntity.ok().build();
     }
 
 
-    //이렇게 삭제하면 안됨 로직 수정필요
     @DeleteMapping("/api/musics/{music-id}/comments/{comments-id}")
-    public ResponseEntity<?> deleteComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, Principal principal) {
+    public ResponseEntity<?> deleteComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, @AuthenticationName String email) {
+
         //인증정보에서 memberId 가져오는 로직 추가
-        long memberId = 1L; //추후 수정
-        commentService.deleteComment(commentId, memberId);
+        commentService.deleteComment(commentId, email);
 
         return ResponseEntity.ok().build();
     }

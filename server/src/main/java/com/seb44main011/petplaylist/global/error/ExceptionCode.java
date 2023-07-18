@@ -3,6 +3,7 @@ package com.seb44main011.petplaylist.global.error;
 import lombok.Getter;
 
 public enum ExceptionCode {
+    BAD_REQUEST_SORT_DATA(400,"Invalid format for sorting data"),
 
     ACCESS_DENIED(401,"This account is inaccessible"),
     INVALID_TOKEN(401,"is not the same token as data"),

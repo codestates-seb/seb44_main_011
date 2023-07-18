@@ -13,11 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -71,14 +73,14 @@ public class MusicService  {
     }
 
     @Transactional(readOnly = true)
-    public Page<Music> findMusicListAll(int page){
-        Pageable pageable = getPageInfo(page);
+    public Page<Music> findMusicListAll(int page,String sortValue){
+        Pageable pageable = getPageInfo(page,sortValue);
         return repository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
     public Page<Music> findCategoryAndTagsPageMusic(Music.Category category, String tags, int page) {
-        Pageable pageable = getPageInfo(page);
+        Pageable pageable = getPageInfo(page,"view");
         if (tags == null){
             return repository.findByCategoryAndStatus(category, Music.Status.ACTIVE,pageable);
         }
@@ -143,8 +145,18 @@ public class MusicService  {
 //        }
 //    }
 
-    private static Pageable getPageInfo(int page) {
-        return PageNationCreator.getPageOfDesc(page, PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX, "view");
+    private static Pageable getPageInfo(int page,String sortValue) {
+
+        if (sortValue.equalsIgnoreCase("view"))
+            return PageNationCreator.getPageOfDesc(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"view");
+        else if (sortValue.equalsIgnoreCase("new")){
+            return PageNationCreator.getPageOfDesc(page, PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"musicId" );
+        }
+        else if(sortValue.equalsIgnoreCase("old")) {
+            return PageNationCreator.getPageOfASC(page, PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX, "musicId");
+        }
+        throw new BusinessLogicException(ExceptionCode.BAD_REQUEST_SORT_DATA);
+
     }
 
 
