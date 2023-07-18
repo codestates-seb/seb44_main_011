@@ -1,6 +1,7 @@
 package com.seb44main011.petplaylist.domain.member.auth.config;
 
 import com.seb44main011.petplaylist.domain.member.auth.handler.authErrorHandler.MemberAuthenticationEntryPoint;
+import com.seb44main011.petplaylist.domain.member.auth.handler.oauthHandler.OAuth2FailureHandler;
 import com.seb44main011.petplaylist.domain.member.auth.handler.oauthHandler.OAuth2SuccessHandler;
 import com.seb44main011.petplaylist.domain.member.auth.jwt.DelegateTokenService;
 import com.seb44main011.petplaylist.domain.member.auth.jwt.JwtTokenizer;
@@ -45,7 +46,9 @@ public class SecurityConfiguration {
                         .userInfoEndpoint()
                         .userService(oAuth2MemberService)
                         .and()
+//                        .failureHandler(new )
                         .successHandler(new OAuth2SuccessHandler(delegateTokenService))
+                                .failureHandler(new OAuth2FailureHandler())
                 )
                 .apply(customFilterConfigurers())
                 .and()

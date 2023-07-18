@@ -168,7 +168,7 @@ class CommentControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(context)
                 );
-        verify(commentService, times(1)).updateComment(any(CommentDto.Patch.class), anyString());
+        verify(commentService, times(1)).updateComment(any(CommentDto.Patch.class));
         actions
                 .andExpect(status().isOk())
                 .andDo(
