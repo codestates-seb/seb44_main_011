@@ -24,6 +24,15 @@ public class DelegateTokenService {
         return tokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKeySting);
     }
 
+    public String delegateAccessToken(String subject) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", subject);
+        Date expiration = tokenizer.getTokenExpiration(tokenizer.getAccessTokenExpirationMinutes());
+        String base64EncodedSecretKeyString = tokenizer.secretKeyEncodeBase64(tokenizer.getSecretKeyString());
+
+        return tokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKeyString);
+    }
+
     public String delegateRefreshToken(Member member) {
         Date expiration = tokenizer.getTokenExpiration(tokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKeyString = tokenizer.secretKeyEncodeBase64(tokenizer.getSecretKeyString());
@@ -32,12 +41,5 @@ public class DelegateTokenService {
         return tokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKeyString);
     }
 
-    public String delegateAccessToken(String subject) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("email", subject);
-        Date expiration = tokenizer.getTokenExpiration(tokenizer.getRefreshTokenExpirationMinutes());
-        String base64EncodedSecretKeyString = tokenizer.secretKeyEncodeBase64(tokenizer.getSecretKeyString());
 
-        return tokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKeyString);
-    }
 }
