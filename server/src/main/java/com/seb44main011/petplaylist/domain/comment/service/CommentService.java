@@ -49,9 +49,8 @@ public class CommentService {
     }
 
     // 리팩토링 -> comment와 memberId 일치여부 확인
-    public void updateComment(CommentDto.Patch request, String email) {
-        Member byMemberFromEmail = memberService.findByMemberFromEmail(email);
-        Comment targetComment = findMyComment(byMemberFromEmail.getMemberId(), request.getCommentId());
+    public void updateComment(CommentDto.Patch request) {
+        Comment targetComment = commentRepository.findById(request.getCommentId()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
 
 
         targetComment.setComment(request.getComment());
