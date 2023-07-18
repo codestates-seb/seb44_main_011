@@ -1,8 +1,7 @@
-import axios from "axios";
+import { api } from "../utils/Url";
 import { useState, useEffect } from "react";
 import { Music } from "../types/Music";
 import { PageInfo } from "../types/PageInfo";
-import { GetApiPlaylist } from "../utils/Url";
 
 type MusicListData = {
   data: Music[];
@@ -20,20 +19,20 @@ const useMyMusicData = (
 
   useEffect(() => {
     const memberId = localStorage.getItem("memberId");
-    const accessToken = localStorage.getItem("accessToken");
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${GetApiPlaylist}/${memberId}`, {
+        const response = await api.get<MusicListData>(`/playlist/${memberId}`, {
           params: {
             page: currentPage,
           },
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
         });
-        setMusicList(response.data);
-        console.log(response.data);
+        setMusicList(
+          response.data ?? {
+            data: [],
+            pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
+          }
+        );
       } catch (error) {
         console.error(error);
         setMusicList({

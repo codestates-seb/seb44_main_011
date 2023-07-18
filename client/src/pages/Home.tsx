@@ -11,8 +11,8 @@ import {
 import { MusicList } from "../components/MusicList";
 import Pagination from "../components/Pagination";
 import useAllMusicData from "../hooks/useAllMusicData";
-import axios from "axios";
-import { Music } from "../types/Music";
+import useMusicData from "../hooks/useMusicData";
+import useLikeData from "../hooks/useLikeData";
 
 const HomeContainer = styled.div`
   display: flex;
@@ -38,10 +38,17 @@ const Home = () => {
   const [isTopChart, setIsTopChart] = useState(LIST_CATEGORY[0]?.id);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLikedClick, setIsLikedClick] = useState(false);
-  const [selectedMusic, setSelectedMusic] = useState<Music | null>(null);
   const [showMusicList, setShowMusicList] = useState(true);
 
   const musicList = useAllMusicData(isDogpli, currentPage, isLikedClick);
+
+  const { selectedMusic, handleMusic } = useMusicData(isDogpli);
+
+  const handleLike = useLikeData({
+    setIsLikedClick,
+    handleMusic,
+    selectedMusic,
+  });
 
   const handleAnimalButton = (buttonId: string) => {
     setIsDogpli(buttonId);
@@ -60,64 +67,9 @@ const Home = () => {
     setShowMusicList(!showMusicList);
   };
 
-  const handleLike = async (musicId: number, liked?: boolean) => {
-    const memberId = localStorage.getItem("memberId");
-    const accessToken = localStorage.getItem("accessToken");
-
-    if (!memberId) {
-      alert("로그인이 필요합니다.");
-    } else {
-      try {
-        const response = await axios.request({
-          method: liked ? "DELETE" : "POST",
-          url: `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/api/playlist/${memberId}`,
-          data: {
-            musicId: musicId,
-          },
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (response.status === 201 || response.status === 204) {
-          setIsLikedClick(true);
-        } else {
-          console.error("좋아요 처리에 실패했습니다.");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
-  const handleMusic = async (musicId: number) => {
-    try {
-      const response = await axios.get(
-        "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/public/musics",
-        {
-          params: {
-            music_id: musicId,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        setSelectedMusic(response.data);
-      } else {
-        console.error("음악재생에 실패하였습니다.");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     setIsLikedClick(false);
   }, [currentPage, isDogpli, isLikedClick]);
-
-  useEffect(() => {
-    setSelectedMusic(null);
-  }, [isDogpli]);
 
   return (
     <HomeContainer>
@@ -132,6 +84,7 @@ const Home = () => {
         <Player
           musicData={selectedMusic}
           handleLike={handleLike}
+          handleMusic={handleMusic}
           handleCommentClick={handleCommentClick}
         />
       )}
