@@ -5,24 +5,27 @@ import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
 import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg";
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
-import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
+import DogLogo from "../../src/assets/imgs/doglogo.png";
 import { ReactComponent as More } from "../assets/icons/more.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
-
 function SideBar() {
+
   const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false); // 드롭다운 메뉴가 열려있는지 여부를 저장하는 상태 변수
+
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
+
   const navigate = useNavigate();
   // const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
 
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
+
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -93,12 +96,13 @@ function SideBar() {
       }
     }
   };
+
   return (
     <>
       <RootWrapper>
         <NavLogo>
           <NaN_0001>
-            <DogLogoImg />
+            <DogLogoImg src={DogLogo} />
           </NaN_0001>
         </NavLogo>
         <Nav>
@@ -225,6 +229,7 @@ const ModalBackground = styled.div`
 const SideDiv = styled.div`
   cursor: pointer;
 `;
+
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
   border: solid 1px rgba(255, 255, 255, 0.16);
@@ -279,7 +284,8 @@ const NaN_0001 = styled.div`
   top: 0px;
   right: 17px;
 `;
-const DogLogoImg = styled(DogLogo)`
+
+const DogLogoImg = styled.img`
   object-fit: cover;
   position: absolute;
   left: -16px;
@@ -369,6 +375,7 @@ const TagImg = styled(TagsIcon)`
   top: 0px;
   right: 73px;
 `;
+
 const ViewMore = styled(More)`
   position: absolute;
   left: 80%;
@@ -378,6 +385,7 @@ const ViewMore = styled(More)`
   transform: ${(props) => (props.rotated ? "rotate(180deg)" : "rotate(0)")};
   transition: transform 0.2s ease;
 `;
+
 const ButtonWrapper = styled.div`
   width: 185px;
   height: 40px;

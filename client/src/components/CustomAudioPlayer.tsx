@@ -14,14 +14,14 @@ const StyledAudioPlayer = styled(AudioPlayer).attrs((props) => ({
   customIcons: {
     play: <Play />,
     pause: <Pause />,
-    volume: <Volume fill="#F0F3F3" />,
+    volume: <Volume />,
     volumeMute: <Mute />,
-    loop: <Reapeat fill="#F0F3F3" />,
-    loopOff: <RepeatOff fill="#F0F3F3" />,
-    next: <Next fill="#F0F3F3" />,
-    forward: <Next fill="#F0F3F3" />,
-    rewind: <Previous fill="#F0F3F3" />,
-    previous: <Previous fill="#F0F3F3" />,
+    loop: <Reapeat />,
+    loopOff: <RepeatOff />,
+    next: <Next />,
+    forward: <Next />,
+    rewind: <Previous />,
+    previous: <Previous />,
     ...props.customIcons,
   },
 }))`
@@ -35,6 +35,7 @@ const StyledAudioPlayer = styled(AudioPlayer).attrs((props) => ({
   > svg {
     width: 16px;
     height: 16px;
+    fill: "#F0F3F3";
   }
 
   .rhap_time {
@@ -88,14 +89,14 @@ const CustomAudioPlayer: React.FC<CustomAudioPlayerProps> = ({ src }) => {
       customIcons={{
         play: <Play />,
         pause: <Pause />,
-        volume: <Volume fill="#F0F3F3" />,
+        volume: <Volume />,
         volumeMute: <Mute />,
-        loop: <Reapeat fill="#F0F3F3" />,
-        loopOff: <RepeatOff fill="#F0F3F3" />,
-        next: <Next fill="#F0F3F3" />,
-        forward: <Next fill="#F0F3F3" />,
-        rewind: <Previous fill="#F0F3F3" />,
-        previous: <Previous fill="#F0F3F3" />,
+        loop: <Reapeat />,
+        loopOff: <RepeatOff />,
+        next: <Next />,
+        forward: <Next />,
+        rewind: <Previous />,
+        previous: <Previous />,
       }}
     />
   );

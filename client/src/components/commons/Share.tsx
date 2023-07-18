@@ -56,4 +56,6 @@ function Share() {
     </ShareContainer>
   );
 }
+
 export default Share;
+
