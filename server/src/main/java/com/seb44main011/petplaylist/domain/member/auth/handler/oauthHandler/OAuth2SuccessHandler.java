@@ -31,7 +31,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException {
-        String accessToken = "Bearer" + delegateTokenService.delegateAccessToken(member);
+        String accessToken = "Bearer " + delegateTokenService.delegateAccessToken(member);
         String refreshToken = delegateTokenService.delegateRefreshToken(member);
         String redirectURL = createURI(accessToken, refreshToken).toString();
 
