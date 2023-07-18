@@ -22,7 +22,7 @@ const useCommentData = ({
   useEffect(() => {
     const fetchCommentData = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.get<CommentData>(
           `${GetPublicMusic}/${musicId}/comments`,
           {
             params: {
@@ -30,7 +30,7 @@ const useCommentData = ({
             },
           }
         );
-        setCommentData(response.data);
+        setCommentData(response.data || { data: [] });
       } catch (error) {
         console.error("댓글 데이터를 불러오는 중 오류 발생:", error);
       }

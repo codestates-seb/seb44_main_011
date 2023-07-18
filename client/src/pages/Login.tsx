@@ -18,7 +18,7 @@ type FormValues = {
   password: string;
 };
 type Response = {
-  member: number;
+  memberId: string;
   Authorization: string;
   Refresh: string;
 };
@@ -36,10 +36,10 @@ function Login() {
         console.log(response.headers);
         const accessToken = response.headers["authorization"] || null;
         const refresh = response.headers["refresh"] || null;
-        const memberId = null;
+        const memberId = response.data["memberId"];
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refresh", refresh);
-        localStorage.setItem("memberId", `${memberId}`);
+        localStorage.setItem("memberId", memberId);
         window.location.replace("/");
       })
       .catch((error) => console.log(error));

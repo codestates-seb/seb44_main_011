@@ -1,8 +1,9 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { Music } from "../types/Music";
 import { PageInfo } from "../types/PageInfo";
-import { GetPublicPlaylist, GetApiPlaylist } from "../utils/Url";
+import { GetPublicPlaylist } from "../utils/Url";
+import { api } from "../utils/Url";
 
 type MusicListData = {
   data: Music[];
@@ -22,30 +23,35 @@ const useAllMusicData = (
   useEffect(() => {
     const fetchData = async () => {
       const memberId = localStorage.getItem("memberId");
-      const accessToken = localStorage.getItem("accessToken");
-      const refreshToken = localStorage.getItem("refresh");
 
-      const config: AxiosRequestConfig = {
-        params: {
-          page: currentPage,
-        },
-      };
-
-      if (memberId && accessToken) {
-        config.headers = {
-          Authorization: `Bearer ${accessToken}`,
-          "x-refresh-token": refreshToken,
-        };
-        config.url = `${GetApiPlaylist}/${isDogpli}s/id/${memberId}`;
+      if (!memberId) {
+        try {
+          const response = await axios.get<MusicListData>(
+            `${GetPublicPlaylist}/${isDogpli}s`,
+            {
+              params: {
+                page: currentPage,
+              },
+            }
+          );
+          setMusicList(response.data || { data: [] });
+        } catch (error) {
+          console.error(error);
+        }
       } else {
-        config.url = `${GetPublicPlaylist}/${isDogpli}s`;
-      }
-
-      try {
-        const response = await axios.get(config.url, config);
-        setMusicList(response.data);
-      } catch (error) {
-        console.error(error);
+        try {
+          const response = await api.get<MusicListData>(
+            `/playlist/${isDogpli}s/id/${memberId}`,
+            {
+              params: {
+                page: currentPage,
+              },
+            }
+          );
+          setMusicList(response.data || { data: [] });
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
 

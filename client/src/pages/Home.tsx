@@ -44,7 +44,11 @@ const Home = () => {
 
   const { selectedMusic, handleMusic } = useMusicData(isDogpli);
 
-  const handleLike = useLikeData({ setIsLikedClick });
+  const handleLike = useLikeData({
+    setIsLikedClick,
+    handleMusic,
+    selectedMusic,
+  });
 
   const handleAnimalButton = (buttonId: string) => {
     setIsDogpli(buttonId);
@@ -80,6 +84,7 @@ const Home = () => {
         <Player
           musicData={selectedMusic}
           handleLike={handleLike}
+          handleMusic={handleMusic}
           handleCommentClick={handleCommentClick}
         />
       )}

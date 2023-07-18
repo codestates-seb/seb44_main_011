@@ -1,3 +1,5 @@
+import axios, { AxiosInstance } from "axios";
+
 export const BaseURL =
   "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080";
 export const PostLogin =
@@ -14,8 +16,14 @@ export const Naver_Redirect_URL = "http://localhost:5173";
 
 export const GetPublicPlaylist = `${BaseURL}/public/playlist`;
 
-export const GetApiPlaylist = `${BaseURL}/api/playlist`;
-
 export const GetPublicMusic = `${BaseURL}/public/musics`;
 
-export const GetApiMusic = `${BaseURL}/api/musics`;
+export const api: AxiosInstance = axios.create({
+  baseURL: `${BaseURL}/api`,
+  timeout: 1000,
+  headers: {
+    Authorization: localStorage.getItem("accessToken") || "",
+    "x-refresh-token": localStorage.getItem("refresh") || "",
+    "Content-Type": "application/json",
+  },
+});

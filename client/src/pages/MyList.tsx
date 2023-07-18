@@ -45,7 +45,11 @@ const MyList = () => {
 
   const { selectedMusic, handleMusic } = useMusicData();
 
-  const handleLike = useLikeData({ setIsLikedClick });
+  const handleLike = useLikeData({
+    setIsLikedClick,
+    handleMusic,
+    selectedMusic,
+  });
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -64,6 +68,7 @@ const MyList = () => {
       <Player
         musicData={selectedMusic}
         handleLike={handleLike}
+        handleMusic={handleMusic}
         handleCommentClick={handleCommentClick}
       />
       {showMusicList && (

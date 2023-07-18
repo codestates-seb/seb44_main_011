@@ -9,7 +9,7 @@ import Pagination from "./Pagination";
 import { useState, useEffect, useRef } from "react";
 import { CommentData } from "../types/Comment";
 import Empty from "./Empty";
-import axios from "axios";
+import { api } from "../utils/Url";
 
 const CommentListContainer = styled.div`
   border-radius: 15px;
@@ -141,7 +141,7 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
   const [isInputActive, setIsInputActive] = useState(false);
   const [isCommentChanged, setIsCommentChanged] = useState(false);
   const [editCommentId, setEditCommentId] = useState<number | null>(null);
-  // const [editComment, setEditComment] = useState("");
+  const [editComment, setEditComment] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const commentData: CommentData = useCommentData({
     musicId,
@@ -167,31 +167,60 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
     setCommentInput(event.target.value);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleEditSubmit = async (
+    event: React.FormEvent,
+    commentId: number
+  ) => {
     event.preventDefault();
 
-    if (commentInput.length < 2 || commentInput.length > 30) {
+    const comment = editComment;
+
+    if (comment.length < 2 || comment.length > 30) {
       alert("댓글은 2글자 이상 30글자 이하여야 합니다.");
       return;
     }
 
     const requestData = {
-      memberId: localStorage.getItem("memberId"),
-      musicId: musicId,
-      comment: commentInput,
+      commentId: commentId,
+      comment: comment,
     };
 
-    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const response = await api.patch(
+        `musics/${musicId}/comments/${commentId}`,
+        requestData
+      );
+
+      if (response.status === 200) {
+        setEditCommentId(null);
+        setIsCommentChanged(true);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("댓글 수정에 실패했습니다.");
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const comment = commentInput;
+
+    if (comment.length < 2 || comment.length > 30) {
+      alert("댓글은 2글자 이상 30글자 이하여야 합니다.");
+      return;
+    }
+
+    const requestData = {
+      memberId: memberId,
+      musicId: musicId,
+      comment: comment,
+    };
 
     try {
-      const response = await axios.post(
-        `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/api/musics/${musicId}/comments`,
-        requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+      const response = await api.post(
+        `musics/${musicId}/comments`,
+        requestData
       );
       console.log(response.data);
       setCommentInput("");
@@ -213,8 +242,9 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
     setIsInputActive(false);
   };
 
-  const handleEdit = (commentId: number) => {
+  const handleEdit = (commentId: number, comment: string) => {
     setEditCommentId(commentId);
+    setEditComment(comment);
   };
 
   const handleEditCancel = () => {
@@ -225,11 +255,27 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
     setEditComment(event.target.value);
   };
 
+  const handleDelete = async (event: React.MouseEvent, commentId: number) => {
+    event.stopPropagation();
+
+    try {
+      const response = await api.delete(
+        `musics/${musicId}/comments/${commentId}`
+      );
+      if (response.status === 200) {
+        setIsCommentChanged(true);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("댓글 삭제에 실패했습니다.");
+    }
+  };
+
   useEffect(() => {
-    if (isInputActive && inputRef.current) {
+    if ((editCommentId || isInputActive) && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [isInputActive]);
+  }, [isInputActive, editCommentId]);
 
   useEffect(() => {
     setIsCommentChanged(false);
@@ -259,13 +305,19 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
         </CommentForm>
         {commentData?.data.length > 0 ? (
           commentData?.data.map((comment) => (
-            <CommentList key={comment.commentId}>
+            <CommentList
+              key={comment.commentId}
+              onSubmit={(event: React.FormEvent) =>
+                handleEditSubmit(event, comment.commentId)
+              }
+            >
               <Profile image={testImg} size={40} radius={4} />
-              <ListContent onSubmit={handleSubmit}>
+              <ListContent>
                 <UserName>{comment.name}</UserName>
                 <span>:</span>
                 {editCommentId === comment.commentId ? (
                   <EditInput
+                    ref={inputRef}
                     type="text"
                     defaultValue={comment.comment}
                     onChange={handleEditChange}
@@ -282,19 +334,28 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
                   </WriteBtn>
                 </ButtonContainer>
               ) : (
-                Number(memberId) === comment.memberId && (
-                  <>
-                    <ButtonContainer>
-                      <IconBtn onClick={() => handleEdit(comment.commentId)}>
-                        <EditIcon fill="#F5F6F6" />
-                      </IconBtn>
-                      <IconBtn>
-                        <DeleteIcon fill="#F5F6F6" />
-                      </IconBtn>
-                    </ButtonContainer>
-                    <Time>{calculateTimeAgo(comment.createdAt)}</Time>
-                  </>
-                )
+                // Number(memberId) === comment.memberId && (
+                <>
+                  <ButtonContainer>
+                    <IconBtn
+                      onClick={() =>
+                        handleEdit(comment.commentId, comment.comment)
+                      }
+                    >
+                      <EditIcon type="button" fill="#F5F6F6" />
+                    </IconBtn>
+                    <IconBtn type="button">
+                      <DeleteIcon
+                        fill="#F5F6F6"
+                        onClick={(event: React.MouseEvent) =>
+                          handleDelete(event, comment.commentId)
+                        }
+                      />
+                    </IconBtn>
+                  </ButtonContainer>
+                  <Time>{calculateTimeAgo(comment.createdAt)}</Time>
+                </>
+                // )
               )}
             </CommentList>
           ))
