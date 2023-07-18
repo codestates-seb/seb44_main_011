@@ -62,9 +62,9 @@ public class CommentController {
     }
 
     @PatchMapping("/api/musics/{music-id}/comments/{comments-id}")
-    public ResponseEntity<?> patchComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, @Valid @RequestBody CommentDto.Patch requestBody, @AuthenticationName String email) {
+    public ResponseEntity<?> patchComment(@PathVariable("music-id") long musicId, @PathVariable("comments-id") long commentId, @Valid @RequestBody CommentDto.Patch requestBody) {
 //      Patch시 작성자와 수정 요청자가 동일한지 확인하고 수정해야함
-        commentService.updateComment(requestBody, email);
+        commentService.updateComment(requestBody);
 
         return ResponseEntity.ok().build();
     }
