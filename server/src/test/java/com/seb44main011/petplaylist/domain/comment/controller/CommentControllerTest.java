@@ -5,15 +5,11 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.google.gson.Gson;
 import com.seb44main011.petplaylist.domain.comment.dto.CommentDto;
 import com.seb44main011.petplaylist.domain.comment.entity.Comment;
-import com.seb44main011.petplaylist.domain.comment.mapper.CommentMapper;
+import com.seb44main011.petplaylist.domain.comment.repository.CommentRepository;
 import com.seb44main011.petplaylist.domain.comment.service.CommentService;
 import com.seb44main011.petplaylist.domain.comment.stub.CommentTestData;
-import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
-import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
-import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
-import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.global.common.MultiResponseDto;
 import org.junit.jupiter.api.AfterEach;
@@ -65,8 +61,11 @@ class CommentControllerTest {
     @MockBean
     private CommentService commentService;
 
-//    @Autowired
-//    MusicRepository musicRepository;
+    @Autowired
+    MusicRepository musicRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
 //
 ////    @Autowired
 ////    MemberRepository memberRepository;
@@ -94,8 +93,8 @@ class CommentControllerTest {
         //given
         CommentDto.Post post = new CommentDto.Post(1L, 1L, "댓글입니다.");
         CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now());
-//        Music music = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
-//        musicRepository.save(music);
+        Music music = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+        musicRepository.save(music);
 
         given(commentService.saveComment(Mockito.any(CommentDto.Post.class)))
                 .willReturn(responseComment);
@@ -194,6 +193,8 @@ class CommentControllerTest {
     @WithMockUser
     void deleteCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
+        Music music = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+
 
 
         ResultActions actions =

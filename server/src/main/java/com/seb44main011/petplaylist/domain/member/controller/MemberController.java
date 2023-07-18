@@ -4,9 +4,8 @@ import com.seb44main011.petplaylist.domain.member.dto.MemberDto;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.mapper.MemberMapper;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
-import com.seb44main011.petplaylist.domain.member.service.StorageService;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.global.common.AuthenticationName;
-import com.seb44main011.petplaylist.global.common.SingleResponseDto;
 import com.seb44main011.petplaylist.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +25,7 @@ import java.net.URI;
 public class MemberController {
     private final MemberMapper memberMapper;
     private final MemberService memberService;
+    private final S3Service s3Service;
 
 
     @PostMapping("/public/signup")
@@ -70,12 +70,12 @@ public class MemberController {
         return ResponseEntity.ok().location(location).build();
     }
 
-    @PostMapping(value = "/api/members/{member-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity setMemberProfile(@AuthenticationName String email, @RequestPart(value = "file") MultipartFile profileImage) {
-        log.info("profileImage : {}", profileImage.getOriginalFilename());
-        memberService.setMemberProfileImage(email, profileImage);
-
-
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping(value = "/api/members/{member-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public ResponseEntity setMemberProfile(@AuthenticationName String email, @RequestPart(value = "file") MultipartFile profileImage) {
+//        log.info("profileImage : {}", profileImage.getOriginalFilename());
+//        memberService.setMemberProfileImage(email, profileImage);
+//
+//
+//        return ResponseEntity.ok().build();
+//    }
 }
