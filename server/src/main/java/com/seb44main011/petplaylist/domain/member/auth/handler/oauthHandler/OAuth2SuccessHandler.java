@@ -31,7 +31,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     private void redirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException {
-        String accessToken = "Bearer" + delegateTokenService.delegateAccessToken(member);
+        String accessToken = "Bearer " + delegateTokenService.delegateAccessToken(member);
         String refreshToken = delegateTokenService.delegateRefreshToken(member);
         String redirectURL = createURI(accessToken, refreshToken).toString();
 
@@ -46,7 +46,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com") // TODO: 클라이언트 주소로 변경 필요
-                .path("oauth")
+                .path("/oauth")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
