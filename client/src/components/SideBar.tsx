@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
-import styled from "styled-components";
+import { keyframes, styled } from "styled-components";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
 import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg";
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 
@@ -17,7 +17,7 @@ function SideBar() {
   const [Signmodal, setSignModal] = useState(false);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
-
+  const navigate = useNavigate();
   // const [searchQuery, setSearchQuery] = useState("");
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
@@ -78,6 +78,11 @@ function SideBar() {
   //   // 검색 결과에 따라 필요한 동작을 처리합니다.
   // };
 
+  const Navigate = (data: string) => {
+    const memberId = localStorage.getItem("memberId");
+    if (memberId !== null) navigate(`/${data}`);
+    else alert("로그인이 필요한 페이지입니다.");
+  };
   return (
     <>
       <RootWrapper>
@@ -101,14 +106,14 @@ function SideBar() {
             <Home_0001>Home</Home_0001>
           </NavHome>
         </Link>
-        <Link className="mylist" to="/mylist">
+        <SideDiv className="mylist" onClick={() => Navigate("mylist")}>
           <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
             <MyList>MyList</MyList>
             <MyListImg
               fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"}
             />
           </NavMylist>
-        </Link>
+        </SideDiv>
         <Link className="tags" to="/tags">
           <div>
             <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
@@ -125,7 +130,7 @@ function SideBar() {
             </NavTags>
           </div>
         </Link>
-        <Link className="mypage" to="/mypage">
+        <SideDiv className="mypage" onClick={() => Navigate("mypage")}>
           <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
             <MyPage id="mypageText">MyPage</MyPage>
             <MypageImg
@@ -133,7 +138,7 @@ function SideBar() {
               fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
             />
           </NavMypage>
-        </Link>
+        </SideDiv>
         <ButtonWrapper>
           {isLogin ? (
             <>
@@ -161,6 +166,15 @@ function SideBar() {
   );
 }
 export default SideBar;
+
+const fadeInAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
@@ -170,7 +184,10 @@ const ModalBackground = styled.div`
   z-index: 999;
   position: fixed;
   backdrop-filter: blur(10px);
-  animation: showview 2s forwards;
+  animation: ${fadeInAnimation} 0.5s ease-in;
+`;
+const SideDiv = styled.div`
+  cursor: pointer;
 `;
 // const DropdownMenu = styled.div`
 //   position: absolute;
