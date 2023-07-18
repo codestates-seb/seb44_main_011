@@ -1,5 +1,5 @@
+import { keyframes, styled } from "styled-components";
 import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
 import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg";
@@ -10,13 +10,17 @@ import { ReactComponent as More } from "../assets/icons/more.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
+
 function SideBar() {
   const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false); // 드롭다운 메뉴가 열려있는지 여부를 저장하는 상태 변수
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
+  const navigate = useNavigate();
+  // const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
+
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
   const showLoginModal = () => {
@@ -65,6 +69,13 @@ function SideBar() {
   // 검색 결과 상태
   const [searchResults, setSearchResults] = useState([]);
 
+
+  const Navigate = (data: string) => {
+    const memberId = localStorage.getItem("memberId");
+    if (memberId !== null) navigate(`/${data}`);
+    else alert("로그인이 필요한 페이지입니다.");
+  }
+  
   // 검색어 입력 이벤트 핸들러
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -105,14 +116,14 @@ function SideBar() {
             <Home_0001>Home</Home_0001>
           </NavHome>
         </Link>
-        <Link className="mylist" to="/mylist">
+        <SideDiv className="mylist" onClick={() => Navigate("mylist")}>
           <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
             <MyList>MyList</MyList>
             <MyListImg
               fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"}
             />
           </NavMylist>
-        </Link>
+        </SideDiv>
         <Link className="tags" to="/tags">
           <NavTags id="tags" onClick={handleTagsMenuClick}>
             <Tags>Tags</Tags>
@@ -127,7 +138,7 @@ function SideBar() {
           </DropdownMenu>
         </Link>
 
-        <Link className="mypage" to="/mypage">
+        <SideDiv className="mypage" onClick={() => Navigate("mypage")}>
           <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
             <MyPage id="mypageText">MyPage</MyPage>
             <MypageImg
@@ -135,7 +146,7 @@ function SideBar() {
               fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
             />
           </NavMypage>
-        </Link>
+        </SideDiv>
         <ButtonWrapper>
           {isLogin ? (
             <>
@@ -163,6 +174,16 @@ function SideBar() {
   );
 }
 export default SideBar;
+
+
+const fadeInAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const DropdownMenu = styled.div`
   position: absolute;
@@ -199,23 +220,11 @@ const ModalBackground = styled.div`
   z-index: 999;
   position: fixed;
   backdrop-filter: blur(10px);
-  animation: showview 2s forwards;
+  animation: ${fadeInAnimation} 0.5s ease-in;
 `;
-// const DropdownMenu = styled.div`
-//   position: absolute;
-//   top: 100%;
-//   left: 0;
-//   background-color: #FFFFFF;
-//   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-//   padding: 8px 0;
-//   min-width: 150px;
-//   z-index: 1;
-// `;
-// const MenuItem = styled.div`
-//   padding: 8px 16px;
-//   color: #333333;
-//   cursor: pointer;
-// `;
+const SideDiv = styled.div`
+  cursor: pointer;
+`;
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
   border: solid 1px rgba(255, 255, 255, 0.16);

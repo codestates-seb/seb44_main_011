@@ -6,8 +6,12 @@ import MainContent from "./components/commons/MainContent";
 import SideBar from "./components/SideBar";
 import MyList from "./pages/MyList";
 import { styled } from "styled-components";
-import Mypage from "./pages/Mypage";
+import { MypageInfo } from "./components/MypageInfo";
+import { useState } from "react";
+import MyPage from "./pages/MyPage";
+import Oauth from "./pages/Oauth";
 import Search from "./pages/Search";
+
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -27,6 +31,7 @@ function App() {
             <Route path="/tags" element={<Tags />} />
             <Route path="/" element={<Home />} />
             <Route path="/mypage/edit" element={<Edit />} />
+            <Route path="/oauth" element={<Oauth />} />
             <Route path="/search" element={<Search />} />
           </Routes>
         </MainContent>
