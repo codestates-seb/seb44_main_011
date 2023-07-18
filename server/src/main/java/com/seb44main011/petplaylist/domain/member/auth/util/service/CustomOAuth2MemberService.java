@@ -59,9 +59,16 @@ public class CustomOAuth2MemberService extends DefaultOAuth2UserService {
                 throw new IllegalAccessException("Unsupported email domain: " + domain);
         }
         Optional<Member> optionalMember = repository.findByEmail(email);
+        if (optionalMember.isEmpty()){
+            return saveOAuthUser(email, name, oAuthCheck);
+        }
+        OAuth2User oAuth2User = optionalMember.map(m->new OAuth2UserDetail(m,attributes,oAuthCheck)).orElseThrow();
+        Member member = (Member) oAuth2User;
+        if (member.getOAuthCheck().equals(Member.OAuthCheck.NO_OAUTH)){
+            throw new RuntimeException("이미 가입된 아이디 입니다.");
+        }
+        return oAuth2User;
 
-        return optionalMember.map(member -> new OAuth2UserDetail(member, attributes, oAuthCheck))
-                .orElseGet(() -> saveOAuthUser(email, name, oAuthCheck));
     }
 
     private OAuth2UserDetail saveOAuthUser(String email, String name, Member.OAuthCheck oAuthCheck) {
@@ -79,11 +86,9 @@ public class CustomOAuth2MemberService extends DefaultOAuth2UserService {
         return new OAuth2UserDetail(saveMember, attribute, oAuthCheck);
     }
 
-    private void validateAttributes(Map<String, Object> attributes) throws IllegalAccessException, OAuth2AuthorizationException {
+    private void validateAttributes(Map<String, Object> attributes) throws IllegalAccessException{
         if (!attributes.containsKey("email")) {
             throw new IllegalAccessException("응답 멤버 정보에 이메일이 없습니다.");
-        } else if (repository.findByEmail(String.valueOf(attributes.get("email"))).isPresent()) {
-            throw new OAuth2AuthorizationException(new OAuth2Error("409"), "이미 존재하는 회원입니다.");
         }
     }
 }
