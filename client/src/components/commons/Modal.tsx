@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Text from "./H2Text";
-import Input from "./Input";
+import { InBox } from "./Input";
 import Bluebutton from "./Bluebutton";
 import Share from "./Share";
 
@@ -20,20 +20,13 @@ const ModalContainer = styled.div`
 type Props = {
   email: string;
   password: string;
-  setEmail: (value: string) => void;
-  setPassword: (value: string) => void;
 };
-function Modal({ email, password, setEmail, setPassword }: Props) {
+function Modal({ email, password }: Props) {
   return (
     <ModalContainer>
       <Text value="Login" />
-      <Input name="email" type="text" value={email} onChange={setEmail} />
-      <Input
-        name="password"
-        type="password"
-        value={password}
-        onChange={setPassword}
-      />
+      <InBox name="email" type="text" value={email} />
+      <InBox name="password" type="password" value={password} />
       <Bluebutton value="Login" />
       <Share />
     </ModalContainer>

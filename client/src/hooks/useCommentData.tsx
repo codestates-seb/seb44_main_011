@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { CommentData } from "../types/Comment";
+import { GetComment } from "../utils/Url";
 
-type CommentDataParams = {
+type useCommentDataProps = {
   musicId: number;
   currentPage: number;
+  isCommentChanged?: boolean;
 };
 
-const useCommentData = ({ musicId, currentPage }: CommentDataParams) => {
+const useCommentData = ({
+  musicId,
+  currentPage,
+  isCommentChanged,
+}: useCommentDataProps) => {
   const [commentData, setCommentData] = useState<CommentData>({
     data: [],
     pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
@@ -17,13 +23,13 @@ const useCommentData = ({ musicId, currentPage }: CommentDataParams) => {
     const fetchCommentData = async () => {
       try {
         const response = await axios.get(
-          `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/public/musics/${musicId}/comments`,
+          `${GetComment}/${musicId}/comments`,
           {
             params: {
               page: currentPage,
             },
           }
-          // "/data/comment.json"
+          // "/comment.json"
         );
         setCommentData(response.data);
       } catch (error) {
@@ -32,7 +38,7 @@ const useCommentData = ({ musicId, currentPage }: CommentDataParams) => {
     };
 
     fetchCommentData();
-  }, []);
+  }, [isCommentChanged]);
 
   return commentData;
 };

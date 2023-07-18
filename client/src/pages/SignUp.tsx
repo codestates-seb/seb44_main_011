@@ -28,7 +28,6 @@ function SignUp() {
     handleSubmit,
     watch,
     formState: { errors },
-    setError,
   } = useForm<FormValues>({ mode: "onBlur" });
 
   const passwordRef = useRef<string | null>(null);
@@ -46,6 +45,11 @@ function SignUp() {
       .then((response) => {
         if (response.status === 201) {
           alert("회원가입이 완료되었습니다.");
+          window.location.replace("/");
+        } else if (response.status === 409) {
+          alert("중복된 이메일입니다. 다시 진행해주세요.");
+        } else if (response.status === 500) {
+          alert("입력 양식에 맞게 다시 입력해주세요.");
         }
       })
       .catch((error) => console.log(error));
