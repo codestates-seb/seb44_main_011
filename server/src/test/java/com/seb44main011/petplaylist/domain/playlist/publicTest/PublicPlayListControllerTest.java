@@ -4,9 +4,11 @@ import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.SimpleType;
 import com.google.gson.Gson;
+import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
 import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
+import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
@@ -17,8 +19,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +30,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
@@ -40,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
 public class PublicPlayListControllerTest extends PublicFieldDescriptor{
     //TODO: 배포시 자꾸 에라가 나는 이슈가 있음 .. SQL연결 관련 이슈 있다가 없다가 함 ㅋㅋ 해결 해야함.
     @Autowired
