@@ -5,14 +5,14 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.google.gson.Gson;
 import com.seb44main011.petplaylist.domain.comment.dto.CommentDto;
 import com.seb44main011.petplaylist.domain.comment.entity.Comment;
-import com.seb44main011.petplaylist.domain.comment.mapper.CommentMapper;
+import com.seb44main011.petplaylist.domain.comment.repository.CommentRepository;
 import com.seb44main011.petplaylist.domain.comment.service.CommentService;
 import com.seb44main011.petplaylist.domain.comment.stub.CommentTestData;
-import com.seb44main011.petplaylist.domain.member.service.MemberService;
+import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
-import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.global.common.MultiResponseDto;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import org.junit.jupiter.api.Test;
@@ -61,20 +61,40 @@ class CommentControllerTest {
     @MockBean
     private CommentService commentService;
 
+    @Autowired
+    MusicRepository musicRepository;
 
-
+    @Autowired
+    CommentRepository commentRepository;
+//
+////    @Autowired
+////    MemberRepository memberRepository;
+////
+//    @Autowired
+//    MusicService musicService;
+//
+//    @Autowired
+//    MemberService memberService;
+//
+//    @AfterEach
+//    void repositoryClear() {
+//        musicRepository.deleteAll();
+//    }
 
 
     @Test
     @DisplayName("댓글 작성 테스트")
     @WithMockUser
+
     void postCommentTest() throws Exception {
 
         Comment commentData = CommentTestData.MockComment.getCommentData();
 
         //given
         CommentDto.Post post = new CommentDto.Post(1L, 1L, "댓글입니다.");
-        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, "네임", "내용", LocalDateTime.now(), LocalDateTime.now());
+        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now());
+        Music music = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+        musicRepository.save(music);
 
         given(commentService.saveComment(Mockito.any(CommentDto.Post.class)))
                 .willReturn(responseComment);
@@ -109,9 +129,11 @@ class CommentControllerTest {
                                                 )
                                                 .responseFields(
                                                         PayloadDocumentation.fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("댓글 번호"),
+                                                        PayloadDocumentation.fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
                                                         PayloadDocumentation.fieldWithPath("musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
                                                         PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 닉네임"),
                                                         PayloadDocumentation.fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글 내용"),
+                                                        PayloadDocumentation.fieldWithPath("profile").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
                                                         PayloadDocumentation.fieldWithPath("createdAt").type(JsonFieldType.STRING).description("작성 시간"),
                                                         PayloadDocumentation.fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정 시간")
                                                 )
@@ -129,20 +151,19 @@ class CommentControllerTest {
     void patchCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
         String context = gson.toJson(CommentDto.Patch.builder()
-                        .commentId(1L)
+                .commentId(1L)
                 .comment("수정 코멘트")
                 .build());
 
 
-
         ResultActions actions =
                 mockMvc.perform(
-                        patch("/api/musics/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
+                        patch("/api/musics/{music-id}/comments/{comments-id}", commentData.getMusic().getMusicId(), commentData.getCommentId())
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(context)
                 );
-        verify(commentService, times(1)).updateComment(any(CommentDto.Patch.class), anyLong());
+        verify(commentService, times(1)).updateComment(any(CommentDto.Patch.class), anyString());
         actions
                 .andExpect(status().isOk())
                 .andDo(
@@ -172,16 +193,18 @@ class CommentControllerTest {
     @WithMockUser
     void deleteCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
+        Music music = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+
 
 
         ResultActions actions =
                 mockMvc.perform(
-                        delete("/api/musics/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
+                        delete("/api/musics/{music-id}/comments/{comments-id}", commentData.getMusic().getMusicId(), commentData.getCommentId())
                                 .accept(MediaType.APPLICATION_JSON)
 
                 );
 
-        verify(commentService, times(1)).deleteComment(anyLong(), anyLong());
+        verify(commentService, times(1)).deleteComment(anyLong(), anyString());
         actions
                 .andExpect(status().isOk())
                 .andDo(
@@ -207,16 +230,14 @@ class CommentControllerTest {
     @WithMockUser
     void getCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
-        Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1,6);
+        Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1, 6);
         List<CommentDto.Response> responseList = new ArrayList<>();
-        responseList.add(new CommentDto.Response(1L, 1L, "네임", "내용", LocalDateTime.now(), LocalDateTime.now()));
+        responseList.add(new CommentDto.Response(1L, 1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now()));
 
         MultiResponseDto multiResponseDto = new MultiResponseDto(responseList, commentPageData);
 
         given(commentService.getComments(anyLong(), anyInt()))
                 .willReturn(multiResponseDto);
-
-
 
 
         ResultActions actions =
@@ -245,9 +266,11 @@ class CommentControllerTest {
                                                 .responseFields(
                                                         PayloadDocumentation.fieldWithPath("data").type(JsonFieldType.ARRAY).description("댓글 리스트"),
                                                         PayloadDocumentation.fieldWithPath("data.[].commentId").type(JsonFieldType.NUMBER).description("댓글 번호"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].memberId").type(JsonFieldType.NUMBER).description("멤버 아이디"),
                                                         PayloadDocumentation.fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 번호"),
                                                         PayloadDocumentation.fieldWithPath("data.[].name").type(JsonFieldType.STRING).description("사용자 닉네임"),
                                                         PayloadDocumentation.fieldWithPath("data.[].comment").type(JsonFieldType.STRING).description("댓글 내용"),
+                                                        PayloadDocumentation.fieldWithPath("data.[].profile").type(JsonFieldType.STRING).description("작성자 프로필 이미지"),
                                                         PayloadDocumentation.fieldWithPath("data.[].createdAt").type(JsonFieldType.STRING).description("작성시간"),
                                                         PayloadDocumentation.fieldWithPath("data.[].modifiedAt").type(JsonFieldType.STRING).description("수정시간"),
                                                         PayloadDocumentation.fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
