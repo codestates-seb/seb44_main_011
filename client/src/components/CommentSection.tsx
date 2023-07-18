@@ -28,7 +28,7 @@ const CommentContainer = styled.div`
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 15px;
-  margin: 30px;
+  margin: 10px 30px 2%;
 `;
 
 const CommentForm = styled.form`
@@ -83,6 +83,10 @@ const ListContent = styled.div`
 
 const UserName = styled.span`
   font-weight: 700;
+  flex-shrink: 0;
+`;
+
+const Time = styled.span`
   flex-shrink: 0;
 `;
 
@@ -217,6 +221,10 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
     setEditCommentId(null);
   };
 
+  const handleEditChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditComment(event.target.value);
+  };
+
   useEffect(() => {
     if (isInputActive && inputRef.current) {
       inputRef.current.focus();
@@ -253,18 +261,22 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
           commentData?.data.map((comment) => (
             <CommentList key={comment.commentId}>
               <Profile image={testImg} size={40} radius={4} />
-              <ListContent>
+              <ListContent onSubmit={handleSubmit}>
                 <UserName>{comment.name}</UserName>
                 <span>:</span>
                 {editCommentId === comment.commentId ? (
-                  <EditInput type="text" defaultValue={comment.comment} />
+                  <EditInput
+                    type="text"
+                    defaultValue={comment.comment}
+                    onChange={handleEditChange}
+                  />
                 ) : (
                   <span>{comment.comment}</span>
                 )}
               </ListContent>
               {editCommentId === comment.commentId ? (
                 <ButtonContainer>
-                  <WriteBtn type="button">수정완료</WriteBtn>
+                  <WriteBtn type="submit">수정완료</WriteBtn>
                   <WriteBtn type="button" onClick={() => handleEditCancel()}>
                     수정취소
                   </WriteBtn>
@@ -280,7 +292,7 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
                         <DeleteIcon fill="#F5F6F6" />
                       </IconBtn>
                     </ButtonContainer>
-                    <span>{calculateTimeAgo(comment.createdAt)}</span>
+                    <Time>{calculateTimeAgo(comment.createdAt)}</Time>
                   </>
                 )
               )}
