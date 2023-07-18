@@ -103,6 +103,7 @@ const Home = () => {
 
       if (response.status === 200) {
         setSelectedMusic(response.data);
+        console.log(response.data);
       } else {
         console.error("음악재생에 실패하였습니다.");
       }
@@ -110,7 +111,7 @@ const Home = () => {
       console.error(error);
     }
   };
-
+  
   useEffect(() => {
     setIsLikedClick(false);
   }, [currentPage, isDogpli, isLikedClick]);

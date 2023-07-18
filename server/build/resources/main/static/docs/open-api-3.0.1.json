@@ -33,6 +33,26 @@
         }
       }
     },
+    "/admin/music/id/{music-Id}" : {
+      "delete" : {
+        "tags" : [ "admin" ],
+        "operationId" : "음원 파일 비활성화 기능(admin)",
+        "parameters" : [ {
+          "name" : "music-Id",
+          "in" : "path",
+          "description" : "음악 식별 Id",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "204"
+          }
+        }
+      }
+    },
     "/api/playlist" : {
       "get" : {
         "tags" : [ "api" ],
@@ -55,6 +75,14 @@
           "schema" : {
             "type" : "number"
           }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "정렬기준(new,old)",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -62,7 +90,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
+                  "$ref" : "#/components/schemas/api-playlist651717824"
                 },
                 "examples" : {
                   "회원의 전체 음악 리스트 조회 기능" : {
@@ -271,7 +299,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
+                  "$ref" : "#/components/schemas/api-playlist651717824"
                 },
                 "examples" : {
                   "회원의 개인 플레이 리스트 조회(좋아요 리스트)" : {
@@ -387,11 +415,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-musics-music-id-comments-334285559"
+                  "$ref" : "#/components/schemas/api-musics-music-id-comments961982057"
                 },
                 "examples" : {
                   "인증된 사용자의 댓글 작성" : {
-                    "value" : "{\r\n  \"commentId\" : 1,\r\n  \"musicId\" : 1,\r\n  \"name\" : \"네임\",\r\n  \"comment\" : \"내용\",\r\n  \"createdAt\" : \"2023-07-17T14:28:17.2593623\",\r\n  \"modifiedAt\" : \"2023-07-17T14:28:17.2593623\"\r\n}"
+                    "value" : "{\r\n  \"commentId\" : 1,\r\n  \"memberId\" : 1,\r\n  \"musicId\" : 1,\r\n  \"name\" : \"네임\",\r\n  \"comment\" : \"내용\",\r\n  \"profile\" : \"\",\r\n  \"createdAt\" : \"2023-07-18T15:14:20.5358943\",\r\n  \"modifiedAt\" : \"2023-07-18T15:14:20.5358943\"\r\n}"
                   }
                 }
               }
@@ -517,7 +545,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-playlist-member-id651717824"
+                  "$ref" : "#/components/schemas/api-playlist651717824"
                 },
                 "examples" : {
                   "카테고리 테크별 조회 API(로그인 된 회원)" : {
@@ -589,6 +617,14 @@
           "schema" : {
             "type" : "number"
           }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "정렬 기준(new,old)",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -596,7 +632,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/public-playlist-820289437"
+                  "$ref" : "#/components/schemas/public-playlist-dogOrCats-820289437"
                 },
                 "examples" : {
                   "전체 플레이 리스트 조회 API(비 로그인)" : {
@@ -685,7 +721,7 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/public-playlist-820289437"
+                  "$ref" : "#/components/schemas/public-playlist-dogOrCats-820289437"
                 },
                 "examples" : {
                   "카테고리 테크별 조회 API(비 로그인)" : {
@@ -727,11 +763,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/public-musics-music-id-comments924576111"
+                  "$ref" : "#/components/schemas/public-musics-music-id-comments-937734129"
                 },
                 "examples" : {
                   "해당 곡의 전체 댓글조회" : {
-                    "value" : "{\r\n  \"data\" : [ {\r\n    \"commentId\" : 1,\r\n    \"musicId\" : 1,\r\n    \"name\" : \"네임\",\r\n    \"comment\" : \"내용\",\r\n    \"createdAt\" : \"2023-07-17T14:28:17.4852934\",\r\n    \"modifiedAt\" : \"2023-07-17T14:28:17.4852934\"\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 6,\r\n    \"totalPages\" : 1\r\n  }\r\n}"
+                    "value" : "{\r\n  \"data\" : [ {\r\n    \"commentId\" : 1,\r\n    \"memberId\" : 1,\r\n    \"musicId\" : 1,\r\n    \"name\" : \"네임\",\r\n    \"comment\" : \"내용\",\r\n    \"profile\" : \"\",\r\n    \"createdAt\" : \"2023-07-18T15:14:20.7089417\",\r\n    \"modifiedAt\" : \"2023-07-18T15:14:20.7089417\"\r\n  } ],\r\n  \"pageInfo\" : {\r\n    \"page\" : 1,\r\n    \"size\" : 6,\r\n    \"totalElements\" : 6,\r\n    \"totalPages\" : 1\r\n  }\r\n}"
                   }
                 }
               }
@@ -967,7 +1003,7 @@
           }
         }
       },
-      "public-musics-music-id-comments924576111" : {
+      "public-musics-music-id-comments-937734129" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -988,6 +1024,10 @@
                   "type" : "string",
                   "description" : "수정시간"
                 },
+                "profile" : {
+                  "type" : "string",
+                  "description" : "작성자 프로필 이미지"
+                },
                 "name" : {
                   "type" : "string",
                   "description" : "사용자 닉네임"
@@ -999,6 +1039,10 @@
                 "comment" : {
                   "type" : "string",
                   "description" : "댓글 내용"
+                },
+                "memberId" : {
+                  "type" : "number",
+                  "description" : "멤버 아이디"
                 }
               }
             }
@@ -1027,7 +1071,7 @@
           }
         }
       },
-      "api-playlist-member-id651717824" : {
+      "api-playlist651717824" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -1095,7 +1139,7 @@
           }
         }
       },
-      "public-playlist-820289437" : {
+      "public-playlist-dogOrCats-820289437" : {
         "type" : "object",
         "properties" : {
           "data" : {
@@ -1159,35 +1203,6 @@
           }
         }
       },
-      "api-musics-music-id-comments-334285559" : {
-        "type" : "object",
-        "properties" : {
-          "createdAt" : {
-            "type" : "string",
-            "description" : "작성 시간"
-          },
-          "musicId" : {
-            "type" : "number",
-            "description" : "음악 번호"
-          },
-          "modifiedAt" : {
-            "type" : "string",
-            "description" : "수정 시간"
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "사용자 닉네임"
-          },
-          "commentId" : {
-            "type" : "number",
-            "description" : "댓글 번호"
-          },
-          "comment" : {
-            "type" : "string",
-            "description" : "댓글 내용"
-          }
-        }
-      },
       "public-musics1039852064" : {
         "type" : "object",
         "properties" : {
@@ -1214,6 +1229,43 @@
           "tags" : {
             "type" : "string",
             "description" : "곡의 태그"
+          }
+        }
+      },
+      "api-musics-music-id-comments961982057" : {
+        "type" : "object",
+        "properties" : {
+          "createdAt" : {
+            "type" : "string",
+            "description" : "작성 시간"
+          },
+          "musicId" : {
+            "type" : "number",
+            "description" : "음악 번호"
+          },
+          "modifiedAt" : {
+            "type" : "string",
+            "description" : "수정 시간"
+          },
+          "profile" : {
+            "type" : "string",
+            "description" : "작성자 프로필 이미지"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "사용자 닉네임"
+          },
+          "commentId" : {
+            "type" : "number",
+            "description" : "댓글 번호"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "댓글 내용"
+          },
+          "memberId" : {
+            "type" : "number",
+            "description" : "멤버 아이디"
           }
         }
       }

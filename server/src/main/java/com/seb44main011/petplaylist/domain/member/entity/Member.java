@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @Entity(name = "MEMBER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
@@ -33,11 +33,11 @@ public class Member extends BaseTimeEntity {
     private Status status = Status.MEMBER_ACTIVE;
 
     @OneToMany(mappedBy = "member",cascade =CascadeType.ALL)
-    private List<PlayList> playLists= new ArrayList<>();
+    private List<PlayList> playLists = new ArrayList<>();
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private OAuthCheck oAuthCheck= OAuthCheck.NO_OAUTH;
+    private OAuthCheck oAuthCheck = OAuthCheck.NO_OAUTH;
 
     @Builder
     public Member(long memberId, String email, String password, String name, String profile, Status status, List<PlayList> playLists, OAuthCheck oAuthCheck) {

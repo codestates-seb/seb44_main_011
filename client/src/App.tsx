@@ -10,6 +10,8 @@ import { MypageInfo } from "./components/MypageInfo";
 import { useState } from "react";
 import MyPage from "./pages/MyPage";
 import Oauth from "./pages/Oauth";
+import Search from "./pages/Search";
+
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -18,8 +20,6 @@ const MainWrapper = styled.main`
 `;
 
 function App() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedImage] = useState("//Todo");
   return (
     <BrowserRouter>
       <MainWrapper>
@@ -27,15 +27,12 @@ function App() {
         <MainContent>
           <Routes>
             <Route path="/mylist" element={<MyList />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route
-              path="/mypage"
-              element={<MypageInfo selectedImage={selectedImage} />}
-            />
+            <Route path="/mypage" element={<Mypage />} />
             <Route path="/tags" element={<Tags />} />
             <Route path="/" element={<Home />} />
             <Route path="/mypage/edit" element={<Edit />} />
             <Route path="/oauth" element={<Oauth />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </MainContent>
       </MainWrapper>

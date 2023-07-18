@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,12 +57,13 @@ public class ApiPlaylistController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping(params = {"member-id","page"})
+    @GetMapping
     public ResponseEntity<?> getAllMusicListFromMember(@RequestParam(name = "member-id",required = false) @Positive int memberId,
                                                        @RequestParam(name = "page", defaultValue = "1") @Positive int page,
+                                                       @RequestParam(name = "sort",required = false,defaultValue = "view")String sortValue,
                                                        @AuthenticationName String email) {
         List<PlayList> memberPlayList = musicListService.findPersonalMusicLists(email);
-        Page<Music> musicPage= musicService.findMusicListAll(page);
+        Page<Music> musicPage= musicService.findMusicListAll(page,sortValue);
         List<Music> musicList = musicPage.getContent();
         List<PlaylistDto.ApiResponse> responseMusic = musicListMapper.musicListToApiResponse(musicList,memberPlayList);
 
