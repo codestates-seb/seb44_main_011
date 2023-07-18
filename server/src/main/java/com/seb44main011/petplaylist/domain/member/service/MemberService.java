@@ -3,12 +3,15 @@ package com.seb44main011.petplaylist.domain.member.service;
 import com.seb44main011.petplaylist.domain.member.dto.MemberDto;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
 import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -87,4 +90,11 @@ public class MemberService {
         return findMember.orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
+
+//    public void uploadMemberProfileImage(@RequestPart MultipartFile profileImage) {
+//        Member byEmail = memberRepository.findByEmail(email).orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+//        Member targetMember = findMember(byEmail.getMemberId());
+//        targetMember.setProfile(profileImage.getOriginalFilename());
+//        memberRepository.save(targetMember);
+//    }
 }

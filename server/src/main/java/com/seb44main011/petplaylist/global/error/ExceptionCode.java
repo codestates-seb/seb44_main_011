@@ -8,7 +8,7 @@ public enum ExceptionCode {
     ACCESS_DENIED(401,"This account is inaccessible"),
     INVALID_TOKEN(401,"is not the same token as data"),
     UNAUTHORIZED(401,"invalid token Data"),
-    TOKEN_NOT_FOUND(401, "Token not found"),
+    TOKEN_NOT_FOUND(401, "Refresh token not found"),
     EXPIRED_TOKEN(401,"Token has expired"),
     EXPIRED_REFRESH_TOKEN(401,"Refresh token has expired"),
     ACCOUNT_RESTRICTED(403,"oauth account Member"),

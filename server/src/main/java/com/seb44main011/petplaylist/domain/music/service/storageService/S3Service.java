@@ -164,5 +164,13 @@ public class S3Service extends ByteArrayInputStreamUtil implements StorageServic
         amazonS3Client.deleteObject(bucket, source);
     }
 
+    private String uploadImg(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+
+        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        return amazonS3Client.getUrl(bucket, fileName).toString();
+    }
 
 }
