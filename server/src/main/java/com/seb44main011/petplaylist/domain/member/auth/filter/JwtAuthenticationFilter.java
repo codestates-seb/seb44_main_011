@@ -29,10 +29,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             MemberDto.LogInPost logInPost = objectMapper.readValue(request.getInputStream(), MemberDto.LogInPost.class);
-            log.info("logInPost: {}",logInPost.getUsername());
+            log.info("logInPost: {}",logInPost.getEmail());
             log.info("logInPost: {}",logInPost.getPassword());
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(logInPost.getUsername(), logInPost.getPassword());
-            log.info("logInPost: {}",logInPost.getUsername());
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(logInPost.getEmail(), logInPost.getPassword());
+            log.info("logInPost: {}",logInPost.getEmail());
             log.info("logInPost: {}",logInPost.getPassword());
 
             return authenticationManager.authenticate(authenticationToken);

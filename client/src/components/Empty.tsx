@@ -16,7 +16,6 @@ const EmptyContainer = styled.div<{ size: number }>`
   justify-content: center;
   font-family: var(--font-quicksand);
   margin: 48px;
-  width: 100%;
   height: ${(props) => props.size}px;
   img {
     margin-bottom: 32px;
