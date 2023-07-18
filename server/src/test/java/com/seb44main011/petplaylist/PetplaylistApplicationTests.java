@@ -1,15 +1,16 @@
 package com.seb44main011.petplaylist;
 
-import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
-import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
 class PetplaylistApplicationTests {
 
 	@Test
+
 	void contextLoads() {
 	}
 
