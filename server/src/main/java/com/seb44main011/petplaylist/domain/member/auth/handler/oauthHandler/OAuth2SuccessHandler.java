@@ -45,19 +45,24 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
-        String uriString = "http://localhost:5173/oauth?access_token="+accessToken+
-                "refresh_token="+refreshToken;
 
-        URI uri = new URI(uriString);
-
-        return uri;
+        return UriComponentsBuilder // 로컬 테스트용
+                .newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(5173)
+                .path("/oAuht")
+                .queryParams(queryParams)
+                .build()
+                .toUri();
     }
 
+    //TODO: 서버 용
 
 //    UriComponentsBuilder.newInstance()
 //            .scheme("http")
 ////                .host("ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com")
-//                .host("localhost:3000") // TODO: 클라이언트 주소로 변경 필요
+//                .host("localhost:3000")
 //                .path("/oauth")
 //                .queryParams(queryParams)
 //                .build()
