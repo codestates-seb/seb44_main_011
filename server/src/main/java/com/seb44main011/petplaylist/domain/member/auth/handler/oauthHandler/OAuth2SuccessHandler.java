@@ -33,17 +33,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private void redirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException {
         String accessToken = "Bearer " + delegateTokenService.delegateAccessToken(member);
         String refreshToken = delegateTokenService.delegateRefreshToken(member);
-        Long memberId = member.getMemberId();
-        String redirectURL = createURI(accessToken, refreshToken, memberId).toString();
+        String redirectURL = createURI(accessToken, refreshToken).toString();
 
         getRedirectStrategy().sendRedirect(request, response, redirectURL);
     }
 
-    private URI createURI(String accessToken, String refreshToken, Long memberId) {
+    private URI createURI(String accessToken, String refreshToken) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
-        queryParams.add("memberId", String.valueOf(memberId));
 
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
