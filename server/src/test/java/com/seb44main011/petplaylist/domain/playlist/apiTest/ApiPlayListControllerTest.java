@@ -81,7 +81,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
         Page<Music> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size());
 
         given(musicListService.findPersonalMusicLists(Mockito.anyLong())).willReturn(List.of(TestData.MockMusicList.getMusicListData()));
-        given(musicService.findMusicListAll(Mockito.anyInt())).willReturn(pageTestData);
+        given(musicService.findMusicListAll(Mockito.anyInt(),Mockito.anyString())).willReturn(pageTestData);
         given(musicListMapper.musicListToApiResponse(Mockito.anyList(), Mockito.anyList())).willReturn(pageContentResponse);
 
         ResultActions actions =
@@ -90,6 +90,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("member-id",String.valueOf(MemberTestData.MockMember.getMemberData().getMemberId()))
                                         .param("page", String.valueOf(pageTestData.getNumber()+1))
+                                        .param("sort", "new")
 
                         )
                         .andExpect(status().isOk())
@@ -102,7 +103,8 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                                         .description("회원의 전체 음악 리스트 조회 기능 API")
                                                         .requestParameters(
                                                                 parameterWithName("member-id").type(SimpleType.NUMBER).description("회원 식별 Id"),
-                                                                parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자")
+                                                                parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자"),
+                                                                parameterWithName("sort").type(SimpleType.STRING).description("정렬기준(new,old)").optional()
                                                         )
                                                         .responseFields(
                                                                 getApiPlayListPageField()

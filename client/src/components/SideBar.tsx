@@ -1,25 +1,31 @@
-import React, { useState, useRef } from "react";
-import styled from "styled-components";
+import { keyframes, styled } from "styled-components";
+import React, { useState, useRef, useEffect } from "react";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
 import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg";
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import DogLogo from "../../src/assets/imgs/doglogo.png";
-import { Link } from "react-router-dom";
+import { ReactComponent as More } from "../assets/icons/more.svg";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 function SideBar() {
-  // const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
+
+  const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false); // 드롭다운 메뉴가 열려있는지 여부를 저장하는 상태 변수
+
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
+
+  const navigate = useNavigate();
   // const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
+
+
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
-  // useEffect(() => {
-  //   checkLoginStatus();
-  // }, []);
+
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -42,30 +48,55 @@ function SideBar() {
       setSignModal(!Signmodal);
     }
   };
-  // function checkLoginStatus() {
-  //   // 로그인 상태 확인 로직
-  //   setIsLoggedIn(true);
-  // }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const handleClickMenu = (e: any) => {
     setCurrentMenu(e.target.id);
   };
-  // const handleTagsMenuToggle = (e: any) => {
-  //   setIsTagsMenuOpen(isTagsMenuOpen);
-  // };
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchQuery(e.target.value);
-  // };
-  // const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === "Enter") {
-  //     performSearch();
-  //   }
-  // };
-  // const performSearch = () => {
-  //   console.log("검색어:", searchQuery);
-  //   // 여기에서 검색을 수행하는 로직을 추가하세요.
-  //   // 검색 결과에 따라 필요한 동작을 처리합니다.
-  // };
+  const handleTagsMenuClick = () => {
+    setIsTagsMenuOpen((prev) => !prev); // 메뉴 열기/닫기 토글
+  };
+  // 드롭다운 메뉴를 닫는 함수
+  const closeDropdownMenu = () => {
+    setIsTagsMenuOpen(false);
+  };
+
+  useEffect(() => {
+    closeDropdownMenu();
+  }, [location.pathname]);
+
+  const navigate = useNavigate();
+
+  //검색기능
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // 검색 결과 상태
+  const [searchResults, setSearchResults] = useState([]);
+
+
+  const Navigate = (data: string) => {
+    const memberId = localStorage.getItem("memberId");
+    if (memberId !== null) navigate(`/${data}`);
+    else alert("로그인이 필요한 페이지입니다.");
+  }
+  
+  // 검색어 입력 이벤트 핸들러
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // 엔터키 입력 시 검색 결과 가져오기
+  const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      // 검색 결과를 가져오는 로직을 추가
+      // 예를 들어, 서버에 검색어를 보내고 결과를 받아와서 setSearchResults로 상태 업데이트
+      // setSearchResults([...results]); // 가져온 검색 결과를 상태에 업데이트
+      if (searchQuery.trim() !== "") {
+        // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
+        navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      }
+    }
+  };
+
   return (
     <>
       <RootWrapper>
@@ -77,9 +108,9 @@ function SideBar() {
         <Nav>
           <InputField
             type="text"
-            // value={searchQuery}
-            // onChange={handleInputChange}
-            // onKeyPress={handleInputKeyPress}
+            value={searchQuery}
+            onChange={handleInputChange}
+            onKeyDown={handleSearchEnter}
           />
           <SearchImg fill="#B4B4B7" />
         </Nav>
@@ -89,31 +120,29 @@ function SideBar() {
             <Home_0001>Home</Home_0001>
           </NavHome>
         </Link>
-        <Link className="mylist" to="/mylist">
+        <SideDiv className="mylist" onClick={() => Navigate("mylist")}>
           <NavMylist id="mylist" onClick={() => handleClickMenu("mylist")}>
             <MyList>MyList</MyList>
             <MyListImg
               fill={currentMenu === "mylist" ? "#84BCFF" : "#B4B4B7"}
             />
           </NavMylist>
-        </Link>
+        </SideDiv>
         <Link className="tags" to="/tags">
-          <div>
-            <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
-              <Tags>Tags</Tags>
-              <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
-              {/* {isTagsMenuOpen && (
-              <DropdownMenu>
-                <MenuItem>Tag 1</MenuItem>
-                <MenuItem>Tag 2</MenuItem>
-                <MenuItem>Tag 3</MenuItem>
-                <MenuItem>Tag 4</MenuItem>
-              </DropdownMenu>
-            )} */}
-            </NavTags>
-          </div>
+          <NavTags id="tags" onClick={handleTagsMenuClick}>
+            <Tags>Tags</Tags>
+            <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
+            <ViewMore fill="#B4B4B7" rotated={isTagsMenuOpen}/>
+          </NavTags>
+          <DropdownMenu hidden={!isTagsMenuOpen}>
+            <MenuItem>Tag 1</MenuItem>
+            <MenuItem>Tag 2</MenuItem>
+            <MenuItem>Tag 3</MenuItem>
+            <MenuItem>Tag 4</MenuItem>
+          </DropdownMenu>
         </Link>
-        <Link className="mypage" to="/mypage">
+
+        <SideDiv className="mypage" onClick={() => Navigate("mypage")}>
           <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
             <MyPage id="mypageText">MyPage</MyPage>
             <MypageImg
@@ -121,7 +150,7 @@ function SideBar() {
               fill={currentMenu === "mypage" ? "#84BCFF" : "#B4B4B7"}
             />
           </NavMypage>
-        </Link>
+        </SideDiv>
         <ButtonWrapper>
           {isLogin ? (
             <>
@@ -149,6 +178,43 @@ function SideBar() {
   );
 }
 export default SideBar;
+
+
+const fadeInAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 23%;
+  left: 0;
+  width: 100%;
+  border-radius: 4px;
+  background-color: rgb(240, 243, 243);
+  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  display: ${(props) =>
+    props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MenuItem = styled.div`
+  padding: 8px 16px;
+  color: var(--black);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--gray-100);
+  }
+`;
+
 const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
@@ -158,23 +224,12 @@ const ModalBackground = styled.div`
   z-index: 999;
   position: fixed;
   backdrop-filter: blur(10px);
-  animation: showview 2s forwards;
+  animation: ${fadeInAnimation} 0.5s ease-in;
 `;
-// const DropdownMenu = styled.div`
-//   position: absolute;
-//   top: 100%;
-//   left: 0;
-//   background-color: #FFFFFF;
-//   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-//   padding: 8px 0;
-//   min-width: 150px;
-//   z-index: 1;
-// `;
-// const MenuItem = styled.div`
-//   padding: 8px 16px;
-//   color: #333333;
-//   cursor: pointer;
-// `;
+const SideDiv = styled.div`
+  cursor: pointer;
+`;
+
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
   border: solid 1px rgba(255, 255, 255, 0.16);
@@ -229,6 +284,7 @@ const NaN_0001 = styled.div`
   top: 0px;
   right: 17px;
 `;
+
 const DogLogoImg = styled.img`
   object-fit: cover;
   position: absolute;
@@ -292,7 +348,7 @@ const MyListImg = styled(MylistIcon)`
   right: 64px;
 `;
 const NavTags = styled.div`
-  width: 95px;
+  width: 170px;
   height: 22px;
   overflow: hidden;
   position: absolute;
@@ -319,6 +375,17 @@ const TagImg = styled(TagsIcon)`
   top: 0px;
   right: 73px;
 `;
+
+const ViewMore = styled(More)`
+  position: absolute;
+  left: 80%;
+  top: -2px;
+  width: 30px;
+  height: 30px;
+  transform: ${(props) => (props.rotated ? "rotate(180deg)" : "rotate(0)")};
+  transition: transform 0.2s ease;
+`;
+
 const ButtonWrapper = styled.div`
   width: 185px;
   height: 40px;

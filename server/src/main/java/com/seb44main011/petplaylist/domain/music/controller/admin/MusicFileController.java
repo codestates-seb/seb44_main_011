@@ -1,4 +1,4 @@
-package com.seb44main011.petplaylist.domain.music.controller;
+package com.seb44main011.petplaylist.domain.music.controller.admin;
 
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
