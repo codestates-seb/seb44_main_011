@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
 import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
@@ -6,26 +6,19 @@ import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg"
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import { ReactComponent as DogLogo } from "../../src/assets/imgs/doglogo.svg";
-import { Link } from "react-router-dom";
+import { ReactComponent as More } from "../assets/icons/more.svg";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
-
 function SideBar() {
-  // const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
-
+  const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false); // 드롭다운 메뉴가 열려있는지 여부를 저장하는 상태 변수
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
-
-  // const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
-
-  // useEffect(() => {
-  //   checkLoginStatus();
-  // }, []);
-
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -48,36 +41,47 @@ function SideBar() {
       setSignModal(!Signmodal);
     }
   };
-  // function checkLoginStatus() {
-  //   // 로그인 상태 확인 로직
-  //   setIsLoggedIn(true);
-  // }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClickMenu = (e: any) => {
     setCurrentMenu(e.target.id);
   };
+  const handleTagsMenuClick = () => {
+    setIsTagsMenuOpen((prev) => !prev); // 메뉴 열기/닫기 토글
+  };
+  // 드롭다운 메뉴를 닫는 함수
+  const closeDropdownMenu = () => {
+    setIsTagsMenuOpen(false);
+  };
 
-  // const handleTagsMenuToggle = (e: any) => {
-  //   setIsTagsMenuOpen(isTagsMenuOpen);
-  // };
+  useEffect(() => {
+    closeDropdownMenu();
+  }, [location.pathname]);
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchQuery(e.target.value);
-  // };
+  const navigate = useNavigate();
 
-  // const handleInputKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === "Enter") {
-  //     performSearch();
-  //   }
-  // };
+  //검색기능
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // const performSearch = () => {
-  //   console.log("검색어:", searchQuery);
-  //   // 여기에서 검색을 수행하는 로직을 추가하세요.
-  //   // 검색 결과에 따라 필요한 동작을 처리합니다.
-  // };
+  // 검색 결과 상태
+  const [searchResults, setSearchResults] = useState([]);
 
+  // 검색어 입력 이벤트 핸들러
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // 엔터키 입력 시 검색 결과 가져오기
+  const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      // 검색 결과를 가져오는 로직을 추가
+      // 예를 들어, 서버에 검색어를 보내고 결과를 받아와서 setSearchResults로 상태 업데이트
+      // setSearchResults([...results]); // 가져온 검색 결과를 상태에 업데이트
+      if (searchQuery.trim() !== "") {
+        // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
+        navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      }
+    }
+  };
   return (
     <>
       <RootWrapper>
@@ -89,9 +93,9 @@ function SideBar() {
         <Nav>
           <InputField
             type="text"
-            // value={searchQuery}
-            // onChange={handleInputChange}
-            // onKeyPress={handleInputKeyPress}
+            value={searchQuery}
+            onChange={handleInputChange}
+            onKeyDown={handleSearchEnter}
           />
           <SearchImg fill="#B4B4B7" />
         </Nav>
@@ -110,21 +114,19 @@ function SideBar() {
           </NavMylist>
         </Link>
         <Link className="tags" to="/tags">
-          <div>
-            <NavTags id="tags" onClick={() => handleClickMenu("tags")}>
-              <Tags>Tags</Tags>
-              <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
-              {/* {isTagsMenuOpen && (
-              <DropdownMenu>
-                <MenuItem>Tag 1</MenuItem>
-                <MenuItem>Tag 2</MenuItem>
-                <MenuItem>Tag 3</MenuItem>
-                <MenuItem>Tag 4</MenuItem>
-              </DropdownMenu>
-            )} */}
-            </NavTags>
-          </div>
+          <NavTags id="tags" onClick={handleTagsMenuClick}>
+            <Tags>Tags</Tags>
+            <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
+            <ViewMore fill="#B4B4B7" rotated={isTagsMenuOpen}/>
+          </NavTags>
+          <DropdownMenu hidden={!isTagsMenuOpen}>
+            <MenuItem>Tag 1</MenuItem>
+            <MenuItem>Tag 2</MenuItem>
+            <MenuItem>Tag 3</MenuItem>
+            <MenuItem>Tag 4</MenuItem>
+          </DropdownMenu>
         </Link>
+
         <Link className="mypage" to="/mypage">
           <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
             <MyPage id="mypageText">MyPage</MyPage>
@@ -161,6 +163,33 @@ function SideBar() {
   );
 }
 export default SideBar;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 23%;
+  left: 0;
+  width: 100%;
+  border-radius: 4px;
+  background-color: rgb(240, 243, 243);
+  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  display: ${(props) =>
+    props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MenuItem = styled.div`
+  padding: 8px 16px;
+  color: var(--black);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--gray-100);
+  }
+`;
+
 const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
@@ -176,19 +205,17 @@ const ModalBackground = styled.div`
 //   position: absolute;
 //   top: 100%;
 //   left: 0;
-//   background-color: #ffffff;
+//   background-color: #FFFFFF;
 //   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 //   padding: 8px 0;
 //   min-width: 150px;
 //   z-index: 1;
 // `;
-
 // const MenuItem = styled.div`
 //   padding: 8px 16px;
 //   color: #333333;
 //   cursor: pointer;
 // `;
-
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
   border: solid 1px rgba(255, 255, 255, 0.16);
@@ -199,7 +226,6 @@ const RootWrapper = styled.div`
   max-width: 350px;
   display: flex;
 `;
-
 const Nav = styled.div`
   overflow: hidden;
   background-color: white;
@@ -210,7 +236,6 @@ const Nav = styled.div`
   top: 140px;
   right: 32px;
 `;
-
 const InputField = styled.input`
   border: none;
   position: relative;
@@ -221,12 +246,10 @@ const InputField = styled.input`
   outline: none;
   border-radius: 20px;
   padding-left: 40px;
-
   &:focus {
     border: 2px solid #84cbff;
   }
 `;
-
 const SearchImg = styled(SearchIcon)`
   width: 24px;
   height: 24px;
@@ -235,21 +258,18 @@ const SearchImg = styled(SearchIcon)`
   left: 10px;
   top: calc((calc((50% + 0px)) - 12px));
 `;
-
 const NavLogo = styled.div`
   position: absolute;
   left: 69px;
   top: 50px;
   right: 66px;
 `;
-
 const NaN_0001 = styled.div`
   position: absolute;
   left: 17px;
   top: 0px;
   right: 17px;
 `;
-
 const DogLogoImg = styled(DogLogo)`
   object-fit: cover;
   position: absolute;
@@ -258,14 +278,12 @@ const DogLogoImg = styled(DogLogo)`
   right: 7px;
   bottom: -2px;
 `;
-
 const NavHome = styled.div`
   position: absolute;
   left: 41px;
   top: 196px;
   right: 118px;
 `;
-
 const HomeImg = styled(HomeIcon)`
   object-fit: cover;
   position: absolute;
@@ -273,7 +291,6 @@ const HomeImg = styled(HomeIcon)`
   top: 0px;
   right: 64px;
 `;
-
 const Home_0001 = styled.span`
   color: #84cbff;
   text-overflow: ellipsis;
@@ -286,17 +303,14 @@ const Home_0001 = styled.span`
   left: 34px;
   top: 1px;
   right: 0px;
-
   text-decoration: none;
 `;
-
 const NavMylist = styled.div`
   position: absolute;
   left: 41px;
   top: 280px;
   right: 118px;
 `;
-
 const MyList = styled.span`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
@@ -311,7 +325,6 @@ const MyList = styled.span`
   right: -4px;
   text-decoration: none;
 `;
-
 const MyListImg = styled(MylistIcon)`
   object-fit: cover;
   position: absolute;
@@ -319,16 +332,14 @@ const MyListImg = styled(MylistIcon)`
   top: 0px;
   right: 64px;
 `;
-
 const NavTags = styled.div`
-  width: 95px;
+  width: 170px;
   height: 22px;
   overflow: hidden;
   position: absolute;
   left: 41px;
   top: 238px;
 `;
-
 const Tags = styled.span`
   color: rgb(180, 180, 183);
   text-overflow: ellipsis;
@@ -342,7 +353,6 @@ const Tags = styled.span`
   top: 2px;
   text-decoration: none;
 `;
-
 const TagImg = styled(TagsIcon)`
   object-fit: cover;
   position: absolute;
@@ -350,7 +360,15 @@ const TagImg = styled(TagsIcon)`
   top: 0px;
   right: 73px;
 `;
-
+const ViewMore = styled(More)`
+  position: absolute;
+  left: 80%;
+  top: -2px;
+  width: 30px;
+  height: 30px;
+  transform: ${(props) => (props.rotated ? "rotate(180deg)" : "rotate(0)")};
+  transition: transform 0.2s ease;
+`;
 const ButtonWrapper = styled.div`
   width: 185px;
   height: 40px;
@@ -361,7 +379,6 @@ const ButtonWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const Logout = styled.button`
   border: solid 1px rgb(209, 209, 209);
   border-radius: 100px;
@@ -377,7 +394,6 @@ const Logout = styled.button`
   width: 185px;
   height: 40px;
 `;
-
 const Login1 = styled.button`
   border: solid 1px #84cbff;
   border-radius: 100px;
@@ -409,7 +425,6 @@ const Signup = styled.button`
   width: 88px;
   height: 40px;
 `;
-
 const NavMypage = styled.div`
   width: 106px;
   height: 24px;
@@ -417,7 +432,6 @@ const NavMypage = styled.div`
   left: 41px;
   top: 322px;
 `;
-
 const MyPage = styled.span`
   color: #b4b4b7;
   text-overflow: ellipsis;
@@ -432,7 +446,6 @@ const MyPage = styled.span`
   right: 0px;
   text-decoration: none;
 `;
-
 const MypageImg = styled(MypageIcon)`
   object-fit: cover;
   position: absolute;
