@@ -8,11 +8,15 @@ import com.seb44main011.petplaylist.domain.comment.entity.Comment;
 import com.seb44main011.petplaylist.domain.comment.mapper.CommentMapper;
 import com.seb44main011.petplaylist.domain.comment.service.CommentService;
 import com.seb44main011.petplaylist.domain.comment.stub.CommentTestData;
+import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
 import com.seb44main011.petplaylist.domain.member.service.MemberService;
+import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.repository.MusicRepository;
+import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.global.common.MultiResponseDto;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import org.junit.jupiter.api.Test;
@@ -61,20 +65,37 @@ class CommentControllerTest {
     @MockBean
     private CommentService commentService;
 
-
-
+//    @Autowired
+//    MusicRepository musicRepository;
+//
+////    @Autowired
+////    MemberRepository memberRepository;
+////
+//    @Autowired
+//    MusicService musicService;
+//
+//    @Autowired
+//    MemberService memberService;
+//
+//    @AfterEach
+//    void repositoryClear() {
+//        musicRepository.deleteAll();
+//    }
 
 
     @Test
     @DisplayName("댓글 작성 테스트")
     @WithMockUser
+
     void postCommentTest() throws Exception {
 
         Comment commentData = CommentTestData.MockComment.getCommentData();
 
         //given
         CommentDto.Post post = new CommentDto.Post(1L, 1L, "댓글입니다.");
-        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, 1L,"네임", "내용", "", LocalDateTime.now(), LocalDateTime.now());
+        CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now());
+//        Music music = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+//        musicRepository.save(music);
 
         given(commentService.saveComment(Mockito.any(CommentDto.Post.class)))
                 .willReturn(responseComment);
@@ -131,15 +152,14 @@ class CommentControllerTest {
     void patchCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
         String context = gson.toJson(CommentDto.Patch.builder()
-                        .commentId(1L)
+                .commentId(1L)
                 .comment("수정 코멘트")
                 .build());
 
 
-
         ResultActions actions =
                 mockMvc.perform(
-                        patch("/api/musics/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
+                        patch("/api/musics/{music-id}/comments/{comments-id}", commentData.getMusic().getMusicId(), commentData.getCommentId())
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(context)
@@ -178,7 +198,7 @@ class CommentControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        delete("/api/musics/{music-id}/comments/{comments-id}",commentData.getMusic().getMusicId(), commentData.getCommentId())
+                        delete("/api/musics/{music-id}/comments/{comments-id}", commentData.getMusic().getMusicId(), commentData.getCommentId())
                                 .accept(MediaType.APPLICATION_JSON)
 
                 );
@@ -209,7 +229,7 @@ class CommentControllerTest {
     @WithMockUser
     void getCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
-        Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1,6);
+        Page<Comment> commentPageData = TestData.ResponseData.PageNationData.getPageData(1, 6);
         List<CommentDto.Response> responseList = new ArrayList<>();
         responseList.add(new CommentDto.Response(1L, 1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now()));
 
@@ -217,8 +237,6 @@ class CommentControllerTest {
 
         given(commentService.getComments(anyLong(), anyInt()))
                 .willReturn(multiResponseDto);
-
-
 
 
         ResultActions actions =

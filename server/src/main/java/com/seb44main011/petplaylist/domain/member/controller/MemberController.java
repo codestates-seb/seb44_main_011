@@ -9,6 +9,7 @@ import com.seb44main011.petplaylist.global.common.AuthenticationName;
 import com.seb44main011.petplaylist.global.common.SingleResponseDto;
 import com.seb44main011.petplaylist.global.utils.UriCreator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
-
+@Slf4j
 @RestController
 @Validated
 @RequiredArgsConstructor
@@ -70,8 +71,8 @@ public class MemberController {
     }
 
     @PostMapping(value = "/api/members/{member-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity setMemberProfile(@AuthenticationName String email, @RequestPart MultipartFile profileImage) {
-
+    public ResponseEntity setMemberProfile(@AuthenticationName String email, @RequestPart(value = "file") MultipartFile profileImage) {
+        log.info("profileImage : {}", profileImage.getOriginalFilename());
         memberService.setMemberProfileImage(email, profileImage);
 
 

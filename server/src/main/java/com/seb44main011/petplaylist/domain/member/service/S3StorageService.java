@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 @Slf4j
 public class S3StorageService implements StorageService {
-    private static final String BUCKET_NAME = "abcd";
+    private static final String BUCKET_NAME = "main-project-file";
     private static final String BUCKET_PROFILE_IMAGE_PATH = "member_image";
     private final S3Client s3Client;
 
