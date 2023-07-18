@@ -4,6 +4,7 @@ import Google from "../../assets/imgs/google.svg";
 import Kakao from "../../assets/imgs/kakao.svg";
 //import { useGoogleLogin } from "@react-oauth/google";
 import { Naver_Redirect_URL } from "../../utils/Url";
+
 const ShareContainer = styled.div`
   width: 200px;
   display: flex;
@@ -26,13 +27,10 @@ declare global {
   }
 }
 function Share() {
-  // const login = useGoogleLogin({
-  //   onSuccess: (codeResponse) => console.log(codeResponse),
-  //   onError: (errorResponse) => {
-  //     console.error(errorResponse);
-  //   },
-  //   flow: "auth-code",
-  // });
+  const GoogleLogin = () => {
+    window.location.href =
+      "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
+  };
   const { naver } = window;
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
@@ -46,9 +44,10 @@ function Share() {
   useEffect(() => {
     initializeNaverLogin();
   }, []);
+
   return (
     <ShareContainer>
-      <img src={Google} alt="Google" />
+      <img onClick={() => GoogleLogin()} src={Google} alt="Google" />
       <NaverDiv>
         <div id="naverIdLogin" />
       </NaverDiv>
