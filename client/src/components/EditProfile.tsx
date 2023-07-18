@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import UserInfo from "../assets/imgs/UserInfo.png";
 import { useNavigate } from "react-router-dom";
 import ImageModal from "./ImageModal";
+import { MypageInfo } from "./MypageInfo";
 
 function EditProfile() {
   const movePage = useNavigate();
@@ -46,6 +47,7 @@ function EditProfile() {
         <Cancle onClick={goMypage}>취소</Cancle>
         <Save onClick={handleProfileSave}>프로필 저장</Save>
       </ButtonWrapper>
+      <MypageInfo selectedImage={selectedImage} />
     </Wrapper>
   );
 }

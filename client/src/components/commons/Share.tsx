@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import Google from "../../assets/imgs/google.svg";
 import Kakao from "../../assets/imgs/kakao.svg";
-import { useGoogleLogin } from "@react-oauth/google";
+//import { useGoogleLogin } from "@react-oauth/google";
 import { Naver_Redirect_URL } from "../../utils/Url";
 const ShareContainer = styled.div`
   width: 200px;
@@ -17,7 +17,7 @@ const NaverDiv = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
   overflow: hidden;
 `;
 declare global {
@@ -26,13 +26,13 @@ declare global {
   }
 }
 function Share() {
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => console.log(codeResponse),
-    onError: (errorResponse) => {
-      console.error(errorResponse);
-    },
-    flow: "auth-code",
-  });
+  // const login = useGoogleLogin({
+  //   onSuccess: (codeResponse) => console.log(codeResponse),
+  //   onError: (errorResponse) => {
+  //     console.error(errorResponse);
+  //   },
+  //   flow: "auth-code",
+  // });
   const { naver } = window;
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
@@ -48,7 +48,7 @@ function Share() {
   }, []);
   return (
     <ShareContainer>
-      <img onClick={() => login()} src={Google} alt="Google" />
+      <img src={Google} alt="Google" />
       <NaverDiv>
         <div id="naverIdLogin" />
       </NaverDiv>
@@ -56,5 +56,4 @@ function Share() {
     </ShareContainer>
   );
 }
-
 export default Share;
