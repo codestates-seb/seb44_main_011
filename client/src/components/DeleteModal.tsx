@@ -1,5 +1,4 @@
 import { keyframes, styled } from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { DeleteUser } from "../utils/Url";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -24,8 +23,6 @@ function DeleteModal({ setModalOpen }: PropsType) {
   const closeModal = () => {
     setModalOpen(false);
   };
-
-  const navigate = useNavigate();
 
   const handleConfirm = async (data: FormValues) => {
     const memberId = localStorage.getItem("memberId");
