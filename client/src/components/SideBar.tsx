@@ -10,8 +10,12 @@ import { ReactComponent as More } from "../assets/icons/more.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
-function SideBar() {
 
+interface ViewMoreProps {
+  rotated: boolean;
+}
+
+function SideBar() {
   const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false); // 드롭다운 메뉴가 열려있는지 여부를 저장하는 상태 변수
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -22,7 +26,6 @@ function SideBar() {
   const navigate = useNavigate();
   // const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
-
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
 
@@ -64,38 +67,35 @@ function SideBar() {
     closeDropdownMenu();
   }, [location.pathname]);
 
-  const navigate = useNavigate();
+  // //검색기능
+  // const [searchQuery, setSearchQuery] = useState("");
 
-  //검색기능
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // 검색 결과 상태
-  const [searchResults, setSearchResults] = useState([]);
-
+  // // 검색 결과 상태
+  // const [searchResults, setSearchResults] = useState([]);
 
   const Navigate = (data: string) => {
     const memberId = localStorage.getItem("memberId");
     if (memberId !== null) navigate(`/${data}`);
     else alert("로그인이 필요한 페이지입니다.");
-  }
-  
-  // 검색어 입력 이벤트 핸들러
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
   };
 
-  // 엔터키 입력 시 검색 결과 가져오기
-  const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      // 검색 결과를 가져오는 로직을 추가
-      // 예를 들어, 서버에 검색어를 보내고 결과를 받아와서 setSearchResults로 상태 업데이트
-      // setSearchResults([...results]); // 가져온 검색 결과를 상태에 업데이트
-      if (searchQuery.trim() !== "") {
-        // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
-        navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-      }
-    }
-  };
+  // // 검색어 입력 이벤트 핸들러
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchQuery(e.target.value);
+  // };
+
+  // // 엔터키 입력 시 검색 결과 가져오기
+  // const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     // 검색 결과를 가져오는 로직을 추가
+  //     // 예를 들어, 서버에 검색어를 보내고 결과를 받아와서 setSearchResults로 상태 업데이트
+  //     // setSearchResults([...results]); // 가져온 검색 결과를 상태에 업데이트
+  //     if (searchQuery.trim() !== "") {
+  //       // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
+  //       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -108,9 +108,9 @@ function SideBar() {
         <Nav>
           <InputField
             type="text"
-            value={searchQuery}
-            onChange={handleInputChange}
-            onKeyDown={handleSearchEnter}
+            // value={searchQuery}
+            // onChange={handleInputChange}
+            // onKeyDown={handleSearchEnter}
           />
           <SearchImg fill="#B4B4B7" />
         </Nav>
@@ -132,7 +132,7 @@ function SideBar() {
           <NavTags id="tags" onClick={handleTagsMenuClick}>
             <Tags>Tags</Tags>
             <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
-            <ViewMore fill="#B4B4B7" rotated={isTagsMenuOpen}/>
+            <ViewMore fill="#B4B4B7" rotated={isTagsMenuOpen} />
           </NavTags>
           <DropdownMenu hidden={!isTagsMenuOpen}>
             <MenuItem>Tag 1</MenuItem>
@@ -178,7 +178,6 @@ function SideBar() {
   );
 }
 export default SideBar;
-
 
 const fadeInAnimation = keyframes`
   from {
@@ -376,7 +375,7 @@ const TagImg = styled(TagsIcon)`
   right: 73px;
 `;
 
-const ViewMore = styled(More)`
+const ViewMore = styled(More)<ViewMoreProps>`
   position: absolute;
   left: 80%;
   top: -2px;

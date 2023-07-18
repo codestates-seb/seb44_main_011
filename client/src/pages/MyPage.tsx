@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { MypageInfo } from "../components/MypageInfo";
 
-function Mypage() {
+function MyPage() {
   return (
     <Wrapper>
       <MypageInfo selectedImage={"selectedImage"} />
@@ -9,7 +9,7 @@ function Mypage() {
   );
 }
 
-export default Mypage;
+export default MyPage;
 
 const Wrapper = styled.div`
   display: flex;
