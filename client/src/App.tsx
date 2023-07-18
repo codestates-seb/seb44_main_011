@@ -9,6 +9,7 @@ import { styled } from "styled-components";
 import { MypageInfo } from "./components/MypageInfo";
 import { useState } from "react";
 import MyPage from "./pages/MyPage";
+import Oauth from "./pages/Oauth";
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -34,6 +35,7 @@ function App() {
             <Route path="/tags" element={<Tags />} />
             <Route path="/" element={<Home />} />
             <Route path="/mypage/edit" element={<Edit />} />
+            <Route path="/oauth" element={<Oauth />} />
           </Routes>
         </MainContent>
       </MainWrapper>
