@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import styled from "styled-components";
 import Google from "../../assets/imgs/google.svg";
