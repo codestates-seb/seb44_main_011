@@ -3,6 +3,7 @@ import { PageInfo } from "./PageInfo";
 export type Comment = {
   commentId: number;
   musicId: number;
+  memberId: number;
   name: string;
   comment: string;
   createdAt: string;

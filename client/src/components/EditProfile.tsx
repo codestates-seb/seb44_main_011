@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
 import UserInfo from "../assets/imgs/UserInfo.png";
 import { useNavigate } from "react-router-dom";
@@ -6,17 +6,24 @@ import ImageModal from "./ImageModal";
 
 function EditProfile() {
   const movePage = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(UserInfo);
+  const navigate = useNavigate();
 
   function goMypage() {
     movePage("/mypage");
   }
 
-  const [modalOpen, setModalOpen] = useState(false);
-
   const showModal = () => {
     setModalOpen(true);
   };
 
+  const handleProfileSave = () => {
+    // 여기에서 선택된 이미지(selectedImage)를 프로필 이미지로 저장하고 서버에 업데이트하는 로직을 추가할 수 있습니다.
+    console.log("프로필 이미지 저장:", selectedImage);
+    setModalOpen(false); // 저장 후 모달 닫기
+    navigate("/mypage", { state: { selectedImage } });
+  };
 
   return (
     <Wrapper>
@@ -24,15 +31,20 @@ function EditProfile() {
       <UnderLine />
       <Profile>
         <ProfileImage>Profile Image</ProfileImage>
-        <UserInfoImg src={UserInfo} />
-        <ChangeImg onClick={showModal}>파일 선택 </ChangeImg>
-        {modalOpen && <ImageModal setModalOpen={setModalOpen} />}
+        <UserInfoImg src={selectedImage} />
+        <ChangeImg onClick={showModal}>프로필 변경</ChangeImg>
+        {modalOpen && (
+          <ImageModal
+            setModalOpen={setModalOpen}
+            onSelectImage={setSelectedImage} // 선택한 이미지를 EditProfile 컴포넌트의 selectedImage로 전달
+          />
+        )}
         <NickName>Nickname</NickName>
-        <NickNameInput></NickNameInput>
+        <NickNameInput onClick={handleProfileSave}></NickNameInput>
       </Profile>
       <ButtonWrapper>
         <Cancle onClick={goMypage}>취소</Cancle>
-        <Save>프로필 저장</Save>
+        <Save onClick={handleProfileSave}>프로필 저장</Save>
       </ButtonWrapper>
     </Wrapper>
   );
