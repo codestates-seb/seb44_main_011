@@ -16,20 +16,18 @@ const StyledPlayer = styled.div`
   padding: 30px;
   align-items: center;
 `;
-const PlayerContainer = styled.div<{ $expanded?: string }>`
+const PlayerContainer = styled.div<{ $expanded?: boolean }>`
   width: 100%;
-  height: ${({ $expanded }) =>
-    $expanded === "true" ? "fit-content" : "300px"};
+  height: ${({ $expanded }) => ($expanded ? "fit-content" : "300px")};
   border-radius: 15px;
   position: relative;
   display: flex;
   flex-direction: column;
 `;
 
-const BackGroundContainer = styled.div<{ $expanded?: string }>`
+const BackGroundContainer = styled.div<{ $expanded?: boolean }>`
   width: 100%;
-  height: ${({ $expanded }) =>
-    $expanded === "true" ? "fit-content" : "300px"};
+  height: ${({ $expanded }) => ($expanded ? "fit-content" : "300px")};
   border-radius: 15px;
   position: relative;
   display: flex;
@@ -45,10 +43,9 @@ const BackGroundContainer = styled.div<{ $expanded?: string }>`
   border: 1px solid var(--gray-100);
 `;
 
-const ImgContainer = styled.div<{ $image: string; $expanded?: string }>`
+const ImgContainer = styled.div<{ $image: string; $expanded?: boolean }>`
   width: 100%;
-  height: ${({ $expanded }) =>
-    $expanded === "true" ? "fit-content" : "300px"};
+  height: ${({ $expanded }) => ($expanded ? "fit-content" : "300px")};
   border-radius: 15px;
   position: relative;
   display: flex;
@@ -112,13 +109,20 @@ type PlayerProps = {
   musicData: Music | null;
   handleLike: (musicId: number, liked?: boolean) => void;
   handleCommentClick: () => void;
+  handleMusic: (musicId: number) => void;
 };
 
-const Player = ({ musicData, handleLike, handleCommentClick }: PlayerProps) => {
+const Player = ({
+  musicData,
+  handleLike,
+  handleCommentClick,
+  handleMusic,
+}: PlayerProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleLikeClick = (musicId: number, liked?: boolean) => {
     handleLike(musicId, liked);
+    handleMusic(musicId);
   };
 
   const handleCommentBtnClick = () => {
@@ -129,9 +133,9 @@ const Player = ({ musicData, handleLike, handleCommentClick }: PlayerProps) => {
   return (
     <>
       {musicData ? (
-        <ImgContainer $image={musicData.image_url} $expanded={String(expanded)}>
-          <BackGroundContainer $expanded={String(expanded)}>
-            <PlayerContainer $expanded={String(expanded)}>
+        <ImgContainer $image={musicData.image_url} $expanded={expanded}>
+          <BackGroundContainer $expanded={expanded}>
+            <PlayerContainer $expanded={expanded}>
               <StyledPlayer>
                 <Profile image={musicData.image_url} size={250} radius={12} />
                 <ButtonContainer>
@@ -144,7 +148,7 @@ const Player = ({ musicData, handleLike, handleCommentClick }: PlayerProps) => {
                     {musicData.liked ? <Liked /> : <Disliked />}
                   </Button>
                   <Button onClick={handleCommentBtnClick}>
-                    {String(expanded) === "false" ? (
+                    {!expanded ? (
                       <LineComment stroke="#212121" />
                     ) : (
                       <CommentIcon fill="#84CBFF" />
@@ -157,9 +161,7 @@ const Player = ({ musicData, handleLike, handleCommentClick }: PlayerProps) => {
                   <CustomAudioPlayer src={musicData.music_url} />
                 </PlayInfo>
               </StyledPlayer>
-              {String(expanded) === "true" && (
-                <CommentSection musicId={musicData.musicId} />
-              )}
+              {expanded && <CommentSection musicId={musicData.musicId} />}
             </PlayerContainer>
           </BackGroundContainer>
         </ImgContainer>

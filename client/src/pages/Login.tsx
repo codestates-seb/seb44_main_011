@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { PostLogin } from "../utils/Url";
 import { Form } from "../components/commons/Form";
-
 type FormValues = {
   email: string;
   password: string;
@@ -23,14 +22,12 @@ type Response = {
   Authorization: string;
   Refresh: string;
 };
-
 function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({ mode: "onBlur" });
-
   const onSubmit = async (data: FormValues) => {
     console.log("로그인 데이터:", data);
     await axios
@@ -96,3 +93,4 @@ function Login() {
 }
 
 export default Login;
+

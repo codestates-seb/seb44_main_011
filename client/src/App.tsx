@@ -6,8 +6,7 @@ import MainContent from "./components/commons/MainContent";
 import SideBar from "./components/SideBar";
 import MyList from "./pages/MyList";
 import { styled } from "styled-components";
-import { MypageInfo } from "./components/MypageInfo";
-import { useState } from "react";
+import Oauth from "./pages/Oauth";
 import MyPage from "./pages/MyPage";
 
 const MainWrapper = styled.main`
@@ -17,8 +16,6 @@ const MainWrapper = styled.main`
 `;
 
 function App() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedImage] = useState("//Todo");
   return (
     <BrowserRouter>
       <MainWrapper>
@@ -27,13 +24,10 @@ function App() {
           <Routes>
             <Route path="/mylist" element={<MyList />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route
-              path="/mypage"
-              element={<MypageInfo selectedImage={selectedImage} />}
-            />
             <Route path="/tags" element={<Tags />} />
             <Route path="/" element={<Home />} />
             <Route path="/mypage/edit" element={<Edit />} />
+            <Route path="/oauth" element={<Oauth />} />
           </Routes>
         </MainContent>
       </MainWrapper>

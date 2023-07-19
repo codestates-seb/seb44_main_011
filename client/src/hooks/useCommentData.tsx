@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { CommentData } from "../types/Comment";
-import { GetComment } from "../utils/Url";
+import { GetPublicMusic } from "../utils/Url";
 
 type useCommentDataProps = {
   musicId: number;
@@ -22,23 +22,22 @@ const useCommentData = ({
   useEffect(() => {
     const fetchCommentData = async () => {
       try {
-        const response = await axios.get(
-          `${GetComment}/${musicId}/comments`,
+        const response = await axios.get<CommentData>(
+          `${GetPublicMusic}/${musicId}/comments`,
           {
             params: {
               page: currentPage,
             },
           }
-          // "/comment.json"
         );
-        setCommentData(response.data);
+        setCommentData(response.data || { data: [] });
       } catch (error) {
         console.error("댓글 데이터를 불러오는 중 오류 발생:", error);
       }
     };
 
     fetchCommentData();
-  }, [isCommentChanged]);
+  }, [musicId, currentPage, isCommentChanged]);
 
   return commentData;
 };

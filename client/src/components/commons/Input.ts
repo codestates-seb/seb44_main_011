@@ -29,4 +29,5 @@ export const InBox = styled.input`
 
 export const ErrorMsg = styled.span`
   color: rgba(214, 79, 79, 0.87);
+  font-family: var(--font-gaegu);
 `;
