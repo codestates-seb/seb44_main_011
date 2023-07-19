@@ -10,7 +10,6 @@ function EditProfile() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(UserInfo);
   const navigate = useNavigate();
-  const loc = useLocation();
 
   function goMypage() {
     movePage("/mypage");

@@ -4,9 +4,10 @@ import { useLocation } from "react-router-dom";
 
 function MyPage() {
   const loc = useLocation();
+  console.log(loc); // undefined??
   return (
     <Wrapper>
-      <MypageInfo selectedImage={loc.state.selectedImage} />
+      <MypageInfo selectedImage={loc.state?.selectedImage} />
     </Wrapper>
   );
 }

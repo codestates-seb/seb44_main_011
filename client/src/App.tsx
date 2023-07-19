@@ -7,7 +7,8 @@ import SideBar from "./components/SideBar";
 import MyList from "./pages/MyList";
 import { styled } from "styled-components";
 import Oauth from "./pages/Oauth";
-import MyPage from "./pages/Mypage";
+import MyPage from "./pages/MyPage";
+import SideNav from "./components/SideNav";
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -19,7 +20,7 @@ function App() {
   return (
     <BrowserRouter>
       <MainWrapper>
-        <SideBar />
+        <SideNav />
         <MainContent>
           <Routes>
             <Route path="/mylist" element={<MyList />} />
