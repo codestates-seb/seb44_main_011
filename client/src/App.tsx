@@ -7,7 +7,7 @@ import SideBar from "./components/SideBar";
 import MyList from "./pages/MyList";
 import { styled } from "styled-components";
 import Oauth from "./pages/Oauth";
-import MyPage from "./pages/MyPage";
+import MyPage from "./pages/Mypage";
 
 const MainWrapper = styled.main`
   width: 100%;

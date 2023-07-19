@@ -1,10 +1,12 @@
 import { styled } from "styled-components";
 import { MypageInfo } from "../components/MypageInfo";
+import { useLocation } from "react-router-dom";
 
 function MyPage() {
+  const loc = useLocation();
   return (
     <Wrapper>
-      <MypageInfo selectedImage={"selectedImage"} />
+      <MypageInfo selectedImage={loc.state.selectedImage} />
     </Wrapper>
   );
 }
