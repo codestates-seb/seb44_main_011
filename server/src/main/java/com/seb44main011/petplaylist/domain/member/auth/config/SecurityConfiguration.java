@@ -51,6 +51,7 @@ public class SecurityConfiguration {
                                 .failureHandler(failureHandler())
                 )
                 .apply(customFilterConfigurers())
+
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers("/public/**").permitAll()
