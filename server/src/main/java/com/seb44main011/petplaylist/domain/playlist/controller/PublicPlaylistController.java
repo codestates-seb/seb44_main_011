@@ -31,8 +31,6 @@ public class PublicPlaylistController {
                 new MultiResponseDto<>(publicResponses,musicPage)
         );
     }
-    //params = {"page"}
-
     @GetMapping(value = "/{dogOrCats}",params = {"page"})
     public ResponseEntity<?> getMusicListByCategoryAndTags(@PathVariable String dogOrCats
                                                         , @RequestParam(value = "page", defaultValue = "1") int page

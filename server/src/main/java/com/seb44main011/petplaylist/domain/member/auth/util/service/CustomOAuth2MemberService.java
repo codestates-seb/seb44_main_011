@@ -1,5 +1,7 @@
 package com.seb44main011.petplaylist.domain.member.auth.util.service;
 
+import com.seb44main011.petplaylist.domain.member.auth.util.error.AuthenticationExceptionCode;
+import com.seb44main011.petplaylist.domain.member.auth.util.error.OAuthErrorException;
 import com.seb44main011.petplaylist.domain.member.auth.util.userdetail.OAuth2UserDetail;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
@@ -8,6 +10,7 @@ import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -59,9 +62,17 @@ public class CustomOAuth2MemberService extends DefaultOAuth2UserService {
                 throw new IllegalAccessException("Unsupported email domain: " + domain);
         }
         Optional<Member> optionalMember = repository.findByEmail(email);
+        if (optionalMember.isEmpty()){
+            return saveOAuthUser(email, name, oAuthCheck);
+        }
+        OAuth2User oAuth2User = optionalMember.map(m->new OAuth2UserDetail(m,attributes,m.getOAuthCheck())).orElseThrow();
+        Member member = (Member) oAuth2User;
 
-        return optionalMember.map(member -> new OAuth2UserDetail(member, attributes, oAuthCheck))
-                .orElseGet(() -> saveOAuthUser(email, name, oAuthCheck));
+        if (member.getOAuthCheck().equals(Member.OAuthCheck.NO_OAUTH)) {
+                throw new OAuthErrorException(AuthenticationExceptionCode.MEMBER_CONFLICT);
+        }
+        return oAuth2User;
+
     }
 
     private OAuth2UserDetail saveOAuthUser(String email, String name, Member.OAuthCheck oAuthCheck) {
@@ -72,18 +83,16 @@ public class CustomOAuth2MemberService extends DefaultOAuth2UserService {
                 .email(email)
                 .name(name)
                 .password(password)
-                .oAuthCheck(oAuthCheck)
                 .build();
+        createMember.updateOAuth(oAuthCheck);
         Member saveMember = repository.save(createMember);
 
         return new OAuth2UserDetail(saveMember, attribute, oAuthCheck);
     }
 
-    private void validateAttributes(Map<String, Object> attributes) throws IllegalAccessException, OAuth2AuthorizationException {
+    private void validateAttributes(Map<String, Object> attributes) throws IllegalAccessException{
         if (!attributes.containsKey("email")) {
             throw new IllegalAccessException("응답 멤버 정보에 이메일이 없습니다.");
-        } else if (repository.findByEmail(String.valueOf(attributes.get("email"))).isPresent()) {
-            throw new OAuth2AuthorizationException(new OAuth2Error("409"), "이미 존재하는 회원입니다.");
         }
     }
 }
