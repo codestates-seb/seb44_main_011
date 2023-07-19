@@ -28,7 +28,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Member memberData = (Member) authentication.getPrincipal();
         log.info("onAuthenticationSuccess MemberName: {}", memberData.getName());
         log.info("onAuthenticationSuccess MemberEmail: {}", memberData.getEmail());
-        String np =  request.getContextPath();
 
         redirect(request, response, memberData);
     }

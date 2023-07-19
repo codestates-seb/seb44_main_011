@@ -37,18 +37,19 @@ public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
 
     }
     @SneakyThrows
-    private void redirect(HttpServletRequest request, HttpServletResponse response,  AuthenticationException exception) throws IOException {
+    private void redirect(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String errorMessage = exception.getMessage().equals(AuthenticationExceptionCode.MEMBER_CONFLICT.getMessage()) ?
                 exception.getMessage() : "BAD_REQUEST";
-        log.error("# errorMessage..: {}", errorMessage);
-        String redirectURL=createURI(errorMessage,exception).toString();
         ErrorResponse errorResponse = getErrorResponse(errorMessage, response);
         response.getWriter().write(gson.toJson(errorResponse, ErrorResponse.class));
+
+        log.error("# errorMessage..: {}", errorMessage);
+        String redirectURL=createURI(exception).toString();
         getRedirectStrategy().sendRedirect(request, response, redirectURL);
     }
 
-    private URI createURI(String accessToken, AuthenticationException exception) throws URISyntaxException {
+    private URI createURI(AuthenticationException exception) throws URISyntaxException {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("error_message", exception.getMessage());
 
