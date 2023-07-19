@@ -27,17 +27,17 @@ public class ApiMusicController {
     private final MemberService memberService;
     private final MusicRepository musicRepository;
 
-    @PostConstruct
-    public void post() {
-        Music music1 = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
-        Music music2 = new Music(2L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
-        Music music3 = new Music(3L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
-
-        musicRepository.save(music1);
-        musicRepository.save(music2);
-        musicRepository.save(music3);
-
-    }
+//    @PostConstruct
+//    public void post() {
+//        Music music1 = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+//        Music music2 = new Music(2L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+//        Music music3 = new Music(3L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+//
+//        musicRepository.save(music1);
+//        musicRepository.save(music2);
+//        musicRepository.save(music3);
+//
+//    }
 
     //TODO: 시큐리티 적용 시 구현 수정
 
