@@ -45,10 +45,10 @@ public class SecurityConfiguration {
                         .loginPage("/public/oauth/login")
                         .userInfoEndpoint()
                         .userService(oAuth2MemberService)
-                        .and()
+                                .and()
 //                        .failureHandler(new )
                         .successHandler(new OAuth2SuccessHandler(delegateTokenService))
-                                .failureHandler(new OAuth2FailureHandler())
+                                .failureHandler(failureHandler())
                 )
                 .apply(customFilterConfigurers())
                 .and()
@@ -68,6 +68,10 @@ public class SecurityConfiguration {
     @Bean
     public CustomFilterConfigurer customFilterConfigurers() {
         return new CustomFilterConfigurer(jwtTokenizer, delegateTokenService);
+    }
+    @Bean
+    public OAuth2FailureHandler failureHandler(){
+        return new OAuth2FailureHandler();
     }
 
     @Bean

@@ -1,5 +1,7 @@
 package com.seb44main011.petplaylist.domain.member.auth.util.service;
 
+import com.seb44main011.petplaylist.domain.member.auth.util.error.AuthenticationExceptionCode;
+import com.seb44main011.petplaylist.domain.member.auth.util.error.OAuthErrorException;
 import com.seb44main011.petplaylist.domain.member.auth.util.userdetail.OAuth2UserDetail;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.member.repository.MemberRepository;
@@ -8,6 +10,7 @@ import com.seb44main011.petplaylist.global.error.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -62,10 +65,11 @@ public class CustomOAuth2MemberService extends DefaultOAuth2UserService {
         if (optionalMember.isEmpty()){
             return saveOAuthUser(email, name, oAuthCheck);
         }
-        OAuth2User oAuth2User = optionalMember.map(m->new OAuth2UserDetail(m,attributes,oAuthCheck)).orElseThrow();
+        OAuth2User oAuth2User = optionalMember.map(m->new OAuth2UserDetail(m,attributes,m.getOAuthCheck())).orElseThrow();
         Member member = (Member) oAuth2User;
-        if (member.getOAuthCheck().equals(Member.OAuthCheck.NO_OAUTH)){
-            throw new RuntimeException("이미 가입된 아이디 입니다.");
+
+        if (member.getOAuthCheck().equals(Member.OAuthCheck.NO_OAUTH)) {
+                throw new OAuthErrorException(AuthenticationExceptionCode.MEMBER_CONFLICT);
         }
         return oAuth2User;
 
@@ -79,8 +83,8 @@ public class CustomOAuth2MemberService extends DefaultOAuth2UserService {
                 .email(email)
                 .name(name)
                 .password(password)
-                .oAuthCheck(oAuthCheck)
                 .build();
+        createMember.updateOAuth(oAuthCheck);
         Member saveMember = repository.save(createMember);
 
         return new OAuth2UserDetail(saveMember, attribute, oAuthCheck);

@@ -28,13 +28,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         Member memberData = (Member) authentication.getPrincipal();
         log.info("onAuthenticationSuccess MemberName: {}", memberData.getName());
         log.info("onAuthenticationSuccess MemberEmail: {}", memberData.getEmail());
+        String np =  request.getContextPath();
 
         redirect(request, response, memberData);
     }
 
     @SneakyThrows
     private void redirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException {
-        String accessToken = "Bearer%20" + delegateTokenService.delegateAccessToken(member);
+        String accessToken = "Bearer " + delegateTokenService.delegateAccessToken(member);
         String refreshToken = delegateTokenService.delegateRefreshToken(member);
         Long memberId = member.getMemberId();
         String redirectURL = createURI(accessToken, refreshToken, memberId).toString();
@@ -58,7 +59,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .build()
                 .toUri();
     }
-    ///oAuht
+    ///oAuht 5173
 
     //TODO: 서버 용
 
