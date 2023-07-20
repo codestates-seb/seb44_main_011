@@ -15,11 +15,9 @@ public interface CommentMapper {
     default CommentDto.Response commentToCommentResponseDto(Comment comment) {
         CommentDto.Response response = new CommentDto.Response();
         response.setCommentId(comment.getCommentId());
-        response.setMemberId(comment.getMember().getMemberId());
         response.setMusicId(comment.getMusic().getMusicId());
         response.setName(comment.getMember().getName());
         response.setComment(comment.getComment());
-        response.setProfile(comment.getMember().getProfile());
         response.setCreatedAt(comment.getCreatedAt());
         response.setModifiedAt(comment.getModifiedAt());
 

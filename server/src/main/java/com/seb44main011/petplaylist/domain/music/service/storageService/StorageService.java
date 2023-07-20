@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 public interface StorageService<T,P> {
-    void saveUploadFile(P fileTypeData,T entity) throws IOException;
+    Map<String,String> saveUploadFile(P multipartHttpServletRequest) throws IOException;
 
-    void deactivateFile(T entity);
+    Map<String,String>  deactivateFile(T Content);
 }

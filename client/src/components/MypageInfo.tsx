@@ -1,17 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import UserInfo from "../assets/imgs/UserInfo.png";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
-// import EditProfile from "./EditProfile";
 
-type PropsType = {
-  selectedImage: string;
-};
-
-export function MypageInfo({ selectedImage }: PropsType) {
+export function MypageInfo() {
   const navigate = useNavigate();
-  console.log("selectedImage:", selectedImage);
 
   const handleBtnEdit = () => {
     navigate("/mypage/edit");
@@ -25,7 +19,7 @@ export function MypageInfo({ selectedImage }: PropsType) {
 
   return (
     <Wrapper>
-      <UserInfoImg src={selectedImage} />
+      <UserInfoImg src={UserInfo} />
       <Profile>
         <UserName>남포동불주먹</UserName>
         <UserEmail>firerock@naver.com</UserEmail>

@@ -24,6 +24,11 @@ public class Music extends BaseTimeEntity {
         this.tags = tags;
         this.personalPlayLists = personalPlayLists;
     }
+
+
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long musicId;

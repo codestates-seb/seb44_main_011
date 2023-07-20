@@ -8,15 +8,15 @@ import java.util.Map;
 public class OAuth2UserDetail extends UserDetail implements OAuth2User {
     public final Map<String, Object> attributes;
 
-    public OAuth2UserDetail(Member member, Map<String, Object> attributes, Member.OAuthCheck oAuthCheck) {
+    public OAuth2UserDetail(Member member, Map<String, Object> attributes) {
         super(member);
-        this.updateMemberId(member.getMemberId());
-        this.updateEmail(member.getEmail());
-        this.updatePassword(member.getPassword());
-        this.updateName(member.getName());
-        this.updateProfile(member.getProfile());
-        this.updatePlayLists(member.getPlayLists());
-        this.updateOAuth(oAuthCheck);
+        this.updateMemberId(getMemberId());
+        this.updateEmail(getEmail());
+        this.updatePassword(getPassword());
+        this.updateName(getName());
+        this.updateProfile(getProfile());
+        this.updatePlayLists(getPlayLists());
+        this.updateOAuth(OAuthCheck.GOOGLE);
         this.attributes = attributes;
     }
 

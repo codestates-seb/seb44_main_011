@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.util.ByteArrayInputStreamUtil;
 import com.seb44main011.petplaylist.domain.music.util.MP3DurationCalculator;
 import com.seb44main011.petplaylist.global.error.BusinessLogicException;
@@ -15,7 +14,6 @@ import lombok.SneakyThrows;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -29,21 +27,19 @@ import static com.seb44main011.petplaylist.domain.music.constant.StorageConstant
 
 
 @Service
-@Transactional
-public class S3Service extends ByteArrayInputStreamUtil implements StorageService<Music,List<MultipartFile>>{
+public class S3Service extends ByteArrayInputStreamUtil implements StorageService<List<String>,List<MultipartFile>>{
 
 
     private final AmazonS3 amazonS3Client;
 
     @Value("${cloud.aws.s3.dns}")
-    private  String S3_SERVER_DNS;
+    private String S3_SERVER_DNS;
     @Value("${cloud.aws.s3.bucket}")
-    private  String bucket;
+    private String bucket;
     @Value("${cloud.aws.s3.disable-path}")
-    private  String convertPath;
+    private String convertPath;
 
-    private String EXT;
-
+    private final Map<String,String> mapMusicUrl =new HashMap<>();
 
     public S3Service(AmazonS3 amazonS3Client) {
         this.amazonS3Client = amazonS3Client;
@@ -51,24 +47,21 @@ public class S3Service extends ByteArrayInputStreamUtil implements StorageServic
 
     @SneakyThrows
     @Override
-    public void saveUploadFile(List<MultipartFile> fileList,Music music) {
+    public Map<String,String> saveUploadFile(List<MultipartFile> fileList) {
         for (MultipartFile multipartFile:fileList) {
-            setExt(multipartFile.getOriginalFilename());
-            String key = getFileKeyName(music);
-            checkFile(multipartFile,key,music);
-            setMusicFileUrl(key,music);
+            ObjectMetadata objectMetadata = getObjectMetadata(multipartFile);
+            saveFileToS3(multipartFile, objectMetadata);
         }
-
+        return mapMusicUrl;
     }
 
     @Override
-    public void deactivateFile(Music music) {
-        List<String> urlList= List.of(music.getMusic_url(),music.getImage_url());
+    public Map<String,String> deactivateFile(List<String> urlList) {
         for (String convertUrl: urlList) {
-            setExt(convertUrl);
             String deactivateFile= deactivateS3File(convertUrl);
-            setMusicFileUrl(deactivateFile,music);
+            setMusicFileUrl(deactivateFile,MUSIC_FILE_TYPE);
         }
+        return mapMusicUrl;
     }
 
     @SneakyThrows
@@ -84,65 +77,66 @@ public class S3Service extends ByteArrayInputStreamUtil implements StorageServic
     }
 
     private String getOldFilePath(String musicUrl) {
-        String musicFilePath = S3_SERVER_DNS+BUCKET_MUSIC_PATH;
-        String imgFilePath = S3_SERVER_DNS+BUCKET_IMG_PATH;
-        if (musicUrl.startsWith(imgFilePath)){
+        if (musicUrl.startsWith(S3_SERVER_DNS+BUCKET_IMG_PATH)){
             return musicUrl.replaceAll(".*/img/", BUCKET_IMG_PATH);
         }
-        else if (musicUrl.startsWith(musicFilePath)){
+        else if (musicUrl.startsWith(S3_SERVER_DNS+BUCKET_MUSIC_PATH)){
             return musicUrl.replaceAll(".*/music/", BUCKET_MUSIC_PATH);
-        }else {
-            throw new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND_INS3);
         }
+        throw new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND_INS3);
     }
 
 
-    private void setMusicFileUrl(String key,Music music) {
+    private void setMusicFileUrl(String key, String ext) {
         String storeFileUrl = amazonS3Client.getUrl(bucket, key).toString();
-        if (EXT.equals(MUSIC_FILE_TYPE)){
-            music.insertMusic_url(storeFileUrl);
+        if (ext.equals(MUSIC_FILE_TYPE)){
+            mapMusicUrl.put("music_url",storeFileUrl);
         }
         else {
-            music.insertImage_url(storeFileUrl);
+            mapMusicUrl.put("image_url", storeFileUrl);
         }
     }
 
-    private void checkFile(MultipartFile multipartFile, String key,Music music) throws IOException, BitstreamException {
+    private void saveFileToS3(MultipartFile multipartFile, ObjectMetadata objectMetadata) throws IOException, BitstreamException {
+        String ext = getExt(multipartFile.getOriginalFilename());
+        String key = getFileKeyName(ext);
         try (InputStream inputStream = multipartFile.getInputStream()) {
             ByteArrayInputStream byteArrayInputStream = getByteArrayInputStream(inputStream);
-            if (EXT.equals(MUSIC_FILE_TYPE)){
-                long fileSize =multipartFile.getSize();
-                setMusicPlayTime(music,MP3DurationCalculator.getMp3Duration(fileSize,new Bitstream(byteArrayInputStream).readFrame()));
-                byteArrayInputStream.reset();
-            }
-            putFileToS3(key, byteArrayInputStream,getObjectMetadata(multipartFile));
+            isMp3fileCheck(ext,byteArrayInputStream, multipartFile.getSize());
 
+            amazonS3Client.putObject(new PutObjectRequest(bucket, key, byteArrayInputStream, objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            setMusicFileUrl(key,ext);
         }
     }
 
-    private void putFileToS3(String key, ByteArrayInputStream byteArrayInputStream,ObjectMetadata objectMetadata) {
-        amazonS3Client.putObject(new PutObjectRequest(bucket, key, byteArrayInputStream, objectMetadata)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
-    }
-
-    private void setMusicPlayTime(Music music,String mp3Duration) {
-        music.insertPlaytime(mp3Duration);
-    }
-
-    private String getFileKeyName(Music music) throws FileUploadException {
-        String musicIdentifyPath = music.getTitle()+UUID.randomUUID();
-        if (EXT.equals("mp3")){
-            return BUCKET_MUSIC_PATH+musicIdentifyPath + "." + EXT;
+    private void isMp3fileCheck(String ext,ByteArrayInputStream byteArrayInputStream,long fileSize) throws BitstreamException {
+        if (ext.equals(MUSIC_FILE_TYPE)){
+            setMusicPlayTime(MP3DurationCalculator.getMp3Duration(fileSize,new Bitstream(byteArrayInputStream).readFrame()));
+            byteArrayInputStream.reset();
         }
-        else if (EXT.equals("png")||EXT.equals("jpg")||EXT.equals("jpeg")){
-            return BUCKET_IMG_PATH+musicIdentifyPath + "." + EXT;
+
+    }
+
+    private void setMusicPlayTime(String mp3Duration) {
+        mapMusicUrl.put("playtime",mp3Duration);
+    }
+
+    private String getFileKeyName(String ext) throws FileUploadException {
+
+        String uuid = UUID.randomUUID().toString();
+        if (ext.equals("mp3")){
+            return BUCKET_MUSIC_PATH+uuid + "." + ext;
+        }
+        else if (ext.equals("png")||ext.equals("jpg")||ext.equals("jpeg")){
+            return BUCKET_IMG_PATH+uuid + "." + ext;
         }
         throw new FileUploadException("올바르지 않은 파일 입니다");
     }
 
-    private void setExt(String originalFilename) {
+    private static String getExt(String originalFilename) {
         int index = Objects.requireNonNull(originalFilename).lastIndexOf(".");
-        this.EXT = originalFilename.substring(index + 1);
+        return originalFilename.substring(index + 1);
     }
 
     private static ObjectMetadata getObjectMetadata(MultipartFile multipartFile) {
@@ -164,13 +158,5 @@ public class S3Service extends ByteArrayInputStreamUtil implements StorageServic
         amazonS3Client.deleteObject(bucket, source);
     }
 
-    private String uploadImg(MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
-
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
-
-        return amazonS3Client.getUrl(bucket, fileName).toString();
-    }
 
 }

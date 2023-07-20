@@ -35,11 +35,9 @@ public class CommentDto {
     @NoArgsConstructor
     public static class Response {
         private Long commentId;
-        private Long memberId;
         private Long musicId;
         private String name;
         private String comment;
-        private String profile;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
     }

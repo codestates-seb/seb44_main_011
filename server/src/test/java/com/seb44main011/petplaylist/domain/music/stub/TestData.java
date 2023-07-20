@@ -9,10 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +38,7 @@ public class TestData {
                     .music_url(music_url)
                     .image_url(image_url)
                     .playtime("3:20")
-                    .tags(Music.Tags.CALM.getTags())
+                    .tags(Music.Category.DOGS.getCategory())
                     .build();
 
         }
@@ -63,13 +60,6 @@ public class TestData {
                     .musicId(1L)
                     .build();
         }
-        public static MusicDto.PostMusicFile getPostMusicFile(){
-            return MusicDto.PostMusicFile.builder()
-                    .title("MusicTitle")
-                    .tags(Music.Tags.CALM)
-                    .category(Music.Category.CATS)
-                    .build();
-        }
         public static MusicDto.DeleteRequest getDeleteRequestData(){
             return MusicDto.DeleteRequest.builder()
                     .musicId(1L)
@@ -77,15 +67,6 @@ public class TestData {
         }
 
     }
-    public static class MockMusicFile{
-        public static MockMultipartFile getImgMultipartFile(){
-            return new MockMultipartFile("img", "musicImgFile.png(jpg,jpeg)", "multipart/mixed","musicImgFile".getBytes(StandardCharsets.UTF_8));
-        }
-        public static MockMultipartFile getMp3MultipartFile(){
-            return new MockMultipartFile("mp3", "musicFile.mp3", "multipart/mixed","musicFile".getBytes(StandardCharsets.UTF_8));
-        }
-    }
-
     //    public static class MockPersonalPlayList{
 //        public static PersonalPlayList getPersonalPlayList(){
 //            return PersonalPlayList.builder()
@@ -161,7 +142,7 @@ public class TestData {
                 );
             }
             public static List<PlaylistDto.ApiResponse> getPlayListResponseList() {
-                return new ArrayList<>(List.of(
+                return List.of(
                         getPlayListResponse(),
                         PlaylistDto.ApiResponse.builder()
                                 .musicId(2L)
@@ -192,9 +173,10 @@ public class TestData {
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
                                 .build()
-                ));
+                );
             }
         }
+
         public static class Public{
             public static PlaylistDto.PublicResponse getPublicCategoryPlayListResponse(){
                 return PlaylistDto.PublicResponse.builder()
@@ -250,6 +232,5 @@ public class TestData {
                 );
             }
         }
-
     }
 }

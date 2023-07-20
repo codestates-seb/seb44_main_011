@@ -20,10 +20,9 @@ public class PublicPlaylistController {
     private final MusicListMapper mapper;
     private final MusicService musicService;
 
-    @GetMapping
-    public ResponseEntity<?> getAllMusicListFromNonMember(@RequestParam(value = "page", defaultValue = "1") int page,
-                                                          @RequestParam(value = "sort", required = false,defaultValue = "view") String sortValue){
-        Page<Music> musicPage = musicService.findMusicListAll(page,sortValue);
+    @GetMapping(params = {"page"})
+    public ResponseEntity<?> getAllMusicListFromNonMember(@RequestParam(value = "page", defaultValue = "1") int page){
+        Page<Music> musicPage = musicService.findMusicListAll(page);
         List<Music> musicList = musicPage.getContent();
         List<PlaylistDto.PublicResponse> publicResponses = mapper.musicListToPublicResponse(musicList);
 
@@ -31,7 +30,6 @@ public class PublicPlaylistController {
                 new MultiResponseDto<>(publicResponses,musicPage)
         );
     }
-    //params = {"page"}
 
     @GetMapping(value = "/{dogOrCats}",params = {"page"})
     public ResponseEntity<?> getMusicListByCategoryAndTags(@PathVariable String dogOrCats

@@ -49,8 +49,8 @@ public class CommentService {
     }
 
     // 리팩토링 -> comment와 memberId 일치여부 확인
-    public void updateComment(CommentDto.Patch request) {
-        Comment targetComment = commentRepository.findById(request.getCommentId()).orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
+    public void updateComment(CommentDto.Patch request, long memberId) {
+        Comment targetComment = findMyComment(memberId, request.getCommentId());
 
 
         targetComment.setComment(request.getComment());
@@ -72,15 +72,12 @@ public class CommentService {
         return multiResponseDto;
     }
 
-    public void deleteComment(long commentId, String email) {
-        findVerifiedComment(commentId);
-        Member byMemberFromEmail = memberService.findByMemberFromEmail(email);
-        Comment myComment = findMyComment(commentId, byMemberFromEmail.getMemberId());
+    public void deleteComment(long memberId,long commentId) {
+        Comment myComment = findMyComment(memberId, commentId);
         commentRepository.delete(myComment);
     }
 
-    public Comment findMyComment(long commentId, long memberId) {
-        findVerifiedComment(commentId);
+    public Comment findMyComment(long memberId, long commentId) {
         Comment myComment = commentRepository.findById(commentId).orElseThrow(() -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         if (myComment.getMember().getMemberId() != memberId) {
             throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED);

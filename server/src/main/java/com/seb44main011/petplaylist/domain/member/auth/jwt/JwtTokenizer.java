@@ -7,7 +7,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +19,8 @@ import java.util.Map;
 @Component
 public class JwtTokenizer {
     @Getter
-    @Setter
     @Value("${User.mail.admin}")
-    private String ADMIN_SUBJECT;
+    private static String ADMIN_SUBJECT;
 
     @Getter
     @Value("kevin1234123412341234123412341234")

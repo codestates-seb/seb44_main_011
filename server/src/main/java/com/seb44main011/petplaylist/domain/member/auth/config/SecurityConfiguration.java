@@ -45,7 +45,6 @@ public class SecurityConfiguration {
                         .userInfoEndpoint()
                         .userService(oAuth2MemberService)
                         .and()
-//                        .failureHandler(new )
                         .successHandler(new OAuth2SuccessHandler(delegateTokenService))
                 )
                 .apply(customFilterConfigurers())
@@ -53,7 +52,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers("/public/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/api/**").hasRole("USER")
-                        .antMatchers(HttpMethod.GET, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("USER")
                         .antMatchers("/api/members/**").authenticated()
@@ -72,10 +70,9 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:3000", "http://localhost:5173","http://172.17.0.3:5173","http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8080", "http://localhost:3000", "http://localhost:5173"));
         configuration.setAllowedMethods(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

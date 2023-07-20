@@ -1,43 +1,28 @@
 import { FC } from "react";
 import { styled } from "styled-components";
-import empty from "../assets/imgs/empty.png";
+import empty from "../assets/imgs/empty.svg";
+import H2Text from "./commons/H2Text";
 
 type EmptyProps = {
   message: string;
-  size?: number;
-  color?: string;
 };
 
-const EmptyContainer = styled.div<{ size: number }>`
+const EmptyContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-self: center;
-  justify-content: center;
   font-family: var(--font-quicksand);
-  margin: 48px;
-  height: ${(props) => props.size}px;
+  margin: 32px;
   img {
     margin-bottom: 32px;
   }
 `;
 
-const EmptyMessage = styled.h1<{ color: string }>`
-  font-family: var(--font-gaegu);
-  color: ${(props) => props.color};
-  font-size: 24px;
-  text-align: center;
-`;
-
-const Empty: FC<EmptyProps> = ({
-  message,
-  size = 182,
-  color = "var(--black)",
-}) => {
+const Empty: FC<EmptyProps> = ({ message }) => {
   return (
-    <EmptyContainer size={size}>
+    <EmptyContainer>
       <img src={empty} alt="dog and cat" />
-      <EmptyMessage color={color}>{message}</EmptyMessage>
+      <H2Text value={message} />
     </EmptyContainer>
   );
 };

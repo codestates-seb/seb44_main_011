@@ -10,18 +10,17 @@ import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
+import com.seb44main011.petplaylist.domain.music.service.storageService.S3Service;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
-import com.seb44main011.petplaylist.domain.playlist.repository.MusicListRepository;
 import com.seb44main011.petplaylist.domain.playlist.service.MusicListService;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,7 +33,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
@@ -50,6 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     @Autowired
     private MockMvc mockMvc;
@@ -63,15 +62,17 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     @MockBean
     private MusicListService musicListService;
 
-
     @MockBean
     private MusicListMapper musicListMapper;
+    @MockBean
+    private S3Service service;
+
     private final String API_PLAYLIST_URL = "/api/playlist";
     private final String API_PLAYLIST_GET_URL = "/api/playlist/{dogOrCats}/id/{member-id}";
-    private static List<PlaylistDto.ApiResponse> pageContentResponse;
+    private List<PlaylistDto.ApiResponse> pageContentResponse;
     @BeforeEach
     void init(){
-        pageContentResponse=TestData.ResponseData.Api.getPlayListResponseList();
+        this.pageContentResponse=TestData.ResponseData.Api.getPlayListResponseList();
     }
 
     @Test
@@ -81,7 +82,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
         Page<Music> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size());
 
         given(musicListService.findPersonalMusicLists(Mockito.anyLong())).willReturn(List.of(TestData.MockMusicList.getMusicListData()));
-        given(musicService.findMusicListAll(Mockito.anyInt(),Mockito.anyString())).willReturn(pageTestData);
+        given(musicService.findMusicListAll(Mockito.anyInt())).willReturn(pageTestData);
         given(musicListMapper.musicListToApiResponse(Mockito.anyList(), Mockito.anyList())).willReturn(pageContentResponse);
 
         ResultActions actions =
@@ -90,7 +91,6 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("member-id",String.valueOf(MemberTestData.MockMember.getMemberData().getMemberId()))
                                         .param("page", String.valueOf(pageTestData.getNumber()+1))
-                                        .param("sort", "new")
 
                         )
                         .andExpect(status().isOk())
@@ -103,8 +103,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                                         .description("회원의 전체 음악 리스트 조회 기능 API")
                                                         .requestParameters(
                                                                 parameterWithName("member-id").type(SimpleType.NUMBER).description("회원 식별 Id"),
-                                                                parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자"),
-                                                                parameterWithName("sort").type(SimpleType.STRING).description("정렬기준(new,old)").optional()
+                                                                parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자")
                                                         )
                                                         .responseFields(
                                                                 getApiPlayListPageField()
@@ -165,7 +164,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     public void getAllMusicListTest() throws Exception{
         Page<PlayList> pageTestData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size());
 
-        given(musicListService.findPersonalMusicListsPage(Mockito.anyString(),Mockito.anyLong(),Mockito.anyInt())).willReturn(pageTestData);
+        given(musicListService.findPersonalMusicListsPage(Mockito.anyLong(),Mockito.anyInt())).willReturn(pageTestData);
         given(musicListMapper.musicListToPlayListResponseList(Mockito.anyList())).willReturn(pageContentResponse);
 
         ResultActions actions =
@@ -207,19 +206,17 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
     public void getCategoryAndTagFromMemberTest() throws Exception {
 
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(1,pageContentResponse.size()+50);
-        List<PlaylistDto.ApiResponse> apiResponses = TestData.ResponseData.Api.getPlayListResponseList();
-
 
         given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt())).willReturn(testPageData);
-        given(musicListService.findPersonalMusicLists(Mockito.anyLong())).willReturn(new ArrayList<>());
-        given(musicListMapper.musicListToApiResponse(Mockito.anyList(),Mockito.anyList())).willReturn(apiResponses);
+        given(memberService.findMember(Mockito.anyLong())).willReturn(MemberTestData.MockMember.getMemberData());
+        given(musicListMapper.musicListToApiResponse(Mockito.anyList(),Mockito.anyList())).willReturn(pageContentResponse);
 
         ResultActions actions =
                 mockMvc.perform(
                                 get(API_PLAYLIST_GET_URL,"DOGS",1)
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("page", String.valueOf(testPageData.getNumber()+1))
-                                        .param("tags",apiResponses.get(0).getTags())
+                                        .param("tags",pageContentResponse.get(0).getCategory())
 
                         )
                         .andExpect(status().isOk())
