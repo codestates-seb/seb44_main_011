@@ -9,6 +9,7 @@ import { styled } from "styled-components";
 import Oauth from "./pages/Oauth";
 import MyPage from "./pages/MyPage";
 import SideNav from "./components/SideNav";
+import Search from "./pages/Search";
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/mypage/edit" element={<Edit />} />
             <Route path="/oauth" element={<Oauth />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </MainContent>
       </MainWrapper>
