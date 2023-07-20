@@ -14,6 +14,7 @@ type MusicListData = {
 const useAllMusicData = (
   isDogpli: string,
   currentPage: number,
+  isTopChart: string,
   isLikedClick: boolean,
   currentTag?: string
 ): MusicListData => {
@@ -33,7 +34,8 @@ const useAllMusicData = (
             {
               params: {
                 page: currentPage,
-                ...(currentTag && { tags: currentTag }),
+                ...(isTopChart === "new" ? { sort: isTopChart } : {}),
+                ...(currentTag ? { tags: currentTag } : {}),
               },
             }
           );
@@ -48,7 +50,8 @@ const useAllMusicData = (
             {
               params: {
                 page: currentPage,
-                ...(currentTag && { tags: currentTag }),
+                ...(isTopChart === "new" ? { sort: isTopChart } : {}),
+                ...(currentTag ? { tags: currentTag } : {}),
               },
             }
           );
@@ -62,7 +65,7 @@ const useAllMusicData = (
     };
 
     fetchData();
-  }, [isDogpli, currentPage, isLikedClick, currentTag]);
+  }, [isDogpli, currentPage, isLikedClick, currentTag, isTopChart]);
 
   return musicList;
 };

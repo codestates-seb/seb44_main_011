@@ -24,7 +24,6 @@ const HomeContainer = styled.div`
   margin: 4vh;
   width: 100%;
   max-width: 1800px;
-  /* min-width: 700px; */
 `;
 
 const HomsListTitle = styled.div`
@@ -51,11 +50,12 @@ const Home = () => {
   const musicList = useAllMusicData(
     isDogpli,
     currentPage,
+    isTopChart,
     isLikedClick,
     currentTag
   );
 
-  const { selectedMusic, handleMusic } = useMusicData(isDogpli);
+  const { selectedMusic, handleMusic } = useMusicData(isDogpli, isTopChart);
 
   const handleLike = useLikeData({
     setIsLikedClick,
@@ -83,6 +83,10 @@ const Home = () => {
   useEffect(() => {
     setIsLikedClick(false);
   }, [currentPage, isDogpli, isLikedClick]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [isTopChart]);
 
   return (
     <HomeContainer>
@@ -122,6 +126,7 @@ const Home = () => {
             handleLike={handleLike}
             handleMusic={handleMusic}
             isDogpli={isDogpli}
+            isTopChart={isTopChart}
             loading={false}
             setIsLikedClick={setIsLikedClick}
           />

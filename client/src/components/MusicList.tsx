@@ -1,8 +1,7 @@
 import { styled } from "styled-components";
 import { useState, useEffect } from "react";
 import { ReactComponent as Liked } from "../assets/icons/liked.svg";
-import { ReactComponent as Disliked } from "../assets/icons/disliked.svg";
-import { ReactComponent as DeleteIcon } from "../assets/icons/linedelete.svg";
+import { ReactComponent as DeleteIcon } from "../assets/icons/deleteicon.svg";
 import { Music } from "../types/Music";
 import Empty from "./Empty";
 import Profile from "./commons/Profile";
@@ -75,6 +74,7 @@ type MusicListProps = {
   handleLike: (musicId: number, liked?: boolean) => void;
   handleMusic?: (musicId: number) => void;
   isDogpli?: string;
+  isTopChart?: string;
   loading?: boolean;
   setIsLikedClick: (value: boolean) => void;
 };
@@ -84,6 +84,7 @@ export const MusicList: React.FC<MusicListProps> = ({
   handleLike,
   handleMusic,
   isDogpli,
+  isTopChart,
   loading,
   setIsLikedClick,
 }) => {
@@ -124,7 +125,7 @@ export const MusicList: React.FC<MusicListProps> = ({
 
   useEffect(() => {
     setActive(false);
-  }, [isDogpli]);
+  }, [isDogpli, isTopChart]);
 
   return (
     <MusicListsContainer>
@@ -148,7 +149,10 @@ export const MusicList: React.FC<MusicListProps> = ({
                   handleLikeClick(music.musicId, music.liked);
                 }}
               >
-                {music.liked ? <Liked /> : <Disliked />}
+                <Liked
+                  fill={music.liked ? "#FF7777" : "none"}
+                  stroke={music.liked ? "none" : "#212121"}
+                />
               </Button>
               {memberId === "30" && (
                 <Button
