@@ -12,5 +12,6 @@ import java.util.Map;
 public interface StorageService<T,P> {
     void saveUploadFile(P fileTypeData,T entity) throws IOException;
 
-    void deactivateFile(T entity);
+    void convertFileStatus(T entity);
+
 }

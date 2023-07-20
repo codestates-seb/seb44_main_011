@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
 import java.util.Objects;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING,unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -32,4 +33,6 @@ public interface MusicMapper {
                 .category(postMusicFile.getCategory())
                 .build();
     }
+    MusicDto.AdminResponse musicToAdminResponse(Music music);
+    List<MusicDto.AdminResponse> musicToAdminResponseList(List<Music> musicList);
 }

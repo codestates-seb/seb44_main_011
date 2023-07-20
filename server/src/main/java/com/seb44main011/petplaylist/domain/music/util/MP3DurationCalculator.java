@@ -1,10 +1,8 @@
 package com.seb44main011.petplaylist.domain.music.util;
 
-import javazoom.jl.decoder.Bitstream;
+
 import javazoom.jl.decoder.Header;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.InputStream;
 
 @Slf4j
 public class MP3DurationCalculator {
