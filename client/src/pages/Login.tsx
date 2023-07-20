@@ -40,7 +40,7 @@ function Login() {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refresh", refresh);
         localStorage.setItem("memberId", memberId);
-        window.location.replace("/");
+        window.location.replace("/home");
       })
       .catch((error) => console.log(error));
   };

@@ -49,7 +49,7 @@ function SideBar() {
     localStorage.removeItem("memberId");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refresh");
-    window.location.replace("/");
+    window.location.replace("/home");
   };
   const modalSideClick = (e: React.MouseEvent | React.TouchEvent) => {
     if (modalRef.current === e.target) {
@@ -129,7 +129,7 @@ function SideBar() {
           />
           <SearchImg fill="#B4B4B7" />
         </Nav>
-        <Link className="home" to="/">
+        <Link className="home" to="/home">
           <NavHome id="home" onClick={() => handleClickMenu("home")}>
             <HomeImg fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"} />
             <Home_0001>Home</Home_0001>
