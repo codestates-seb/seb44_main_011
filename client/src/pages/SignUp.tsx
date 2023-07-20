@@ -45,14 +45,16 @@ function SignUp() {
       .then((response) => {
         if (response.status === 201) {
           alert("회원가입이 완료되었습니다.");
-          window.location.replace("/");
-        } else if (response.status === 409) {
-          alert("중복된 이메일입니다. 다시 진행해주세요.");
-        } else if (response.status === 500) {
-          alert("입력 양식에 맞게 다시 입력해주세요.");
+          window.location.replace("/home");
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        if (error.response.status === 409) {
+          alert("중복된 이메일입니다. 다시 진행해주세요.");
+        } else if (error.response.status === 500) {
+          alert("입력 양식에 맞게 다시 입력해주세요.");
+        }
+      });
   };
   return (
     <Modal>

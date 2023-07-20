@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import UserInfo from "../assets/imgs/UserInfo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import ImageModal from "./ImageModal";
-import { MypageInfo } from "./MypageInfo";
+import axios from "axios";
+import { api } from "../utils/Url";
 
 function EditProfile() {
   const movePage = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(UserInfo);
+  // const [selectedImage, setSelectedImage] = useState(UserInfo);
+  const [selectedImage, setSelectedImage] = useState<string>("");
+
+  const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
 
   function goMypage() {
@@ -19,11 +23,49 @@ function EditProfile() {
     setModalOpen(true);
   };
 
-  const handleProfileSave = () => {
-    // 여기에서 선택된 이미지(selectedImage)를 프로필 이미지로 저장하고 서버에 업데이트하는 로직을 추가할 수 있습니다.
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때에만 실행되도록 useEffect를 사용하여 nickname 값을 localStorage에서 불러옵니다.
+    const storedImage = localStorage.getItem("selectedImage");
+    if (storedImage) {
+      setSelectedImage(storedImage);
+    }
+  }, []);
+
+  // const handleProfileSave = () => {
+  //   // 여기에서 선택된 이미지(selectedImage)와 입력된 닉네임(nickname)을 프로필 정보로 저장하고 서버에 업데이트하는 로직을 추가할 수 있습니다.
+  //   console.log("프로필 이미지 저장:", selectedImage);
+  //   console.log("닉네임 저장:", nickname);
+
+  //   // Store selectedImage and nickname in localStorage
+  //   localStorage.setItem("selectedImage", selectedImage);
+  //   localStorage.setItem("nickname", nickname);
+
+  //   setModalOpen(false); // 저장 후 모닫 닫기
+  //   navigate("/mypage", { state: { selectedImage, nickname } });
+  // };
+  const handleProfileSave = async () => {
+    // 여기에서 선택된 이미지(selectedImage)와 입력된 닉네임(nickname)을 프로필 정보로 저장하고 서버에 업데이트하는 로직을 추가할 수 있습니다.
     console.log("프로필 이미지 저장:", selectedImage);
-    setModalOpen(false); // 저장 후 모달 닫기
-    navigate("/mypage", { state: { selectedImage } });
+    console.log("닉네임 저장:", nickname);
+
+    // Store selectedImage and nickname in localStorage
+    localStorage.setItem("selectedImage", selectedImage);
+    localStorage.setItem("nickname", nickname);
+
+    try {
+      // Send the data to the server using Axios PATCH request
+      const memberId = localStorage.getItem("memberId"); // Replace {member-id} with the actual member ID
+      await api.patch(`/members/${memberId}`, {
+        name: nickname,
+        profile: selectedImage,
+      });
+
+      setModalOpen(false); // 저장 후 모달 닫기
+      navigate("/mypage", { state: { selectedImage, nickname } });
+    } catch (error) {
+      console.error("Error while updating profile:", error);
+      // Handle the error or show an error message to the user if needed
+    }
   };
 
   return (
@@ -41,7 +83,12 @@ function EditProfile() {
           />
         )}
         <NickName>Nickname</NickName>
-        <NickNameInput onClick={handleProfileSave}></NickNameInput>
+        <NickNameInput
+          value={nickname}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setNickname(e.target.value)
+          }
+        ></NickNameInput>
       </Profile>
       <ButtonWrapper>
         <Cancle onClick={goMypage}>취소</Cancle>
@@ -99,6 +146,8 @@ const ProfileImage = styled.span`
 const UserInfoImg = styled.img`
   width: 270px;
   height: 270px;
+  border-radius: 15px;
+  margin-top: 10px;
 `;
 
 const ChangeImg = styled.button`

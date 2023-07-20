@@ -80,6 +80,7 @@ const MyList = () => {
             musicList={musicList.data}
             handleLike={handleLike}
             handleMusic={handleMusic}
+            setIsLikedClick={setIsLikedClick}
           />
           <Pagination
             currentPage={currentPage}

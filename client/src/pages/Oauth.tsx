@@ -1,11 +1,21 @@
 import { useSearchParams } from "react-router-dom";
 function Oauth() {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("access_token"); // test
-  const array = token ? token.split("refresh_token=") : [];
-  localStorage.setItem("accessToken", array[0] ?? "");
-  localStorage.setItem("refresh", array[1] ?? "");
-  window.location.replace("/"); //홈화면으로 이동
+  const access_token = searchParams.get("access_token") || null;
+  const refresh_token = searchParams.get("refresh_token") || null;
+  const memberId = searchParams.get("memberId") || null;
+  if (access_token !== null) {
+    localStorage.setItem("accessToken", access_token);
+  }
+
+  if (refresh_token !== null) {
+    localStorage.setItem("refresh", refresh_token);
+  }
+
+  if (memberId !== null) {
+    localStorage.setItem("memberId", memberId);
+  }
+  window.location.replace("/home"); //홈화면으로 이동
   return <div></div>;
 }
 

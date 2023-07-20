@@ -5,9 +5,7 @@ import CustomAudioPlayer from "./CustomAudioPlayer";
 import Profile from "./commons/Profile";
 import Empty from "./Empty";
 import { ReactComponent as Liked } from "../assets/icons/liked.svg";
-import { ReactComponent as Disliked } from "../assets/icons/disliked.svg";
 import { ReactComponent as CommentIcon } from "../assets/icons/coment.svg";
-import { ReactComponent as LineComment } from "../assets/icons/linecomment.svg";
 import CommentSection from "./CommentSection";
 
 const StyledPlayer = styled.div`
@@ -137,7 +135,12 @@ const Player = ({
           <BackGroundContainer $expanded={expanded}>
             <PlayerContainer $expanded={expanded}>
               <StyledPlayer>
-                <Profile image={musicData.image_url} size={250} radius={12} />
+                <Profile
+                  image={musicData.image_url}
+                  size={250}
+                  radius={12}
+                  alt={"Cover Image"}
+                />
                 <ButtonContainer>
                   <Button
                     onClick={(event: React.MouseEvent) => {
@@ -145,14 +148,16 @@ const Player = ({
                       handleLikeClick(musicData.musicId, musicData.liked);
                     }}
                   >
-                    {musicData.liked ? <Liked /> : <Disliked />}
+                    <Liked
+                      fill={musicData.liked ? "#FF7777" : "none"}
+                      stroke={musicData.liked ? "none" : "#212121"}
+                    />
                   </Button>
                   <Button onClick={handleCommentBtnClick}>
-                    {!expanded ? (
-                      <LineComment stroke="#212121" />
-                    ) : (
-                      <CommentIcon fill="#84CBFF" />
-                    )}
+                    <CommentIcon
+                      stroke={expanded ? "none" : "#212121"}
+                      fill={expanded ? "#84CBFF" : "none"}
+                    />
                   </Button>
                 </ButtonContainer>
                 <PlayInfo>

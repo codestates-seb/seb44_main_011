@@ -10,6 +10,7 @@ import { useState, useEffect, useRef } from "react";
 import { CommentData } from "../types/Comment";
 import Empty from "./Empty";
 import { api } from "../utils/Url";
+import saveNewToken from "../utils/saveNewToken";
 
 const CommentListContainer = styled.div`
   border-radius: 15px;
@@ -191,6 +192,9 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
         requestData
       );
 
+      const accessToken = response.headers["authorization"] || null;
+      saveNewToken(accessToken);
+
       if (response.status === 200) {
         setEditCommentId(null);
         setIsCommentChanged(true);
@@ -222,9 +226,13 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
         `musics/${musicId}/comments`,
         requestData
       );
-      console.log(response.data);
+
       setCommentInput("");
       setIsInputActive(false);
+
+      const accessToken = response.headers["authorization"] || null;
+      saveNewToken(accessToken);
+
       if (response.status === 201) {
         setIsCommentChanged(true);
       }
@@ -258,16 +266,24 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
   const handleDelete = async (event: React.MouseEvent, commentId: number) => {
     event.stopPropagation();
 
-    try {
-      const response = await api.delete(
-        `musics/${musicId}/comments/${commentId}`
-      );
-      if (response.status === 200) {
-        setIsCommentChanged(true);
+    const confirmed = window.confirm("댓글을 삭제하시겠습니까?");
+
+    if (confirmed) {
+      try {
+        const response = await api.delete(
+          `musics/${musicId}/comments/${commentId}`
+        );
+
+        const accessToken = response.headers["authorization"] || null;
+        saveNewToken(accessToken);
+
+        if (response.status === 200) {
+          setIsCommentChanged(true);
+        }
+      } catch (error) {
+        console.error(error);
+        alert("댓글 삭제에 실패했습니다.");
       }
-    } catch (error) {
-      console.error(error);
-      alert("댓글 삭제에 실패했습니다.");
     }
   };
 
@@ -334,28 +350,28 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
                   </WriteBtn>
                 </ButtonContainer>
               ) : (
-                // Number(memberId) === comment.memberId && (
-                <>
-                  <ButtonContainer>
-                    <IconBtn
-                      onClick={() =>
-                        handleEdit(comment.commentId, comment.comment)
-                      }
-                    >
-                      <EditIcon type="button" fill="#F5F6F6" />
-                    </IconBtn>
-                    <IconBtn type="button">
-                      <DeleteIcon
-                        fill="#F5F6F6"
-                        onClick={(event: React.MouseEvent) =>
-                          handleDelete(event, comment.commentId)
+                Number(memberId) === comment.memberId && (
+                  <>
+                    <ButtonContainer>
+                      <IconBtn
+                        onClick={() =>
+                          handleEdit(comment.commentId, comment.comment)
                         }
-                      />
-                    </IconBtn>
-                  </ButtonContainer>
-                  <Time>{calculateTimeAgo(comment.createdAt)}</Time>
-                </>
-                // )
+                      >
+                        <EditIcon type="button" fill="#F5F6F6" />
+                      </IconBtn>
+                      <IconBtn type="button">
+                        <DeleteIcon
+                          fill="#F5F6F6"
+                          onClick={(event: React.MouseEvent) =>
+                            handleDelete(event, comment.commentId)
+                          }
+                        />
+                      </IconBtn>
+                    </ButtonContainer>
+                    <Time>{calculateTimeAgo(comment.createdAt)}</Time>
+                  </>
+                )
               )}
             </CommentList>
           ))
