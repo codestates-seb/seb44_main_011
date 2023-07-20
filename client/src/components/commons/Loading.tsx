@@ -10,7 +10,7 @@ const LoadingWrapper = styled.div`
   align-items: center;
   font-family: var(--font-gaegu);
   font-size: 20px;
-  margin: 0 auto;
+  margin: 48px auto;
 `;
 function Loading() {
   return (

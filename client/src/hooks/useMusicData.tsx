@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { GetPublicMusic, api } from "../utils/Url";
 import { Music } from "../types/Music";
+import saveNewToken from "../utils/saveNewToken";
 
 type useMusicDataProps = {
   selectedMusic: Music | null;
@@ -35,6 +36,10 @@ const useMusicData = (isDogpli?: string): useMusicDataProps => {
             },
           }
         );
+
+        const accessToken = response.headers["authorization"] || null;
+        saveNewToken(accessToken);
+
         if (response.status === 200) {
           setSelectedMusic(response.data ?? null);
         } else {

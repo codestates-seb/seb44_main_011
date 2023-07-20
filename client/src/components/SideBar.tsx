@@ -6,10 +6,14 @@ import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg"
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import DogLogo from "../../src/assets/imgs/doglogo.png";
+import CatLogo from "../../src/assets/imgs/catlogo.png";
 import { ReactComponent as More } from "../assets/icons/more.svg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../redux/RootStore";
+import { setCurrentTag } from "../redux/tagSlice";
 
 interface ViewMoreProps {
   rotated: boolean;
@@ -28,6 +32,12 @@ function SideBar() {
   const location = useLocation();
 
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
+
+  const dispatch = useDispatch();
+
+  const isDogpli = useSelector((state: RootState) => state.home.isDogpli);
+
+  // const currentTag = useSelector((state: RootState) => state.tags.currentTag); 클릭한 태그 글자 색 변경시 사용하시면 돼요
 
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
@@ -61,6 +71,11 @@ function SideBar() {
   // 드롭다운 메뉴를 닫는 함수
   const closeDropdownMenu = () => {
     setIsTagsMenuOpen(false);
+  };
+
+  const handleTagClick = (event: React.MouseEvent<HTMLElement>) => {
+    const id = (event.target as HTMLElement).id;
+    dispatch(setCurrentTag(id));
   };
 
   useEffect(() => {
@@ -102,7 +117,7 @@ function SideBar() {
       <RootWrapper>
         <NavLogo>
           <NaN_0001>
-            <DogLogoImg src={DogLogo} />
+            <LogoImg src={isDogpli === "dog" ? DogLogo : CatLogo} alt="Logo" />
           </NaN_0001>
         </NavLogo>
         <Nav>
@@ -128,19 +143,27 @@ function SideBar() {
             />
           </NavMylist>
         </SideDiv>
-        <Link className="tags" to="/tags">
+        <TagContainer className="tags">
           <NavTags id="tags" onClick={handleTagsMenuClick}>
             <Tags>Tags</Tags>
             <TagImg fill={currentMenu === "tags" ? "#84BCFF" : "#B4B4B7"} />
             <ViewMore fill="#B4B4B7" rotated={isTagsMenuOpen} />
           </NavTags>
           <DropdownMenu hidden={!isTagsMenuOpen}>
-            <MenuItem>Tag 1</MenuItem>
-            <MenuItem>Tag 2</MenuItem>
-            <MenuItem>Tag 3</MenuItem>
-            <MenuItem>Tag 4</MenuItem>
+            <MenuItem id="calm" onClick={handleTagClick}>
+              CALM
+            </MenuItem>
+            <MenuItem id="realxing" onClick={handleTagClick}>
+              RELAXING
+            </MenuItem>
+            <MenuItem id="upbeat" onClick={handleTagClick}>
+              UPBEAT
+            </MenuItem>
+            <MenuItem id="serene" onClick={handleTagClick}>
+              SERENE
+            </MenuItem>
           </DropdownMenu>
-        </Link>
+        </TagContainer>
 
         <SideDiv className="mypage" onClick={() => Navigate("mypage")}>
           <NavMypage id="mypage" onClick={() => handleClickMenu("mypage")}>
@@ -188,15 +211,18 @@ const fadeInAnimation = keyframes`
   }
 `;
 
+const TagContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+`;
+
 const DropdownMenu = styled.div`
-  position: absolute;
-  top: 23%;
-  left: 0;
+  display: flex;
   width: 100%;
   border-radius: 4px;
   background-color: rgb(240, 243, 243);
   // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 10;
   display: ${(props) =>
     props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
   flex-direction: column;
@@ -232,12 +258,13 @@ const SideDiv = styled.div`
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
   border: solid 1px rgba(255, 255, 255, 0.16);
-  position: sticky;
+  position: fixed;
   box-shadow: 0px 4px 5px 2px rgba(217, 217, 217, 0.5);
   width: 245px;
   min-width: 245px;
   max-width: 350px;
   display: flex;
+  height: 100vh;
 `;
 const Nav = styled.div`
   overflow: hidden;
@@ -252,8 +279,6 @@ const Nav = styled.div`
 const InputField = styled.input`
   border: none;
   position: relative;
-  left: 0px;
-  top: 0px;
   height: 30px;
   width: 139px;
   outline: none;
@@ -284,7 +309,7 @@ const NaN_0001 = styled.div`
   right: 17px;
 `;
 
-const DogLogoImg = styled.img`
+const LogoImg = styled.img`
   object-fit: cover;
   position: absolute;
   left: -16px;
@@ -390,7 +415,7 @@ const ButtonWrapper = styled.div`
   height: 40px;
   position: absolute;
   left: calc((calc((50% + 1px)) - 93px));
-  top: 743px;
+  top: calc(88vh);
   display: flex;
   justify-content: center;
   align-items: center;

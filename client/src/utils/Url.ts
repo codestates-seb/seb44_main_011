@@ -23,10 +23,9 @@ export const api: AxiosInstance = axios.create({
   timeout: 1000,
   headers: {
     Authorization: localStorage.getItem("accessToken") || "",
-    "x-refresh-token": localStorage.getItem("refresh") || "",
+    Refresh: localStorage.getItem("refresh") || "",
     "Content-Type": "application/json",
   },
 });
 
 export const Google_URL = `${BaseURL}/login/oauth2/code/google`;
-

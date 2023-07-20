@@ -8,6 +8,7 @@ import MyList from "./pages/MyList";
 import { styled } from "styled-components";
 import Oauth from "./pages/Oauth";
 import MyPage from "./pages/MyPage";
+import Upload from "./pages/Upload";
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -28,6 +29,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/mypage/edit" element={<Edit />} />
             <Route path="/oauth" element={<Oauth />} />
+            <Route path="/mypage/upload" element={<Upload />} />
           </Routes>
         </MainContent>
       </MainWrapper>

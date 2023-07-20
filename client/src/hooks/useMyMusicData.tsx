@@ -2,6 +2,7 @@ import { api } from "../utils/Url";
 import { useState, useEffect } from "react";
 import { Music } from "../types/Music";
 import { PageInfo } from "../types/PageInfo";
+import saveNewToken from "../utils/saveNewToken";
 
 type MusicListData = {
   data: Music[];
@@ -9,7 +10,7 @@ type MusicListData = {
 };
 
 const useMyMusicData = (
-  isLikedClick: boolean,
+  isLikedClick?: boolean,
   currentPage?: number
 ): MusicListData => {
   const [musicList, setMusicList] = useState<MusicListData>({
@@ -24,7 +25,7 @@ const useMyMusicData = (
       try {
         const response = await api.get<MusicListData>(`/playlist/${memberId}`, {
           params: {
-            page: currentPage,
+            page: currentPage ? currentPage : 1,
           },
         });
         setMusicList(
@@ -33,6 +34,8 @@ const useMyMusicData = (
             pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
           }
         );
+        const accessToken = response.headers["authorization"] || null;
+        saveNewToken(accessToken);
       } catch (error) {
         console.error(error);
         setMusicList({

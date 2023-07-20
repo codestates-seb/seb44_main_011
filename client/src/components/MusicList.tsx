@@ -1,23 +1,27 @@
 import { styled } from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ReactComponent as Liked } from "../assets/icons/liked.svg";
 import { ReactComponent as Disliked } from "../assets/icons/disliked.svg";
+import { ReactComponent as DeleteIcon } from "../assets/icons/linedelete.svg";
 import { Music } from "../types/Music";
 import Empty from "./Empty";
 import Profile from "./commons/Profile";
 import testImg from "../assets/imgs/testimg.jpg";
+import Loading from "./commons/Loading";
+import { BaseURL } from "../utils/Url";
+import axios from "axios";
 
 const MusicListsContainer = styled.div`
   height: 420px;
   width: 100%;
   flex-shrink: 0;
 `;
-const StyledMusicList = styled.div<{ $active: string }>`
+const StyledMusicList = styled.div<{ $active: boolean }>`
   width: 100%;
   border-radius: 10px;
   border: 1px solid var(--gray-200);
   background: ${(props) =>
-    props.$active === "true" ? "var(--gray-300)" : "var(--gray-100)"};
+    props.$active ? "var(--gray-300)" : "var(--gray-100)"};
   display: flex;
   align-items: center;
   font-family: var(--font-quicksand);
@@ -43,7 +47,11 @@ const StyledMusicList = styled.div<{ $active: string }>`
   }
 `;
 
-const LikeButton = styled.button`
+const ButtonContainer = styled.div`
+  gap: 16px;
+`;
+
+const Button = styled.button`
   border: none;
   background: transparent;
   cursor: pointer;
@@ -66,47 +74,93 @@ type MusicListProps = {
   musicList: Music[] | [];
   handleLike: (musicId: number, liked?: boolean) => void;
   handleMusic?: (musicId: number) => void;
+  isDogpli?: string;
+  loading?: boolean;
+  setIsLikedClick: (value: boolean) => void;
 };
 
 export const MusicList: React.FC<MusicListProps> = ({
   musicList,
   handleLike,
   handleMusic,
+  isDogpli,
+  loading,
+  setIsLikedClick,
 }) => {
   const [clickedMusicId, setClickedMusicId] = useState<number | null>(null);
+  const [active, setActive] = useState(true);
 
   const handleLikeClick = (musicId: number, liked?: boolean) => {
     handleLike(musicId, liked);
   };
 
+  const memberId = localStorage.getItem("memberId");
+
   const handleMusicClick = (musicId: number) => {
     if (handleMusic) {
       handleMusic(musicId);
       setClickedMusicId(musicId);
+      setActive(true);
     }
   };
 
+  const handleDeleteClick = async (musicId: number) => {
+    const confirmed = window.confirm("음악을 삭제하시겠습니까?");
+
+    if (confirmed) {
+      try {
+        const response = await axios.delete(
+          `${BaseURL}/admin/music/id/${musicId}`
+        );
+        if (response.status === 204) {
+          setIsLikedClick(true);
+        }
+      } catch (error) {
+        console.error(error);
+        alert("음악 삭제에 실패했습니다.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    setActive(false);
+  }, [isDogpli]);
+
   return (
     <MusicListsContainer>
-      {musicList?.length ? (
+      {loading ? (
+        <Loading />
+      ) : musicList?.length ? (
         musicList.map((music) => (
           <StyledMusicList
             key={music.musicId}
             onClick={() => handleMusicClick(music.musicId)}
-            $active={(clickedMusicId === music.musicId).toString()}
+            $active={clickedMusicId === music.musicId && active}
           >
-            <Profile image={testImg} size={40} radius={4} />
+            <Profile image={testImg} size={40} radius={4} alt={"Cover Image"} />
             <Title>{music.title}</Title>
             <Tag>{music.tags}</Tag>
             <span>{music.playtime}</span>
-            <LikeButton
-              onClick={(event: React.MouseEvent) => {
-                event.stopPropagation();
-                handleLikeClick(music.musicId, music.liked);
-              }}
-            >
-              {music.liked ? <Liked /> : <Disliked />}
-            </LikeButton>
+            <ButtonContainer>
+              <Button
+                onClick={(event: React.MouseEvent) => {
+                  event.stopPropagation();
+                  handleLikeClick(music.musicId, music.liked);
+                }}
+              >
+                {music.liked ? <Liked /> : <Disliked />}
+              </Button>
+              {memberId === "30" && (
+                <Button
+                  onClick={(event: React.MouseEvent) => {
+                    event.stopPropagation();
+                    handleDeleteClick(music.musicId);
+                  }}
+                >
+                  <DeleteIcon stroke="#212121" />
+                </Button>
+              )}
+            </ButtonContainer>
           </StyledMusicList>
         ))
       ) : (

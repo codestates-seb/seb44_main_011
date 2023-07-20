@@ -137,7 +137,12 @@ const Player = ({
           <BackGroundContainer $expanded={expanded}>
             <PlayerContainer $expanded={expanded}>
               <StyledPlayer>
-                <Profile image={musicData.image_url} size={250} radius={12} />
+                <Profile
+                  image={musicData.image_url}
+                  size={250}
+                  radius={12}
+                  alt={"Cover Image"}
+                />
                 <ButtonContainer>
                   <Button
                     onClick={(event: React.MouseEvent) => {
