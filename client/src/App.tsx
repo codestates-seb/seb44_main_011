@@ -8,6 +8,8 @@ import MyList from "./pages/MyList";
 import { styled } from "styled-components";
 import Oauth from "./pages/Oauth";
 import MyPage from "./pages/MyPage";
+import Intro from "./pages/Intro";
+import { useState, useEffect } from "react";
 
 const MainWrapper = styled.main`
   width: 100%;
@@ -16,20 +18,40 @@ const MainWrapper = styled.main`
 `;
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    const memberId = localStorage.getItem("memberId");
+    if (memberId) {
+      setIsLogin(true);
+    } else setIsLogin(false);
+  }, []);
+
   return (
     <BrowserRouter>
       <MainWrapper>
-        <SideBar />
-        <MainContent>
-          <Routes>
-            <Route path="/mylist" element={<MyList />} />
-            <Route path="/mypage" element={<MyPage />} />
-            <Route path="/tags" element={<Tags />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/mypage/edit" element={<Edit />} />
-            <Route path="/oauth" element={<Oauth />} />
-          </Routes>
-        </MainContent>
+        <Routes>
+          {/* Intro 컴포넌트에서는 SideBar를 렌더링하지 않음 */}
+          <Route path="/" element={<Intro />} />
+          {/* 다른 페이지들에서는 SideBar를 렌더링 */}
+          <Route
+            path="/*"
+            element={
+              <>
+                <SideBar />
+                <MainContent>
+                  <Routes>
+                    <Route path="/home" element={<Home />} />
+                    <Route path="/mylist" element={<MyList />} />
+                    <Route path="/mypage" element={<MyPage />} />
+                    <Route path="/tags" element={<Tags />} />
+                    <Route path="/mypage/edit" element={<Edit />} />
+                    <Route path="/oauth" element={<Oauth />} />
+                  </Routes>
+                </MainContent>
+              </>
+            }
+          />
+        </Routes>
       </MainWrapper>
     </BrowserRouter>
   );
