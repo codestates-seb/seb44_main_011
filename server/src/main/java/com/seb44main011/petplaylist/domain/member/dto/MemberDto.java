@@ -55,7 +55,7 @@ public class MemberDto {
                 message = "닉네임은 2 ~ 7자 사이여야 합니다.")
         private String name;
 
-        private String profile;
+        private String profileUrl;
     }
 
     @Getter
@@ -103,6 +103,6 @@ public class MemberDto {
     public static class PatchResponse {
         private String email;
         private String name;
-        private String profile;
+        private String profileUrl;
     }
 }

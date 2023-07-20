@@ -13,6 +13,7 @@ const CategoryContainer = styled.button<{
   fontSize: string;
   fontWeight: string;
 }>`
+  cursor: pointer;
   border: 0;
   background-color: transparent;
   display: flex;

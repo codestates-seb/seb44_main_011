@@ -35,7 +35,6 @@ public class MemberController {
         Member createdMember = memberService.createMember(member);
         URI location = UriCreator.createUri("/api/members",createdMember.getMemberId());
 
-
         return ResponseEntity.created(location).body(memberMapper.memberToMemberDtoSignUpResponse(createdMember));
     }
 
@@ -54,7 +53,6 @@ public class MemberController {
                                     @PathVariable("member-id") @Positive long memberId) {
         Member findMember = memberService.findMember(memberId);
         MemberDto.MyPageResponse myPageResponse = memberMapper.memberToMyPageResponse(findMember);
-
         URI location = UriCreator.createUri("/api/members", findMember.getMemberId());
 
         return ResponseEntity.ok().location(location).body(myPageResponse);
@@ -70,11 +68,15 @@ public class MemberController {
         return ResponseEntity.ok().location(location).build();
     }
 
+    @GetMapping(value = "/api/members")
+    public ResponseEntity getProfileImage() {
+        return ResponseEntity.ok(memberService.findProfileImage());
+    }
+
 //    @PostMapping(value = "/api/members/{member-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 //    public ResponseEntity setMemberProfile(@AuthenticationName String email, @RequestPart(value = "file") MultipartFile profileImage) {
 //        log.info("profileImage : {}", profileImage.getOriginalFilename());
 //        memberService.setMemberProfileImage(email, profileImage);
-//
 //
 //        return ResponseEntity.ok().build();
 //    }

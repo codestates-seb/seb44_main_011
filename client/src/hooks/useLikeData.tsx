@@ -1,9 +1,10 @@
 import { api } from "../utils/Url";
 import { Music } from "../types/Music";
+import saveNewToken from "../utils/saveNewToken";
 
 type useLikeDataProps = {
   setIsLikedClick: React.Dispatch<React.SetStateAction<boolean>>;
-  handleMusic: (musicId: number) => void;
+  handleMusic?: (musicId: number) => void;
   selectedMusic?: Music | null;
 };
 
@@ -26,10 +27,11 @@ const useLikeData = ({
             musicId: musicId,
           },
         });
-
+        const accessToken = response.headers["authorization"] || null;
+        saveNewToken(accessToken);
         if (response.status === 201 || response.status === 204) {
           setIsLikedClick(true);
-          selectedMusic && handleMusic(selectedMusic.musicId);
+          if (selectedMusic && handleMusic) handleMusic(selectedMusic.musicId);
         } else {
           console.error("좋아요 처리에 실패했습니다.");
         }
