@@ -98,12 +98,12 @@ public class MemberControllerTest {
     public void patchMemberTest() throws Exception {
         String context = gson.toJson(MemberDto.Patch.builder()
                 .name("내가진짜홍길동")
-                .profile("수정된 프로필 이미지")
+                .profileUrl("url-1")
                 .build());
         MemberDto.PatchResponse response = MemberDto.PatchResponse.builder()
                 .email(MemberTestData.MockMember.getMemberData().getEmail())
                 .name("내가진짜홍길동")
-                .profile("수정된 프로필 이미지")
+                .profileUrl("수정된 프로필 이미지")
                 .build();
         BDDMockito.given(memberService.updateMember(Mockito.anyLong(), Mockito.any(MemberDto.Patch.class))).willReturn(testMember);
         BDDMockito.given(memberMapper.memberToMemberDtoPatchResponse(Mockito.any(Member.class))).willReturn(response);
@@ -126,12 +126,12 @@ public class MemberControllerTest {
                                         )
                                         .requestFields(
                                                 PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("닉네임"),
-                                                PayloadDocumentation.fieldWithPath("profile").type(JsonFieldType.STRING).description("프로필 이미지")
+                                                PayloadDocumentation.fieldWithPath("profileUrl").type(JsonFieldType.STRING).description("프로필 이미지")
                                         )
                                         .responseFields(
                                                 PayloadDocumentation.fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),
                                                 PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("닉네임"),
-                                                PayloadDocumentation.fieldWithPath("profile").type(JsonFieldType.STRING).type(JsonFieldType.STRING).description("변경된 프로필 이미지")
+                                                PayloadDocumentation.fieldWithPath("profileUrl").type(JsonFieldType.STRING).type(JsonFieldType.STRING).description("변경된 프로필 이미지")
                                         )
                                         .build()
                         )

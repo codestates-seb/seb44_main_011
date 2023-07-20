@@ -68,6 +68,11 @@ public class MemberController {
         return ResponseEntity.ok().location(location).build();
     }
 
+    @GetMapping(value = "/api/members")
+    public ResponseEntity getProfileImage() {
+        return ResponseEntity.ok(memberService.findProfileImage());
+    }
+
 //    @PostMapping(value = "/api/members/{member-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 //    public ResponseEntity setMemberProfile(@AuthenticationName String email, @RequestPart(value = "file") MultipartFile profileImage) {
 //        log.info("profileImage : {}", profileImage.getOriginalFilename());
