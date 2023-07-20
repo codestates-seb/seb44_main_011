@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,8 +36,9 @@ public class MemberService {
         Member foundMember = findMember(memberId);
         Optional.ofNullable(patchMember.getName())
                 .ifPresent(foundMember::updateName);
-        Optional.ofNullable(patchMember.getProfile())
-                .ifPresent(foundMember::updateProfile);
+//        Optional.ofNullable(patchMember.getProfileUrl())
+//                .ifPresent(foundMember::updateProfile);
+        foundMember.updateProfile(Member.Profile.valueOf(patchMember.getProfileUrl()));
 
         return memberRepository.save(foundMember);
     }
@@ -66,6 +69,15 @@ public class MemberService {
         } else {
             throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH);
         }
+    }
+
+    public List<String> findProfileImage() {
+        List<String> profileList = new ArrayList<>();
+        for (Member.Profile profile : Member.Profile.values()) {
+            profileList.add(profile.getProfileUrl());
+        }
+
+        return profileList;
     }
 
     public void verifyExistsEmail(String email) {
