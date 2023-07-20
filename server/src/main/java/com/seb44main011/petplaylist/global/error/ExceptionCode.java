@@ -14,6 +14,7 @@ public enum ExceptionCode {
     ACCOUNT_RESTRICTED(403,"oauth account Member"),
     MEMBER_NOT_FOUND(404, "Member not found"),
     MEMBER_EXISTS(409,"Member EXISTS"),
+    ALREADY_OAUTH_MEMBER(409, "This email already used in OAuth2"),
     MEMBER_MISMATCH(403,"The login Member and the author are different"),
     MEMBER_WITHDRAWN(409, "Already with drawn Member"),
     MUSIC_NOT_FOUND(404,"Music not found"),
