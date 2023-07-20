@@ -20,4 +20,12 @@ public class UriCreator {
                 .build()
                 .toUri();
     }
+    public static URI createToparamUri(String defaultUrl,long page) {
+        return UriComponentsBuilder
+                .newInstance()
+                .path(defaultUrl)
+                .queryParam("page",page)
+                .build()
+                .toUri();
+    }
 }
