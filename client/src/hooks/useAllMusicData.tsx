@@ -4,6 +4,7 @@ import { Music } from "../types/Music";
 import { PageInfo } from "../types/PageInfo";
 import { GetPublicPlaylist } from "../utils/Url";
 import { api } from "../utils/Url";
+import saveNewToken from "../utils/saveNewToken";
 
 type MusicListData = {
   data: Music[];
@@ -13,7 +14,9 @@ type MusicListData = {
 const useAllMusicData = (
   isDogpli: string,
   currentPage: number,
-  isLikedClick: boolean
+  isTopChart: string,
+  isLikedClick: boolean,
+  currentTag?: string
 ): MusicListData => {
   const [musicList, setMusicList] = useState<MusicListData>({
     data: [],
@@ -31,6 +34,8 @@ const useAllMusicData = (
             {
               params: {
                 page: currentPage,
+                ...(isTopChart === "new" ? { sort: isTopChart } : {}),
+                ...(currentTag ? { tags: currentTag } : {}),
               },
             }
           );
@@ -45,10 +50,14 @@ const useAllMusicData = (
             {
               params: {
                 page: currentPage,
+                ...(isTopChart === "new" ? { sort: isTopChart } : {}),
+                ...(currentTag ? { tags: currentTag } : {}),
               },
             }
           );
           setMusicList(response.data || { data: [] });
+          const accessToken = response.headers["authorization"] || null;
+          saveNewToken(accessToken);
         } catch (error) {
           console.error(error);
         }
@@ -56,7 +65,7 @@ const useAllMusicData = (
     };
 
     fetchData();
-  }, [isDogpli, currentPage, isLikedClick]);
+  }, [isDogpli, currentPage, isLikedClick, currentTag, isTopChart]);
 
   return musicList;
 };

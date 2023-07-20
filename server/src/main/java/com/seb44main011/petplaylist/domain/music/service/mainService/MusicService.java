@@ -1,5 +1,6 @@
 package com.seb44main011.petplaylist.domain.music.service.mainService;
 
+import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+
 
 @Service
 @Slf4j
@@ -52,15 +54,38 @@ public class MusicService  {
     }
 
     public void deleteMusicFile(long musicId) {
-        Music findMusic = findMusic(musicId);
-        convertMusicStatus(findMusic);
+        Music activeMusic = findMusicAnyStatus(musicId);
+        convertMusicStatusByInActive(activeMusic);
 
     }
 
-    private void convertMusicStatus(Music music) {
+    public void revertMusicFile(long musicId){
+        Music disableMusic = findMusicAnyStatus(musicId);
+        convertMusicStatusByActive(disableMusic);
+    }
+    public Music findMusicAnyStatus(long musicId) {
+        return repository.findById(musicId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND)
+        );
+    }
+    public Music findMusicAnyStatus(String title) {
+        return repository.findByTitle(title).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND)
+        );
+    }
+    private void convertMusicStatusByInActive(Music music) {
         if (music.getStatus().equals(Music.Status.ACTIVE)) {
-            storageService.deactivateFile(music);
+            storageService.convertFileStatus(music);
             music.convertStatus(Music.Status.INACTIVE);
+        }else {
+            throw new BusinessLogicException(ExceptionCode.HIDDEN_MUSIC);
+        }
+        repository.save(music);
+    }
+    private void convertMusicStatusByActive(Music music) {
+        if (music.getStatus().equals(Music.Status.INACTIVE)) {
+            storageService.convertFileStatus(music);
+            music.convertStatus(Music.Status.ACTIVE);
         }else {
             throw new BusinessLogicException(ExceptionCode.HIDDEN_MUSIC);
         }
@@ -74,13 +99,13 @@ public class MusicService  {
 
     @Transactional(readOnly = true)
     public Page<Music> findMusicListAll(int page,String sortValue){
-        Pageable pageable = getPageInfo(page,sortValue);
-        return repository.findAll(pageable);
+        Pageable pageable = getPageInfo(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,sortValue);
+        return repository.findAllByStatus(Music.Status.ACTIVE,pageable);
     }
 
     @Transactional(readOnly = true)
     public Page<Music> findCategoryAndTagsPageMusic(Music.Category category, String tags, int page) {
-        Pageable pageable = getPageInfo(page,"view");
+        Pageable pageable = getPageInfo(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"view");
         if (tags == null){
             return repository.findByCategoryAndStatus(category, Music.Status.ACTIVE,pageable);
         }
@@ -96,7 +121,7 @@ public class MusicService  {
 
     @Transactional(readOnly = true)
     public Music findMusic(long musicId){
-        return findMusicByTitle(musicId);
+        return findMusicById(musicId);
     }
 
 
@@ -114,16 +139,21 @@ public class MusicService  {
         Music music = repository.findByTitle(musicTitle)
                 .orElseThrow(()->
                         new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
+        return checkByActiveMusic(music);
+    }
+
+    private Music findMusicById(long musicId) {
+        Music music = repository.findById(musicId)
+                .orElseThrow(()->
+                        new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
+        return checkByActiveMusic(music);
+    }
+
+    private static Music checkByActiveMusic(Music music) {
         if (music.getStatus().equals(Music.Status.INACTIVE)){
             throw new BusinessLogicException(ExceptionCode.HIDDEN_MUSIC);
         }
         return music;
-    }
-
-    private Music findMusicByTitle(long musicId) {
-        return repository.findById(musicId)
-                .orElseThrow(()->
-                        new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND));
     }
 
     private Music saveMusic(Music music){
@@ -131,34 +161,28 @@ public class MusicService  {
     }
 
 
-//    @SneakyThrows
-//    private void saveUploadS3(List<MultipartFile> files, Music music) {
-//
-//
-//    }
-
-//    private static void updateMusicToS3Data(Music music) {
-//        music.insertMusic_url(saveUploadFile.get("music_url"));
-//        music.insertImage_url(saveUploadFile.get("image_url"));
-//        if (saveUploadFile.containsKey("playtime")) {
-//            music.insertPlaytime(saveUploadFile.get("playtime"));
-//        }
-//    }
-
-    private static Pageable getPageInfo(int page,String sortValue) {
+    private static Pageable getPageInfo(int page,int size,String sortValue) {
 
         if (sortValue.equalsIgnoreCase("view"))
-            return PageNationCreator.getPageOfDesc(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"view");
+            return PageNationCreator.getPageOfDesc(page,size,"view");
         else if (sortValue.equalsIgnoreCase("new")){
-            return PageNationCreator.getPageOfDesc(page, PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"musicId" );
+            return PageNationCreator.getPageOfDesc(page, size,"musicId" );
         }
         else if(sortValue.equalsIgnoreCase("old")) {
-            return PageNationCreator.getPageOfASC(page, PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX, "musicId");
+            return PageNationCreator.getPageOfASC(page, size, "musicId");
         }
         throw new BusinessLogicException(ExceptionCode.BAD_REQUEST_SORT_DATA);
 
     }
 
 
+    public Page<Music> findMusicListAllFromAdmin(int page,int size,String sort) {
+            Pageable pageable = getPageInfo(page,size,sort);
+            return repository.findAll(pageable);
+    }
 
+    public Page<Music> findMusicListAllFromAdminByStatus(Music.Status status,int page, int size, String sort) {
+        Pageable pageable = getPageInfo(page,size,sort);
+        return repository.findAllByStatus(status,pageable);
+    }
 }

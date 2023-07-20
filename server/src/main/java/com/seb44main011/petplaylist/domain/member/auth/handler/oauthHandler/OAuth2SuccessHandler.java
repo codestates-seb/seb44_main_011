@@ -3,6 +3,7 @@ package com.seb44main011.petplaylist.domain.member.auth.handler.oauthHandler;
 import com.seb44main011.petplaylist.domain.member.auth.jwt.DelegateTokenService;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         redirect(request, response, memberData);
     }
 
+    @SneakyThrows
     private void redirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException {
         String accessToken = "Bearer " + delegateTokenService.delegateAccessToken(member);
         String refreshToken = delegateTokenService.delegateRefreshToken(member);
@@ -45,12 +48,26 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         queryParams.add("refresh_token", refreshToken);
         queryParams.add("memberId", String.valueOf(memberId));
 
-        return UriComponentsBuilder.newInstance()
+        return UriComponentsBuilder // 로컬 테스트용
+                .newInstance()
                 .scheme("http")
-                .host("ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com") // TODO: 클라이언트 주소로 변경 필요
-                .path("oauth")
+                .host("localhost")
+                .port(5173)
+                .path("/oauth")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
     }
+    ///oAuht 5173
+
+    //TODO: 서버 용
+
+//    UriComponentsBuilder.newInstance()
+//            .scheme("http")
+////                .host("ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com")
+//                .host("localhost:3000")
+//                .path("/oauth")
+//                .queryParams(queryParams)
+//                .build()
+//                .toUri();
 }

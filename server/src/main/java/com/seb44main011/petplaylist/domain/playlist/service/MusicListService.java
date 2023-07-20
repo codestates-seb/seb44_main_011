@@ -27,6 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 public class MusicListService {
+    //TODO: 노래가 삭제되면 개인의 플레이 리스트에 있는 곡도 안보이게 할건지 보이게는 하되 상세 조회시 에러를 출력하게 할것인지 논의
     private final MusicListRepository repository;
     private final MusicListMapper mapper;
     private final MusicService musicService;
@@ -47,7 +48,7 @@ public class MusicListService {
     }
 
     public List<PlayList> findPersonalMusicLists(long memberId){
-        return repository.findAllByMember_MemberId(memberId);
+        return repository.findAllByMember_MemberIdAndMusicStatus(memberId, Music.Status.ACTIVE);
     }
     public List<PlayList> findPersonalMusicLists(String email){
         return repository.findAllByMember_Email(email);

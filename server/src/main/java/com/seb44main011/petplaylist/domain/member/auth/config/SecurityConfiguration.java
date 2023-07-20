@@ -1,6 +1,7 @@
 package com.seb44main011.petplaylist.domain.member.auth.config;
 
 import com.seb44main011.petplaylist.domain.member.auth.handler.authErrorHandler.MemberAuthenticationEntryPoint;
+import com.seb44main011.petplaylist.domain.member.auth.handler.oauthHandler.OAuth2FailureHandler;
 import com.seb44main011.petplaylist.domain.member.auth.handler.oauthHandler.OAuth2SuccessHandler;
 import com.seb44main011.petplaylist.domain.member.auth.jwt.DelegateTokenService;
 import com.seb44main011.petplaylist.domain.member.auth.jwt.JwtTokenizer;
@@ -44,11 +45,12 @@ public class SecurityConfiguration {
                         .loginPage("/public/oauth/login")
                         .userInfoEndpoint()
                         .userService(oAuth2MemberService)
-                        .and()
-//                        .failureHandler(new )
+                                .and()
                         .successHandler(new OAuth2SuccessHandler(delegateTokenService))
+                                .failureHandler(failureHandler())
                 )
                 .apply(customFilterConfigurers())
+
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers("/public/**").permitAll()
@@ -66,6 +68,10 @@ public class SecurityConfiguration {
     @Bean
     public CustomFilterConfigurer customFilterConfigurers() {
         return new CustomFilterConfigurer(jwtTokenizer, delegateTokenService);
+    }
+    @Bean
+    public OAuth2FailureHandler failureHandler(){
+        return new OAuth2FailureHandler();
     }
 
     @Bean

@@ -48,6 +48,12 @@ server:
   servlet:
     encoding:
       force-response: true
+
+jwt:
+  secret-key: kevin1234123412341234123412341234
+  access-token-expiration: 10
+  refresh-token-expiration: 10080
+
 User:
   mail:
     admin: ADMIN@ADMIN.com
@@ -69,6 +75,7 @@ cloud:
       bucket: My-bucket-name
       dns: S3dns
       disable-path: disable/
+      enable-path: enable/
     region:
       static: ap-northeast-2
     stack:

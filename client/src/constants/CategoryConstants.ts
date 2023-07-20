@@ -11,8 +11,8 @@ export const LIST_CATEGORY = [
     fontWeight: "500",
   },
   {
-    id: "musiclist",
-    text: "MUSICLIST",
+    id: "new",
+    text: "NEWCHART",
     color: "#212121",
     gap: "8",
     fontSize: "24",
