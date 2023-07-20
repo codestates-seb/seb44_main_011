@@ -3,7 +3,13 @@ import Text from "../components/commons/H2Text";
 import { InputContainer, InBox, ErrorMsg } from "../components/commons/Input";
 import Bluebutton from "../components/commons/Bluebutton";
 import Share from "../components/commons/Share";
-import { NameRegEx, EmailRegEx, PasswordRegEx } from "../utils/Check";
+import {
+  NameRegEx,
+  EmailRegEx,
+  PasswordRegEx,
+  PasswordMin,
+  PasswordMax,
+} from "../utils/Check";
 import { useForm } from "react-hook-form";
 import { useRef } from "react";
 import axios from "axios";
@@ -22,7 +28,6 @@ function SignUp() {
     handleSubmit,
     watch,
     formState: { errors },
-    setError,
   } = useForm<FormValues>({ mode: "onBlur" });
 
   const passwordRef = useRef<string | null>(null);
@@ -37,7 +42,16 @@ function SignUp() {
     console.log("signup 데이터: ", dataA);
     await axios
       .post(PostSignUp, dataA)
-      .then((response) => console.log(response))
+      .then((response) => {
+        if (response.status === 201) {
+          alert("회원가입이 완료되었습니다.");
+          window.location.replace("/");
+        } else if (response.status === 409) {
+          alert("중복된 이메일입니다. 다시 진행해주세요.");
+        } else if (response.status === 500) {
+          alert("입력 양식에 맞게 다시 입력해주세요.");
+        }
+      })
       .catch((error) => console.log(error));
   };
   return (
@@ -77,10 +91,18 @@ function SignUp() {
             placeholder="password"
             {...register("password", {
               required: "비밀번호는 필수 입력입니다.",
+              minLength: {
+                value: PasswordMin,
+                message: "비밀번호는 최소 8자 이상이어야 합니다.",
+              },
+              maxLength: {
+                value: PasswordMax,
+                message: "비밀번호는 최대 16자 이하이어야 합니다.",
+              },
               pattern: {
                 value: PasswordRegEx,
                 message:
-                  "비밀번호는 최소 8자 이상 최대 16자 이하이어야 합니다.",
+                  "비밀번호는 최소 영문자 1개와 숫자 1개가 포함되어야 합니다.",
               },
             })}
           />
@@ -91,10 +113,18 @@ function SignUp() {
             placeholder="passwordConfirm"
             {...register("passwordConfirm", {
               required: "비밀번호는 필수 입력입니다.",
+              minLength: {
+                value: PasswordMin,
+                message: "비밀번호는 최소 8자 이상이어야 합니다.",
+              },
+              maxLength: {
+                value: PasswordMax,
+                message: "비밀번호는 최대 16자 이하이어야 합니다.",
+              },
               pattern: {
                 value: PasswordRegEx,
                 message:
-                  "비밀번호는 최소 8자 이상 최대 16자 이하이어야 합니다.",
+                  "비밀번호는 최소 영문자 1개와 숫자 1개가 포함되어야 합니다.",
               },
               validate: {
                 check: (val) => {

@@ -24,24 +24,22 @@ public interface MemberMapper {
     MemberDto.PatchResponse memberToMemberDtoPatchResponse(Member member);
 
     default MemberDto.MyPageResponse memberToMyPageResponse(Member member) {
-        List<PlaylistDto.PublicResponse> musicList = new ArrayList<>();
+        List<PlaylistDto.PublicResponse> musicList = new ArrayList<>(6);
 
-        for (int i = 0; i < 6 ; i++) {
-            Music insertMusic = member.getPlayLists().get(i).getMusic();
-            if (insertMusic == null) {
-                break;
+        if (!member.getPlayLists().isEmpty()) {
+            for (int i = 0; i < 6; i++) {
+                Music insertMusic = member.getPlayLists().get(i).getMusic();
+                musicList.add(PlaylistDto.PublicResponse.builder()
+                        .musicId(insertMusic.getMusicId())
+                        .music_url(insertMusic.getMusic_url())
+                        .image_url(insertMusic.getImage_url())
+                        .playtime(insertMusic.getPlaytime())
+                        .tags(insertMusic.getTags().getTags())
+                        .title(insertMusic.getTitle())
+                        .category(insertMusic.getCategory().getCategory())
+                        .build());
             }
-            else musicList.add(PlaylistDto.PublicResponse.builder()
-                    .musicId(insertMusic.getMusicId())
-                    .music_url(insertMusic.getMusic_url())
-                    .image_url(insertMusic.getImage_url())
-                    .playtime(insertMusic.getPlaytime())
-                    .tags(insertMusic.getTags().getTags())
-                    .title(insertMusic.getTitle())
-                    .category(insertMusic.getCategory().getCategory())
-                    .build());
         }
-
         return MemberDto.MyPageResponse.builder()
                 .email(member.getEmail())
                 .name(member.getName())

@@ -40,24 +40,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PublicPlayListControllerTest extends PublicFieldDescriptor{
+    //TODO: 배포시 자꾸 에라가 나는 이슈가 있음 .. SQL연결 관련 이슈 있다가 없다가 함 ㅋㅋ 해결 해야함.
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private Gson gson;
-
     @MockBean
     private MemberService memberService;
     @MockBean
     private MusicService musicService;
     @MockBean
-    private MusicListService musicListService;
-
-    @MockBean
     private MusicListMapper musicListMapper;
-    @MockBean
-    private S3Service service;
+
 
 
     private final String PUBLIC_PLAYLIST_URL = "/public/playlist";
@@ -74,7 +67,7 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
     public void getAllMusicListTest() throws Exception{
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(2,publicResponseList.size()+6);
 
-        given(musicService.findMusicListAll(Mockito.anyInt())).willReturn(testPageData);
+        given(musicService.findMusicListAll(Mockito.anyInt(),Mockito.anyString())).willReturn(testPageData);
         given(musicListMapper.musicListToPublicResponse(Mockito.anyList())).willReturn(publicResponseList);
 
 
@@ -83,6 +76,7 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
                                 get(PUBLIC_PLAYLIST_URL)
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("page", String.valueOf(testPageData.getNumber()+1))
+                                        .param("sort", "new")
 
                         )
                         .andExpect(status().isOk())
@@ -94,7 +88,8 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
                                                 ResourceSnippetParameters.builder()
                                                         .description("비 로그인 상태 시 전체 플레이 리스트 조회 API")
                                                         .requestParameters(
-                                                                parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자")
+                                                                parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자"),
+                                                                parameterWithName("sort").type(SimpleType.STRING).description("정렬 기준(new,old)").optional()
                                                         )
                                                         .responseFields(
                                                                 getPublicPlayListPage()

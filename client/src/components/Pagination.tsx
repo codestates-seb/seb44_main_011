@@ -10,7 +10,7 @@ const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 10px;
-
+  margin-bottom: 20px;
   button {
     width: 1.25rem;
     height: 1.25rem;

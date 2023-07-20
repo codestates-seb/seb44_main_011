@@ -1,12 +1,7 @@
-import React from "react";
-import SideBar from "../components/SideBar";
+import SideNav from "../components/SideNav";
 
 function Tags() {
-  return (
-    <>
-      <div>Tags</div>
-    </>
-  );
+  return <SideNav />;
 }
 
 export default Tags;

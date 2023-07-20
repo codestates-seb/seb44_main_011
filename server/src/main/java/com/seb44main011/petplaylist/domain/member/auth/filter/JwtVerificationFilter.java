@@ -35,7 +35,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String encodeKey = jwtTokenizer.secretKeyEncodeBase64(jwtTokenizer.getSecretKeyString());
-        String getToken = request.getHeader("Authorization").replace("Bearer", "");
+        String getToken = request.getHeader("Authorization").replace("Bearer ", "");
         try {
 
             Map<String, Object> claims = jwtTokenizer.getClaims(getToken, encodeKey).getBody();
@@ -43,25 +43,26 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             createUsernamePasswordAuthenticationToken(claims, authorities);
         }
         catch (ExpiredJwtException ne) {
-            reDelegeateAccessToken(request, response, encodeKey);
+            reDelegateAccessToken(request, response, encodeKey);
         }
         catch (ClassCastException ce) {
             request.setAttribute("exception", ExceptionCode.ACCESS_DENIED);
 
-        } catch (BusinessLogicException re) {
+        }
+        catch (BusinessLogicException re) {
             request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
-
-        }catch (Exception e) {
+        }
+        catch (Exception e) {
             request.setAttribute("exception", ExceptionCode.UNAUTHORIZED);
         }
 
         filterChain.doFilter(request, response);
     }
 
-    private void reDelegeateAccessToken(HttpServletRequest request, HttpServletResponse response, String encodeKey) {
+    private void reDelegateAccessToken(HttpServletRequest request, HttpServletResponse response, String encodeKey) {
         try {
-            String getTonkenRe = request.getHeader("Refresh");
-            String subject = jwtTokenizer.getSubject(getTonkenRe, encodeKey);
+            String getTokenRe = request.getHeader("Refresh");
+            String subject = jwtTokenizer.getSubject(getTokenRe, encodeKey);
             createUsernamePasswordAuthenticationToken(subject);
             String accessToken =  delegateTokenService.delegateAccessToken(subject);
             response.setHeader("Authorization", "Bearer " + accessToken);
@@ -79,8 +80,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    private static void createUsernamePasswordAuthenticationToken(String subject) {
-        List<GrantedAuthority> authorities =  JwtTokenizer.getADMIN_SUBJECT().equals(subject)
+    private void createUsernamePasswordAuthenticationToken(String subject) {
+        List<GrantedAuthority> authorities =  jwtTokenizer.getADMIN_SUBJECT().equals(subject)
                 ? AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ADMIN", "ROLE_USER", "USER")
                 : AuthorityUtils.createAuthorityList("ROLE_USER", "USER");
         Authentication authentication = new UsernamePasswordAuthenticationToken(subject, null, authorities);
@@ -88,7 +89,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private List<GrantedAuthority> getAuthorities(Map<String, Object> claims) {
-        return JwtTokenizer.getADMIN_SUBJECT().equals(claims.get("email"))
+        return jwtTokenizer.getADMIN_SUBJECT().equals(claims.get("email"))
                 ? AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ADMIN", "ROLE_USER", "USER")
                 : AuthorityUtils.createAuthorityList("ROLE_USER", "USER");
     }

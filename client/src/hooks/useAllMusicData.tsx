@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Music } from "../types/Music";
 import { PageInfo } from "../types/PageInfo";
+import { GetPublicPlaylist } from "../utils/Url";
+import { api } from "../utils/Url";
 
 type MusicListData = {
   data: Music[];
@@ -18,29 +20,38 @@ const useAllMusicData = (
     pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
   });
 
-  // const memberId = localStorage.getItem("memberId");
-  const memberId = 1;
-
   useEffect(() => {
     const fetchData = async () => {
-      let requestPath = `/public/playlist/${isDogpli}s`;
-      if (memberId) {
-        requestPath = `/api/playlist/${isDogpli}s/id/${memberId}`;
-      }
+      const memberId = localStorage.getItem("memberId");
 
-      try {
-        const response = await axios.get(
-          `http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080${requestPath}`,
-          {
-            params: {
-              page: currentPage,
-            },
-          }
-        );
-        console.log(response.data);
-        setMusicList(response.data);
-      } catch (error) {
-        console.error(error);
+      if (!memberId) {
+        try {
+          const response = await axios.get<MusicListData>(
+            `${GetPublicPlaylist}/${isDogpli}s`,
+            {
+              params: {
+                page: currentPage,
+              },
+            }
+          );
+          setMusicList(response.data || { data: [] });
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        try {
+          const response = await api.get<MusicListData>(
+            `/playlist/${isDogpli}s/id/${memberId}`,
+            {
+              params: {
+                page: currentPage,
+              },
+            }
+          );
+          setMusicList(response.data || { data: [] });
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
 
