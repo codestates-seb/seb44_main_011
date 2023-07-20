@@ -48,6 +48,12 @@ server:
   servlet:
     encoding:
       force-response: true
+
+jwt:
+  secret-key: kevin1234123412341234123412341234
+  access-token-expiration: 10
+  refresh-token-expiration: 10080
+
 User:
   mail:
     admin: ADMIN@ADMIN.com
