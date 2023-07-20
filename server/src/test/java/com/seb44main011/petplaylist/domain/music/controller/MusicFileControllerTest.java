@@ -130,20 +130,6 @@ public class MusicFileControllerTest {
                                                         parameterWithName("music-Id").description("음악 식별 Id")
                                                 )
 
-//                                                ,requestParts(
-//                                                        partWithName("img").description("음악 이미지 파일(png,jpg,jpeg)"),
-//                                                        partWithName("mp3").description("음악 mp3 파일"),
-//                                                        partWithName("musicInfo").description("음악 데이터 정보(JSON)")
-//                                                )
-//                                                ,requestPartFields(
-//                                                        "musicInfo",
-//                                                        fieldWithPath("title").type(JsonFieldType.STRING).description("음원 파일의 타이틀(제목)"),
-//                                                        fieldWithPath("tags").type(JsonFieldType.STRING).description("태그('RELAXING','UPBEAT','HAPPY','CALM','SERENE')" ),
-//                                                        fieldWithPath("category").type(JsonFieldType.STRING).description("카테고리('DOGS','CATS')")
-//                                                )
-//                                                ,requestPartBody(
-//                                                        "musicInfo"
-//                                                )
 
                                         )
                         );
