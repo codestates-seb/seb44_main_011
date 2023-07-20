@@ -22,7 +22,9 @@ public enum ExceptionCode {
     MUSIC_EXISTS(409,"Music EXISTS"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
     PASSWORD_MISMATCH(404, "Password is not Correct"),
-    LIKED_MUSIC_EXISTS(409, "Already exists in the personal playlist");
+    LIKED_MUSIC_EXISTS(409, "Already exists in the personal playlist"),
+    ALREADY_INACTIVE_MUSIC(409, "Already inactive Music"),
+    ALREADY_ACTIVE_MUSIC(409, "Already active Music");
 
     @Getter
     private int status;
