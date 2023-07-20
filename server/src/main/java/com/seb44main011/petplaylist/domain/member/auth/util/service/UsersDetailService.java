@@ -35,6 +35,8 @@ public class UsersDetailService implements UserDetailsService {
     private void checkUser(Member member) {
         if (member.getStatus().equals(Member.Status.MEMBER_QUIT)) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_WITHDRAWN);
+        } else if (!member.getOAuthCheck().equals(Member.OAuthCheck.NO_OAUTH)) {
+            throw new BusinessLogicException(ExceptionCode.ALREADY_OAUTH_MEMBER);
         }
     }
 }

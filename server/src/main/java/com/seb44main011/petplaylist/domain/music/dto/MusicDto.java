@@ -71,4 +71,16 @@ public class MusicDto {
         private boolean liked;
 
     }
+    @Getter
+    @Builder
+    public static class AdminResponse{
+        private Long musicId;
+        private String title;
+        private String music_url;
+        private String image_url;
+        private String playtime;
+        private String tags;
+        private String status;
+
+    }
 }

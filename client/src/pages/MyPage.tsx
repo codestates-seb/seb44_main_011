@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useMyMusicData from "../hooks/useMyMusicData";
 import useLikeData from "../hooks/useLikeData";
+import { useLocation } from "react-router-dom";
 
 function MyPage() {
   const [isLikedClick, setIsLikedClick] = useState(false);
+  
+  const loc = useLocation();
+  console.log(loc); // undefined??
 
   const musicList = useMyMusicData(isLikedClick);
 
@@ -21,7 +25,10 @@ function MyPage() {
 
   return (
     <MyPageContainer>
-      <MypageInfo selectedImage={"selectedImage"} />
+      <MypageInfo
+        selectedImage={loc.state?.selectedImage}
+        nickname={loc.state?.nickname}
+      />
       <MyPageTitle>
         <h1>MYLIST</h1>
         <Link to={"/mylist"}>+더보기</Link>

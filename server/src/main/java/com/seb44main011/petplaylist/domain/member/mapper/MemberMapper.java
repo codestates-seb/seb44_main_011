@@ -14,12 +14,8 @@ import java.util.List;
 public interface MemberMapper {
     Member memberDtoSignUpPostToMember(MemberDto.SignUpPost memberDtoSignUpPost);
 
-    Member memberDtoLogInPostToMember(MemberDto.LogInPost memberDtoLogInPost);
-
 
     MemberDto.SignUpResponse memberToMemberDtoSignUpResponse(Member member);
-
-    MemberDto.LogInResponse memberToMemberDtoLogInResponse(Member member);
 
     MemberDto.PatchResponse memberToMemberDtoPatchResponse(Member member);
 

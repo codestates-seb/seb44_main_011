@@ -409,6 +409,16 @@ const ViewMore = styled(More)<ViewMoreProps>`
   transform: ${(props) => (props.rotated ? "rotate(180deg)" : "rotate(0)")};
   transition: transform 0.2s ease;
 `;
+// ViewMore 컴포넌트 스타일 정의
+// const ViewMore = styled(More)`
+//   position: absolute;
+//   left: 80%;
+//   top: -2px;
+//   width: 30px;
+//   height: 30px;
+//   transform: ${(props) => (props.$rotated ? "rotate(180deg)" : "rotate(0)")};
+//   transition: transform 0.2s ease;
+// `;
 
 const ButtonWrapper = styled.div`
   width: 185px;
