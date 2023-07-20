@@ -38,6 +38,14 @@ function ImageModal({ setModalOpen, onSelectImage }: PropsType) {
             onClick={() => handleImageSelect(Sample2)}
             src={Sample2}
           />
+          <SampelImg5
+            onClick={() => handleImageSelect(Sample5)}
+            src={Sample5}
+          />
+          <SampelImg5
+            onClick={() => handleImageSelect(Sample5)}
+            src={Sample5}
+          />
         </ContentWrapper>
         <ContentWrapper>
           <SampelImg3
@@ -47,6 +55,10 @@ function ImageModal({ setModalOpen, onSelectImage }: PropsType) {
           <SampelImg4
             onClick={() => handleImageSelect(Sample4)}
             src={Sample4}
+          />
+          <SampelImg5
+            onClick={() => handleImageSelect(Sample5)}
+            src={Sample5}
           />
           <SampelImg5
             onClick={() => handleImageSelect(Sample5)}
@@ -77,11 +89,11 @@ const FadeIn = styled.div`
 `;
 
 const Container = styled.div`
-  width: 700px;
-  height: 700px;
+  width: 900px;
+  height: 800px;
   z-index: 999;
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #f0f3f3;
