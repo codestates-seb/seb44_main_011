@@ -4,12 +4,16 @@ import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg"
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
 import DogLogo from "../../src/assets/imgs/doglogo.png";
+import CatLogo from "../../src/assets/imgs/catlogo.png";
 import { ReactComponent as More } from "../assets/icons/more.svg";
 import { keyframes, styled } from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../redux/RootStore";
+import { setCurrentTag } from "../redux/tagSlice";
 
 interface NavItemProps {
   isActive: boolean;
@@ -31,6 +35,9 @@ function SideNav() {
   const isLogin = localStorage.getItem("memberId");
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isDogpli = useSelector((state: RootState) => state.home.isDogpli);
+  // const currentTag = useSelector((state: RootState) => state.tags.currentTag); 클릭한 태그 글자 색 변경시 사용하시면 돼요
   const handleClickMenu = (e: any) => {
     setCurrentMenu(e.currentTarget.id);
   };
@@ -95,13 +102,21 @@ function SideNav() {
     }
   };
 
+  const handleTagClick = (event: React.MouseEvent<HTMLElement>) => {
+    const id = (event.target as HTMLElement).id;
+    dispatch(setCurrentTag(id));
+  };
+
   return (
     <>
       <RootWrapper>
         <NavWrapper>
           <UlWrapper>
-            <Link className="logo" to="/">
-              <DogLogoImg src={DogLogo} />
+            <Link className="logo" to="/home">
+              <LogoImg
+                src={isDogpli === "dog" ? DogLogo : CatLogo}
+                alt="Logo"
+              />
             </Link>
             <SearchField>
               <SearchImg fill="#B4B4B7" />
@@ -119,7 +134,7 @@ function SideNav() {
                   onClick={handleClickMenu}
                   isActive={currentMenu === "home"}
                 >
-                  <HomeLink className="home" to="/">
+                  <HomeLink className="home" to="/home">
                     <HomeImg
                       fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"}
                     />
@@ -145,10 +160,18 @@ function SideNav() {
                   />
                 </NavTags>
                 <DropdownMenu hidden={!isTagsMenuOpen}>
-                  <MenuItem>Tag 1</MenuItem>
-                  <MenuItem>Tag 2</MenuItem>
-                  <MenuItem>Tag 3</MenuItem>
-                  <MenuItem>Tag 4</MenuItem>
+                  <MenuItem id="calm" onClick={handleTagClick}>
+                    CALM
+                  </MenuItem>
+                  <MenuItem id="realxing" onClick={handleTagClick}>
+                    RELAXING
+                  </MenuItem>
+                  <MenuItem id="upbeat" onClick={handleTagClick}>
+                    UPBEAT
+                  </MenuItem>
+                  <MenuItem id="serene" onClick={handleTagClick}>
+                    SERENE
+                  </MenuItem>
                 </DropdownMenu>
               </LiWrapper>
               <LiWrapper>
@@ -234,9 +257,10 @@ const fadeInAnimation = keyframes`
 const RootWrapper = styled.div`
   background-color: rgb(240, 243, 243);
   border: solid 1px rgba(255, 255, 255, 0.16);
-  position: sticky;
+  position: fixed;
   box-shadow: 0px 4px 5px 2px rgba(217, 217, 217, 0.5);
   width: 245px;
+  height: 100vh;
   min-width: 245px;
   max-width: 350px;
   display: flex;
@@ -257,7 +281,7 @@ const HomeLink = styled(Link)`
   display: flex;
   align-items: center;
 `;
-const DogLogoImg = styled.img`
+const LogoImg = styled.img`
   // width: 90px;
   // height: 90px;
 `;
