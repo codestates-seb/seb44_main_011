@@ -75,6 +75,7 @@ cloud:
       bucket: My-bucket-name
       dns: S3dns
       disable-path: disable/
+      enable-path: enable/
     region:
       static: ap-northeast-2
     stack:

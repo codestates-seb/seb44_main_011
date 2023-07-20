@@ -40,7 +40,9 @@ public class S3Service extends ByteArrayInputStreamUtil implements StorageServic
     @Value("${cloud.aws.s3.bucket}")
     private  String bucket;
     @Value("${cloud.aws.s3.disable-path}")
-    private  String convertPath;
+    private  String disablePath;
+    @Value("${cloud.aws.s3.enable-path}")
+    private  String enablePath;
 
     private String EXT;
 
@@ -62,36 +64,55 @@ public class S3Service extends ByteArrayInputStreamUtil implements StorageServic
     }
 
     @Override
-    public void deactivateFile(Music music) {
+    public void convertFileStatus(Music music) {
         List<String> urlList= List.of(music.getMusic_url(),music.getImage_url());
         for (String convertUrl: urlList) {
             setExt(convertUrl);
-            String deactivateFile= deactivateS3File(convertUrl);
-            setMusicFileUrl(deactivateFile,music);
+            String convertFile= convertS3File(convertUrl,music.getStatus());
+            setMusicFileUrl(convertFile,music);
         }
     }
 
     @SneakyThrows
-    private String deactivateS3File(String url) {
+    private String convertS3File(String url,Music.Status status) {
         String getOldName = getOldFilePath(url);
-        String getNewName = setConvertFilePath(getOldName);
+        String getNewName = setConvertFilePath(getOldName,status);
         return moveS3(getOldName,getNewName);
     }
 
 
-    private String setConvertFilePath(String musicUrl)  {
-            return convertPath+musicUrl;
+    private String setConvertFilePath(String musicUrl,Music.Status status)  {
+        if (status.equals(Music.Status.ACTIVE)) {
+            if (musicUrl.startsWith("enable/")) {
+                return musicUrl.replaceAll(".*enable/", disablePath);
+            }
+            return disablePath+musicUrl;
+        }
+        else {
+            if (musicUrl.startsWith("disable/")) {
+                return musicUrl.replaceAll(".*disable/", enablePath);
+            }
+        }
+        return enablePath+musicUrl;
+
     }
 
     private String getOldFilePath(String musicUrl) {
         String musicFilePath = S3_SERVER_DNS+BUCKET_MUSIC_PATH;
         String imgFilePath = S3_SERVER_DNS+BUCKET_IMG_PATH;
-        if (musicUrl.startsWith(imgFilePath)){
+        String enableFilePath = S3_SERVER_DNS+enablePath;
+        String disableFilePath = S3_SERVER_DNS+disablePath;
+        if(musicUrl.startsWith(enableFilePath)){
+            return musicUrl.replaceAll(".*/enable/", enablePath);
+        } else if (musicUrl.startsWith(disableFilePath)) {
+            return musicUrl.replaceAll(".*/disable/", disablePath);
+        } else if (musicUrl.startsWith(imgFilePath)){
             return musicUrl.replaceAll(".*/img/", BUCKET_IMG_PATH);
         }
         else if (musicUrl.startsWith(musicFilePath)){
             return musicUrl.replaceAll(".*/music/", BUCKET_MUSIC_PATH);
-        }else {
+        }
+        else {
             throw new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND_INS3);
         }
     }
