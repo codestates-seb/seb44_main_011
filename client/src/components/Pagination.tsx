@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { PageButtons } from "./commons/PageButtons";
 
 type PaginationProps = {
   currentPage: number;
@@ -48,45 +49,11 @@ const Pagination: React.FC<PaginationProps> = ({
     }
   };
 
-  const renderPageButtons = () => {
-    const pageButtons = [];
-
-    pageButtons.push(
-      <button
-        key="prev"
-        onClick={() => handlePageClick(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        &lt;
-      </button>
-    );
-
-    for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-      pageButtons.push(
-        <button
-          key={pageNumber}
-          onClick={() => handlePageClick(pageNumber)}
-          className={pageNumber === currentPage ? "active" : ""}
-        >
-          {pageNumber}
-        </button>
-      );
-    }
-
-    pageButtons.push(
-      <button
-        key="next"
-        onClick={() => handlePageClick(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        &gt;
-      </button>
-    );
-
-    return pageButtons;
-  };
-
-  return <PaginationContainer>{renderPageButtons()}</PaginationContainer>;
+  return (
+    <PaginationContainer>
+      {PageButtons(currentPage, totalPages, handlePageClick)}
+    </PaginationContainer>
+  );
 };
 
 export default Pagination;

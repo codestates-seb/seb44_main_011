@@ -13,6 +13,9 @@ import Pagination from "../components/Pagination";
 import useAllMusicData from "../hooks/useAllMusicData";
 import useMusicData from "../hooks/useMusicData";
 import useLikeData from "../hooks/useLikeData";
+import { setIsDogpli } from "../redux/homeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/RootStore";
 
 const HomeContainer = styled.div`
   display: flex;
@@ -21,7 +24,6 @@ const HomeContainer = styled.div`
   margin: 4vh;
   width: 100%;
   max-width: 1800px;
-  /* min-width: 700px; */
 `;
 
 const HomsListTitle = styled.div`
@@ -34,15 +36,26 @@ const HomsListTitle = styled.div`
 `;
 
 const Home = () => {
-  const [isDogpli, setIsDogpli] = useState(ANIMAL_CATEGORY[0]?.id);
   const [isTopChart, setIsTopChart] = useState(LIST_CATEGORY[0]?.id);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLikedClick, setIsLikedClick] = useState(false);
   const [showMusicList, setShowMusicList] = useState(true);
 
-  const musicList = useAllMusicData(isDogpli, currentPage, isLikedClick);
+  const isDogpli = useSelector((state: RootState) => state.home.isDogpli);
 
-  const { selectedMusic, handleMusic } = useMusicData(isDogpli);
+  const currentTag = useSelector((state: RootState) => state.tags.currentTag);
+
+  const dispatch = useDispatch();
+
+  const musicList = useAllMusicData(
+    isDogpli,
+    currentPage,
+    isTopChart,
+    isLikedClick,
+    currentTag
+  );
+
+  const { selectedMusic, handleMusic } = useMusicData(isDogpli, isTopChart);
 
   const handleLike = useLikeData({
     setIsLikedClick,
@@ -51,7 +64,7 @@ const Home = () => {
   });
 
   const handleAnimalButton = (buttonId: string) => {
-    setIsDogpli(buttonId);
+    dispatch(setIsDogpli(buttonId));
     setCurrentPage(1);
   };
 
@@ -70,6 +83,10 @@ const Home = () => {
   useEffect(() => {
     setIsLikedClick(false);
   }, [currentPage, isDogpli, isLikedClick]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [isTopChart]);
 
   return (
     <HomeContainer>
@@ -108,6 +125,10 @@ const Home = () => {
             musicList={musicList.data}
             handleLike={handleLike}
             handleMusic={handleMusic}
+            isDogpli={isDogpli}
+            isTopChart={isTopChart}
+            loading={false}
+            setIsLikedClick={setIsLikedClick}
           />
           <Pagination
             currentPage={currentPage}

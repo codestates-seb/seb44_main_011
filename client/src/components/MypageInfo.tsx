@@ -26,8 +26,14 @@ export function MypageInfo() {
     }
   }, []);
 
+  const memberId = localStorage.getItem("memberId");
+
   const handleBtnEdit = () => {
     navigate("/mypage/edit");
+  };
+
+  const handleBtnUpload = () => {
+    navigate("/mypage/upload");
   };
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -44,7 +50,11 @@ export function MypageInfo() {
         <UserEmail>firerock@naver.com</UserEmail>
         <ButtonWrapper>
           <ProfileBtn onClick={handleBtnEdit}>프로필수정</ProfileBtn>
-          <DeleteBtn onClick={showModal}>회원탈퇴</DeleteBtn>
+          {memberId === "30" ? (
+            <UploadBtn onClick={handleBtnUpload}>음악업로드</UploadBtn>
+          ) : (
+            <DeleteBtn onClick={showModal}>회원탈퇴</DeleteBtn>
+          )}
           {modalOpen && <DeleteModal setModalOpen={setModalOpen} />}
         </ButtonWrapper>
       </Profile>
@@ -55,19 +65,20 @@ export function MypageInfo() {
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  margin: 90px 60px;
+  margin: 0 4px;
+  gap: 44px;
+  height: 300px;
+  align-items: center;
 `;
 
 const Profile = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  margin-left: 40px;
-  margin-top: 40px;
+  justify-content: center;
 `;
 const UserInfoImg = styled.img`
-  width: 215px;
-  height: 215px;
+  width: 250px;
+  height: 250px;
   box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.4);
   background-repeat: no-repeat;
   background-size: cover;
@@ -112,6 +123,16 @@ const ProfileBtn = styled.button`
   cursor: pointer;
 `;
 const DeleteBtn = styled.button`
+  width: 84px;
+  height: 30px;
+  border: 1px solid #8e8e8e;
+  border-radius: 7px;
+  color: #8e8e8e;
+  background-color: #fff;
+  cursor: pointer;
+`;
+
+const UploadBtn = styled.button`
   width: 84px;
   height: 30px;
   border: 1px solid #8e8e8e;

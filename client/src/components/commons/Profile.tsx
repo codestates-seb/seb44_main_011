@@ -25,12 +25,18 @@ type ProfileProps = {
   size?: number;
   radius?: number;
   image: string;
+  alt?: string;
 };
 
-const Profile: FC<ProfileProps> = ({ size = 34, radius = 4, image }) => {
+const Profile: FC<ProfileProps> = ({
+  size = 34,
+  radius = 4,
+  image,
+  alt = "image",
+}) => {
   return (
     <ProfileContainer size={size} radius={radius}>
-      <Img src={image} radius={radius} />
+      <Img src={image} radius={radius} alt={alt} />
     </ProfileContainer>
   );
 };
