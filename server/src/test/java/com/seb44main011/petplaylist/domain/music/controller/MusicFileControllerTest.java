@@ -32,11 +32,13 @@ import java.nio.charset.StandardCharsets;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -63,6 +65,7 @@ public class MusicFileControllerTest {
         Music testMusic = TestData.MockMusic.getMusicData();
         String fileContent = gson.toJson(TestData.MockMusic.getPostMusicFile());
         MusicDto.PublicResponse response = TestData.MockMusic.getPublicResponseData();
+        String content = gson.toJson(response);
         MockMultipartFile multipartFile = new MockMultipartFile("musicInfo","musicInfo","application/json",fileContent.getBytes(StandardCharsets.UTF_8));
 
         //when
@@ -83,6 +86,7 @@ public class MusicFileControllerTest {
 
                         )
                         .andExpect(status().isCreated())
+                        .andExpect(content().json(content))
                         .andDo(
                                 MockMvcRestDocumentationWrapper
                                         .document("음악 파일 S3 저장 기능(admin)"

@@ -104,8 +104,8 @@ public class MusicService  {
     }
 
     @Transactional(readOnly = true)
-    public Page<Music> findCategoryAndTagsPageMusic(Music.Category category, String tags, int page) {
-        Pageable pageable = getPageInfo(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"view");
+    public Page<Music> findCategoryAndTagsPageMusic(Music.Category category, String tags, int page,String sortValue) {
+        Pageable pageable = getPageInfo(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,sortValue);
         if (tags == null){
             return repository.findByCategoryAndStatus(category, Music.Status.ACTIVE,pageable);
         }

@@ -22,7 +22,7 @@ public class PublicPlaylistController {
 
     @GetMapping
     public ResponseEntity<?> getAllMusicListFromNonMember(@RequestParam(value = "page", defaultValue = "1") int page,
-                                                          @RequestParam(value = "sort", required = false,defaultValue = "view") String sortValue){
+                                                          @RequestParam(value = "sort", required = false, defaultValue = "view") String sortValue){
         Page<Music> musicPage = musicService.findMusicListAll(page,sortValue);
         List<Music> musicList = musicPage.getContent();
         List<PlaylistDto.PublicResponse> publicResponses = mapper.musicListToPublicResponse(musicList);
@@ -31,12 +31,13 @@ public class PublicPlaylistController {
                 new MultiResponseDto<>(publicResponses,musicPage)
         );
     }
-    @GetMapping(value = "/{dogOrCats}",params = {"page"})
+    @GetMapping(value = "/{dogOrCats}")
     public ResponseEntity<?> getMusicListByCategoryAndTags(@PathVariable String dogOrCats
-                                                        , @RequestParam(value = "page", defaultValue = "1") int page
-                                                        , @RequestParam(value = "tags",required = false)String tags){
+                                                        , @RequestParam(value = "page",required = false, defaultValue = "1") int page
+                                                        , @RequestParam(value = "tags",required = false)String tags
+                                                        , @RequestParam(value = "sort", required = false,defaultValue = "view") String sortValue){
         Music.Category category = Music.Category.valueOf(dogOrCats.toUpperCase());
-        Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page);
+        Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page,sortValue);
         List<Music> musicList = musicPage.getContent();
         List<PlaylistDto.PublicResponse> publicResponses = mapper.musicListToPublicResponse(musicList);
 

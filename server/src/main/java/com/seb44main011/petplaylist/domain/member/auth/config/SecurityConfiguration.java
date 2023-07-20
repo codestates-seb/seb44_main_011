@@ -46,7 +46,6 @@ public class SecurityConfiguration {
                         .userInfoEndpoint()
                         .userService(oAuth2MemberService)
                                 .and()
-//                        .failureHandler(new )
                         .successHandler(new OAuth2SuccessHandler(delegateTokenService))
                                 .failureHandler(failureHandler())
                 )

@@ -16,7 +16,9 @@ public class MP3DurationCalculator {
             int durationInSecondsRemaining = (int) (playTime % 60);
 
             log.info("MP3 재생 시간 {}분 {}초", durationInMinutes,durationInSecondsRemaining);
-            return durationInMinutes+":"+durationInSecondsRemaining;
+            return durationInSecondsRemaining <10 ?
+                    durationInMinutes+":0"+durationInSecondsRemaining : durationInMinutes+":"+durationInSecondsRemaining;
+
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -24,6 +24,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
@@ -41,11 +42,6 @@ public class ApiPlaylistController {
     private final MemberService memberService;
     private final MusicListService musicListService;
     private final MusicService musicService;
-//    private final StubData stubData;
-//    @PostMapping("/test")
-//    public void postTest() throws InterruptedException {
-//        stubData.insertData();
-//    }
 
     @PostMapping(value = "/{member-id}")
     public ResponseEntity<?> postPersonalPlayList(@PathVariable("member-id")@Positive long memberId,
@@ -73,9 +69,9 @@ public class ApiPlaylistController {
     }
 
 
-    @GetMapping(value = "/{member-id}", params = {"page"})
+    @GetMapping(value = "/{member-id}")
     public ResponseEntity<?> getPersonalPlayList(@PathVariable("member-id")@Positive long memberId,
-                                                  @Valid @RequestParam(name = "page", defaultValue = "1") @Positive int page,
+                                                 @RequestParam(name = "page", defaultValue = "1") @Positive int page,
                                                  @AuthenticationName String email){
         Page<PlayList> playListPage = musicListService.findPersonalMusicListsPage(email,memberId,page);
         List<PlaylistDto.ApiResponse> responseMusic = musicListMapper.musicListToPlayListResponseList(playListPage.getContent());
@@ -84,14 +80,16 @@ public class ApiPlaylistController {
 
     }
 
-    @GetMapping(value = "/{dogOrCats}/id/{memberId}",params = {"page"})
-    public ResponseEntity<?> getPersonalPlayListByCategoryAndTags(@PathVariable(name = "dogOrCats") String dogOrCats,@PathVariable(name = "memberId") long memberId,
-                                                        @RequestParam(name = "page", defaultValue = "1") int page,
-                                                        @RequestParam(name = "tags",required = false)String tags,
+    @GetMapping(value = "/{dogOrCats}/id/{memberId}")
+    public ResponseEntity<?> getPersonalPlayListByCategoryAndTags(@PathVariable(name = "dogOrCats") @NotNull String dogOrCats,
+                                                                  @PathVariable(name = "memberId") @Positive long memberId,
+                                                                  @RequestParam(name = "page", defaultValue = "1") int page,
+                                                                  @RequestParam(name = "tags",required = false)String tags,
+                                                                  @RequestParam(name = "sort",required = false,defaultValue = "view")String sortValue,
                                                                   @AuthenticationName String email){
 
         Music.Category category = Music.Category.valueOf(dogOrCats.toUpperCase());
-        Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page);
+        Page<Music> musicPage = musicService.findCategoryAndTagsPageMusic(category,tags,page,sortValue);
         List<Music> musicList = musicPage.getContent();
         List<PlayList> likeMusic = musicListService.findPersonalMusicLists(memberId);
         List<PlaylistDto.ApiResponse> apiResponse = musicListMapper.musicListToApiResponse(musicList,likeMusic);
