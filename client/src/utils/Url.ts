@@ -29,4 +29,3 @@ export const api: AxiosInstance = axios.create({
 });
 
 export const Google_URL = `${BaseURL}/login/oauth2/code/google`;
-

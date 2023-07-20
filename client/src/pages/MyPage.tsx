@@ -7,7 +7,10 @@ function MyPage() {
   console.log(loc); // undefined??
   return (
     <Wrapper>
-      <MypageInfo selectedImage={loc.state?.selectedImage} />
+      <MypageInfo
+        selectedImage={loc.state?.selectedImage}
+        nickname={loc.state?.nickname}
+      />
     </Wrapper>
   );
 }

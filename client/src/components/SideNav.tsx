@@ -23,6 +23,10 @@ function SideNav() {
   const [currentMenu, setCurrentMenu] = useState<string>("hello");
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
+  //검색기능
+  const [searchQuery, setSearchQuery] = useState("");
+  // 검색 결과 상태
+  const [searchResults, setSearchResults] = useState([]);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
   const location = useLocation();
@@ -73,6 +77,24 @@ function SideNav() {
     else alert("로그인이 필요한 페이지입니다.");
   };
 
+  // 검색어 입력 이벤트 핸들러
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  // 엔터키 입력 시 검색 결과 가져오기
+  const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      // 검색 결과를 가져오는 로직을 추가
+      // 예를 들어, 서버에 검색어를 보내고 결과를 받아와서 setSearchResults로 상태 업데이트
+      // setSearchResults([...results]); // 가져온 검색 결과를 상태에 업데이트
+      if (searchQuery.trim() !== "") {
+        // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
+        navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      }
+    }
+  };
+
   return (
     <>
       <RootWrapper>
@@ -83,7 +105,12 @@ function SideNav() {
             </Link>
             <SearchField>
               <SearchImg fill="#B4B4B7" />
-              <InputField type="text"></InputField>
+              <InputField
+                type="text"
+                value={searchQuery}
+                onChange={handleInputChange}
+                onKeyDown={handleSearchEnter}
+              ></InputField>
             </SearchField>
             <LiStyle>
               <LiWrapper>
