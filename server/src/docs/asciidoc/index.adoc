@@ -55,3 +55,22 @@ include::{snippets}/음원 파일 비활성화 기능(admin)/path-parameters.ado
 ==== API 응답
 .response(응답 바디)
 include::{snippets}/음원 파일 비활성화 기능(admin)/response-body.adoc[]
+
+***
+=== 음악 재 활성화
+==== API 요청
+.curl-request
+include::{snippets}/음원 파일 재 활성화 기능(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/음원 파일 재 활성화 기능(admin)/http-request.adoc[]
+===== 요청형식
+====
+.request(url 주소)
+include::{snippets}/음원 파일 재 활성화 기능(admin)/httpie-request.adoc[]
+.request(param)
+include::{snippets}/음원 파일 재 활성화 기능(admin)/path-parameters.adoc[]
+====
+***
+==== API 응답
+.response(응답 바디)
+include::{snippets}/음원 파일 재 활성화 기능(admin)/response-body.adoc[]

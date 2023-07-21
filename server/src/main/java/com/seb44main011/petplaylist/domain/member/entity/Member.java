@@ -87,6 +87,7 @@ public class Member extends BaseTimeEntity {
         GOOGLE("GOOGLE"),
         NAVER("NAVER"),
         KAKAO("KAKAO"),
+        FACEBOOK("FACEBOOK"),
         NO_OAUTH("No_OAuth_Member");
 
         @Getter
