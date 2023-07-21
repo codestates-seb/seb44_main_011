@@ -36,11 +36,10 @@ jobs:
         with:
           java-version: 11
           distribution: 'temurin'
-
       - name: Cat yml
         run: |
-          touch /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application.yml
-          echo "${{ secrets.SERVER_YML_DATA }}" > /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application.yml
+          touch /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application-server.yml
+          echo "${{ secrets.SERVER_YML_DATA }}" > /home/runner/work/seb44_main_011/seb44_main_011/server/src/main/resources/application-server.yml
       - name: Build with Gradle
         run: |
           cd server
