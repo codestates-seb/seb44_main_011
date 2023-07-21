@@ -26,11 +26,14 @@ public interface MemberMapper {
     }
 
     default MemberDto.MyPageResponse memberToMyPageResponse(Member member) {
-        List<PlaylistDto.PublicResponse> musicList = new ArrayList<>(6);
+        List<PlaylistDto.PublicResponse> musicList = new ArrayList<>();
 
         if (!member.getPlayLists().isEmpty()) {
             for (int i = 0; i < 6; i++) {
                 Music insertMusic = member.getPlayLists().get(i).getMusic();
+                if (insertMusic == null) {
+                    break;
+                }
                 musicList.add(PlaylistDto.PublicResponse.builder()
                         .musicId(insertMusic.getMusicId())
                         .music_url(insertMusic.getMusic_url())
