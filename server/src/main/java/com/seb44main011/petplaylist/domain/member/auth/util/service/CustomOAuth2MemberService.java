@@ -105,6 +105,9 @@ public class CustomOAuth2MemberService extends DefaultOAuth2UserService {
             case "NAVER":
                 return Member.OAuthCheck.NAVER;
 
+            case "FACEBOOK":
+                return Member.OAuthCheck.FACEBOOK;
+
             default:
                 throw new IllegalAccessException("Unsupported email domain: " + clientName.toUpperCase());
         }

@@ -218,11 +218,11 @@
           "content" : {
             "application/json;charset=UTF-8" : {
               "schema" : {
-                "$ref" : "#/components/schemas/api-members-member-id-120263164"
+                "$ref" : "#/components/schemas/api-members-member-id-2078295347"
               },
               "examples" : {
                 "회원정보 수정 테스트" : {
-                  "value" : "{\n  \"name\" : \"내가진짜홍길동\",\n  \"profile\" : \"수정된 프로필 이미지\"\n}"
+                  "value" : "{\n  \"name\" : \"내가진짜홍길동\",\n  \"profileUrl\" : \"url-1\"\n}"
                 }
               }
             }
@@ -234,11 +234,11 @@
             "content" : {
               "application/json;charset=UTF-8" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/api-members-member-id-793076289"
+                  "$ref" : "#/components/schemas/api-members-member-id1386937166"
                 },
                 "examples" : {
                   "회원정보 수정 테스트" : {
-                    "value" : "{\n  \"email\" : \"hgd@gmail.com\",\n  \"name\" : \"내가진짜홍길동\",\n  \"profile\" : \"수정된 프로필 이미지\"\n}"
+                    "value" : "{\n  \"email\" : \"hgd@gmail.com\",\n  \"name\" : \"내가진짜홍길동\",\n  \"profileUrl\" : \"수정된 프로필 이미지\"\n}"
                   }
                 }
               }
@@ -449,7 +449,7 @@
                 },
                 "examples" : {
                   "인증된 사용자의 댓글 작성" : {
-                    "value" : "{\n  \"commentId\" : 1,\n  \"memberId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"profile\" : \"\",\n  \"createdAt\" : \"2023-07-20T16:26:50.550146\",\n  \"modifiedAt\" : \"2023-07-20T16:26:50.550161\"\n}"
+                    "value" : "{\n  \"commentId\" : 1,\n  \"memberId\" : 1,\n  \"musicId\" : 1,\n  \"name\" : \"네임\",\n  \"comment\" : \"내용\",\n  \"profile\" : \"\",\n  \"createdAt\" : \"2023-07-21T14:44:24.882983\",\n  \"modifiedAt\" : \"2023-07-21T14:44:24.882998\"\n}"
                   }
                 }
               }
@@ -813,7 +813,7 @@
                 },
                 "examples" : {
                   "해당 곡의 전체 댓글조회" : {
-                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"memberId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"profile\" : \"\",\n    \"createdAt\" : \"2023-07-20T16:26:50.691875\",\n    \"modifiedAt\" : \"2023-07-20T16:26:50.691886\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
+                    "value" : "{\n  \"data\" : [ {\n    \"commentId\" : 1,\n    \"memberId\" : 1,\n    \"musicId\" : 1,\n    \"name\" : \"네임\",\n    \"comment\" : \"내용\",\n    \"profile\" : \"\",\n    \"createdAt\" : \"2023-07-21T14:44:25.027061\",\n    \"modifiedAt\" : \"2023-07-21T14:44:25.02707\"\n  } ],\n  \"pageInfo\" : {\n    \"page\" : 1,\n    \"size\" : 6,\n    \"totalElements\" : 6,\n    \"totalPages\" : 1\n  }\n}"
                   }
                 }
               }
@@ -834,10 +834,10 @@
           }
         }
       },
-      "api-members-member-id-793076289" : {
+      "api-members-member-id1386937166" : {
         "type" : "object",
         "properties" : {
-          "profile" : {
+          "profileUrl" : {
             "type" : "string",
             "description" : "변경된 프로필 이미지"
           },
@@ -931,19 +931,6 @@
           }
         }
       },
-      "api-members-member-id-120263164" : {
-        "type" : "object",
-        "properties" : {
-          "profile" : {
-            "type" : "string",
-            "description" : "프로필 이미지"
-          },
-          "name" : {
-            "type" : "string",
-            "description" : "닉네임"
-          }
-        }
-      },
       "admin-music1984186965" : {
         "type" : "object",
         "properties" : {
@@ -970,6 +957,19 @@
           "tags" : {
             "type" : "string",
             "description" : "음악 태그"
+          }
+        }
+      },
+      "api-members-member-id-2078295347" : {
+        "type" : "object",
+        "properties" : {
+          "profileUrl" : {
+            "type" : "string",
+            "description" : "프로필 이미지"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "닉네임"
           }
         }
       },
