@@ -80,7 +80,7 @@ public class MemberService {
     public List<String> findProfileImage() {
         List<String> profileList = new ArrayList<>();
         for (Member.Profile profile : Member.Profile.values()) {
-            profileList.add(profile + ": " + profile.getProfileUrl());
+            profileList.add(profile.getProfileUrl());
         }
 
         return profileList;
