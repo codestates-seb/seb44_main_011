@@ -28,7 +28,7 @@ include::{snippets}/음악 파일 S3 저장 기능(admin)/request-parts.adoc[]
 .musicInfo 형식(json)
 include::{snippets}/음악 파일 S3 저장 기능(admin)/request-part-musicInfo-body.adoc[]
 .musicInfo(요청 데이터 목록)
-include::{snippets}/음악 파일 S3 저장 기능(admin)/request-part-musicInfo-fields.adoc[]
+include::{snippets}/음악 파일 S3 저장 기능(admin)/request-part-musicInfo-body.adoc[]
 ====
 ***
 ==== API 응답
