@@ -38,7 +38,7 @@ public class MemberController {
         return ResponseEntity.created(location).body(memberMapper.memberToMemberDtoSignUpResponse(createdMember));
     }
 
-    @PatchMapping("/api/members/{member-id}")
+    @PatchMapping("/api/members/my-page/{member-id}")
     public ResponseEntity patchMember(@Valid
                                       @PathVariable("member-id") @Positive long memberId,
                                       @RequestBody MemberDto.Patch patchMember) {
@@ -48,7 +48,7 @@ public class MemberController {
         return ResponseEntity.ok().location(location).body(memberMapper.memberToMemberDtoPatchResponse(updateMember));
     }
 
-    @GetMapping("/api/members/{member-id}") // TODO: API 요청 주소 변경 물어보기
+    @GetMapping("/api/members/my-page/{member-id}")
     public ResponseEntity getMyPage(@Valid
                                     @PathVariable("member-id") @Positive long memberId) {
         Member findMember = memberService.findMember(memberId);
@@ -68,7 +68,7 @@ public class MemberController {
         return ResponseEntity.ok().location(location).build();
     }
 
-    @GetMapping(value = "/api/members")
+    @GetMapping(value = "/api/members/my-page/profiles")
     public ResponseEntity getProfileImage() {
         return ResponseEntity.ok(memberService.findProfileImage());
     }
