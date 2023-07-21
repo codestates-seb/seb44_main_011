@@ -63,6 +63,7 @@ public class MemberDto {
     public static class MyPageResponse {
         private String email;
         private String name;
+        private String profileUrl;
         private List<PlaylistDto.PublicResponse> musicLists;
     }
 

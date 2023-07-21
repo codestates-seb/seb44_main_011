@@ -202,6 +202,7 @@ public class MemberControllerTest {
                                                 .responseFields(
                                                         PayloadDocumentation.fieldWithPath("name").description("닉네임"),
                                                         PayloadDocumentation.fieldWithPath("email").description("이메일"),
+                                                        PayloadDocumentation.fieldWithPath("profile").description("프로파일"),
                                                         PayloadDocumentation.fieldWithPath("musicLists").type(JsonFieldType.ARRAY).description("뮤직리스트"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].musicId").description("음악 식별자"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].title").description("곡 이름"),
