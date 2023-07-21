@@ -12,11 +12,11 @@ import Upload from "./pages/Upload";
 import SideNav from "./components/SideNav";
 import Search from "./pages/Search";
 
-
 const MainWrapper = styled.main`
   width: 100%;
   height: 100vh;
   display: flex;
+  user-select: none;
 `;
 
 function App() {
