@@ -22,7 +22,8 @@ const MyListTitle = styled.div`
   width: 100%;
   display: flex;
   margin-bottom: 12px;
-
+  justify-content: space-between;
+  align-items: baseline;
   > h1 {
     font-family: var(--font-quicksand);
     font-size: 24px;
@@ -70,6 +71,7 @@ const MyList = () => {
         handleLike={handleLike}
         handleMusic={handleMusic}
         handleCommentClick={handleCommentClick}
+        musicList={musicList.data}
       />
       {showMusicList && (
         <>

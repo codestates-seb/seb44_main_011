@@ -15,7 +15,7 @@ function Oauth() {
   if (memberId !== null) {
     localStorage.setItem("memberId", memberId);
   }
-  window.location.replace("/home"); //홈화면으로 이동
+  // window.location.replace("/home"); //홈화면으로 이동
   return <div></div>;
 }
 

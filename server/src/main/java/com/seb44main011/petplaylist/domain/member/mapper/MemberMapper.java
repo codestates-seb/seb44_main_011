@@ -17,7 +17,13 @@ public interface MemberMapper {
 
     MemberDto.SignUpResponse memberToMemberDtoSignUpResponse(Member member);
 
-    MemberDto.PatchResponse memberToMemberDtoPatchResponse(Member member);
+    default MemberDto.PatchResponse memberToMemberDtoPatchResponse(Member member) {
+        return MemberDto.PatchResponse.builder()
+                .email(member.getEmail())
+                .name(member.getName())
+                .profileUrl(member.getProfile().getProfileUrl())
+                .build();
+    }
 
     default MemberDto.MyPageResponse memberToMyPageResponse(Member member) {
         List<PlaylistDto.PublicResponse> musicList = new ArrayList<>(6);
@@ -39,6 +45,7 @@ public interface MemberMapper {
         return MemberDto.MyPageResponse.builder()
                 .email(member.getEmail())
                 .name(member.getName())
+                .profileUrl(member.getProfile().getProfileUrl())
                 .musicLists(musicList)
                 .build();
     }

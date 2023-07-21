@@ -38,7 +38,7 @@ public class MemberController {
         return ResponseEntity.created(location).body(memberMapper.memberToMemberDtoSignUpResponse(createdMember));
     }
 
-    @PatchMapping("/api/members/{member-id}")
+    @PatchMapping("/api/members/my-page/{member-id}")
     public ResponseEntity patchMember(@Valid
                                       @PathVariable("member-id") @Positive long memberId,
                                       @RequestBody MemberDto.Patch patchMember) {
@@ -48,7 +48,7 @@ public class MemberController {
         return ResponseEntity.ok().location(location).body(memberMapper.memberToMemberDtoPatchResponse(updateMember));
     }
 
-    @GetMapping("/api/members/{member-id}")
+    @GetMapping("/api/members/my-page/{member-id}")
     public ResponseEntity getMyPage(@Valid
                                     @PathVariable("member-id") @Positive long memberId) {
         Member findMember = memberService.findMember(memberId);
@@ -66,6 +66,11 @@ public class MemberController {
         URI location = UriCreator.createUri("/public/signup");
 
         return ResponseEntity.ok().location(location).build();
+    }
+
+    @GetMapping(value = "/api/members/my-page/profiles")
+    public ResponseEntity getProfileImage() {
+        return ResponseEntity.ok(memberService.findProfileImage());
     }
 
 //    @PostMapping(value = "/api/members/{member-id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

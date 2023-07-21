@@ -25,8 +25,9 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    private String profile;
+    private Profile profile;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
@@ -45,11 +46,30 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.profile = "기본 프로필 이미지";
+        this.profile = Profile.DOG1;
         this.status = Status.MEMBER_ACTIVE;
         this.playLists = new ArrayList<>();
         this.oAuthCheck = OAuthCheck.NO_OAUTH;
     }
+
+    public enum Profile {
+        DOG1("url-1"),
+        DOG2("url-2"),
+        DOG3("url-3"),
+        DOG4("url-4"),
+        CAT1("url-5"),
+        CAT2("url-6"),
+        CAT3("url-7"),
+        CAT4("url-8");
+
+        @Getter
+        private final String profileUrl;
+
+        Profile(String profileUrl) {
+            this.profileUrl = profileUrl;
+        }
+    }
+
 
     public enum Status {
         MEMBER_ACTIVE("활성 상태"),
@@ -89,7 +109,7 @@ public class Member extends BaseTimeEntity {
         this.name = name;
     }
 
-    public void updateProfile(String profile) {
+    public void updateProfile(Profile profile) {
         this.profile = profile;
     }
 
