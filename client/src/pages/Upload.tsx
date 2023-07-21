@@ -5,6 +5,7 @@ import CustomAudioPlayer from "../components/CustomAudioPlayer";
 import { BaseURL } from "../utils/Url";
 import { useNavigate } from "react-router";
 import axios, { AxiosError } from "axios";
+import saveNewToken from "../utils/saveNewToken";
 
 const MusicImg = styled.input`
   display: flex;
@@ -200,6 +201,8 @@ const Upload = () => {
 
     try {
       const response = await axios.post(`${BaseURL}/admin/music`, formData);
+      const accessToken = response.headers["authorization"] || null;
+      saveNewToken(accessToken);
       console.log("업로드 성공:", response.data);
       navigate("/mypage");
     } catch (error) {

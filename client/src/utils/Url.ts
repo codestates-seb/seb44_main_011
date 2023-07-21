@@ -1,11 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 
-export const BaseURL =
-  "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080";
-export const PostLogin =
-  "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/public/login";
-export const PostSignUp =
-  "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/public/signup";
+export const BaseURL = "https://api.petpil.site:8080";
+export const PostLogin = "https://api.petpil.site:8080/public/login";
+export const PostSignUp = "https://api.petpil.site:8080/public/signup";
 export const DeleteUser = `${BaseURL}/api/members`;
 
 export const Naver_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${

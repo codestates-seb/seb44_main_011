@@ -6,6 +6,7 @@ import Kakao from "../../assets/imgs/kakao.svg";
 import Naver from "../../assets/imgs/naver.svg";
 //import { useGoogleLogin } from "@react-oauth/google";
 import { Naver_Redirect_URL } from "../../utils/Url";
+import { BaseURL } from "../../utils/Url";
 
 const ShareContainer = styled.div`
   width: 200px;
@@ -19,8 +20,7 @@ const ShareContainer = styled.div`
 
 function Share() {
   const GoogleLogin = () => {
-    window.location.href =
-      "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
+    window.location.href = `${BaseURL}/oauth2/authorization/google`;
   };
   const NaverLogin = () => {
     window.location.href =

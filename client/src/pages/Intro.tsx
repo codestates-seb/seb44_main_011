@@ -1,13 +1,14 @@
 import IntroLogo from "../assets/imgs/IntroLogo.svg";
-import Cat from "../assets/imgs/cat.svg";
-import Dog from "../assets/imgs/dog.svg";
 import styled, { keyframes } from "styled-components";
 import Bluebutton from "../components/commons/Bluebutton";
 import { Link } from "react-router-dom";
+import IntroImg from "../assets/imgs/intro.gif";
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   background: var(--gradation-intro);
+  background-image: url(${IntroImg});
+  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -17,43 +18,37 @@ const Container = styled.div`
     text-decoration: none;
   }
 `;
-const Logo = styled.img`
-  margin-top: 120px;
-`;
 
-const SlideUp = keyframes`
-  from{
-    transform: translateY(100%);
-  }
-  to{
-    transform: translateX(0);
-  }
-`;
-const ImgContainer = styled.div`
-  margin-top: 150px;
-  & > img {
-    margin-top: 10px;
-  }
+const ImgCover = styled.div`
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    223deg,
+    rgba(170, 221, 255, 0.5) 0%,
+    rgba(255, 215, 215, 0.5) 100%
+  );
+  backdrop-filter: blur(4px);
 
-  & > img:nth-child(1) {
-    animation: ${SlideUp} 4s ease;
-  }
-
-  & > img:nth-child(2) {
-    animation: ${SlideUp} 6s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  a {
+    text-decoration: none;
   }
 `;
+const Logo = styled.img``;
+
 function Intro() {
   return (
     <Container>
-      <Logo src={IntroLogo} />
-      <Link to="/home">
-        <Bluebutton value="시작하기" />
-      </Link>
-      <ImgContainer>
-        <img src={Dog} alt="Dog" />
-        <img src={Cat} alt="Cat" />
-      </ImgContainer>
+      <ImgCover>
+        <Logo src={IntroLogo} />
+        <Link to="/home">
+          <Bluebutton value="시작하기" />
+        </Link>
+      </ImgCover>
     </Container>
   );
 }

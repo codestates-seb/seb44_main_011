@@ -9,6 +9,7 @@ import { ReactComponent as Next } from "../assets/icons/next.svg";
 import { ReactComponent as Previous } from "../assets/icons/previous.svg";
 import { ReactComponent as Mute } from "../assets/icons/mute.svg";
 import { ReactComponent as RepeatOff } from "../assets/icons/repeatOff.svg";
+import { ReactComponent as Repeat1 } from "../assets/icons/repeat1.svg";
 
 const StyledAudioPlayer = styled(AudioPlayer).attrs((props) => ({
   customIcons: {
@@ -16,12 +17,13 @@ const StyledAudioPlayer = styled(AudioPlayer).attrs((props) => ({
     pause: <Pause />,
     volume: <Volume />,
     volumeMute: <Mute />,
-    loop: <Reapeat />,
+    loop: <Repeat1 />,
     loopOff: <RepeatOff />,
     next: <Next />,
     forward: <Next />,
     rewind: <Previous />,
     previous: <Previous />,
+    playAll: <Reapeat />,
     ...props.customIcons,
   },
 }))`
@@ -79,19 +81,24 @@ const StyledAudioPlayer = styled(AudioPlayer).attrs((props) => ({
 
 type CustomAudioPlayerProps = {
   src: string;
+  handleSongEnded?: () => void;
 };
 
-const CustomAudioPlayer: React.FC<CustomAudioPlayerProps> = ({ src }) => {
+const CustomAudioPlayer: React.FC<CustomAudioPlayerProps> = ({
+  src,
+  handleSongEnded,
+}) => {
   return (
     <StyledAudioPlayer
       src={src}
+      onEnded={handleSongEnded}
       autoPlay={true}
       customIcons={{
         play: <Play />,
         pause: <Pause />,
         volume: <Volume />,
         volumeMute: <Mute />,
-        loop: <Reapeat />,
+        loop: <Repeat1 />,
         loopOff: <RepeatOff />,
         next: <Next />,
         forward: <Next />,
