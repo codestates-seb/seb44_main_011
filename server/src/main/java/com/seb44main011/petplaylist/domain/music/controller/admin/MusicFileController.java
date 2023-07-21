@@ -39,7 +39,7 @@ public class MusicFileController {
     }
 
     @DeleteMapping(value = "/id/{music-Id}")
-    public ResponseEntity<?> DeleteMusicFile(@PathVariable("music-Id") @Positive long musicId){
+    public ResponseEntity<?> deleteMusicFile(@PathVariable("music-Id") @Positive long musicId){
         service.deleteMusicFile(musicId);
         return ResponseEntity.noContent().build();
     }

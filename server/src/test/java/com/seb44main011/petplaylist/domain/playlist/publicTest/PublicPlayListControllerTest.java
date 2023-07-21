@@ -116,7 +116,7 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
 
         Page<Music> testPageData = TestData.ResponseData.PageNationData.getPageData(2,publicResponseList.size()+46);
 
-        given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt())).willReturn(testPageData);
+        given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt(),Mockito.anyString())).willReturn(testPageData);
         given(memberService.findMember(Mockito.anyLong())).willReturn(MemberTestData.MockMember.getMemberData());
         given(musicListMapper.musicListToPublicResponse(Mockito.anyList())).willReturn(publicResponseList);
 
@@ -126,6 +126,7 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("page", String.valueOf(testPageData.getNumber()+1))
                                         .param("tags",publicResponseList.get(0).getCategory())
+                                        .param("sort","view")
 
                         )
                         .andExpect(status().isOk())
@@ -141,7 +142,8 @@ public class PublicPlayListControllerTest extends PublicFieldDescriptor{
                                                         )
                                                         .requestParameters(
                                                                 parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자"),
-                                                                parameterWithName("tags").type(SimpleType.STRING).description("조회 할 태그").optional()
+                                                                parameterWithName("tags").type(SimpleType.STRING).description("조회 할 태그").optional(),
+                                                                parameterWithName("sort").type(SimpleType.STRING).description("정렬순서 (new, old)").optional()
                                                         )
                                                         .responseFields(
                                                                 getPublicPlayListPage()

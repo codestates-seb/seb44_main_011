@@ -14,15 +14,10 @@ import com.seb44main011.petplaylist.domain.music.stub.TestData;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
 import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import com.seb44main011.petplaylist.domain.playlist.mapper.MusicListMapper;
-import com.seb44main011.petplaylist.domain.playlist.repository.MusicListRepository;
 import com.seb44main011.petplaylist.domain.playlist.service.MusicListService;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,10 +30,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.mockito.BDDMockito.given;
@@ -213,7 +206,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
         List<PlaylistDto.ApiResponse> apiResponses = TestData.ResponseData.Api.getPlayListResponseList();
 
 
-        given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt())).willReturn(testPageData);
+        given(musicService.findCategoryAndTagsPageMusic(Mockito.any(Music.Category.class),Mockito.anyString(),Mockito.anyInt(),Mockito.anyString())).willReturn(testPageData);
         given(musicListService.findPersonalMusicLists(Mockito.anyLong())).willReturn(new ArrayList<>());
         given(musicListMapper.musicListToApiResponse(Mockito.anyList(),Mockito.anyList())).willReturn(apiResponses);
 
@@ -223,6 +216,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("page", String.valueOf(testPageData.getNumber()+1))
                                         .param("tags",apiResponses.get(0).getTags())
+                                        .param("sort","new")
 
                         )
                         .andExpect(status().isOk())
@@ -236,10 +230,12 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                                         .pathParameters(
                                                                 parameterWithName("dogOrCats").type(SimpleType.STRING).description("카테고리(DOGS,CATS)"),
                                                                 parameterWithName("member-id").type(SimpleType.NUMBER).description("회원 식별 Id")
+
                                                         )
                                                         .requestParameters(
                                                                 parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자"),
-                                                                parameterWithName("tags").type(SimpleType.STRING).description("조회 할 태그").optional()
+                                                                parameterWithName("tags").type(SimpleType.STRING).description("조회 할 태그").optional(),
+                                                                parameterWithName("sort").type(SimpleType.STRING).description("정렬 순서").optional()
                                                         )
                                                         .responseFields(
                                                                 getApiPlayListPageField()

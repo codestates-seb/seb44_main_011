@@ -50,7 +50,7 @@ server:
       force-response: true
 
 jwt:
-  secret-key: kevin1234123412341234123412341234
+  secretKey: kevin1234123412341234123412341234
   access-token-expiration: 10
   refresh-token-expiration: 10080
 
