@@ -66,7 +66,7 @@ function SideNav() {
     localStorage.removeItem("memberId");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refresh");
-    window.location.replace("/");
+    window.location.replace("/home");
   };
   const modalSideClick = (e: React.MouseEvent | React.TouchEvent) => {
     if (modalRef.current === e.target) {
