@@ -103,6 +103,7 @@ const Home = () => {
           handleLike={handleLike}
           handleMusic={handleMusic}
           handleCommentClick={handleCommentClick}
+          musicList={musicList.data}
         />
       )}
 
