@@ -13,4 +13,9 @@ export default Edit;
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  margin: 4vh;
+  width: 100%;
+  max-width: 1800px;
+  padding: 1px 6px;
 `;

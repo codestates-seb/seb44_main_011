@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import UserInfo from "../assets/imgs/UserInfo.png";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 // import EditProfile from "./EditProfile";
@@ -50,7 +49,7 @@ export function MypageInfo() {
         <UserEmail>firerock@naver.com</UserEmail>
         <ButtonWrapper>
           <ProfileBtn onClick={handleBtnEdit}>프로필수정</ProfileBtn>
-          {memberId === "30" ? (
+          {memberId === "66" ? (
             <UploadBtn onClick={handleBtnUpload}>음악업로드</UploadBtn>
           ) : (
             <DeleteBtn onClick={showModal}>회원탈퇴</DeleteBtn>

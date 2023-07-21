@@ -89,8 +89,8 @@ const FadeIn = styled.div`
 `;
 
 const Container = styled.div`
-  width: 900px;
-  height: 800px;
+  width: 50%;
+  height: 50%;
   z-index: 999;
   position: absolute;
   top: 70%;

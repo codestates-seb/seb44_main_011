@@ -36,9 +36,7 @@ public class MemberService {
         Member foundMember = findMember(memberId);
         Optional.ofNullable(patchMember.getName())
                 .ifPresent(foundMember::updateName);
-//        Optional.ofNullable(patchMember.getProfileUrl())
-//                .ifPresent(foundMember::updateProfile);
-        foundMember.updateProfile(Member.Profile.valueOf(patchMember.getProfileUrl()));
+        foundMember.updateProfile(findProfileEnum(patchMember.getProfileUrl()));
 
         return memberRepository.save(foundMember);
     }
@@ -60,6 +58,14 @@ public class MemberService {
         return foundMember;
     }
 
+    public Member.Profile findProfileEnum(String profileUrl) {
+        for (Member.Profile profile : Member.Profile.values()) {
+            if (profile.getProfileUrl().equals(profileUrl)) return profile;
+        }
+
+        throw new BusinessLogicException(ExceptionCode.URL_NOT_FOUND);
+    }
+
     public void disableMember(long memberId, String password) {
         Member foundMember = findMember(memberId);
         boolean matchPassword = passwordEncoder.matches(password, foundMember.getPassword());
@@ -74,7 +80,7 @@ public class MemberService {
     public List<String> findProfileImage() {
         List<String> profileList = new ArrayList<>();
         for (Member.Profile profile : Member.Profile.values()) {
-            profileList.add(profile.getProfileUrl());
+            profileList.add(profile + ": " + profile.getProfileUrl());
         }
 
         return profileList;
