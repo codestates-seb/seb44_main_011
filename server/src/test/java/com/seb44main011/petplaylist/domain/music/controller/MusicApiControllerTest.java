@@ -22,6 +22,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -68,6 +69,8 @@ public class MusicApiControllerTest extends MusicFieldDescriptor {
         ResultActions resultActions1 =
                 mockMvc.perform(
                                 get(API_MUSIC_URL,1L)
+                                        .header(HttpHeaders.AUTHORIZATION,"Bearer accessToken...AnyString...")
+                                        .header(HttpHeaders.AUTHORIZATION,"refreshToken...AnyString...")
                                         .param("music_name","testMusicName")
                                         .accept(MediaType.APPLICATION_JSON)
 
@@ -80,6 +83,9 @@ public class MusicApiControllerTest extends MusicFieldDescriptor {
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("(로그인 상태)사용자의 음악 상세 조회")
+                                                        .requestHeaders(
+                                                                getHeaderDescriptorWithTypes()
+                                                        )
                                                         .requestParameters(
                                                                 parameterWithName("music_name").description("검색을 위한 음악의 이름").optional()
                                                         )
@@ -95,6 +101,8 @@ public class MusicApiControllerTest extends MusicFieldDescriptor {
         ResultActions resultActions2 =
                 mockMvc.perform(
                                 get(API_MUSIC_URL,1L)
+                                        .header(HttpHeaders.AUTHORIZATION,"Bearer accessToken...AnyString...")
+                                        .header(HttpHeaders.AUTHORIZATION,"refreshToken...AnyString...")
                                         .param("music_id",String.valueOf(mockMusic.getMusicId()))
                                         .accept(MediaType.APPLICATION_JSON)
 
@@ -107,6 +115,9 @@ public class MusicApiControllerTest extends MusicFieldDescriptor {
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("(로그인 상태)사용자의 음악 상세 조회")
+                                                        .requestHeaders(
+                                                                getHeaderDescriptorWithTypes()
+                                                        )
                                                         .requestParameters(
                                                                 parameterWithName("music_id").description("검색을 위한 음악의 id").optional()
                                                         )

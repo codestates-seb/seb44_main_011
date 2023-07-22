@@ -2,16 +2,16 @@ package com.seb44main011.petplaylist.domain.music.controller;
 
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.seb44main011.petplaylist.domain.member.entity.Member;
-import com.seb44main011.petplaylist.domain.member.stub.MemberTestData;
+import com.seb44main011.petplaylist.domain.member.auth.jwt.JwtTokenizer;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
 import com.seb44main011.petplaylist.domain.music.service.mainService.MusicService;
 import com.seb44main011.petplaylist.domain.music.stub.TestData;
+import com.seb44main011.petplaylist.global.SecurityWithMockUser;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,9 +22,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.mock.web.MockPart;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.request.ParameterDescriptor;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -32,7 +31,6 @@ import java.nio.charset.StandardCharsets;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
-import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -55,6 +53,14 @@ public class MusicFileControllerTest {
     private MusicService musicService;
 
     private final String ADMIN_URL="/admin/music";
+
+    private  static String accessKey;
+    @Autowired
+    private JwtTokenizer jwtTokenizer;
+    @BeforeEach
+    public void init(){
+        accessKey = SecurityWithMockUser.getValidAccessToken(jwtTokenizer.getSecretKeyString(),"ADMIN");
+    }
 
     @Test
     @DisplayName("음악 파일 S3 저장 기능 테스트")
@@ -79,6 +85,7 @@ public class MusicFileControllerTest {
                                         .file(TestData.MockMusicFile.getImgMultipartFile())
                                         .file(TestData.MockMusicFile.getMp3MultipartFile())
                                         .file(multipartFile)
+                                        .header("Authorization","Bearer ".concat(accessKey))
                                         .contentType("multipart/form-data")
                                         .accept(MediaType.APPLICATION_JSON)
                                         .characterEncoding("UTF-8")
@@ -115,6 +122,7 @@ public class MusicFileControllerTest {
 
     @Test
     @DisplayName("음원 파일 비 활성화 테스트")
+    @WithMockUser
     void deleteMusicFileTest() throws Exception {
         //when
         doNothing().when(musicService).deleteMusicFile(Mockito.anyLong());
@@ -122,7 +130,11 @@ public class MusicFileControllerTest {
 
         //then
         ResultActions resultActions1 =
-                mockMvc.perform(delete(ADMIN_URL.concat("/id/{music-Id}"),1L))
+                mockMvc.perform(
+                        delete(ADMIN_URL.concat("/id/{music-Id}"),1L)
+                                .header("Authorization","Bearer ".concat(accessKey))
+
+                        )
                         .andExpect(status().isNoContent())
                         .andDo(
                                 MockMvcRestDocumentationWrapper
@@ -142,6 +154,7 @@ public class MusicFileControllerTest {
 
     @Test
     @DisplayName("음원 파일 재 활성화 기능 테스트")
+    @WithMockUser
     void revertMusicFileTest() throws Exception {
         //when
         doNothing().when(musicService).revertMusicFile(Mockito.anyLong());
@@ -149,7 +162,10 @@ public class MusicFileControllerTest {
 
         //then
         ResultActions resultActions1 =
-                mockMvc.perform(patch(ADMIN_URL.concat("/id/{music-Id}"),1L))
+                mockMvc.perform(
+                        patch(ADMIN_URL.concat("/id/{music-Id}"),1L)
+                                .header("Authorization","Bearer ".concat(accessKey))
+                        )
                         .andExpect(status().isOk())
                         .andDo(
                                 MockMvcRestDocumentationWrapper
