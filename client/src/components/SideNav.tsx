@@ -1,5 +1,4 @@
 import { ReactComponent as HomeIcon } from "../../src/assets/icons/home.svg";
-import { ReactComponent as TagsIcon } from "../../src/assets/icons/tags.svg";
 import { ReactComponent as MylistIcon } from "../../src/assets/icons/mylist.svg";
 import { ReactComponent as MypageIcon } from "../../src/assets/icons/mypage.svg";
 import { ReactComponent as SearchIcon } from "../../src/assets/icons/search.svg";
@@ -8,14 +7,12 @@ import CatLogo from "../../src/assets/imgs/catlogo.svg";
 import { ReactComponent as More } from "../assets/icons/more.svg";
 import { keyframes, styled } from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/RootStore";
 import { setCurrentTag } from "../redux/tagSlice";
-import axios from "axios";
-import { api } from "../utils/Url";
 
 interface NavItemProps {
   isActive: boolean;
@@ -25,31 +22,29 @@ interface ViewMoreProps {
 }
 
 function SideNav() {
-  const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false); // 드롭다운 메뉴가 열려있는지 여부를 저장하는 상태 변수
+  const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
   const [currentMenu, setCurrentMenu] = useState<string>("home");
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
-  //검색기능
   const [searchQuery, setSearchQuery] = useState("");
-  // 검색 결과 상태
-  const [searchResults, setSearchResults] = useState([]);
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
   const isDogpli = useSelector((state: RootState) => state.home.isDogpli);
   const currentTag = useSelector((state: RootState) => state.tags.currentTag);
 
-  const handleClickMenu = (e: any) => {
+  const handleClickMenu = (e: {
+    currentTarget: { id: SetStateAction<string> };
+  }) => {
     setCurrentMenu(e.currentTarget.id);
   };
 
   const handleTagsMenuClick = () => {
-    setIsTagsMenuOpen((prev) => !prev); // 메뉴 열기/닫기 토글
+    setIsTagsMenuOpen((prev) => !prev);
   };
-  // 드롭다운 메뉴를 닫는 함수
+
   const closeDropdownMenu = () => {
     setIsTagsMenuOpen(false);
   };
@@ -58,7 +53,6 @@ function SideNav() {
     closeDropdownMenu();
   }, [location.pathname]);
 
-  //로그인 회원가입 모달 부분
   const showLoginModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -90,12 +84,10 @@ function SideNav() {
     } else alert("로그인이 필요한 페이지입니다.");
   };
 
-  // 검색어 입력 이벤트 핸들러
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  // 엔터키 입력 시 검색어를 서버에 전송하는 함수
   const handleSearchEnter = async (
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
@@ -103,19 +95,6 @@ function SideNav() {
       e.preventDefault();
       if (searchQuery.trim() !== "") {
         try {
-          // console.log(searchQuery);
-          // const response = await axios.get(
-          //   `https://api.petpil.site:8080/public/playlist/search?title=${encodeURIComponent(
-          //     searchQuery
-          //   )}`,
-          //   {
-          //     params: { title: searchQuery },
-          //   }
-          // );
-          // 검색 결과를 받아와서 setSearchResults로 상태 업데이트
-          // setSearchResults(response.data);
-
-          // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
           navigate(`/search?title=${encodeURIComponent(searchQuery)}`, {
             state: { searchQuery },
           });
@@ -473,7 +452,6 @@ const HomeLink = styled(Link)`
   }
 `;
 
-const TagImg = styled(TagsIcon)``;
 const ViewMore = styled(More)<ViewMoreProps>`
   height: 18px;
   width: 18px;
@@ -490,15 +468,7 @@ const HomeText = styled.span<NavItemProps>`
   text-decoration: none;
   color: ${(props) => (props.isActive ? "#84CBFF" : "#B4B4B7")};
 `;
-const TagText = styled.span<NavItemProps>`
-  text-overflow: ellipsis;
-  font-size: 18px;
-  font-family: Quicksand, sans-serif;
-  font-weight: 700;
-  line-height: 100%;
-  text-decoration: none;
-  color: ${(props) => (props.isActive ? "#84CBFF" : "#B4B4B7")};
-`;
+
 const MyListImg = styled(MylistIcon)`
   margin-right: 10px;
 `;
@@ -535,19 +505,6 @@ const MypageText = styled.span<NavItemProps>`
 const NavHome = styled.div<NavItemProps>``;
 const NavMylist = styled.div<NavItemProps>``;
 const NavMyPage = styled.div<NavItemProps>``;
-const NavTags = styled.div<NavItemProps>`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  &:hover {
-    > span {
-      color: var(--gray-500);
-    }
-    > svg {
-      fill: var(--gray-500);
-    }
-  }
-`;
 
 const DropdownMenu = styled.div`
   width: fit-content;

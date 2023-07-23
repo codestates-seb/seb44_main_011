@@ -11,7 +11,7 @@ function MyPage() {
   const [isLikedClick, setIsLikedClick] = useState(false);
 
   const loc = useLocation();
-  console.log(loc); // undefined??
+  console.log(loc);
 
   const musicList = useMyMusicData(isLikedClick);
 
@@ -25,12 +25,9 @@ function MyPage() {
 
   return (
     <MyPageContainer>
-      <MypageInfo
-        selectedImage={loc.state?.selectedImage}
-        nickname={loc.state?.nickname}
-      />
+      <MypageInfo />
       <MyPageTitle>
-        <h1>MYLIST</h1>
+        ≠<h1>MYLIST</h1>
         <Link to={"/mylist"}>+더보기</Link>
       </MyPageTitle>
       <MusicList

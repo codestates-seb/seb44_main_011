@@ -1,5 +1,5 @@
 import IntroLogo from "../assets/imgs/IntroLogo.svg";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import Bluebutton from "../components/commons/Bluebutton";
 import { Link } from "react-router-dom";
 import IntroImg from "../assets/imgs/intro.gif";
