@@ -27,9 +27,13 @@ import org.springframework.restdocs.operation.preprocess.Preprocessors;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.payload.PayloadDocumentation;
+import org.springframework.security.access.method.P;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -98,12 +102,12 @@ public class MemberControllerTest {
     public void patchMemberTest() throws Exception {
         String context = gson.toJson(MemberDto.Patch.builder()
                 .name("내가진짜홍길동")
-                .profileUrl("url-1")
+                .profileUrl("url-2")
                 .build());
         MemberDto.PatchResponse response = MemberDto.PatchResponse.builder()
                 .email(MemberTestData.MockMember.getMemberData().getEmail())
                 .name("내가진짜홍길동")
-                .profileUrl("수정된 프로필 이미지")
+                .profileUrl("url-2")
                 .build();
         BDDMockito.given(memberService.updateMember(Mockito.anyLong(), Mockito.any(MemberDto.Patch.class))).willReturn(testMember);
         BDDMockito.given(memberMapper.memberToMemberDtoPatchResponse(Mockito.any(Member.class))).willReturn(response);
@@ -211,6 +215,39 @@ public class MemberControllerTest {
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].playtime").description("곡 재생 시간"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].category").description("카테고리"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].tags").description("태그")
+                                                )
+                                                .build()
+                                )
+                        )
+                );
+    }
+
+    @Test
+    @DisplayName("프로필 이미지 리스트 조회")
+    @WithMockUser
+    public void getProfileImageTest() throws Exception {
+        List<String> profileImageList = new ArrayList<>();
+        for (Member.Profile profile : Member.Profile.values()) {
+            profileImageList.add(profile.getProfileUrl());
+        }
+        BDDMockito.given(memberService.findProfileImage()).willReturn(profileImageList);
+
+        mockMvc.perform(
+                RestDocumentationRequestBuilders.get("/api/members/my-page/profiles")
+                        .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(
+                        MockMvcRestDocumentationWrapper.document(
+                                "프로필 이미지 리스트 조회 예제",
+                                Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                                Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                                ResourceDocumentation.resource(
+                                        ResourceSnippetParameters.builder()
+                                                .description("프로필 이미지")
+                                                .requestFields()
+                                                .responseFields(
+                                                        PayloadDocumentation.fieldWithPath("[]").description("프로필 이미지 리스트")
                                                 )
                                                 .build()
                                 )
