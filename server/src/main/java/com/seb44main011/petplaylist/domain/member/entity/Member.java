@@ -53,14 +53,14 @@ public class Member extends BaseTimeEntity {
     }
 
     public enum Profile {
-        DOG1("url-1"),
-        DOG2("url-2"),
-        DOG3("url-3"),
-        DOG4("url-4"),
-        CAT1("url-5"),
-        CAT2("url-6"),
-        CAT3("url-7"),
-        CAT4("url-8");
+        DOG1("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/dogs/dog1.jpg"),
+        DOG2("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/dogs/dog2.jpg"),
+        DOG3("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/dogs/dog3.jpg"),
+        DOG4("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/dogs/dog4.jpg"),
+        CAT1("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat1.png"),
+        CAT2("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat2.png"),
+        CAT3("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat3.png"),
+        CAT4("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat4.png");
 
         @Getter
         private final String profileUrl;
