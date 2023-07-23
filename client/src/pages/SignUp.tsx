@@ -14,7 +14,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { PostSignUp } from "../utils/Url";
 import { Form } from "../components/commons/Form";
-import React, { useState, useRef, RefObject, MouseEvent } from "react";
+import React, { useState, useRef, MouseEvent } from "react";
 import Login from "../pages/Login";
 import { keyframes, styled } from "styled-components";
 
@@ -46,7 +46,6 @@ type FormValues = {
   passwordConfirm: string;
 };
 type SignUpProps = {
-  modalRef: RefObject<HTMLDivElement>;
   onClick: (event: MouseEvent<HTMLDivElement>) => void;
   onClick2: (event: MouseEvent<HTMLDivElement>) => void;
 };
