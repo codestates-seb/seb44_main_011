@@ -52,7 +52,7 @@ function Login() {
         window.location.replace("/home");
       })
       .catch((error) => {
-        if (error.status === 401) {
+        if (error.response.status === 401) {
           if (
             error.response.data.message === "Invalid credentials : Unauthorized"
           ) {

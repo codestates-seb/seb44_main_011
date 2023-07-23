@@ -123,6 +123,7 @@ const ChangeImg = styled.button`
   background-color: #fff;
   cursor: pointer;
   margin-top: 10px;
+  font-size: 12px;
 `;
 const NickName = styled.span`
   text-overflow: ellipsis;
@@ -156,6 +157,7 @@ const Cancle = styled.button`
   background-color: #fff;
   cursor: pointer;
   margin-right: 20px;
+  font-size: 12px;
 `;
 const Save = styled.button`
   width: 84px;
@@ -165,6 +167,7 @@ const Save = styled.button`
   color: #fff;
   background-color: #84cbff;
   cursor: pointer;
+  font-size: 12px;
 `;
 
 const ButtonWrapper = styled.div`
