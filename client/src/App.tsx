@@ -17,6 +17,11 @@ const MainWrapper = styled.main`
   height: 100vh;
   display: flex;
   user-select: none;
+  min-width: 500px;
+  @media screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 function App() {

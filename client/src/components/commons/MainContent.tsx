@@ -9,6 +9,10 @@ const MainContent = styled.div`
   -webkit-box-align: center;
   align-items: center;
   flex-direction: column;
+  @media screen and (max-width: 800px) {
+    height: 80vh;
+    margin: 0 auto;
+  }
 `;
 
 export default MainContent;
