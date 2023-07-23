@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import ImageModal from "./ImageModal";
 import { api } from "../utils/Url";
 import Default from "../assets/imgs/Default.jpg";
-
+import { ErrorMsg } from "./commons/Input";
 const defaultImage = { Default };
 
 function EditProfile() {
   const movePage = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string>("");
-
+  const [errorMessage, setMessage] = useState<string>("");
   const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
   const memberid = localStorage.getItem("memberId");
@@ -24,6 +24,10 @@ function EditProfile() {
     setModalOpen(true);
   };
   const handleProfileSave = async () => {
+    if (nickname.length < 2 || nickname.length > 7) {
+      alert("2글자 이상 7글자 이하로 입력해주세요.");
+      return;
+    }
     try {
       await api.patch(`/members/my-page/${memberid}`, {
         name: nickname,
@@ -46,7 +50,14 @@ function EditProfile() {
         console.error(error);
       });
   }, []);
-
+  const onChangeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
+    if (nickname.length < 2 || nickname.length > 7) {
+      setMessage("2글자 이상 7글자 이하로 입력해주세요.");
+    } else {
+      setMessage("");
+    }
+  };
   return (
     <Wrapper>
       <Title>Edit Profile</Title>
@@ -61,12 +72,8 @@ function EditProfile() {
         <UserInfoImg src={selectedImage} />
         <ChangeImg onClick={showModal}>프로필 변경</ChangeImg>
         <NickName>Nickname</NickName>
-        <NickNameInput
-          value={nickname}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setNickname(e.target.value)
-          }
-        ></NickNameInput>
+        <NickNameInput value={nickname} onChange={onChangeNickName} />
+        {errorMessage && <ErrorMsg>{errorMessage}</ErrorMsg>}
       </Profile>
       <ButtonWrapper>
         <Cancle onClick={goMypage}>취소</Cancle>
