@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import ImageModal from "./ImageModal";
@@ -7,7 +7,6 @@ import { api } from "../utils/Url";
 function EditProfile() {
   const movePage = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
-  // const [selectedImage, setSelectedImage] = useState(UserInfo);
   const [selectedImage, setSelectedImage] = useState<string>("");
 
   const [nickname, setNickname] = useState("");
@@ -21,27 +20,15 @@ function EditProfile() {
     setModalOpen(true);
   };
 
-  // useEffect(() => {
-  //   // 컴포넌트가 마운트될 때에만 실행되도록 useEffect를 사용하여 nickname 값을 localStorage에서 불러옵니다.
-  //   const storedImage = localStorage.getItem("selectedImage");
-  //   if (storedImage) {
-  //     setSelectedImage(storedImage);
-  //   }
-  // }, []);
-
   const handleProfileSave = async () => {
-    
     const memberid = localStorage.getItem("memberId");
-    console.log("프로필 이미지 저장:", selectedImage);
-    console.log("닉네임 저장:", nickname);
 
     try {
       await api.patch(`/members/my-page/${memberid}`, {
         name: nickname,
         profileUrl: "url-1",
       });
-      console.log("성공!")
-      setModalOpen(false); // 저장 후 모달 닫기
+      setModalOpen(false);
       navigate("/mypage", { state: { selectedImage, nickname } });
     } catch (error) {
       console.error("Error while updating profile:", error);
@@ -136,6 +123,7 @@ const ChangeImg = styled.button`
   background-color: #fff;
   cursor: pointer;
   margin-top: 10px;
+  font-size: 12px;
 `;
 const NickName = styled.span`
   text-overflow: ellipsis;
@@ -169,6 +157,7 @@ const Cancle = styled.button`
   background-color: #fff;
   cursor: pointer;
   margin-right: 20px;
+  font-size: 12px;
 `;
 const Save = styled.button`
   width: 84px;
@@ -178,6 +167,7 @@ const Save = styled.button`
   color: #fff;
   background-color: #84cbff;
   cursor: pointer;
+  font-size: 12px;
 `;
 
 const ButtonWrapper = styled.div`

@@ -1,13 +1,16 @@
 package com.seb44main011.petplaylist.domain.playlist.apiTest;
 
+import com.epages.restdocs.apispec.HeaderDescriptorWithType;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import static com.epages.restdocs.apispec.ResourceDocumentation.headerWithName;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
 public class ApiFieldDescriptor {
     protected static FieldDescriptor[] getApiPlayListPageField() {
-        return new FieldDescriptor[]{fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+        return new FieldDescriptor[]{
+                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
                 fieldWithPath("data.[].musicId").type(JsonFieldType.NUMBER).description("음악 식별 Id"),
                 fieldWithPath("data.[].title").type(JsonFieldType.STRING).description("음악 타이틀(제목)"),
                 fieldWithPath("data.[].music_url").type(JsonFieldType.STRING).description("음악의 URL"),
@@ -21,5 +24,11 @@ public class ApiFieldDescriptor {
                 fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("한 페이지에 속하는 데이터 개수"),
                 fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 데이터 개수"),
                 fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("전체 페이지 개수")};
+    }
+    protected static HeaderDescriptorWithType[] getHeaderDescriptorWithTypes(){
+        return new HeaderDescriptorWithType[]{
+                headerWithName("Authorization").description("accessToken"),
+                headerWithName("Refresh").description("RefreshToken (accessToken 만료시 필수)").optional()
+        };
     }
 }

@@ -45,15 +45,16 @@ public class SecurityConfiguration {
                         .loginPage("/public/oauth/login")
                         .userInfoEndpoint()
                         .userService(oAuth2MemberService)
-                                .and()
-                        .successHandler(new OAuth2SuccessHandler(delegateTokenService))
-                                .failureHandler(failureHandler())
+                        .and()
+                        .successHandler(successHandler())
+                        .failureHandler(failureHandler())
                 )
                 .apply(customFilterConfigurers())
 
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers("/public/**").permitAll()
+                        .antMatchers("/admin/**").hasRole("ADMIN")
                         .antMatchers(HttpMethod.POST, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("USER")
@@ -72,6 +73,10 @@ public class SecurityConfiguration {
     @Bean
     public OAuth2FailureHandler failureHandler(){
         return new OAuth2FailureHandler();
+    }
+    @Bean
+    public OAuth2SuccessHandler successHandler(){
+        return new OAuth2SuccessHandler(delegateTokenService);
     }
 
     @Bean

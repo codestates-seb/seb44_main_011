@@ -7,8 +7,9 @@ import useLikeData from "../hooks/useLikeData";
 import { styled } from "styled-components";
 import { Music } from "../types/Music";
 import { api } from "../utils/Url";
-import { current } from "@reduxjs/toolkit";
 import { PageInfo } from "../types/PageInfo";
+import Player from "../components/Player";
+import useMusicData from "../hooks/useMusicData";
 
 type MusicListData = {
   data: Music[];
@@ -22,53 +23,91 @@ function Search() {
     data: [],
     pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
   });
-  // const [filteredResults, setFilteredResults] = useState([]); // 필터링된 검색 결과를 저장할 상태 변수를 추가합니다.
   const [currentPage, setCurrentPage] = useState(1);
   const [isLikedClick, setIsLikedClick] = useState(false);
+  const [showMusicList, setShowMusicList] = useState(true);
+
+  const { selectedMusic, handleMusic } = useMusicData();
+
   const handleLike = useLikeData({
     setIsLikedClick,
+    handleMusic,
+    selectedMusic,
   });
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-  console.log(location.state?.searchQuery);
+
+  const handleCommentClick = () => {
+    setShowMusicList(!showMusicList);
+  };
 
   useEffect(() => {
-    // Fetch search results from the server when the component mounts
+    setIsLikedClick(false);
+  }, [currentPage, isLikedClick]);
+
+  useEffect(() => {
     const fetchSearchResults = async () => {
-      try {
-        const response = await axios.get(
-          `https://api.petpil.site:8080/public/playlist/search`,
-          {
+      const memberId = localStorage.getItem("memberId");
+
+      if (!memberId) {
+        try {
+          const response = await axios.get<MusicListData>(
+            `https://api.petpil.site:8080/public/playlist/search`,
+            {
+              params: { title: searchQuery, page: currentPage },
+            }
+          );
+          setFilteredResults(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        }
+      } else {
+        try {
+          const response = await api.get<MusicListData>(`/playlist/search`, {
             params: { title: searchQuery, page: currentPage },
-          }
-        );
-        setFilteredResults(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching search results:", error);
+          });
+          setFilteredResults(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        }
       }
     };
 
     fetchSearchResults();
-  }, [searchQuery, currentPage]);
+  }, [searchQuery, currentPage, isLikedClick]);
 
   return (
-    <div>
-      <SearchTitle>
-        <h1>SEARCH RESULT</h1>
-      </SearchTitle>
-      <MusicList
-        musicList={filteredResults.data}
+    <SearchContainer>
+      <Player
+        musicData={selectedMusic}
         handleLike={handleLike}
-        setIsLikedClick={setIsLikedClick}
+        handleMusic={handleMusic}
+        handleCommentClick={handleCommentClick}
+        musicList={filteredResults.data}
       />
-      <Pagination
-        currentPage={currentPage}
-        totalPages={filteredResults.pageInfo?.totalPages || 0}
-        onPageChange={handlePageChange}
-      />
-    </div>
+      {showMusicList && (
+        <>
+          <SearchTitle>
+            <h1>SEARCH RESULT</h1>
+          </SearchTitle>
+          <MusicList
+            musicList={filteredResults.data}
+            handleLike={handleLike}
+            handleMusic={handleMusic}
+            setIsLikedClick={setIsLikedClick}
+            selectedMusicId={selectedMusic?.musicId}
+          />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={filteredResults.pageInfo?.totalPages || 0}
+            onPageChange={handlePageChange}
+          />
+        </>
+      )}
+    </SearchContainer>
   );
 }
 export default Search;
@@ -88,4 +127,13 @@ const SearchTitle = styled.div`
     padding: 1px 6px;
     margin-top: 30px;
   }
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 4vh;
+  width: 100%;
+  max-width: 1800px;
 `;

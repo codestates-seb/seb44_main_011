@@ -38,7 +38,7 @@ public class AdminMusicController {
     }
     @GetMapping("/title/{title}")
     public ResponseEntity<?> getMusic(@AuthenticationName String email,
-                                      @PathVariable("title") @Positive String title){
+                                      @PathVariable("title") String title){
         memberService.findByMemberFromEmail(email);
         Music music = musicService.findMusicAnyStatus(title);
         MusicDto.AdminResponse adminResponse = mapper.musicToAdminResponse(music);
@@ -63,9 +63,9 @@ public class AdminMusicController {
                                              @RequestParam(value = "sort",required = false,defaultValue = "view") String sort){
         memberService.findByMemberFromEmail(email);
         Page<Music> musicPage = musicService.findMusicListAllFromAdminByStatus(Music.Status.INACTIVE,page,size,sort);
-        List<MusicDto.AdminResponse> apiResponseList = mapper.musicToAdminResponseList(musicPage.getContent());
+        List<MusicDto.AdminResponse> adminResponses = mapper.musicToAdminResponseList(musicPage.getContent());
 
-        return ResponseEntity.ok(new MultiResponseDto<>(apiResponseList,musicPage));
+        return ResponseEntity.ok(new MultiResponseDto<>(adminResponses,musicPage));
     }
     @GetMapping(value = "/active")
     public ResponseEntity<?> getAllActiveMusicList(@AuthenticationName String email,
@@ -74,8 +74,8 @@ public class AdminMusicController {
                                                      @RequestParam(value = "sort",required = false,defaultValue = "view") String sort){
         memberService.findByMemberFromEmail(email);
         Page<Music> musicPage = musicService.findMusicListAllFromAdminByStatus(Music.Status.ACTIVE,page,size,sort);
-        List<MusicDto.AdminResponse> apiResponseList = mapper.musicToAdminResponseList(musicPage.getContent());
+        List<MusicDto.AdminResponse> adminResponses = mapper.musicToAdminResponseList(musicPage.getContent());
 
-        return ResponseEntity.ok(new MultiResponseDto<>(apiResponseList,musicPage));
+        return ResponseEntity.ok(new MultiResponseDto<>(adminResponses,musicPage));
     }
 }

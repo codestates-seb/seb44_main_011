@@ -98,7 +98,7 @@ class CommentControllerTest {
         //given
         CommentDto.Post post = new CommentDto.Post(1L, 1L, "댓글입니다.");
         CommentDto.Response responseComment = new CommentDto.Response(1L, 1L, 1L, "네임", "내용", "", LocalDateTime.now(), LocalDateTime.now());
-        Music music = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+        Music music = TestData.MockMusic.getMusicData();
         musicRepository.save(music);
 
         given(commentService.saveComment(Mockito.any(CommentDto.Post.class)))
@@ -198,7 +198,7 @@ class CommentControllerTest {
     @WithMockUser
     void deleteCommentTest() throws Exception {
         Comment commentData = CommentTestData.MockComment.getCommentData();
-        Music music = new Music(1L, "", "", "", "", 1L, Music.Category.CATS, Music.Tags.CALM, new ArrayList<>());
+        Music music = Music.builder().musicId(1L).build();
 
 
 

@@ -106,15 +106,14 @@ public class ApiPlaylistController {
         musicListService.deletePlayList(member, music);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/search/{member-id}")
-    public ResponseEntity<?> getSearchTitleMusicListFromMember(@PathVariable(name = "member-id") @Positive long memberId,
-                                                               @RequestParam(value = "title") @Size(min = 2) String title,
+    @GetMapping("/search")
+    public ResponseEntity<?> getSearchTitleMusicListFromMember(@RequestParam(value = "title") @Size(min = 2) String title,
                                                                @RequestParam(value = "page", defaultValue = "1") int page,
                                                                @RequestParam(value = "sort", required = false, defaultValue = "view") String sortValue,
-                                                               @AuthenticationName @NotNull String email){
+                                                               @AuthenticationName String email){
         Page<Music> musicPage = musicService.findMusicListFromTitle(title,page,sortValue);
         List<Music> musicList = musicPage.getContent();
-        List<PlayList> likeMusic = musicListService.findPersonalMusicLists(memberId);
+        List<PlayList> likeMusic = musicListService.findPersonalMusicLists(email);
         List<PlaylistDto.ApiResponse> apiResponse = mapper.musicListToApiResponse(musicList,likeMusic);
 
         return ResponseEntity.ok().body(

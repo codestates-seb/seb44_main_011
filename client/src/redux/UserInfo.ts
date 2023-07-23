@@ -1,14 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type User = {
-  memberId: number;
-  Authorization: string;
-  Refresh: string;
+  memberId: string;
+  email: string;
+  role: string;
 };
 const initialUser: User = {
-  memberId: 0,
-  Authorization: "",
-  Refresh: "",
+  memberId: "",
+  email: "",
+  role: "",
 };
 
 const initialState = {

@@ -13,6 +13,9 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { PostLogin } from "../utils/Url";
 import { Form } from "../components/commons/Form";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../redux/UserInfo";
+
 type FormValues = {
   email: string;
   password: string;
@@ -21,6 +24,8 @@ type Response = {
   memberId: string;
   Authorization: string;
   Refresh: string;
+  email: string;
+  role: string;
 };
 function Login() {
   const {
@@ -28,6 +33,9 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({ mode: "onBlur" });
+
+  const dispatch = useDispatch();
+
   const onSubmit = async (data: FormValues) => {
     await axios
       .post<Response>(PostLogin, data)
@@ -35,13 +43,16 @@ function Login() {
         const accessToken = response.headers["authorization"] || null;
         const refresh = response.headers["refresh"] || null;
         const memberId = response.data["memberId"];
+        const role = response.data["role"];
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refresh", refresh);
         localStorage.setItem("memberId", memberId);
+        localStorage.setItem("role", role);
+        dispatch(loginUser(response.data));
         window.location.replace("/home");
       })
       .catch((error) => {
-        if (error.status === 401) {
+        if (error.response.status === 401) {
           if (
             error.response.data.message === "Invalid credentials : Unauthorized"
           ) {
