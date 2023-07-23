@@ -100,18 +100,22 @@ function SideNav() {
       e.preventDefault();
       if (searchQuery.trim() !== "") {
         try {
-          const response = await axios.post(
-            `https://api.petpil.site:8080/public/playlist/search?${params}`,
-            {
-              params: { title: searchQuery },
-            }
-          );
-          console.log(searchQuery);
+          // console.log(searchQuery);
+          // const response = await axios.get(
+          //   `https://api.petpil.site:8080/public/playlist/search?title=${encodeURIComponent(
+          //     searchQuery
+          //   )}`,
+          //   {
+          //     params: { title: searchQuery },
+          //   }
+          // );
           // 검색 결과를 받아와서 setSearchResults로 상태 업데이트
-          setSearchResults(response.data);
+          // setSearchResults(response.data);
 
           // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
-          navigate(`/search?title=${encodeURIComponent(searchQuery)}`);
+          navigate(`/search?title=${encodeURIComponent(searchQuery)}`, {
+            state: { searchQuery },
+          });
         } catch (error) {
           console.error("Error while searching:", error);
         }
