@@ -106,9 +106,13 @@ const fadeInAnimation = keyframes`
 
 const FadeIn = styled.div`
   animation: ${fadeInAnimation} 0.5s ease-in;
+  display: flex;
+  justify-content: center;
 `;
 
 const Container = styled.div`
+  position: absolute;
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
