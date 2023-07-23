@@ -81,7 +81,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private void createUsernamePasswordAuthenticationToken(String subject) {
-        List<GrantedAuthority> authorities =  "ADMIN@ADMIN.com".equals(subject)
+        List<GrantedAuthority> authorities =  jwtTokenizer.getADMIN_SUBJECT().equals(subject)
                 ? AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ADMIN", "ROLE_USER", "USER")
                 : AuthorityUtils.createAuthorityList("ROLE_USER", "USER");
         Authentication authentication = new UsernamePasswordAuthenticationToken(subject, null, authorities);
@@ -89,7 +89,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     private List<GrantedAuthority> getAuthorities(Map<String, Object> claims) {
-        return "ADMIN@ADMIN.com".equals(claims.get("email"))
+        return jwtTokenizer.getADMIN_SUBJECT().equals(claims.get("email"))
                 ? AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ADMIN", "ROLE_USER", "USER")
                 : AuthorityUtils.createAuthorityList("ROLE_USER", "USER");
 //        ADMIN@ADMIN.com
