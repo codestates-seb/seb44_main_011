@@ -19,7 +19,6 @@ function ImageModal({ setModalOpen, onSelectImage }: PropsType) {
       const response = await api.get("/members/my-page/profiles");
       const data = response.data;
       setImageData(data);
-      console.log(response.data[0]);
     } catch (error) {
       console.error("이미지 데이터를 가져오는데 에러가 발생했습니다:", error);
     }

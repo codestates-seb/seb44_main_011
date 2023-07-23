@@ -36,7 +36,7 @@ export function MypageInfo() {
       .get(`/members/my-page/${memberId}`)
       .then((response) => {
         const data = response.data;
-        setSelectedImage(data.selectedImage || defaultImage);
+        setSelectedImage(data.profileUrl || defaultImage);
         setNickname(data.name);
         setEmail(data.email);
       })
