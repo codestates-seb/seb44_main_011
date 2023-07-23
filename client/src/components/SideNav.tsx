@@ -69,6 +69,7 @@ function SideNav() {
     localStorage.removeItem("memberId");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refresh");
+    localStorage.removeItem("role");
     window.location.replace("/home");
   };
   const modalSideClick = (e: React.MouseEvent | React.TouchEvent) => {
@@ -605,9 +606,11 @@ const ModalBackground = styled.div`
   animation: ${fadeInAnimation} 0.5s ease-in;
 `;
 const ButtonWrapper = styled.div`
-  width: 185px;
+  width: 100%;
   height: 40px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   @media screen and (max-width: 800px) {
     width: 120px;
     height: 100%;
