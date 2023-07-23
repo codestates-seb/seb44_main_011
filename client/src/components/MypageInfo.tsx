@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 import { api } from "../utils/Url";
-import Default from "../assets/imgs/defaultImage.png";
+import Default from "../assets/imgs/Default.jpg";
 
 const defaultImage = { Default };
 
