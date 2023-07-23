@@ -13,7 +13,6 @@ public class MemberTestData {
         private static final String email = "hgd@gmail.com";
         private static final String password = "a12341234";
         private static final String name = "내가바로홍길동";
-        private static final String profile = "프로필 기본 이미지";
 
         public static Member getMemberData() {
             return Member.builder()
@@ -21,7 +20,6 @@ public class MemberTestData {
                     .email(email)
                     .password(password)
                     .name(name)
-                    .profile(profile)
                     .build();
         }
 
