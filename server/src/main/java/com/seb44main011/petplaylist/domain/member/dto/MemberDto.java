@@ -95,6 +95,7 @@ public class MemberDto {
     public static class LogInResponse {
         private long memberId;
         private String email;
+        private String role;
     }
 
     @Getter
