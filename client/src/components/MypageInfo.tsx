@@ -3,6 +3,9 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 import { api } from "../utils/Url";
+import Default from "../assets/imgs/defaultImage.png";
+
+const defaultImage = { Default };
 
 export function MypageInfo() {
   const navigate = useNavigate();
@@ -33,7 +36,7 @@ export function MypageInfo() {
       .get(`/members/my-page/${memberId}`)
       .then((response) => {
         const data = response.data;
-        setSelectedImage(data.selectedImage);
+        setSelectedImage(data.selectedImage || defaultImage);
         setNickname(data.name);
         setEmail(data.email);
       })
