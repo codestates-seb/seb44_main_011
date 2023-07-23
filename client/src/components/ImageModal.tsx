@@ -1,6 +1,7 @@
 import { keyframes, styled } from "styled-components";
 import { api } from "../utils/Url";
 import { useEffect, useState } from "react";
+import saveNewToken from "../utils/saveNewToken";
 
 type PropsType = {
   setModalOpen: (open: boolean) => void;
@@ -18,6 +19,8 @@ function ImageModal({ setModalOpen, onSelectImage }: PropsType) {
     try {
       const response = await api.get("/members/my-page/profiles");
       const data = response.data;
+      const accessToken = response.headers["authorization"] || null;
+      saveNewToken(accessToken);
       setImageData(data);
     } catch (error) {
       console.error("이미지 데이터를 가져오는데 에러가 발생했습니다:", error);

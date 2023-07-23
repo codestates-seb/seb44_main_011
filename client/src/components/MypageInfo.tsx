@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 import { api } from "../utils/Url";
 import Default from "../assets/imgs/Default.jpg";
+import saveNewToken from "../utils/saveNewToken";
 
 const defaultImage = { Default };
 
@@ -35,6 +36,8 @@ export function MypageInfo() {
     api
       .get(`/members/my-page/${memberId}`)
       .then((response) => {
+        const accessToken = response.headers["authorization"] || null;
+        saveNewToken(accessToken);
         const data = response.data;
         setSelectedImage(data.profileUrl || defaultImage);
         setNickname(data.name);
