@@ -6,6 +6,7 @@ import Profile from "./commons/Profile";
 import Empty from "./Empty";
 import { ReactComponent as Liked } from "../assets/icons/liked.svg";
 import { ReactComponent as CommentIcon } from "../assets/icons/coment.svg";
+import { ReactComponent as Reapeat } from "../assets/icons/repeat.svg";
 import CommentSection from "./CommentSection";
 
 const StyledPlayer = styled.div`
@@ -108,6 +109,7 @@ type PlayerProps = {
   handleLike: (musicId: number, liked?: boolean) => void;
   handleCommentClick: () => void;
   handleMusic: (musicId: number) => void;
+  musicList: Music[] | [];
 };
 
 const Player = ({
@@ -115,8 +117,14 @@ const Player = ({
   handleLike,
   handleCommentClick,
   handleMusic,
+  musicList,
 }: PlayerProps) => {
   const [expanded, setExpanded] = useState(false);
+  const [isPlayAll, setIsPlayAll] = useState(false);
+
+  const handlePlayAllClick = () => {
+    setIsPlayAll(!isPlayAll);
+  };
 
   const handleLikeClick = (musicId: number, liked?: boolean) => {
     handleLike(musicId, liked);
@@ -126,6 +134,22 @@ const Player = ({
   const handleCommentBtnClick = () => {
     setExpanded(!expanded);
     handleCommentClick();
+  };
+
+  const handleSongEnded = () => {
+    if (isPlayAll) {
+      const currentMusicId = musicData?.musicId;
+
+      const currentIndex = musicList.findIndex(
+        (music) => music.musicId === currentMusicId
+      );
+
+      const nextMusic = musicList[currentIndex + 1];
+
+      if (nextMusic) {
+        handleMusic(nextMusic.musicId);
+      }
+    }
   };
 
   return (
@@ -142,6 +166,10 @@ const Player = ({
                   alt={"Cover Image"}
                 />
                 <ButtonContainer>
+                  <Button onClick={handlePlayAllClick}>
+                    <Reapeat fill={isPlayAll ? "#84CBFF" : "#212121"} />
+                  </Button>
+
                   <Button
                     onClick={(event: React.MouseEvent) => {
                       event.stopPropagation();
@@ -163,7 +191,10 @@ const Player = ({
                 <PlayInfo>
                   <MusicTitle>{musicData.title}</MusicTitle>
                   <MusicTag># {musicData.tags}</MusicTag>
-                  <CustomAudioPlayer src={musicData.music_url} />
+                  <CustomAudioPlayer
+                    src={musicData.music_url}
+                    handleSongEnded={handleSongEnded}
+                  />
                 </PlayInfo>
               </StyledPlayer>
               {expanded && <CommentSection musicId={musicData.musicId} />}
@@ -173,7 +204,7 @@ const Player = ({
       ) : (
         <BackGroundContainer>
           <PlayerContainer>
-            <Empty message="안녕하새오 미아내오 재생할 음악을 못찾갯어오" />
+            <Empty message={"안녕하새오 미아내오 재생할 음악을 못찾갯어오"} />
           </PlayerContainer>
         </BackGroundContainer>
       )}

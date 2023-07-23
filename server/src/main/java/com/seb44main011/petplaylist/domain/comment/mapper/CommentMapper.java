@@ -19,7 +19,7 @@ public interface CommentMapper {
         response.setMusicId(comment.getMusic().getMusicId());
         response.setName(comment.getMember().getName());
         response.setComment(comment.getComment());
-        response.setProfile(comment.getMember().getProfile());
+        response.setProfile(comment.getMember().getProfile().getProfileUrl());
         response.setCreatedAt(comment.getCreatedAt());
         response.setModifiedAt(comment.getModifiedAt());
 

@@ -103,6 +103,7 @@ const Home = () => {
           handleLike={handleLike}
           handleMusic={handleMusic}
           handleCommentClick={handleCommentClick}
+          musicList={musicList.data}
         />
       )}
 
@@ -129,6 +130,7 @@ const Home = () => {
             isTopChart={isTopChart}
             loading={false}
             setIsLikedClick={setIsLikedClick}
+            selectedMusicId={selectedMusic?.musicId}
           />
           <Pagination
             currentPage={currentPage}

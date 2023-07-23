@@ -28,7 +28,7 @@ function DeleteModal({ setModalOpen }: PropsType) {
     const memberId = localStorage.getItem("memberId");
     const accessToken = localStorage.getItem("accessToken");
     const refresh = localStorage.getItem("refresh");
-    console.log(accessToken);
+
     await axios
       .delete(`${DeleteUser}/${memberId}`, {
         data: data,
@@ -43,12 +43,16 @@ function DeleteModal({ setModalOpen }: PropsType) {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refresh");
           alert("정상적으로 탈퇴되었습니다.");
-          window.location.replace("/"); // 이동할 경로를 지정하세요
-        } else if (response.status === 401) {
-          alert("비밀번호를 확인해주세요.");
+          window.location.replace("/home");
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        if (error.response.status === 404) {
+          alert("비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요.");
+        } else if (error.response.status === 500) {
+          alert("서버 에러가 발생했습니다. 잠시 후 시도해주세요.");
+        }
+      });
   };
 
   return (

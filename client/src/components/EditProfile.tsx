@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import UserInfo from "../assets/imgs/UserInfo.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ImageModal from "./ImageModal";
-import axios from "axios";
 import { api } from "../utils/Url";
 
 function EditProfile() {
@@ -53,7 +51,6 @@ function EditProfile() {
   return (
     <Wrapper>
       <Title>Edit Profile</Title>
-      <UnderLine />
       <Profile>
         <ProfileImage>Profile Image</ProfileImage>
         {modalOpen && (
@@ -83,7 +80,6 @@ function EditProfile() {
 export default EditProfile;
 
 const Wrapper = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   margin: 50px;
@@ -107,11 +103,9 @@ const Title = styled.div`
   text-align: left;
   font-size: 36px;
   font-family: Quicksand, sans-serif;
-`;
-
-const UnderLine = styled.div`
-  border-top: solid 1px black;
-  width: 953px;
+  width: 100%;
+  padding-bottom: 12px;
+  border-bottom: solid 1px var(--black);
 `;
 
 const ProfileImage = styled.span`

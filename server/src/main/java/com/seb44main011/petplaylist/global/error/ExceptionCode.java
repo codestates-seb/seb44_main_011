@@ -17,6 +17,7 @@ public enum ExceptionCode {
     ALREADY_OAUTH_MEMBER(409, "This email already used in OAuth2"),
     MEMBER_MISMATCH(403,"The login Member and the author are different"),
     MEMBER_WITHDRAWN(409, "Already with drawn Member"),
+    URL_NOT_FOUND(404, "This Url not found"),
     MUSIC_NOT_FOUND(404,"Music not found"),
     MUSIC_NOT_FOUND_INS3(404,"Music not found in s3 server"),
     HIDDEN_MUSIC(403,"Inactive music"),

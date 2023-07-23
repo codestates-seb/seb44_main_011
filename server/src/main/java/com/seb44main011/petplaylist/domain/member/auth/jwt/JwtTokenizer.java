@@ -25,14 +25,17 @@ public class JwtTokenizer {
     private String ADMIN_SUBJECT;
 
     @Getter
-    @Value("${jwt.secret-key}")
+    @Setter
+    @Value("${jwt.secretKey}")
     private String secretKeyString;
 
     @Getter
+    @Setter
     @Value("${jwt.access-token-expiration}")
     private int accessTokenExpirationMinutes;
 
     @Getter
+    @Setter
     @Value("${jwt.refresh-token-expiration}")
     private int refreshTokenExpirationMinutes;
 
