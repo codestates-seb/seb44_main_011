@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 
 function MyPage() {
   const [isLikedClick, setIsLikedClick] = useState(false);
-  
+
   const loc = useLocation();
   console.log(loc); // undefined??
 
