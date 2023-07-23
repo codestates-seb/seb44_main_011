@@ -68,9 +68,16 @@ function Login() {
             alert(
               "이미 OAuth로 가입된 사용자입니다. OAuth를 이용해 로그인 해주세요."
             );
+          } else if (
+            error.response.data.message ===
+            "Already with drawn Member : Unauthorized"
+          ) {
+            alert("이미 탈퇴한 사용자입니다. 회원가입을 진행해주세요.");
           }
         } else if (error.response.status === 500) {
           alert("서버 에러가 발생했습니다. 잠시 후 시도해주세요.");
+        } else {
+          alert("다시 로그인을 진행해주세요.");
         }
       });
   };
