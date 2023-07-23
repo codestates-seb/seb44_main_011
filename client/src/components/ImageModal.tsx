@@ -5,6 +5,8 @@ import Sample2 from "../assets/imgs/sample2.jpeg";
 import Sample3 from "../assets/imgs/sample3.jpeg";
 import Sample4 from "../assets/imgs/sample4.jpeg";
 import Sample5 from "../assets/imgs/sample5.jpeg";
+import { api } from "../utils/Url";
+import { useEffect, useState } from "react";
 
 type PropsType = {
   setModalOpen: (open: boolean) => void;
@@ -16,6 +18,24 @@ function ImageModal({ setModalOpen, onSelectImage }: PropsType) {
     setModalOpen(false);
   };
 
+  const [imageData, setImageData] = useState([]);
+
+  const getImageData = async () => {
+    try {
+      const response = await api.get("/members/my-page/profiles");
+      const data = response.data;
+      setImageData(data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("이미지 데이터를 가져오는데 에러가 발생했습니다:", error);
+    }
+  };
+
+  // 컴포넌트가 마운트될 때 이미지 데이터를 가져오도록 useEffect를 사용합니다.
+  useEffect(() => {
+    getImageData();
+  }, []);
+
   const handleImageSelect = (selectedImage: string) => {
     onSelectImage(selectedImage); // 선택한 이미지를 EditProfile 컴포넌트의 selectedImage로 전달
     closeModal();
@@ -25,6 +45,7 @@ function ImageModal({ setModalOpen, onSelectImage }: PropsType) {
     <FadeIn>
       <Container>
         <Exit onClick={closeModal}>X</Exit>
+        <Title>Choose your Image</Title>
         <ContentWrapper>
           {/* <DefaultImg>
             onClick={() => handleImageSelect(UserInfo)}
@@ -89,20 +110,17 @@ const FadeIn = styled.div`
 `;
 
 const Container = styled.div`
-  width: 900px;
-  height: 800px;
-  z-index: 999;
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #f0f3f3;
-  border: 1px solid black;
-  border-radius: 8px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  animation-name: fadeIn;
+  align-items: center;
+  flex-direction: column;
+  width: 550px;
+  height: 500px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.2);
+  font-family: var(--font-gaegu);
+  border: 1px solid black;
 `;
 
 const Exit = styled.button`
@@ -115,6 +133,16 @@ const ContentWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+`;
+const Title = styled.p`
+  color: var(--black, #212121);
+  text-align: center;
+  font-family: Gaegu;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  margin-bottom: 12px;
 `;
 const ButtonWrapper = styled.div`
   display: flex;
@@ -132,8 +160,8 @@ const ButtonWrapper = styled.div`
 //   border-radius: 15px;
 // `;
 const SampelImg1 = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.4);
   background-repeat: no-repeat;
   background-size: cover;
@@ -141,8 +169,8 @@ const SampelImg1 = styled.img`
   border-radius: 15px;
 `;
 const SampelImg2 = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.4);
   background-repeat: no-repeat;
   background-size: cover;
@@ -151,8 +179,8 @@ const SampelImg2 = styled.img`
   margin-left: 10px;
 `;
 const SampelImg3 = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.4);
   background-repeat: no-repeat;
   background-size: cover;
@@ -160,8 +188,8 @@ const SampelImg3 = styled.img`
   border-radius: 15px;
 `;
 const SampelImg4 = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.4);
   background-repeat: no-repeat;
   background-size: cover;
@@ -170,8 +198,8 @@ const SampelImg4 = styled.img`
   margin-left: 10px;
 `;
 const SampelImg5 = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.4);
   background-repeat: no-repeat;
   background-size: cover;

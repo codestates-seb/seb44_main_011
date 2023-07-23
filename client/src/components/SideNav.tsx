@@ -14,6 +14,8 @@ import SignUp from "../pages/SignUp";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/RootStore";
 import { setCurrentTag } from "../redux/tagSlice";
+import axios from "axios";
+import { api } from "../utils/Url";
 
 interface NavItemProps {
   isActive: boolean;
@@ -36,6 +38,7 @@ function SideNav() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
   const isDogpli = useSelector((state: RootState) => state.home.isDogpli);
   // const currentTag = useSelector((state: RootState) => state.tags.currentTag); 클릭한 태그 글자 색 변경시 사용하시면 돼요
   const handleClickMenu = (e: any) => {
@@ -89,15 +92,29 @@ function SideNav() {
     setSearchQuery(e.target.value);
   };
 
-  // 엔터키 입력 시 검색 결과 가져오기
-  const handleSearchEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  // 엔터키 입력 시 검색어를 서버에 전송하는 함수
+  const handleSearchEnter = async (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (e.key === "Enter") {
-      // 검색 결과를 가져오는 로직을 추가
-      // 예를 들어, 서버에 검색어를 보내고 결과를 받아와서 setSearchResults로 상태 업데이트
-      // setSearchResults([...results]); // 가져온 검색 결과를 상태에 업데이트
+      e.preventDefault();
       if (searchQuery.trim() !== "") {
-        // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
-        navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+        try {
+          const response = await axios.post(
+            `https://api.petpil.site:8080/public/playlist/search?${params}`,
+            {
+              params: { title: searchQuery },
+            }
+          );
+          console.log(searchQuery);
+          // 검색 결과를 받아와서 setSearchResults로 상태 업데이트
+          setSearchResults(response.data);
+
+          // Search 페이지로 이동하면서 검색어를 쿼리 파라미터로 전달
+          navigate(`/search?title=${encodeURIComponent(searchQuery)}`);
+        } catch (error) {
+          console.error("Error while searching:", error);
+        }
       }
     }
   };
