@@ -6,6 +6,9 @@ import { api } from "../utils/Url";
 
 export function MypageInfo() {
   const navigate = useNavigate();
+
+  const role = localStorage.getItem("role");
+
   const memberId = localStorage.getItem("memberId");
   const [selectedImage, setSelectedImage] = useState("");
   const [nickname, setNickname] = useState("");
@@ -24,6 +27,7 @@ export function MypageInfo() {
   const showModal = () => {
     setModalOpen(true);
   };
+
   useEffect(() => {
     api
       .get(`/members/my-page/${memberId}`)
@@ -47,7 +51,7 @@ export function MypageInfo() {
         <UserEmail>{email}</UserEmail>
         <ButtonWrapper>
           <ProfileBtn onClick={handleBtnEdit}>프로필수정</ProfileBtn>
-          {memberId === "1" ? (
+          {role === "admin" ? (
             <UploadBtn onClick={handleBtnUpload}>음악업로드</UploadBtn>
           ) : (
             <DeleteBtn onClick={showModal}>회원탈퇴</DeleteBtn>
