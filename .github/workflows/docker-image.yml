@@ -107,7 +107,7 @@ jobs:
           context: .
           file: server/Dockerfile_client
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-client-app:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/my-client-nginx-app:latest
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
@@ -117,5 +117,5 @@ jobs:
       - name: Deploy to AWS EC2
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
-            sh custom_sh/deploy-client-active.sh
+            sh custom_sh/deploy-client-nginx-active.sh
           EOF
