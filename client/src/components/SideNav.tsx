@@ -193,6 +193,19 @@ function SideNav() {
                   </MenuItem>
                 </DropdownMenu>
               </HomeWrapper>
+              <HomeWrapper2>
+                <NavHome
+                  id="home"
+                  onClick={handleClickMenu}
+                  isActive={currentMenu === "home"}
+                >
+                  <HomeLink className="home" to="/home">
+                    <HomeImg
+                      fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"}
+                    />
+                  </HomeLink>
+                </NavHome>
+              </HomeWrapper2>
               <LiWrapper>
                 <NavMylist
                   id="mylist"
@@ -226,6 +239,15 @@ function SideNav() {
                 </NavMyPage>
               </LiWrapper>
             </LiStyle>
+            <SearchField2>
+              <SearchImg fill="#B4B4B7" />
+              <InputField
+                type="text"
+                value={searchQuery}
+                onChange={handleInputChange}
+                onKeyDown={handleSearchEnter}
+              ></InputField>
+            </SearchField2>
           </UlWrapper>
           <ButtonWrapper>
             {isLogin ? (
@@ -278,12 +300,26 @@ const RootWrapper = styled.div`
   padding: 4vh 0;
   font-family: var(--font-quicksand);
   min-height: fit-content;
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    padding: 2vh 0;
+    align-items: center;
+  }
 `;
 const NavWrapper = styled.nav`
   display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+  @media screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: normal;
+  }
 `;
 const UlWrapper = styled.ul`
   list-style: none;
@@ -291,6 +327,11 @@ const UlWrapper = styled.ul`
   flex-direction: column;
   justify-content: flex-start;
   row-gap: 24px;
+  @media screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
 `;
 
 const LogoLink = styled(Link)`
@@ -298,6 +339,9 @@ const LogoLink = styled(Link)`
   justify-content: center;
   height: 80px;
   align-items: baseline;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 const LogoImg = styled.img`
@@ -310,6 +354,19 @@ const SearchField = styled.div`
   border-radius: 100px;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+const SearchField2 = styled.div`
+  background-color: white;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  @media screen and (min-width: 800px) {
+    display: none;
+  }
 `;
 const InputField = styled.input`
   border: none;
@@ -319,6 +376,11 @@ const InputField = styled.input`
   padding-left: 40px;
   &:focus {
     border: 2px solid #84cbff;
+  }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    height: 40px;
+    border-radius: 100px;
   }
 `;
 const SearchImg = styled(SearchIcon)`
@@ -333,6 +395,12 @@ const LiStyle = styled.div`
   align-items: flex-start;
   margin-left: 12px;
   gap: 24px;
+  @media screen and (max-width: 800px) {
+    flex-direction: row;
+    align-items: center;
+    margin-right: 12px;
+    gap: 10px;
+  }
 `;
 const LiWrapper = styled.li`
   display: flex;
@@ -349,6 +417,20 @@ const HomeWrapper = styled.li`
   flex-direction: column;
   a {
     text-decoration: none;
+  }
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+const HomeWrapper2 = styled.li`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  a {
+    text-decoration: none;
+  }
+  @media screen and (max-width: 800px) {
+    width: 32px;
   }
 `;
 
@@ -405,6 +487,9 @@ const MylistText = styled.span<NavItemProps>`
   text-align: left;
   text-decoration: none;
   color: ${(props) => (props.isActive ? "#84CBFF" : "#B4B4B7")};
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 const MypageImg = styled(MypageIcon)`
   margin-right: 10px;
@@ -418,6 +503,9 @@ const MypageText = styled.span<NavItemProps>`
   text-align: left;
   text-decoration: none;
   color: ${(props) => (props.isActive ? "#84CBFF" : "#B4B4B7")};
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 const NavHome = styled.div<NavItemProps>``;
@@ -496,6 +584,14 @@ const ButtonWrapper = styled.div`
   width: 185px;
   height: 40px;
   display: flex;
+  @media screen and (max-width: 800px) {
+    width: 120px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
 `;
 const Logout = styled.button`
   border: solid 1px rgb(209, 209, 209);
@@ -511,6 +607,9 @@ const Logout = styled.button`
   cursor: pointer;
   width: 185px;
   height: 40px;
+  @media screen and (max-width: 800px) {
+    width: 80px;
+  }
 `;
 const Login1 = styled.button`
   border: solid 1px #84cbff;
@@ -527,6 +626,10 @@ const Login1 = styled.button`
   width: 88px;
   height: 40px;
   margin-right: 10px;
+  @media screen and (max-width: 800px) {
+    width: 55px;
+    font-size: 13px;
+  }
 `;
 const Signup = styled.button`
   border: solid 1px #84cbff;
@@ -542,4 +645,11 @@ const Signup = styled.button`
   cursor: pointer;
   width: 88px;
   height: 40px;
+  @media screen and (max-width: 800px) {
+    width: 55px;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
