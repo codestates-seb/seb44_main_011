@@ -1,10 +1,4 @@
 import { keyframes, styled } from "styled-components";
-// import UserInfo from "../assets/imgs/UserInfo.png";
-// import Sample1 from "../assets/imgs/sample1.jpeg";
-// import Sample2 from "../assets/imgs/sample2.jpeg";
-// import Sample3 from "../assets/imgs/sample3.jpeg";
-// import Sample4 from "../assets/imgs/sample4.jpeg";
-// import Sample5 from "../assets/imgs/sample5.jpeg";
 import { api } from "../utils/Url";
 import { useEffect, useState } from "react";
 
@@ -25,7 +19,6 @@ function ImageModal({ setModalOpen, onSelectImage }: PropsType) {
       const response = await api.get("/members/my-page/profiles");
       const data = response.data;
       setImageData(data);
-      console.log(response.data[0]);
     } catch (error) {
       console.error("이미지 데이터를 가져오는데 에러가 발생했습니다:", error);
     }
@@ -46,10 +39,6 @@ function ImageModal({ setModalOpen, onSelectImage }: PropsType) {
         <Exit onClick={closeModal}>X</Exit>
         <Title>Choose your Image</Title>
         <ContentWrapper>
-          {/* <DefaultImg>
-            onClick={() => handleImageSelect(UserInfo)}
-            src={UserInfo}
-          </DefaultImg> */}
           <SampelImg1
             onClick={() => handleImageSelect(imageData[0])}
             src={imageData[0]}
