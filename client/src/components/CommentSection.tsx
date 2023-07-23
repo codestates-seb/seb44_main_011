@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import Profile from "./commons/Profile";
-import testImg from "../assets/imgs/testimg.jpg";
 import { calculateTimeAgo } from "../utils/calculateTimeAgo";
 import { ReactComponent as EditIcon } from "../assets/icons/editicon.svg";
 import { ReactComponent as DeleteIcon } from "../assets/icons/deleteicon.svg";
@@ -327,7 +326,7 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
                 handleEditSubmit(event, comment.commentId)
               }
             >
-              <Profile image={testImg} size={40} radius={4} />
+              <Profile image={comment.profile} size={40} radius={4} />
               <ListContent>
                 <UserName>{comment.name}</UserName>
                 <span>:</span>
