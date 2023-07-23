@@ -19,8 +19,8 @@ COPY client/ .
 RUN npm run build
 
 #nginx 로 빌드 변경
-FROM nginx
-COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+#FROM nginx
+#COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 
 # 애플리케이션 실행을 위한 명령어를 설정합니다.
-#CMD ["npm","run","dev","--","--host"]
+CMD ["npm","run","dev","--","--host"]
