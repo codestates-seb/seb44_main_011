@@ -1,6 +1,5 @@
 package com.seb44main011.petplaylist.domain.music.service.mainService;
 
-import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.music.dto.MusicDto;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.music.mapper.MusicMapper;
@@ -14,13 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 
@@ -104,8 +101,8 @@ public class MusicService  {
     }
 
     @Transactional(readOnly = true)
-    public Page<Music> findCategoryAndTagsPageMusic(Music.Category category, String tags, int page) {
-        Pageable pageable = getPageInfo(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,"view");
+    public Page<Music> findCategoryAndTagsPageMusic(Music.Category category, String tags, int page,String sortValue) {
+        Pageable pageable = getPageInfo(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,sortValue);
         if (tags == null){
             return repository.findByCategoryAndStatus(category, Music.Status.ACTIVE,pageable);
         }
@@ -184,5 +181,11 @@ public class MusicService  {
     public Page<Music> findMusicListAllFromAdminByStatus(Music.Status status,int page, int size, String sort) {
         Pageable pageable = getPageInfo(page,size,sort);
         return repository.findAllByStatus(status,pageable);
+    }
+
+    public Page<Music> findMusicListFromTitle(String title, int page, String sort) {
+        Pageable pageable = getPageInfo(page,PageNationCreator.ORIGIN_PAGE_SIZE_OF_SIX,sort);
+        return repository.findAllByStatusAndTitleContaining(Music.Status.ACTIVE,title,pageable);
+
     }
 }

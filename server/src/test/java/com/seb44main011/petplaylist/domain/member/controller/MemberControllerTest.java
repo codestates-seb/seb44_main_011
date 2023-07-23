@@ -98,17 +98,17 @@ public class MemberControllerTest {
     public void patchMemberTest() throws Exception {
         String context = gson.toJson(MemberDto.Patch.builder()
                 .name("내가진짜홍길동")
-                .profile("수정된 프로필 이미지")
+                .profileUrl("url-1")
                 .build());
         MemberDto.PatchResponse response = MemberDto.PatchResponse.builder()
                 .email(MemberTestData.MockMember.getMemberData().getEmail())
                 .name("내가진짜홍길동")
-                .profile("수정된 프로필 이미지")
+                .profileUrl("수정된 프로필 이미지")
                 .build();
         BDDMockito.given(memberService.updateMember(Mockito.anyLong(), Mockito.any(MemberDto.Patch.class))).willReturn(testMember);
         BDDMockito.given(memberMapper.memberToMemberDtoPatchResponse(Mockito.any(Member.class))).willReturn(response);
 
-        mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/members/{member-id}", testMember.getMemberId())
+        mockMvc.perform(RestDocumentationRequestBuilders.patch("/api/members/my-page/{member-id}", testMember.getMemberId())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(context)
@@ -126,12 +126,12 @@ public class MemberControllerTest {
                                         )
                                         .requestFields(
                                                 PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("닉네임"),
-                                                PayloadDocumentation.fieldWithPath("profile").type(JsonFieldType.STRING).description("프로필 이미지")
+                                                PayloadDocumentation.fieldWithPath("profileUrl").type(JsonFieldType.STRING).description("프로필 이미지")
                                         )
                                         .responseFields(
                                                 PayloadDocumentation.fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),
                                                 PayloadDocumentation.fieldWithPath("name").type(JsonFieldType.STRING).description("닉네임"),
-                                                PayloadDocumentation.fieldWithPath("profile").type(JsonFieldType.STRING).type(JsonFieldType.STRING).description("변경된 프로필 이미지")
+                                                PayloadDocumentation.fieldWithPath("profileUrl").type(JsonFieldType.STRING).type(JsonFieldType.STRING).description("변경된 프로필 이미지")
                                         )
                                         .build()
                         )
@@ -184,7 +184,7 @@ public class MemberControllerTest {
         BDDMockito.given(memberMapper.memberToMyPageResponse(testMember)).willReturn(MemberTestData.getMyPageResponse());
 
         mockMvc.perform(
-                        RestDocumentationRequestBuilders.get("/api/members/{member-id}", testMember.getMemberId())
+                        RestDocumentationRequestBuilders.get("/api/members/my-page/{member-id}", testMember.getMemberId())
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -202,6 +202,7 @@ public class MemberControllerTest {
                                                 .responseFields(
                                                         PayloadDocumentation.fieldWithPath("name").description("닉네임"),
                                                         PayloadDocumentation.fieldWithPath("email").description("이메일"),
+                                                        PayloadDocumentation.fieldWithPath("profileUrl").description("프로파일 이미지"),
                                                         PayloadDocumentation.fieldWithPath("musicLists").type(JsonFieldType.ARRAY).description("뮤직리스트"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].musicId").description("음악 식별자"),
                                                         PayloadDocumentation.fieldWithPath("musicLists.[].title").description("곡 이름"),

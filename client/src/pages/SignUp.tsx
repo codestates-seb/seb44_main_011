@@ -34,14 +34,13 @@ function SignUp() {
   passwordRef.current = watch("password");
 
   const onSubmit = async (data: FormValues) => {
-    const dataA = {
+    const postdata = {
       email: data.email,
       password: data.password,
       name: data.name,
     };
-    console.log("signup 데이터: ", dataA);
     await axios
-      .post(PostSignUp, dataA)
+      .post(PostSignUp, postdata)
       .then((response) => {
         if (response.status === 201) {
           alert("회원가입이 완료되었습니다.");
@@ -52,7 +51,7 @@ function SignUp() {
         if (error.response.status === 409) {
           alert("중복된 이메일입니다. 다시 진행해주세요.");
         } else if (error.response.status === 500) {
-          alert("입력 양식에 맞게 다시 입력해주세요.");
+          alert("서버 에러가 발생했습니다. 잠시 후 시도해주세요.");
         }
       });
   };
