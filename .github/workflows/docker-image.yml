@@ -111,3 +111,13 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} <<EOF
             sh custom_sh/deploy-client-active.sh
           EOF
+
+
+
+
+
+
+
+
+
+
