@@ -51,6 +51,8 @@ function DeleteModal({ setModalOpen }: PropsType) {
           alert("비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요.");
         } else if (error.response.status === 500) {
           alert("서버 에러가 발생했습니다. 잠시 후 시도해주세요.");
+        } else {
+          alert("다시 입력 해주세요.");
         }
       });
   };

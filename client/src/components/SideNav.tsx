@@ -273,7 +273,11 @@ function SideNav() {
       )}
       {Signmodal && (
         <ModalBackground ref={modalRef} onClick={modalSideClick2}>
-          <SignUp />
+          <SignUp
+            ref={modalRef}
+            onClick2={modalSideClick2}
+            onClick={modalSideClick}
+          />
         </ModalBackground>
       )}
     </>
