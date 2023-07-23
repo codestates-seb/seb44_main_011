@@ -22,15 +22,12 @@ function EditProfile() {
 
   const handleProfileSave = async () => {
     const memberid = localStorage.getItem("memberId");
-    console.log("프로필 이미지 저장:", selectedImage);
-    console.log("닉네임 저장:", nickname);
 
     try {
       await api.patch(`/members/my-page/${memberid}`, {
         name: nickname,
         profileUrl: "url-1",
       });
-      console.log("성공!");
       setModalOpen(false);
       navigate("/mypage", { state: { selectedImage, nickname } });
     } catch (error) {

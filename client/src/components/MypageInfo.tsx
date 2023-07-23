@@ -33,7 +33,6 @@ export function MypageInfo() {
       .get(`/members/my-page/${memberId}`)
       .then((response) => {
         const data = response.data;
-        console.log(response.data);
         setSelectedImage(data.selectedImage);
         setNickname(data.name);
         setEmail(data.email);
