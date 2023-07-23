@@ -449,6 +449,9 @@ const HomeWrapper2 = styled.li`
   @media screen and (max-width: 800px) {
     width: 32px;
   }
+  @media screen and (min-width: 800px) {
+    display: none;
+  }
 `;
 
 const HomeLink = styled(Link)`
