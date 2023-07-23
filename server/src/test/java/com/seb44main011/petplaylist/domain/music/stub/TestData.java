@@ -10,20 +10,18 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class TestData {
+    private static final String title = "곡의 이름입니다";
+    private static final String music_url="/music/test.mp3";
+    private static final String image_url="/img/test.jpg";
+    private static final int PAGE_SIZE =6;
+
     public static class MockMusic{
-        private static final String title = "곡의 이름입니다";
-        private static final String music_url="/music/test.mp3";
-        private static final String image_url="/img/test.jpg";
-        private static final int PAGE_SIZE=6;
+
 
         public static Music getMusicData(){
             return Music.builder()
@@ -32,6 +30,8 @@ public class TestData {
                     .music_url(music_url)
                     .image_url(image_url)
                     .playtime("3:20")
+                    .category(Music.Category.CATS)
+                    .tags(Music.Tags.CALM)
                     .build();
         }
         public static MusicDto.PublicResponse getPublicResponseData(){
@@ -86,13 +86,6 @@ public class TestData {
         }
     }
 
-    //    public static class MockPersonalPlayList{
-//        public static PersonalPlayList getPersonalPlayList(){
-//            return PersonalPlayList.builder()
-//                    .member(MemberTestData.MockMember.getMemberData())
-//                    .build();
-//        }
-//    }
     public static class MockMusicList{
         public static PlayList getMusicListData(){
             return PlayList.builder()
@@ -104,7 +97,7 @@ public class TestData {
     public static class ResponseData {
         public static class PageNationData<T>{
             public static <T> Page<T> getPageData(int page,int totalTestPageElement){
-                Pageable pageable = PageRequest.of(page-1,MockMusic.PAGE_SIZE);
+                Pageable pageable = PageRequest.of(page-1,PAGE_SIZE);
                 List<T> mockList = new ArrayList<>();
                 return new PageImpl<>(mockList,pageable,totalTestPageElement);
             }
@@ -245,6 +238,99 @@ public class TestData {
                                 .playtime("3:20")
                                 .category(Music.Category.CATS.getCategory())
                                 .tags(Music.Tags.HAPPY.getTags())
+                                .build()
+
+                );
+            }
+        }
+        public static class Admin{
+            public static MusicDto.AdminResponse getAdminResponse(){
+                return MusicDto.AdminResponse.builder()
+                        .musicId(1L)
+                        .title("testName")
+                        .music_url(music_url)
+                        .image_url(image_url)
+                        .playtime("3:20")
+                        .tags(Music.Category.DOGS.getCategory())
+                        .status(Music.Status.ACTIVE.getStatus())
+                        .build();
+            }
+            public static List <MusicDto.AdminResponse> getAdminResponseList(){
+                return List.of(
+                        getAdminResponse(),
+                        MusicDto.AdminResponse.builder()
+                                .musicId(2L)
+                                .title("testName2")
+                                .music_url(music_url+"1")
+                                .image_url(image_url+"1")
+                                .playtime("3:20")
+                                .tags(Music.Category.DOGS.getCategory())
+                                .status(Music.Status.INACTIVE.getStatus())
+                                .build(),
+                        MusicDto.AdminResponse.builder()
+                                .musicId(3L)
+                                .title("testName3")
+                                .music_url(music_url+"1")
+                                .image_url(image_url+"1")
+                                .playtime("3:20")
+                                .tags(Music.Category.CATS.getCategory())
+                                .status(Music.Status.INACTIVE.getStatus())
+                                .build()
+
+                        );
+            }
+            public static List <MusicDto.AdminResponse> getAdminActiveResponseList(){
+                return List.of(
+                        MusicDto.AdminResponse.builder()
+                                .musicId(1L)
+                                .title("testName")
+                                .music_url(music_url)
+                                .image_url(image_url)
+                                .playtime("3:20")
+                                .tags(Music.Category.DOGS.getCategory())
+                                .status(Music.Status.ACTIVE.getStatus())
+                                .build(),
+                        MusicDto.AdminResponse.builder()
+                                .musicId(2L)
+                                .title("testName2")
+                                .music_url(music_url+"1")
+                                .image_url(image_url+"1")
+                                .playtime("3:20")
+                                .tags(Music.Category.DOGS.getCategory())
+                                .status(Music.Status.ACTIVE.getStatus())
+                                .build(),
+                        MusicDto.AdminResponse.builder()
+                                .musicId(3L)
+                                .title("testName3")
+                                .music_url(music_url+"1")
+                                .image_url(image_url+"1")
+                                .playtime("3:20")
+                                .tags(Music.Category.CATS.getCategory())
+                                .status(Music.Status.ACTIVE.getStatus())
+                                .build()
+
+                );
+            }
+            public static List <MusicDto.AdminResponse> getAdminInactiveResponseList(){
+                return List.of(
+                        getAdminResponse(),
+                        MusicDto.AdminResponse.builder()
+                                .musicId(2L)
+                                .title("testName2")
+                                .music_url(music_url+"1")
+                                .image_url(image_url+"1")
+                                .playtime("3:20")
+                                .tags(Music.Category.DOGS.getCategory())
+                                .status(Music.Status.INACTIVE.getStatus())
+                                .build(),
+                        MusicDto.AdminResponse.builder()
+                                .musicId(3L)
+                                .title("testName3")
+                                .music_url(music_url+"1")
+                                .image_url(image_url+"1")
+                                .playtime("3:20")
+                                .tags(Music.Category.CATS.getCategory())
+                                .status(Music.Status.INACTIVE.getStatus())
                                 .build()
 
                 );

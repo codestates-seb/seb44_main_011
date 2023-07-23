@@ -6,24 +6,15 @@ import com.seb44main011.petplaylist.global.common.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="MUSIC")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Music extends BaseTimeEntity {
-    @Builder
-    public Music(long musicId, String title, String music_url, String image_url, String playtime, long view, Category category, Tags tags, List<PlayList> personalPlayLists) {
-        this.musicId = musicId;
-        this.title = title;
-        this.music_url = music_url;
-        this.image_url = image_url;
-        this.playtime = playtime;
-        this.view = view;
-        this.category = category;
-        this.tags = tags;
-        this.personalPlayLists = personalPlayLists;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long musicId;
@@ -50,10 +41,12 @@ public class Music extends BaseTimeEntity {
 
     @Enumerated(value =  EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private Status status = Status.ACTIVE;
 
+    @Builder.Default
     @OneToMany(mappedBy = "music",cascade = CascadeType.ALL)
-    private List<PlayList> personalPlayLists;
+    private List<PlayList> personalPlayLists = new ArrayList<>();
 
     public enum Category{
         DOGS("dogs"),

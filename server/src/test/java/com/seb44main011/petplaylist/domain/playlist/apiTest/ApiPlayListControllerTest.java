@@ -24,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -32,8 +33,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.List;
-import static com.epages.restdocs.apispec.ResourceDocumentation.parameterWithName;
-import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
+
+import static com.epages.restdocs.apispec.ResourceDocumentation.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -87,6 +88,8 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         .param("member-id",String.valueOf(MemberTestData.MockMember.getMemberData().getMemberId()))
                                         .param("page", String.valueOf(pageTestData.getNumber()+1))
                                         .param("sort", "new")
+                                        .header(HttpHeaders.AUTHORIZATION,"Bearer accessToken...AnyString...")
+                                        .header(HttpHeaders.AUTHORIZATION,"refreshToken...AnyString...")
 
                         )
                         .andExpect(status().isOk())
@@ -97,6 +100,9 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("회원의 전체 음악 리스트 조회 기능 API")
+                                                        .requestHeaders(
+                                                                getHeaderDescriptorWithTypes()
+                                                        )
                                                         .requestParameters(
                                                                 parameterWithName("member-id").type(SimpleType.NUMBER).description("회원 식별 Id"),
                                                                 parameterWithName("page").type(SimpleType.NUMBER).description("가져올 페이지 숫자"),
@@ -133,6 +139,8 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                         post(API_PLAYLIST_URL+"/{member-id}", postRequestData.getMusicId())
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .header(HttpHeaders.AUTHORIZATION,"Bearer accessToken...AnyString...")
+                                .header(HttpHeaders.AUTHORIZATION,"refreshToken...AnyString...")
                                 .content(content)
 
                 )
@@ -144,6 +152,9 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("개인 플레이 리스트(좋아요)에 곡 추가 기능")
+                                                        .requestHeaders(
+                                                                getHeaderDescriptorWithTypes()
+                                                        )
                                                         .pathParameters(
                                                                 parameterWithName("member-id").description("회원 식별 Id")
                                                         )
@@ -169,6 +180,8 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                 get(API_PLAYLIST_URL+"/{member-id}",1)
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("page", String.valueOf(pageTestData.getNumber()+1))
+                                        .header(HttpHeaders.AUTHORIZATION,"Bearer accessToken...AnyString...")
+                                        .header(HttpHeaders.AUTHORIZATION,"refreshToken...AnyString...")
 
                         )
                         .andExpect(status().isOk())
@@ -179,6 +192,9 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("개인 플레이 리스트 조회(좋아요 리스트) API")
+                                                        .requestHeaders(
+                                                                getHeaderDescriptorWithTypes()
+                                                        )
                                                         .pathParameters(
                                                                 parameterWithName("member-id").type(SimpleType.NUMBER).description("회원 식별 Id")
                                                         )
@@ -217,6 +233,8 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         .param("page", String.valueOf(testPageData.getNumber()+1))
                                         .param("tags",apiResponses.get(0).getTags())
                                         .param("sort","new")
+                                        .header(HttpHeaders.AUTHORIZATION,"Bearer accessToken...AnyString...")
+                                        .header(HttpHeaders.AUTHORIZATION,"refreshToken...AnyString...")
 
                         )
                         .andExpect(status().isOk())
@@ -227,6 +245,9 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("로그인 상태인 회원의 카테고리 테크별 조회 API")
+                                                        .requestHeaders(
+                                                                getHeaderDescriptorWithTypes()
+                                                        )
                                                         .pathParameters(
                                                                 parameterWithName("dogOrCats").type(SimpleType.STRING).description("카테고리(DOGS,CATS)"),
                                                                 parameterWithName("member-id").type(SimpleType.NUMBER).description("회원 식별 Id")
@@ -265,6 +286,8 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                 delete(API_PLAYLIST_URL+"/{member-id}", postRequestData.getMusicId())
                                         .accept(MediaType.APPLICATION_JSON)
                                         .contentType(MediaType.APPLICATION_JSON)
+                                        .header(HttpHeaders.AUTHORIZATION,"Bearer accessToken...AnyString...")
+                                        .header(HttpHeaders.AUTHORIZATION,"refreshToken...AnyString...")
                                         .content(content)
 
                         )
@@ -276,6 +299,9 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                                         resource(
                                                 ResourceSnippetParameters.builder()
                                                         .description("개인 플레이 리스트(좋아요) 곡 삭제 기능")
+                                                        .requestHeaders(
+                                                                getHeaderDescriptorWithTypes()
+                                                        )
                                                         .pathParameters(
                                                                 parameterWithName("member-id").description("회원 식별 Id")
                                                         )
@@ -288,6 +314,51 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
                         );
 
 
+    }
+
+    @Test
+    @DisplayName("회원의 타이틀 검색시 뮤직리스트 응답 테스트")
+    @WithMockUser
+    public void getSearchTitleMusicListFromNonMemberTest() throws Exception {
+        List<PlaylistDto.ApiResponse> apiResponsesTestData = TestData.ResponseData.Api.getPlayListResponseList();
+        given(musicService.findMusicListFromTitle(Mockito.anyString(),Mockito.anyInt(),Mockito.anyString())).willReturn(TestData.ResponseData.PageNationData.getPageData(1,apiResponsesTestData.size()));
+        given(musicListService.findPersonalMusicLists(Mockito.anyLong())).willReturn(new ArrayList<>());
+        given(musicListMapper.musicListToApiResponse(Mockito.anyList(),Mockito.anyList())).willReturn(apiResponsesTestData);
+
+        ResultActions actions =
+                mockMvc.perform(
+                                get(API_PLAYLIST_URL+"/search")
+                                        .accept(MediaType.APPLICATION_JSON)
+                                        .param("title","노래")
+                                        .param("page","1")
+                                        .param("sort","old")
+                                        .header(HttpHeaders.AUTHORIZATION,"Bearer accessToken...AnyString...")
+                                        .header(HttpHeaders.AUTHORIZATION,"refreshToken...AnyString...")
+
+                        )
+                        .andExpect(status().isOk())
+                        .andDo(
+                                MockMvcRestDocumentationWrapper.document("타이틀 음악 리스트 검색 기능"
+                                        ,preprocessRequest(prettyPrint())
+                                        ,preprocessResponse(prettyPrint()),
+                                        resource(
+                                                ResourceSnippetParameters.builder()
+                                                        .description("로그인 상태 시 타이틀 음악 리스트 조회 기능 API")
+                                                        .requestHeaders(
+                                                                getHeaderDescriptorWithTypes()
+                                                        )
+                                                        .requestParameters(
+                                                                parameterWithName("title").type(SimpleType.STRING).description("검색할 이름"),
+                                                                parameterWithName("page").type(SimpleType.STRING).description("검색할 현재 페이지").optional(),
+                                                                parameterWithName("sort").type(SimpleType.STRING).description("정렬순서 (new, old)").optional()
+                                                        )
+                                                        .responseFields(
+                                                                getApiPlayListPageField()
+                                                        )
+                                                        .build()
+                                        )
+                                )
+                        );
     }
 
 

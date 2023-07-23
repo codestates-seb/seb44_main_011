@@ -51,7 +51,7 @@ public class MusicListService {
         return repository.findAllByMember_MemberIdAndMusicStatus(memberId, Music.Status.ACTIVE);
     }
     public List<PlayList> findPersonalMusicLists(String email){
-        return repository.findAllByMember_Email(email);
+        return repository.findAllByMember_EmailAndMusicStatus(email,Music.Status.ACTIVE);
     }
     public void addMusicList(PlayList playList){
         verifyExistsMusicList(playList);
