@@ -154,7 +154,7 @@ export const MusicList: React.FC<MusicListProps> = ({
                   stroke={music.liked ? "none" : "#212121"}
                 />
               </Button>
-              {role === "admin" && (
+              {role === "ADMIN" && (
                 <Button
                   onClick={(event: React.MouseEvent) => {
                     event.stopPropagation();
