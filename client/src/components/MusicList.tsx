@@ -77,6 +77,7 @@ type MusicListProps = {
   isTopChart?: string;
   loading?: boolean;
   setIsLikedClick: (value: boolean) => void;
+  selectedMusicId?: number;
 };
 
 export const MusicList: React.FC<MusicListProps> = ({
@@ -87,8 +88,8 @@ export const MusicList: React.FC<MusicListProps> = ({
   isTopChart,
   loading,
   setIsLikedClick,
+  selectedMusicId,
 }) => {
-  const [clickedMusicId, setClickedMusicId] = useState<number | null>(null);
   const [active, setActive] = useState(true);
 
   const handleLikeClick = (musicId: number, liked?: boolean) => {
@@ -100,7 +101,6 @@ export const MusicList: React.FC<MusicListProps> = ({
   const handleMusicClick = (musicId: number) => {
     if (handleMusic) {
       handleMusic(musicId);
-      setClickedMusicId(musicId);
       setActive(true);
     }
   };
@@ -136,7 +136,7 @@ export const MusicList: React.FC<MusicListProps> = ({
           <StyledMusicList
             key={music.musicId}
             onClick={() => handleMusicClick(music.musicId)}
-            $active={clickedMusicId === music.musicId && active}
+            $active={selectedMusicId === music.musicId && active}
           >
             <Profile image={testImg} size={40} radius={4} alt={"Cover Image"} />
             <Title>{music.title}</Title>

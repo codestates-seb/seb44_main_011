@@ -27,7 +27,7 @@ function MyPage() {
     <MyPageContainer>
       <MypageInfo />
       <MyPageTitle>
-        ≠<h1>MYLIST</h1>
+        <h1>MYLIST</h1>
         <Link to={"/mylist"}>+더보기</Link>
       </MyPageTitle>
       <MusicList

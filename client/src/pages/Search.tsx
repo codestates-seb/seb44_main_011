@@ -96,7 +96,9 @@ function Search() {
           <MusicList
             musicList={filteredResults.data}
             handleLike={handleLike}
+            handleMusic={handleMusic}
             setIsLikedClick={setIsLikedClick}
+            selectedMusicId={selectedMusic?.musicId}
           />
           <Pagination
             currentPage={currentPage}
