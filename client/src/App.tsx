@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Tags from "./pages/Tags";
 import Edit from "./pages/Edit";
 import Home from "./pages/Home";
 import MainContent from "./components/commons/MainContent";
@@ -29,9 +28,9 @@ function App() {
     <BrowserRouter>
       <MainWrapper>
         <Routes>
-          {/* Intro 컴포넌트에서는 SideBar를 렌더링하지 않음 */}
+          {/* Intro 컴포넌트에서는 SideNav를 렌더링하지 않음 */}
           <Route path="/" element={<Intro />} />
-          {/* 다른 페이지들에서는 SideBar를 렌더링 */}
+          {/* 다른 페이지들에서는 SideNav를 렌더링 */}
           <Route
             path="/*"
             element={
@@ -42,7 +41,6 @@ function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/mylist" element={<MyList />} />
                     <Route path="/mypage" element={<MyPage />} />
-                    <Route path="/tags" element={<Tags />} />
                     <Route path="/mypage/edit" element={<Edit />} />
                     <Route path="/oauth" element={<Oauth />} />
                     <Route path="/mypage/upload" element={<Upload />} />

@@ -7,7 +7,6 @@ import useLikeData from "../hooks/useLikeData";
 import { styled } from "styled-components";
 import { Music } from "../types/Music";
 import { api } from "../utils/Url";
-import { current } from "@reduxjs/toolkit";
 import { PageInfo } from "../types/PageInfo";
 import Player from "../components/Player";
 import useMusicData from "../hooks/useMusicData";
@@ -24,7 +23,6 @@ function Search() {
     data: [],
     pageInfo: { page: 1, size: 6, totalElements: 0, totalPages: 1 },
   });
-  // const [filteredResults, setFilteredResults] = useState([]); // 필터링된 검색 결과를 저장할 상태 변수를 추가합니다.
   const [currentPage, setCurrentPage] = useState(1);
   const [isLikedClick, setIsLikedClick] = useState(false);
   const [showMusicList, setShowMusicList] = useState(true);
@@ -44,15 +42,12 @@ function Search() {
     setShowMusicList(!showMusicList);
   };
 
-
   useEffect(() => {
     setIsLikedClick(false);
   }, [currentPage, isLikedClick]);
 
   useEffect(() => {
-    // Fetch search results from the server when the component mounts
     const fetchSearchResults = async () => {
-
       const memberId = localStorage.getItem("memberId");
 
       if (!memberId) {
@@ -68,15 +63,11 @@ function Search() {
         } catch (error) {
           console.error("Error fetching search results:", error);
         }
-      }
-      else {
+      } else {
         try {
-          const response = await api.get<MusicListData>(
-            `/playlist/search`,
-            {
-              params: { title: searchQuery, page: currentPage },
-            }
-          );
+          const response = await api.get<MusicListData>(`/playlist/search`, {
+            params: { title: searchQuery, page: currentPage },
+          });
           setFilteredResults(response.data);
           console.log(response.data);
         } catch (error) {
@@ -88,8 +79,6 @@ function Search() {
     fetchSearchResults();
   }, [searchQuery, currentPage, isLikedClick]);
 
-
-
   return (
     <SearchContainer>
       <Player
@@ -97,7 +86,8 @@ function Search() {
         handleLike={handleLike}
         handleMusic={handleMusic}
         handleCommentClick={handleCommentClick}
-        musicList={filteredResults.data} />
+        musicList={filteredResults.data}
+      />
       {showMusicList && (
         <>
           <SearchTitle>
@@ -119,8 +109,6 @@ function Search() {
   );
 }
 export default Search;
-
-
 
 const SearchTitle = styled.div`
   width: 100%;
