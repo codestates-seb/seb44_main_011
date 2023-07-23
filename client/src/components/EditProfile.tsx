@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import ImageModal from "./ImageModal";
 import { api } from "../utils/Url";
+import Default from "../assets/imgs/Default.jpg";
+
+const defaultImage = { Default };
 
 function EditProfile() {
   const movePage = useNavigate();
@@ -11,6 +14,7 @@ function EditProfile() {
 
   const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
+  const memberid = localStorage.getItem("memberId");
 
   function goMypage() {
     movePage("/mypage");
@@ -19,14 +23,11 @@ function EditProfile() {
   const showModal = () => {
     setModalOpen(true);
   };
-
   const handleProfileSave = async () => {
-    const memberid = localStorage.getItem("memberId");
-
     try {
       await api.patch(`/members/my-page/${memberid}`, {
         name: nickname,
-        profileUrl: "url-1",
+        profileUrl: selectedImage,
       });
       setModalOpen(false);
       navigate("/mypage", { state: { selectedImage, nickname } });
@@ -34,6 +35,17 @@ function EditProfile() {
       console.error("Error while updating profile:", error);
     }
   };
+  useEffect(() => {
+    api
+      .get(`/members/my-page/${memberid}`)
+      .then((response) => {
+        const data = response.data;
+        setSelectedImage(data.profileUrl || defaultImage);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <Wrapper>
