@@ -327,7 +327,7 @@ public class ApiPlayListControllerTest extends ApiFieldDescriptor{
 
         ResultActions actions =
                 mockMvc.perform(
-                                get(API_PLAYLIST_URL+"/search/{member-id}","1")
+                                get(API_PLAYLIST_URL+"/search")
                                         .accept(MediaType.APPLICATION_JSON)
                                         .param("title","노래")
                                         .param("page","1")
