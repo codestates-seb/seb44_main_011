@@ -8,6 +8,7 @@ export type Comment = {
   comment: string;
   createdAt: string;
   modifiedAt: string;
+  profile: string;
 };
 
 export type CommentData = {

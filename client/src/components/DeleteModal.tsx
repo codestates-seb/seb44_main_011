@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { PasswordRegEx, PasswordMin, PasswordMax } from "../utils/Check";
 import { ErrorMsg } from "./commons/Input";
 import { Form } from "./commons/Form";
+import saveNewToken from "../utils/saveNewToken";
 
 type PropsType = {
   setModalOpen: (open: boolean) => void;
@@ -38,6 +39,8 @@ function DeleteModal({ setModalOpen }: PropsType) {
         },
       })
       .then((response) => {
+        const access_Token = response.headers["authorization"] || null;
+        saveNewToken(access_Token);
         if (response.status === 200) {
           localStorage.removeItem("memberId");
           localStorage.removeItem("accessToken");

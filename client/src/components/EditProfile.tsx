@@ -5,6 +5,8 @@ import ImageModal from "./ImageModal";
 import { api } from "../utils/Url";
 import Default from "../assets/imgs/Default.jpg";
 import { ErrorMsg } from "./commons/Input";
+import saveNewToken from "../utils/saveNewToken";
+
 const defaultImage = { Default };
 
 function EditProfile() {
@@ -29,10 +31,12 @@ function EditProfile() {
       return;
     }
     try {
-      await api.patch(`/members/my-page/${memberid}`, {
+      const response = await api.patch(`/members/my-page/${memberid}`, {
         name: nickname,
         profileUrl: selectedImage,
       });
+      const accessToken = response.headers["authorization"] || null;
+      saveNewToken(accessToken);
       setModalOpen(false);
       navigate("/mypage", { state: { selectedImage, nickname } });
     } catch (error) {
@@ -44,6 +48,8 @@ function EditProfile() {
       .get(`/members/my-page/${memberid}`)
       .then((response) => {
         const data = response.data;
+        const accessToken = response.headers["authorization"] || null;
+        saveNewToken(accessToken);
         setSelectedImage(data.profileUrl || defaultImage);
       })
       .catch((error) => {

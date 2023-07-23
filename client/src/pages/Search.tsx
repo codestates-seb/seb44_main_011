@@ -10,6 +10,7 @@ import { api } from "../utils/Url";
 import { PageInfo } from "../types/PageInfo";
 import Player from "../components/Player";
 import useMusicData from "../hooks/useMusicData";
+import saveNewToken from "../utils/saveNewToken";
 
 type MusicListData = {
   data: Music[];
@@ -68,6 +69,8 @@ function Search() {
           const response = await api.get<MusicListData>(`/playlist/search`, {
             params: { title: searchQuery, page: currentPage },
           });
+          const accessToken = response.headers["authorization"] || null;
+          saveNewToken(accessToken);
           setFilteredResults(response.data);
           console.log(response.data);
         } catch (error) {
