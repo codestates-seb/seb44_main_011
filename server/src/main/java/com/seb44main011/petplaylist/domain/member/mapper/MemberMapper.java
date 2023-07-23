@@ -4,6 +4,7 @@ import com.seb44main011.petplaylist.domain.member.dto.MemberDto;
 import com.seb44main011.petplaylist.domain.member.entity.Member;
 import com.seb44main011.petplaylist.domain.music.entity.Music;
 import com.seb44main011.petplaylist.domain.playlist.dto.PlaylistDto;
+import com.seb44main011.petplaylist.domain.playlist.entity.entityTable.PlayList;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -27,9 +28,13 @@ public interface MemberMapper {
 
     default MemberDto.MyPageResponse memberToMyPageResponse(Member member) {
         List<PlaylistDto.PublicResponse> musicList = new ArrayList<>();
-
-        if (!member.getPlayLists().isEmpty()) {
-            for (int i = 0; i < 6; i++) {
+        List<PlayList> memberPlayList = member.getPlayLists();
+        int memberPlayListSize = memberPlayList.size();
+        if ( memberPlayListSize > 6) {
+            memberPlayListSize = 6;
+        }
+        if (!memberPlayList.isEmpty()) {
+            for (int i = 0; i < memberPlayListSize; i++) {
                 Music insertMusic = member.getPlayLists().get(i).getMusic();
                 if (insertMusic == null) {
                     break;
