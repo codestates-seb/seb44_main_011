@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
+import axios from "axios";
+import { api } from "../utils/Url";
 // import EditProfile from "./EditProfile";
 
 // type PropsType = {
@@ -10,22 +12,26 @@ import DeleteModal from "./DeleteModal";
 
 export function MypageInfo() {
   const navigate = useNavigate();
-  const [nickname, setNickname] = useState<string>("");
-  const [selectedImage, setSelectedImage] = useState<string>("");
-  console.log("selectedImage:", selectedImage);
-  console.log("nickname:", nickname);
+  // const [nickname, setNickname] = useState<string>("");
+  // const [selectedImage, setSelectedImage] = useState<string>("");
+  // console.log("selectedImage:", selectedImage);
+  // console.log("nickname:", nickname);
 
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때에만 실행되도록 useEffect를 사용하여 nickname 값을 localStorage에서 불러옵니다.
-    const storedNickname = localStorage.getItem("nickname");
-    const storedImage = localStorage.getItem("selectedImage");
-    if (storedNickname && storedImage) {
-      setNickname(storedNickname);
-      setSelectedImage(storedImage);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // 컴포넌트가 마운트될 때에만 실행되도록 useEffect를 사용하여 nickname 값을 localStorage에서 불러옵니다.
+  //   const storedNickname = localStorage.getItem("nickname");
+  //   const storedImage = localStorage.getItem("selectedImage");
+  //   if (storedNickname && storedImage) {
+  //     setNickname(storedNickname);
+  //     setSelectedImage(storedImage);
+  //   }
+  // }, []);
 
   const memberId = localStorage.getItem("memberId");
+  const [selectedImage, setSelectedImage] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [email, setEmail] = useState("");
+
 
   const handleBtnEdit = () => {
     navigate("/mypage/edit");
@@ -40,13 +46,27 @@ export function MypageInfo() {
   const showModal = () => {
     setModalOpen(true);
   };
+  useEffect(() => {
+    api
+      .get(`/members/my-page/${memberId}`)
+      .then((response) => {
+        const data = response.data;
+        console.log(response.data);
+        setSelectedImage(data.selectedImage); // 받아온 데이터를 상태 변수에 저장합니다.
+        setNickname(data.name);
+        setEmail(data.email);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <Wrapper>
       <UserInfoImg src={selectedImage} />
       <Profile>
         <UserName>{nickname}</UserName>
-        <UserEmail>firerock@naver.com</UserEmail>
+        <UserEmail>{email}</UserEmail>
         <ButtonWrapper>
           <ProfileBtn onClick={handleBtnEdit}>프로필수정</ProfileBtn>
           {memberId === "1" ? (

@@ -1,8 +1,10 @@
 import axios, { AxiosInstance } from "axios";
 
 export const BaseURL = "https://api.petpil.site:8080";
+
 export const PostLogin = `${BaseURL}/public/login`;
 export const PostSignUp = `${BaseURL}/public/signup`;
+
 export const DeleteUser = `${BaseURL}/api/members`;
 export const GoogleLogin = `${BaseURL}/oauth2/authorization/google`;
 export const NaverLogin = `${BaseURL}/oauth2/authorization/naver`;
