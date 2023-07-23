@@ -21,48 +21,30 @@ function EditProfile() {
     setModalOpen(true);
   };
 
-  useEffect(() => {
-    // 컴포넌트가 마운트될 때에만 실행되도록 useEffect를 사용하여 nickname 값을 localStorage에서 불러옵니다.
-    const storedImage = localStorage.getItem("selectedImage");
-    if (storedImage) {
-      setSelectedImage(storedImage);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // 컴포넌트가 마운트될 때에만 실행되도록 useEffect를 사용하여 nickname 값을 localStorage에서 불러옵니다.
+  //   const storedImage = localStorage.getItem("selectedImage");
+  //   if (storedImage) {
+  //     setSelectedImage(storedImage);
+  //   }
+  // }, []);
 
-  // const handleProfileSave = () => {
-  //   // 여기에서 선택된 이미지(selectedImage)와 입력된 닉네임(nickname)을 프로필 정보로 저장하고 서버에 업데이트하는 로직을 추가할 수 있습니다.
-  //   console.log("프로필 이미지 저장:", selectedImage);
-  //   console.log("닉네임 저장:", nickname);
-
-  //   // Store selectedImage and nickname in localStorage
-  //   localStorage.setItem("selectedImage", selectedImage);
-  //   localStorage.setItem("nickname", nickname);
-
-  //   setModalOpen(false); // 저장 후 모닫 닫기
-  //   navigate("/mypage", { state: { selectedImage, nickname } });
-  // };
   const handleProfileSave = async () => {
-    // 여기에서 선택된 이미지(selectedImage)와 입력된 닉네임(nickname)을 프로필 정보로 저장하고 서버에 업데이트하는 로직을 추가할 수 있습니다.
+    
+    const memberid = localStorage.getItem("memberId");
     console.log("프로필 이미지 저장:", selectedImage);
     console.log("닉네임 저장:", nickname);
 
-    // Store selectedImage and nickname in localStorage
-    localStorage.setItem("selectedImage", selectedImage);
-    localStorage.setItem("nickname", nickname);
-
     try {
-      // Send the data to the server using Axios PATCH request
-      const memberId = localStorage.getItem("memberId"); // Replace {member-id} with the actual member ID
-      await api.patch(`/members/${memberId}`, {
+      await api.patch(`/members/my-page/${memberid}`, {
         name: nickname,
-        profile: selectedImage,
+        profileUrl: "url-1",
       });
-
+      console.log("성공!")
       setModalOpen(false); // 저장 후 모달 닫기
       navigate("/mypage", { state: { selectedImage, nickname } });
     } catch (error) {
       console.error("Error while updating profile:", error);
-      // Handle the error or show an error message to the user if needed
     }
   };
 
@@ -71,14 +53,14 @@ function EditProfile() {
       <Title>Edit Profile</Title>
       <Profile>
         <ProfileImage>Profile Image</ProfileImage>
-        <UserInfoImg src={selectedImage} />
-        <ChangeImg onClick={showModal}>프로필 변경</ChangeImg>
         {modalOpen && (
           <ImageModal
             setModalOpen={setModalOpen}
             onSelectImage={setSelectedImage} // 선택한 이미지를 EditProfile 컴포넌트의 selectedImage로 전달
           />
         )}
+        <UserInfoImg src={selectedImage} />
+        <ChangeImg onClick={showModal}>프로필 변경</ChangeImg>
         <NickName>Nickname</NickName>
         <NickNameInput
           value={nickname}
@@ -100,6 +82,8 @@ export default EditProfile;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 50px;
+  // border: 1px solid black;
 `;
 
 const Profile = styled.div`

@@ -130,6 +130,7 @@ const Home = () => {
             isTopChart={isTopChart}
             loading={false}
             setIsLikedClick={setIsLikedClick}
+            selectedMusicId={selectedMusic?.musicId}
           />
           <Pagination
             currentPage={currentPage}
