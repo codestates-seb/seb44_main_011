@@ -137,9 +137,9 @@ function SideNav() {
                 <NavHome
                   id="home"
                   onClick={handleClickMenu}
-                  isActive={currentMenu === "home"}
+                  isActive={currentMenu === "/home"}
                 >
-                  <HomeLink className="home" to="/home">
+                  <HomeLink className="home" to="home">
                     <HomeImg
                       fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"}
                     />
