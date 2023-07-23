@@ -51,7 +51,8 @@ function EditProfile() {
       });
   }, []);
   const onChangeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+    const inputValue = e.target.value;
+    setNickname(inputValue.replace(/\s/g, ""));
     if (nickname.length < 2 || nickname.length > 7) {
       setMessage("2글자 이상 7글자 이하로 입력해주세요.");
     } else {
@@ -165,6 +166,7 @@ const NickNameInput = styled.input`
   outline: none;
   border-radius: 5px;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const Cancle = styled.button`
