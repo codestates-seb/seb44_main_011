@@ -33,7 +33,6 @@ export function MypageInfo() {
       .get(`/members/my-page/${memberId}`)
       .then((response) => {
         const data = response.data;
-        console.log(response.data);
         setSelectedImage(data.selectedImage);
         setNickname(data.name);
         setEmail(data.email);
@@ -51,7 +50,7 @@ export function MypageInfo() {
         <UserEmail>{email}</UserEmail>
         <ButtonWrapper>
           <ProfileBtn onClick={handleBtnEdit}>프로필수정</ProfileBtn>
-          {role === "admin" ? (
+          {role === "ADMIN" ? (
             <UploadBtn onClick={handleBtnUpload}>음악업로드</UploadBtn>
           ) : (
             <DeleteBtn onClick={showModal}>회원탈퇴</DeleteBtn>

@@ -5,13 +5,9 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useMyMusicData from "../hooks/useMyMusicData";
 import useLikeData from "../hooks/useLikeData";
-import { useLocation } from "react-router-dom";
 
 function MyPage() {
   const [isLikedClick, setIsLikedClick] = useState(false);
-
-  const loc = useLocation();
-  console.log(loc);
 
   const musicList = useMyMusicData(isLikedClick);
 

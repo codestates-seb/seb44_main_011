@@ -13,7 +13,6 @@ import SignUp from "../pages/SignUp";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/RootStore";
 import { setCurrentTag } from "../redux/tagSlice";
-
 interface NavItemProps {
   isActive: boolean;
 }
@@ -23,18 +22,21 @@ interface ViewMoreProps {
 
 function SideNav() {
   const [isTagsMenuOpen, setIsTagsMenuOpen] = useState(false);
-  const [currentMenu, setCurrentMenu] = useState<string>("home");
+  const location = useLocation();
+  //path parameter를 통해서 최신 메뉴 확인, /부분은 제거
+  const [currentMenu, setCurrentMenu] = useState<string>(
+    location.pathname.substring(1)
+  );
   const [modalOpen, setModalOpen] = useState(false);
   const [Signmodal, setSignModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const modalRef = useRef(null);
   const isLogin = localStorage.getItem("memberId");
-  const location = useLocation();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isDogpli = useSelector((state: RootState) => state.home.isDogpli);
   const currentTag = useSelector((state: RootState) => state.tags.currentTag);
-
   const handleClickMenu = (e: {
     currentTarget: { id: SetStateAction<string> };
   }) => {
@@ -137,9 +139,9 @@ function SideNav() {
                 <NavHome
                   id="home"
                   onClick={handleClickMenu}
-                  isActive={currentMenu === "home"}
+                  isActive={currentMenu === "/home"}
                 >
-                  <HomeLink className="home" to="/home">
+                  <HomeLink className="home" to="home">
                     <HomeImg
                       fill={currentMenu === "home" ? "#84CBFF" : "#B4B4B7"}
                     />

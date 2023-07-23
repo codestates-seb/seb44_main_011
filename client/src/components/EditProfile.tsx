@@ -22,15 +22,12 @@ function EditProfile() {
 
   const handleProfileSave = async () => {
     const memberid = localStorage.getItem("memberId");
-    console.log("프로필 이미지 저장:", selectedImage);
-    console.log("닉네임 저장:", nickname);
 
     try {
       await api.patch(`/members/my-page/${memberid}`, {
         name: nickname,
         profileUrl: "url-1",
       });
-      console.log("성공!");
       setModalOpen(false);
       navigate("/mypage", { state: { selectedImage, nickname } });
     } catch (error) {
@@ -126,6 +123,7 @@ const ChangeImg = styled.button`
   background-color: #fff;
   cursor: pointer;
   margin-top: 10px;
+  font-size: 12px;
 `;
 const NickName = styled.span`
   text-overflow: ellipsis;
@@ -159,6 +157,7 @@ const Cancle = styled.button`
   background-color: #fff;
   cursor: pointer;
   margin-right: 20px;
+  font-size: 12px;
 `;
 const Save = styled.button`
   width: 84px;
@@ -168,6 +167,7 @@ const Save = styled.button`
   color: #fff;
   background-color: #84cbff;
   cursor: pointer;
+  font-size: 12px;
 `;
 
 const ButtonWrapper = styled.div`
