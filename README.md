@@ -6,7 +6,7 @@
 ## TEAM MEMBER
 ### Front-end
 
-| <img src=""/> | <img src=""/> | <img src=""/> |
+| <img src="https://raw.githubusercontent.com/codestates-seb/seb44_main_011/dev/img/%E1%84%89%E1%85%A5%E1%86%B8%E1%84%82%E1%85%B5%E1%86%B7.png"/> | <img src="https://github.com/codestates-seb/seb44_main_011/blob/dev/img/%E1%84%8D%E1%85%AE%E1%84%82%E1%85%B5%E1%86%B7.png"/> | <img src="https://raw.githubusercontent.com/codestates-seb/seb44_main_011/dev/img/%E1%84%80%E1%85%B5%E1%86%B7%E1%84%92%E1%85%A8%E1%84%8C%E1%85%AE.png"/> |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
 | **임경섭**                                                                              | 김동주                                                                                     | 김혜주                                                                                    |
 | 맡은부분                                                             |  맡은부분                                                              |  맡은부분                                                               |
