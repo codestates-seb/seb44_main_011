@@ -25,8 +25,6 @@
 ## STACKS
 ![image](/img/Stacks.png)
 
-## WIREFRAME
-
 <details>
   <summary><strong><h2>UserFlow</h2></strong></summary>
   <div>
