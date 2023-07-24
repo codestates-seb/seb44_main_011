@@ -28,7 +28,15 @@
 ## WIREFRAME
 
 ## ERD
+<details>
+<summary>ERD</summary>
+<div markdown="1">
 
+<img src="./img/ERD.png" alt="erdImg">
+
+</div>
+</details>
+     </details>
 ![image](/img/ERD.png)
 
 ## API
