@@ -1,4 +1,4 @@
-# <img src="https://assetsio.reedpopcdn.com/alolan_diglett.png?width=690&quality=75&format=jpg&auto=webp" width="100" height="100" /></div>Team.닥트리오
+# <img src="https://banner2.cleanpng.com/20190210/syu/kisspng-diglett-dugtrio-alola-image-portable-network-graph-diglett-pokdex-the-official-pokmon-website-in-5c605f63951179.7341963115498197476106.jpg" width="100" height="100" /></div>Team.닥트리오
 
 ![image](/img/petpli.png)
 
