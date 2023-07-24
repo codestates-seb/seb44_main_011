@@ -5,6 +5,8 @@ import ImageModal from "./ImageModal";
 import { api } from "../utils/Url";
 import Default from "../assets/imgs/Default.jpg";
 import { ErrorMsg } from "./commons/Input";
+import saveNewToken from "../utils/saveNewToken";
+
 const defaultImage = { Default };
 
 function EditProfile() {
@@ -29,10 +31,12 @@ function EditProfile() {
       return;
     }
     try {
-      await api.patch(`/members/my-page/${memberid}`, {
+      const response = await api.patch(`/members/my-page/${memberid}`, {
         name: nickname,
         profileUrl: selectedImage,
       });
+      const accessToken = response.headers["authorization"] || null;
+      saveNewToken(accessToken);
       setModalOpen(false);
       navigate("/mypage", { state: { selectedImage, nickname } });
     } catch (error) {
@@ -44,6 +48,8 @@ function EditProfile() {
       .get(`/members/my-page/${memberid}`)
       .then((response) => {
         const data = response.data;
+        const accessToken = response.headers["authorization"] || null;
+        saveNewToken(accessToken);
         setSelectedImage(data.profileUrl || defaultImage);
       })
       .catch((error) => {
@@ -51,7 +57,8 @@ function EditProfile() {
       });
   }, []);
   const onChangeNickName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+    const inputValue = e.target.value;
+    setNickname(inputValue.replace(/\s/g, ""));
     if (nickname.length < 2 || nickname.length > 7) {
       setMessage("2글자 이상 7글자 이하로 입력해주세요.");
     } else {
@@ -165,6 +172,7 @@ const NickNameInput = styled.input`
   outline: none;
   border-radius: 5px;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const Cancle = styled.button`

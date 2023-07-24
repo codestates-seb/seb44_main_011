@@ -92,5 +92,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         return jwtTokenizer.getADMIN_SUBJECT().equals(claims.get("email"))
                 ? AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ADMIN", "ROLE_USER", "USER")
                 : AuthorityUtils.createAuthorityList("ROLE_USER", "USER");
+//        ADMIN@ADMIN.com
     }
 }

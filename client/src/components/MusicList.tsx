@@ -5,7 +5,6 @@ import { ReactComponent as DeleteIcon } from "../assets/icons/deleteicon.svg";
 import { Music } from "../types/Music";
 import Empty from "./Empty";
 import Profile from "./commons/Profile";
-import testImg from "../assets/imgs/testimg.jpg";
 import Loading from "./commons/Loading";
 import { BaseURL } from "../utils/Url";
 import axios from "axios";
@@ -138,7 +137,12 @@ export const MusicList: React.FC<MusicListProps> = ({
             onClick={() => handleMusicClick(music.musicId)}
             $active={selectedMusicId === music.musicId && active}
           >
-            <Profile image={testImg} size={40} radius={4} alt={"Cover Image"} />
+            <Profile
+              image={music.image_url}
+              size={40}
+              radius={4}
+              alt={"Cover Image"}
+            />
             <Title>{music.title}</Title>
             <Tag>{music.tags}</Tag>
             <span>{music.playtime}</span>

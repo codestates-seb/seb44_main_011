@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # 애플리케이션을 위한 디렉토리를 생성합니다.
-WORKDIR /app
+WORKDIR '/usr/src/app'
 
 # 애플리케이션의 종속성 파일들을 먼저 복사합니다.
 COPY client/package.json client/package-lock.json ./
@@ -18,30 +18,9 @@ COPY client/ .
 # 애플리케이션을 빌드합니다.
 RUN npm run build
 
+#nginx 로 빌드 변경
+#FROM nginx
+#COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+
 # 애플리케이션 실행을 위한 명령어를 설정합니다.
 CMD ["npm","run","dev","--","--host"]
-
-
-
-
-
-
-
-#FROM node:18-alpine
-## 애플리케이션을 위한 디렉토리를 생성합니다.
-#WORKDIR /app
-#
-## 애플리케이션의 종속성들을 먼저 복사합니다.
-#COPY client/package.json client/package-lock.json ./
-#
-## 종속성 설치를 수행합니다.
-#RUN npm install
-#
-## 나머지 소스 코드들을 복사합니다.
-#COPY client/ .
-#
-## 애플리케이션을 빌드합니다.
-#RUN npm run build
-#
-## 애플리케이션을 실행합니다.
-#CMD ["npm", "start"]

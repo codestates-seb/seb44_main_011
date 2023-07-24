@@ -59,8 +59,8 @@ public class Member extends BaseTimeEntity {
         DOG4("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/dogs/dog4.jpg"),
         CAT1("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat1.png"),
         CAT2("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat2.png"),
-        CAT3("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat3.png"),
-        CAT4("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat4.png");
+        CAT3("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat3.jpg"),
+        CAT4("https://main-project-file.s3.ap-northeast-2.amazonaws.com/profile/cats/cat4.jpg");
 
         @Getter
         private final String profileUrl;

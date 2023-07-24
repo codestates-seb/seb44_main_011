@@ -54,11 +54,12 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .antMatchers("/public/**").permitAll()
-                        .antMatchers("/admin/**").hasRole("ADMIN")
                         .antMatchers(HttpMethod.POST, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("USER")
+//                        .antMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
+//                        .antMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                         .antMatchers("/api/members/**").authenticated()
                         .anyRequest().permitAll()
                 );

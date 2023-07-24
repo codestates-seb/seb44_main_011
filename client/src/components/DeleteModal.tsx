@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { PasswordRegEx, PasswordMin, PasswordMax } from "../utils/Check";
 import { ErrorMsg } from "./commons/Input";
 import { Form } from "./commons/Form";
+import saveNewToken from "../utils/saveNewToken";
 
 type PropsType = {
   setModalOpen: (open: boolean) => void;
@@ -38,6 +39,8 @@ function DeleteModal({ setModalOpen }: PropsType) {
         },
       })
       .then((response) => {
+        const access_Token = response.headers["authorization"] || null;
+        saveNewToken(access_Token);
         if (response.status === 200) {
           localStorage.removeItem("memberId");
           localStorage.removeItem("accessToken");
@@ -51,6 +54,8 @@ function DeleteModal({ setModalOpen }: PropsType) {
           alert("비밀번호가 일치하지 않습니다. 비밀번호를 확인해주세요.");
         } else if (error.response.status === 500) {
           alert("서버 에러가 발생했습니다. 잠시 후 시도해주세요.");
+        } else {
+          alert("다시 입력 해주세요.");
         }
       });
   };
