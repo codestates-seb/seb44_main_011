@@ -21,7 +21,7 @@
 | <img src="https://github.com/codestates-seb/seb44_main_011/assets/82023393/f21fbfd9-39dd-42d5-8618-498dfb93653a" width="200" height="300"/> | <img src="https://github.com/codestates-seb/seb44_main_011/blob/dev/img/%EB%B2%A0%EB%A1%B16.jpg" witdth = "200" height = "200"/> | <img src="https://github.com/codestates-seb/seb44_main_011/blob/dev/img/coffee.jpg" witdth = "200" height = "200"/> |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
 | **소주**                                                                              | 베롱이                                                                                    | 커피                                                                                    |
-| 맡은부분                                                             | 숨 쉬기<br>밥 잘먹기<br>책상에서 잠자기                                                              |  똘망똘망한 눈  <br> 냥냥펀치                                                                   |
+| 낮잠자기 <br> 간식먹기 <br> 앉아서 멍때리기                                                              | 숨 쉬기<br>밥 잘먹기<br>책상에서 잠자기                                                              |  똘망똘망한 눈  <br> 냥냥펀치                                                                   |
 ---
 ## STACKS
 ![image](/img/Stacks.png)
