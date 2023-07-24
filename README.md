@@ -30,6 +30,8 @@
 
 ## ERD
 
+<img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F89b8a0fb-97de-48e2-9b5c-8a931ec2ce21%2FUntitled.png?table=block&id=7767743b-2878-4a1b-8935-bae747fa811f&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&width=2000&userId=1c6d5c18-b293-4a88-b107-fecc0de6f233&cache=v2" width="100" height="100" /></div>
+
 ## API
 
 ## FORDER
