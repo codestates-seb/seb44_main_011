@@ -1,4 +1,4 @@
-# <img src="https://banner2.cleanpng.com/20190210/syu/kisspng-diglett-dugtrio-alola-image-portable-network-graph-diglett-pokdex-the-official-pokmon-website-in-5c605f63951179.7341963115498197476106.jpg" width="100" height="100" /></div>Team.닥트리오
+# <img src="https://www.pokemon.cn/play/resources/pokedex/img/pm/19bd3a09933b3e9a0a7156ef294091922dbf771e.png" width="100" height="100" /></div>Team.닥트리오
 
 ![image](/img/petpli.png)
 
