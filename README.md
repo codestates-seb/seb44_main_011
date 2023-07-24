@@ -27,7 +27,6 @@
 
 ## WIREFRAME
 
----
 <details>
   <summary><strong><h2>ERD</h2></strong></summary>
   <div>
