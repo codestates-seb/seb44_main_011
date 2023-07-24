@@ -42,7 +42,7 @@
 Client
 ├─ .eslintrc.cjs
 ├─ .gitignore
-├─ .prettierrc.js
+├─ .prettierrc.cjs
 ├─ index.html
 ├─ package-lock.json
 ├─ package.json
