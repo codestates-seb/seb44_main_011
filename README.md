@@ -29,7 +29,7 @@
 
 ## ERD
 <details>
-## <summary>ERD</summary>
+<summary>ERD</summary>
 <div markdown="1">
 
 <img src="./img/ERD.png" alt="erdImg">
