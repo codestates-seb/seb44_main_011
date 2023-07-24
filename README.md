@@ -41,3 +41,33 @@
 ## API
 > **<i class="fa fa-question-circle"></i> Link:** [펫플리 API 명세서](https://api.petpil.site:8080/docs/swagger-ui/index.html)
 ## FOLDER
+```
+Client
+├─ .eslintrc.cjs
+├─ .gitignore
+├─ .prettierrc.js
+├─ index.html
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.js
+├─ public
+├─ src
+│  ├─ assets
+│  │  └─ img
+|  |  └─ icon
+│  ├─ components
+|  |   └─ layouts
+|  |   └─ commons
+│  ├─ constants
+│  ├─ hooks
+│  ├─ pages
+│  ├─ redux
+│  ├─ styles
+│  ├─ utils
+│  ├─ App.css
+│  ├─ App.tsx
+│  ├─ index.css
+│  ├─ main.tsx
+└─ vite.config.js
+
+```
