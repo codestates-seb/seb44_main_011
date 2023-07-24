@@ -27,23 +27,14 @@
 
 ## WIREFRAME
 
-## ERD
-<details>
-<summary>ERD</summary>
-<div markdown="1">
-
-<img src="./img/ERD.png" alt="erdImg">
-
-</div>
-</details>
-     </details>
-
+---
 <details>
   <summary><strong><h2>ERD</h2></strong></summary>
   <div>
     <img src="./img/ERD.png" alt="ERD Image">
   </div>
 </details>
+---
 
 ## API
 > **<i class="fa fa-question-circle"></i> Link:** [펫플리 API 명세서](https://api.petpil.site:8080/docs/swagger-ui/index.html)
