@@ -1,4 +1,4 @@
-# <img src="https://www.pokemon.cn/play/resources/pokedex/img/pm/19bd3a09933b3e9a0a7156ef294091922dbf771e.png" width="100" height="100" /></div>Team.닥트리오
+# <img src="https://assetsio.reedpopcdn.com/alolan_diglett.png?width=690&quality=75&format=jpg&auto=webp" width="100" height="100" /></div>Team.닥트리오
 
 ![image](/img/petpli.png)
 
