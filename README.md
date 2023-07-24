@@ -53,8 +53,8 @@ Client
 ├─ public
 ├─ src
 │  ├─ assets
-│  │  └─ img
-|  |  └─ icon
+│  │  └─ imgs
+|  |  └─ icons
 │  ├─ components
 |  |   └─ layouts
 |  |   └─ commons
