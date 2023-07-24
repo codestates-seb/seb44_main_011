@@ -71,4 +71,34 @@ Client
 │  ├─ main.tsx
 └─ vite.config.js
 
+Server
+├─ logs
+├─ src
+│  ├─ docs
+│  │  └─  asciidoc
+|  |      └─ imdex.adoc
+│  ├─ main
+|  |  ├─  java
+|  |  |   ├─ com.sebmain011.petplaylist
+|  |  |   |   ├─ domain
+|  |  |   |   |  ├─ comment
+|  |  |   |   |  ├─ member
+|  |  |   |   |  ├─ music
+|  |  |   |   |  └─ playlist
+|  |  |   |   └─ global
+|  |  |   └─  PetplatListApplication.java
+|  |  └─  resources
+|  |      ├─ static.doxs
+|  |      |   └─ damin
+|  |      |       └─ index.html
+|  |      └─ application.yml
+│  └─ test
+├─ .gitignore
+├─ build.gradle
+├─ Dockerfile
+├─ Dockerfile_client
+├─ gradlew
+├─ gradlew.bat
+└─  settings.gradle
+
 ```
