@@ -45,8 +45,6 @@
   </div>
 </details>
 
-```
-
 ## API
 > **<i class="fa fa-question-circle"></i> Link:** [펫플리 API 명세서](https://api.petpil.site:8080/docs/swagger-ui/index.html)
 ## FOLDER
