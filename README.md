@@ -12,7 +12,7 @@
 | 맡은부분                                                             |  맡은부분                                                              |  맡은부분                                                               |
 
 ### back-end
-| <img src=https://github.com/codestates-seb/seb44_main_011/assets/85180324/ef82b9f4-17cf-435c-b521-8e21139cf6b2"  width="200" height="200"/>| <img src="https://github.com/codestates-seb/seb44_main_011/blob/dev/img/%EB%8B%A5%ED%8A%B8%EB%A6%AC%EC%98%A4%EB%B0%95%EA%B2%BD%EB%AF%BC.png" witdth = "200" height = "200"/> | <img src=""/> |
+| <img src=https://github.com/codestates-seb/seb44_main_011/assets/85180324/ef82b9f4-17cf-435c-b521-8e21139cf6b2" width="200" height="200"/>| <img src="https://github.com/codestates-seb/seb44_main_011/blob/dev/img/%EB%8B%A5%ED%8A%B8%EB%A6%AC%EC%98%A4%EB%B0%95%EA%B2%BD%EB%AF%BC.png" witdth = "200" height = "200"/> | <img src=""/> |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
 | **신영호**                                                                              | 박경민                                                                                     | 홍준기                                                                                    |
 | 음악 CRUD<br> 플레이리스트 CRUD<br>  GITHUB->docker->AWS CI/CD                                                             | 회원 CRUD<br>Spring Security(JWT, OAuth2)                                                              |  맡은부분                                                                |
