@@ -1,4 +1,4 @@
-# <img src="https://www.pokemon.cn/play/resources/pokedex/img/pm/19bd3a09933b3e9a0a7156ef294091922dbf771e.png" width="100" height="100" /></div>Team.닥트리오
+# <img src="https://raw.githubusercontent.com/codestates-seb/seb44_main_011/dev/img/%E1%84%83%E1%85%A1%E1%86%A8%E1%84%90%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A9.jpg" width="40" height="40" /></div>Team.닥트리오
 
 ![image](/img/petpli.png)
 
