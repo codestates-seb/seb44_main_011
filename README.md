@@ -1,4 +1,4 @@
-# SEB_44_main_011
+# Team.닥트리오
 
 ![image](/img/petpli.png)
 
