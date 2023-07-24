@@ -89,7 +89,7 @@ Server
 |  |  |   └─  PetplatListApplication.java
 |  |  └─  resources
 |  |      ├─ static.doxs
-|  |      |   └─ damin
+|  |      |   └─ admin
 |  |      |       └─ index.html
 |  |      └─ application.yml
 │  └─ test
