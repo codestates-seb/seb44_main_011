@@ -28,6 +28,13 @@
 ## WIREFRAME
 
 <details>
+  <summary><strong><h2>UserFlow</h2></strong></summary>
+  <div>
+    <img src="./img/userflow.png" alt="ERD Image">
+  </div>
+</details>
+
+<details>
   <summary><strong><h2>ERD</h2></strong></summary>
   <div>
     <img src="./img/ERD.png" alt="ERD Image">
