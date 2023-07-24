@@ -8,7 +8,7 @@
 ## TEAM MEMBER
 
 ## STACKS
-![image](/img/stack.png)
+![image](/img/Stacks.png)
 
 ## WIREFRAME
 
