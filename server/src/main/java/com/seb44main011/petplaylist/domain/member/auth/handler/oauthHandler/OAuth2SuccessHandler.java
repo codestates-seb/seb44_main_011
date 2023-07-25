@@ -1,7 +1,7 @@
 package com.seb44main011.petplaylist.domain.member.auth.handler.oauthHandler;
 
 import com.seb44main011.petplaylist.domain.member.auth.jwt.DelegateTokenService;
-import com.seb44main011.petplaylist.domain.member.entity.Member;
+import com.seb44main011.petplaylist.domain.member.auth.util.userdetail.OAuth2UserDetail;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -25,18 +25,18 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        Member memberData = (Member) authentication.getPrincipal();
-        log.info("onAuthenticationSuccess MemberName: {}", memberData.getName());
-        log.info("onAuthenticationSuccess MemberEmail: {}", memberData.getEmail());
+        OAuth2UserDetail auth2UserDetail = (OAuth2UserDetail) authentication.getPrincipal();
+        log.info("onAuthenticationSuccess MemberName: {}", auth2UserDetail.getName());
+        log.info("onAuthenticationSuccess MemberEmail: {}", auth2UserDetail.getEmail());
 
-        redirect(request, response, memberData);
+        redirect(request, response, auth2UserDetail);
     }
 
     @SneakyThrows
-    private void redirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException {
-        String accessToken = "Bearer " + delegateTokenService.delegateAccessToken(member);
-        String refreshToken = delegateTokenService.delegateRefreshToken(member);
-        Long memberId = member.getMemberId();
+    private void redirect(HttpServletRequest request, HttpServletResponse response, OAuth2UserDetail auth2UserDetail) throws IOException {
+        String accessToken = "Bearer " + delegateTokenService.delegateAccessToken(auth2UserDetail);
+        String refreshToken = delegateTokenService.delegateRefreshToken(auth2UserDetail);
+        Long memberId = auth2UserDetail.getMemberId();
         String redirectURL = createURI(accessToken, refreshToken, memberId).toString();
 
         getRedirectStrategy().sendRedirect(request, response, redirectURL);
