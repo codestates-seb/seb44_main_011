@@ -101,7 +101,8 @@ const SignUp = React.forwardRef<HTMLDivElement, SignUpProps>(
                   required: "닉네임은 필수 입력입니다.",
                   pattern: {
                     value: NameRegEx,
-                    message: "닉네임을 입력하세요.(2~7자)",
+                    message:
+                      "닉네임을 입력하세요.(2~7자, 모음 자음만 입력 불가)",
                   },
                 })}
               />
