@@ -46,9 +46,8 @@ function SideNav() {
   const handleTagsMenuClick = () => {
     setIsTagsMenuOpen((prev) => !prev);
     dispatch(setCurrentTag(""));
-    console.log(isTagsMenuOpen);
   };
-  console.log(isTagsMenuOpen);
+
   const closeDropdownMenu = () => {
     setIsTagsMenuOpen(false);
   };
