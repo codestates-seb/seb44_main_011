@@ -85,7 +85,10 @@ function SideNav() {
     if (memberId !== null) {
       navigate(`/${data}`);
       setCurrentMenu(e.currentTarget.id);
-    } else alert("로그인이 필요한 페이지입니다.");
+    } else {
+      alert("로그인이 필요한 페이지입니다.");
+      showLoginModal();
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -519,7 +522,7 @@ const DropdownMenu = styled.div`
   border-radius: 4px;
   // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   display: ${(props) =>
-    props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
+    !props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
   flex-direction: column;
   justify-content: start;
   align-items: start;
