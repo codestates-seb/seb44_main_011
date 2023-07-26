@@ -46,8 +46,9 @@ function SideNav() {
   const handleTagsMenuClick = () => {
     setIsTagsMenuOpen((prev) => !prev);
     dispatch(setCurrentTag(""));
+    console.log(isTagsMenuOpen);
   };
-
+  console.log(isTagsMenuOpen);
   const closeDropdownMenu = () => {
     setIsTagsMenuOpen(false);
   };
@@ -522,7 +523,7 @@ const DropdownMenu = styled.div`
   border-radius: 4px;
   // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   display: ${(props) =>
-    props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
+    !props.hidden ? "none" : "flex"}; // hidden 속성으로 메뉴 숨기기/보이기
   flex-direction: column;
   justify-content: start;
   align-items: start;
