@@ -37,6 +37,15 @@ public class MusicService  {
         storageService.saveUploadFile(files,newMusic);
         return saveMusic(newMusic);
     }
+    public void deleteMusicFile(long musicId) {
+        Music activeMusic = findMusicAnyStatus(musicId);
+        convertMusicStatusByInActive(activeMusic);
+
+    }
+    public void revertMusicFile(long musicId){
+        Music disableMusic = findMusicAnyStatus(musicId);
+        convertMusicStatusByActive(disableMusic);
+    }
 
     public Music serchMusic(String musicTitle){
         Music findMusic= findMusic(musicTitle);
@@ -50,16 +59,6 @@ public class MusicService  {
         return repository.save(findMusic);
     }
 
-    public void deleteMusicFile(long musicId) {
-        Music activeMusic = findMusicAnyStatus(musicId);
-        convertMusicStatusByInActive(activeMusic);
-
-    }
-
-    public void revertMusicFile(long musicId){
-        Music disableMusic = findMusicAnyStatus(musicId);
-        convertMusicStatusByActive(disableMusic);
-    }
     public Music findMusicAnyStatus(long musicId) {
         return repository.findById(musicId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MUSIC_NOT_FOUND)
