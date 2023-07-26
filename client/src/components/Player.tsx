@@ -128,7 +128,7 @@ const Player = ({
 }: PlayerProps) => {
   const [expanded, setExpanded] = useState(false);
   const [isPlayAll, setIsPlayAll] = useState(false);
-  const [isPlayedAll, setIsPlayedAll] = useState(true);
+  const [isPlayedAll, setIsPlayedAll] = useState(false);
 
   const handlePlayAllClick = () => {
     setIsPlayAll(!isPlayAll);
@@ -157,23 +157,22 @@ const Player = ({
       if (nextMusic) {
         handleMusic(nextMusic.musicId);
       } else {
-        if (totalPage >= currentPage + 1) {
+        if (currentPage + 1 <= totalPage) {
           handlePageChange(currentPage + 1);
-          setIsPlayedAll(true);
         } else {
           handlePageChange(1);
-          setIsPlayedAll(true);
         }
+        setIsPlayedAll(true);
       }
     }
   };
 
   useEffect(() => {
-    if (isPlayedAll && musicList.length > 0) {
+    if (isPlayAll && isPlayedAll && musicList.length > 0) {
       handleMusic(musicList[0].musicId);
-      setIsPlayedAll(false);
     }
-  }, [musicList]);
+    setIsPlayedAll(false);
+  }, [setIsPlayedAll, musicList]);
 
   return (
     <>
