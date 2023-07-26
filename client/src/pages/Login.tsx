@@ -115,7 +115,7 @@ function Login() {
               pattern: {
                 value: PasswordRegEx,
                 message:
-                  "비밀번호는 최소 영문자 1개와 숫자 1개가 포함되어야 합니다.",
+                  "비밀번호는 최소 영문자 1개와 숫자 1개가 포함되어야 합니다.(특수 문자 제외)",
               },
             })}
             placeholder="password"

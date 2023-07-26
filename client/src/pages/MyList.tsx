@@ -72,6 +72,9 @@ const MyList = () => {
         handleMusic={handleMusic}
         handleCommentClick={handleCommentClick}
         musicList={musicList.data}
+        currentPage={currentPage}
+        totalPage={musicList.pageInfo?.totalPages || 0}
+        handlePageChange={handlePageChange}
       />
       {showMusicList && (
         <>
@@ -83,7 +86,8 @@ const MyList = () => {
             handleLike={handleLike}
             handleMusic={handleMusic}
             setIsLikedClick={setIsLikedClick}
-            selectedMusicId={selectedMusic?.musicId}
+            selectedMusicId={selectedMusic?.musicId || null}
+            showMusicList={showMusicList}
           />
           <Pagination
             currentPage={currentPage}

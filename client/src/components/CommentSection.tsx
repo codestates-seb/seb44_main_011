@@ -35,22 +35,27 @@ const CommentForm = styled.form`
   display: flex;
   flex-direction: row;
   border-bottom: 0.3px solid rgba(255, 255, 255, 0.54);
-  padding: 15px 30px;
+  padding: 15px 33px;
   align-items: center;
   justify-content: space-between;
 `;
 
 const CommentInput = styled.input`
   border: none;
-  background-color: transparent;
+  background-color: rgba(255 255 255 / 8%);
   color: var(--white);
   font-size: 13px;
   font-family: var(--font-quicksand);
-  margin-left: 8px;
+  padding-left: 8px;
   border: none;
   height: 30px;
   width: 100%;
+  border-radius: 3px;
 
+  &:disabled {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
   &:focus {
     outline: none;
     background-color: rgba(255, 255, 255, 0.2);
@@ -307,7 +312,6 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
             placeholder="댓글을 입력하세요. 댓글은 2글자 이상 30글자 이하여야 합니다."
             value={commentInput}
             onChange={handleInputChange}
-            disabled={!isInputActive}
           />
           {isInputActive && (
             <ButtonContainer>
@@ -349,8 +353,8 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
                   </WriteBtn>
                 </ButtonContainer>
               ) : (
-                Number(memberId) === comment.memberId && (
                   <>
+                   { Number(memberId) === comment.memberId && (
                     <ButtonContainer>
                       <IconBtn
                         onClick={() =>
@@ -368,10 +372,11 @@ const CommentSection = ({ musicId }: CommentSectionProps) => {
                         />
                       </IconBtn>
                     </ButtonContainer>
+                   )}
                     <Time>{calculateTimeAgo(comment.createdAt)}</Time>
                   </>
                 )
-              )}
+              }
             </CommentList>
           ))
         ) : (

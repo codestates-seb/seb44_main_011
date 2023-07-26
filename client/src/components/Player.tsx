@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import { Music } from "../types/Music";
 import CustomAudioPlayer from "./CustomAudioPlayer";
@@ -7,6 +7,7 @@ import Empty from "./Empty";
 import { ReactComponent as Liked } from "../assets/icons/liked.svg";
 import { ReactComponent as CommentIcon } from "../assets/icons/coment.svg";
 import { ReactComponent as Reapeat } from "../assets/icons/repeat.svg";
+import { ReactComponent as ReapeatOff } from "../assets/icons/repeatAllOff.svg";
 import CommentSection from "./CommentSection";
 
 const StyledPlayer = styled.div`
@@ -94,7 +95,7 @@ const MusicTag = styled.div`
   color: var(--white);
   background-color: var(--skyblue-200);
   font-family: var(--font-quicksand);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 400;
   line-height: 16px;
   width: fit-content;
@@ -110,6 +111,9 @@ type PlayerProps = {
   handleCommentClick: () => void;
   handleMusic: (musicId: number) => void;
   musicList: Music[] | [];
+  currentPage: number;
+  totalPage: number;
+  handlePageChange: (pagenumber: number) => void;
 };
 
 const Player = ({
@@ -118,9 +122,13 @@ const Player = ({
   handleCommentClick,
   handleMusic,
   musicList,
+  currentPage,
+  totalPage,
+  handlePageChange,
 }: PlayerProps) => {
   const [expanded, setExpanded] = useState(false);
   const [isPlayAll, setIsPlayAll] = useState(false);
+  const [isPlayedAll, setIsPlayedAll] = useState(true);
 
   const handlePlayAllClick = () => {
     setIsPlayAll(!isPlayAll);
@@ -148,9 +156,24 @@ const Player = ({
 
       if (nextMusic) {
         handleMusic(nextMusic.musicId);
+      } else {
+        if (totalPage >= currentPage + 1) {
+          handlePageChange(currentPage + 1);
+          setIsPlayedAll(true);
+        } else {
+          handlePageChange(1);
+          setIsPlayedAll(true);
+        }
       }
     }
   };
+
+  useEffect(() => {
+    if (isPlayedAll && musicList.length > 0) {
+      handleMusic(musicList[0].musicId);
+      setIsPlayedAll(false);
+    }
+  }, [musicList]);
 
   return (
     <>
@@ -167,7 +190,7 @@ const Player = ({
                 />
                 <ButtonContainer>
                   <Button onClick={handlePlayAllClick}>
-                    <Reapeat fill={isPlayAll ? "#84CBFF" : "#212121"} />
+                    {isPlayAll ? <Reapeat fill="#212121" /> : <ReapeatOff />}
                   </Button>
 
                   <Button
