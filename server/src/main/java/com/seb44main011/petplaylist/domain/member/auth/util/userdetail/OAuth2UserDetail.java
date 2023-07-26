@@ -41,10 +41,11 @@ public class OAuth2UserDetail implements OAuth2User {
 
     private static OAuth2UserDetail kakaoUser(Map<String, Object> attributes) {
         Map<String,Object> accountMap = (Map<String, Object>) attributes.get("kakao_account");
+        Map<String, Object> profile = (Map<String, Object>)accountMap.get("profile");
         return OAuth2UserDetail.builder()
                 .oAuthCheck(Member.OAuthCheck.KAKAO)
                 .attributes(
-                        Map.of("email",accountMap.get("email"), "name",accountMap.get("nickname"))
+                        Map.of("email",accountMap.get("email"), "name",profile.get("nickname"))
                 )
                 .build();
     }
