@@ -85,7 +85,10 @@ function SideNav() {
     if (memberId !== null) {
       navigate(`/${data}`);
       setCurrentMenu(e.currentTarget.id);
-    } else alert("로그인이 필요한 페이지입니다.");
+    } else {
+      alert("로그인이 필요한 페이지입니다.");
+      showLoginModal();
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
