@@ -55,9 +55,8 @@ public class OAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler 
 
         return UriComponentsBuilder // 로컬 테스트용
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(5173)
+                .scheme("https")
+                .host("on.petpil.site")
                 .path("/oauth")
                 .queryParams(queryParams)
                 .build()
