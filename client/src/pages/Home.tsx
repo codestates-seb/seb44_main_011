@@ -55,7 +55,7 @@ const Home = () => {
     currentTag
   );
 
-  const { selectedMusic, handleMusic } = useMusicData(isDogpli, isTopChart);
+  const { selectedMusic, handleMusic } = useMusicData(isDogpli);
 
   const handleLike = useLikeData({
     setIsLikedClick,
@@ -104,6 +104,9 @@ const Home = () => {
           handleMusic={handleMusic}
           handleCommentClick={handleCommentClick}
           musicList={musicList.data}
+          currentPage={currentPage}
+          totalPage={musicList.pageInfo?.totalPages || 0}
+          handlePageChange={handlePageChange}
         />
       )}
 
@@ -127,10 +130,9 @@ const Home = () => {
             handleLike={handleLike}
             handleMusic={handleMusic}
             isDogpli={isDogpli}
-            isTopChart={isTopChart}
-            loading={false}
             setIsLikedClick={setIsLikedClick}
-            selectedMusicId={selectedMusic?.musicId}
+            selectedMusicId={selectedMusic?.musicId || null}
+            showMusicList={showMusicList}
           />
           <Pagination
             currentPage={currentPage}

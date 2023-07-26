@@ -9,10 +9,7 @@ type useMusicDataProps = {
   handleMusic: (musicId: number) => Promise<void>;
 };
 
-const useMusicData = (
-  isDogpli?: string,
-  isTopChart?: string
-): useMusicDataProps => {
+const useMusicData = (isDogpli?: string): useMusicDataProps => {
   const [selectedMusic, setSelectedMusic] = useState<Music | null>(null);
 
   const handleMusic = async (musicId: number) => {
@@ -56,7 +53,7 @@ const useMusicData = (
 
   useEffect(() => {
     setSelectedMusic(null);
-  }, [isDogpli, isTopChart]);
+  }, [isDogpli]);
 
   return { selectedMusic, handleMusic };
 };

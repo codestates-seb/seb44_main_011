@@ -5,7 +5,6 @@ import { ReactComponent as DeleteIcon } from "../assets/icons/deleteicon.svg";
 import { Music } from "../types/Music";
 import Empty from "./Empty";
 import Profile from "./commons/Profile";
-import Loading from "./commons/Loading";
 import { BaseURL } from "../utils/Url";
 import axios from "axios";
 
@@ -24,7 +23,7 @@ const StyledMusicList = styled.div<{ $active: boolean }>`
   align-items: center;
   font-family: var(--font-quicksand);
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--black);
   margin-bottom: 12px;
   cursor: pointer;
@@ -64,7 +63,7 @@ const Title = styled.span`
 
 const Tag = styled.span`
   color: var(--gray-500);
-  font-size: 12px;
+  font-size: 13.5px;
   text-align: left;
 `;
 
@@ -73,10 +72,9 @@ type MusicListProps = {
   handleLike: (musicId: number, liked?: boolean) => void;
   handleMusic?: (musicId: number) => void;
   isDogpli?: string;
-  isTopChart?: string;
-  loading?: boolean;
   setIsLikedClick: (value: boolean) => void;
-  selectedMusicId?: number;
+  selectedMusicId?: number | null;
+  showMusicList?: boolean;
 };
 
 export const MusicList: React.FC<MusicListProps> = ({
@@ -84,12 +82,12 @@ export const MusicList: React.FC<MusicListProps> = ({
   handleLike,
   handleMusic,
   isDogpli,
-  isTopChart,
-  loading,
   setIsLikedClick,
   selectedMusicId,
+  showMusicList,
 }) => {
   const [active, setActive] = useState(true);
+  const [activeMusicId, setActiveMusicId] = useState<number | null>(null);
 
   const handleLikeClick = (musicId: number, liked?: boolean) => {
     handleLike(musicId, liked);
@@ -124,18 +122,23 @@ export const MusicList: React.FC<MusicListProps> = ({
 
   useEffect(() => {
     setActive(false);
-  }, [isDogpli, isTopChart]);
+  }, [isDogpli]);
+
+  useEffect(() => {
+    if (showMusicList && selectedMusicId) {
+      setActive(true);
+      setActiveMusicId(selectedMusicId);
+    }
+  }, [showMusicList, selectedMusicId]);
 
   return (
     <MusicListsContainer>
-      {loading ? (
-        <Loading />
-      ) : musicList?.length ? (
+      {musicList?.length ? (
         musicList.map((music) => (
           <StyledMusicList
             key={music.musicId}
             onClick={() => handleMusicClick(music.musicId)}
-            $active={selectedMusicId === music.musicId && active}
+            $active={activeMusicId === music.musicId && active}
           >
             <Profile
               image={music.image_url}

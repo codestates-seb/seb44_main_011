@@ -90,6 +90,9 @@ function Search() {
         handleMusic={handleMusic}
         handleCommentClick={handleCommentClick}
         musicList={filteredResults.data}
+        currentPage={currentPage}
+        totalPage={filteredResults.pageInfo?.totalPages || 0}
+        handlePageChange={handlePageChange}
       />
       {showMusicList && (
         <>
@@ -101,7 +104,8 @@ function Search() {
             handleLike={handleLike}
             handleMusic={handleMusic}
             setIsLikedClick={setIsLikedClick}
-            selectedMusicId={selectedMusic?.musicId}
+            selectedMusicId={selectedMusic?.musicId || null}
+            showMusicList={showMusicList}
           />
           <Pagination
             currentPage={currentPage}
