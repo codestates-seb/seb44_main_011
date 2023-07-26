@@ -1,6 +1,7 @@
 buildscript {
 	ext {
 		restdocsApiSpecVersion = '0.15.1' // restdocsApiSpecVersion 버전 변수 설정
+//		queryDslVersion = "5.0.0" // 쿼리 dsl 버전 명시
 	}
 }
 plugins {
@@ -8,11 +9,17 @@ plugins {
 	id 'org.springframework.boot' version '2.7.13'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 
+//	// querydsl
+//	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+
 	//restdocs-api-spec → restdocs extension  포함함
 	id 'com.epages.restdocs-api-spec' version "${restdocsApiSpecVersion}"
 
 	//swagger generator 플러그인 추가
 	id 'org.hidetake.swagger.generator' version '2.18.2'
+
+	//rest docs
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group = 'com.seb44_main011'
@@ -26,6 +33,8 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	//rest docs
+	asciidoctorExt
 }
 
 repositories {
@@ -40,14 +49,15 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'com.epages:restdocs-api-spec-mockmvc:' + restdocsApiSpecVersion
 	testImplementation 'com.h2database:h2'
-//	implementation 'mysql:mysql-connector-java:8.0.32'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
-
+	testImplementation 'com.h2database:h2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -58,39 +68,108 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'com.jayway.jsonpath:json-path:2.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+
+	//s3 업로드
+	implementation 'software.amazon.awssdk:s3:2.17.41'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
+
+	//mp3 파일 리더 의존성
+	implementation 'javazoom:jlayer:1.0.1'
+
+	//rest docs
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
+	//querydsl
+//	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+//	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+
 }
 
 // Task 및 설정 추가
 // GenerateSwaggerUI 태스크가, openapi3 task 를 의존하도록 설정
-tasks.withType(GenerateSwaggerUI) {
+tasks.withType(GenerateSwaggerUI).configureEach {
 	dependsOn 'openapi3'
 
-	//기존 파일 삭제했다가, build 에 출력한 json 정적파일 복사 (안해도 됨 → local 확인용)
-	delete file('src/main/resources/static/docs/')
+//	기존 파일 삭제했다가, build 에 출력한 json 정적파일 복사 (안해도 됨 → local 확인용)
+	delete file('src/main/resources/static/docs/open-api-3.0.1')
 	copy {
 		from "build/resources/main/static/docs"
 		into "src/main/resources/static/docs/"
 
 	}
 }
+//rest docs
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+test {
+	outputs.dir snippetsDir
+}
+tasks.register('copyDocument', Copy) {
+	dependsOn asciidoctor
+	from file("${asciidoctor.outputDir}")
+	into file("src/main/resources/static/docs/admin")
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+	dependsOn test
+}
+//bootJar {
+//	dependsOn copyDocument
+//	from ("${asciidoctor.outputDir}") {
+//		into 'static/docs/admin'
+//	}
+//}
+
 
 //openAPI 작성 자동화를 위해 패키징 전에 openapi3 테스크 선실행을 유발
 bootJar{
-	dependsOn(':openapi3')
+	dependsOn(':openapi3',copyDocument)
+	from ("${asciidoctor.outputDir}") {
+		into 'static/docs/admin'
+	}
 }
 
-//openapi3 {
-//	server = "http://ec2-52-78-15-107.ap-northeast-2.compute.amazonaws.com:8080"
-//	title = "펫플리 API 문서"
-//	description = "Spring REST Docs with SwaggerUI."
-//	version = "0.0.1"
-//	outputFileNamePrefix = 'open-api-3.0.1'
-//	format = 'json'
-//
-//	// /static/docs/open-api-3.0.1.json 생성 → jar 파일만 배포할 예정이기에 build 에 출력
-//	outputDirectory = 'build/resources/main/static/docs'
+openapi3 {
+	server = "http://ec2-3-35-216-90.ap-northeast-2.compute.amazonaws.com:8080"
+	title = "펫플리 API 문서"
+	description = "Spring REST Docs with SwaggerUI."
+	version = "0.0.1"
+	outputFileNamePrefix = 'open-api-3.0.1'
+	format = 'json'
+
+	// /static/docs/open-api-3.0.1.json 생성 → jar 파일만 배포할 예정이기에 build 에 출력
+	outputDirectory = 'build/resources/main/static/docs'
+}
+
+
+
+
+
+
+
+
+
+//def querydslDir = "$buildDir/generated/querydsl"
+//querydsl {
+//	jpa = true
+//	querydslSourcesDir = querydslDir
+//}
+//sourceSets {
+//	main.java.srcDir querydslDir
+//}
+//configurations {
+//	querydsl.extendsFrom compileClasspath
+//}
+//compileQuerydsl {
+//	options.annotationProcessorPath = configurations.querydsl
 //}

@@ -1,0 +1,169 @@
+= 팻플리 관리자 API 문서
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: 목차
+:source-highlighter: prettify
+
+Shin Young Ho <sim808917@gamil.com>
+
+v1.0.0, 2023.07.16
+
+v1.0.1, 2023.07.19
+
+v2.0.0, 2023.07.22
+
+
+***
+== 음원 파일 관리 API(Admin page)
+=== 음악 등록
+
+.curl-request
+include::{snippets}/음악 파일 S3 저장 기능(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/음악 파일 S3 저장 기능(admin)/http-request.adoc[]
+====
+.요청 형식 (uri+form-data)
+include::{snippets}/음악 파일 S3 저장 기능(admin)/httpie-request.adoc[]
+.request(form-data)
+include::{snippets}/음악 파일 S3 저장 기능(admin)/request-parts.adoc[]
+.musicInfo 형식(json)
+include::{snippets}/음악 파일 S3 저장 기능(admin)/request-part-musicInfo-body.adoc[]
+====
+***
+
+.response-json
+include::{snippets}/음악 파일 S3 저장 기능(admin)/response-body.adoc[]
+.response-type
+include::{snippets}/음악 파일 S3 저장 기능(admin)/response-fields.adoc[]
+
+***
+=== 음악 비 활성화(삭제)
+
+.curl-request
+include::{snippets}/음원 파일 비활성화 기능(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/음원 파일 비활성화 기능(admin)/http-request.adoc[]
+====
+.요청 형식(url 주소)
+include::{snippets}/음원 파일 비활성화 기능(admin)/httpie-request.adoc[]
+.request(param)
+include::{snippets}/음원 파일 비활성화 기능(admin)/path-parameters.adoc[]
+====
+***
+
+.response(응답 바디)
+include::{snippets}/음원 파일 비활성화 기능(admin)/response-body.adoc[]
+
+***
+=== 음악 재 활성화
+
+.curl-request
+include::{snippets}/음원 파일 재 활성화 기능(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/음원 파일 재 활성화 기능(admin)/http-request.adoc[]
+====
+.요청 형식(url 주소)
+include::{snippets}/음원 파일 재 활성화 기능(admin)/httpie-request.adoc[]
+.request(param)
+include::{snippets}/음원 파일 재 활성화 기능(admin)/path-parameters.adoc[]
+====
+***
+
+.response(응답 바디)
+include::{snippets}/음원 파일 재 활성화 기능(admin)/response-body.adoc[]
+
+== 음원 정보 요청 API(Admin page)
+=== 전체 음원 정보 조회
+
+.curl-request
+include::{snippets}/상태값 상관이 없이 전체 음악에서 상세음악 조회(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/상태값 상관이 없이 전체 음악에서 상세음악 조회(admin)/http-request.adoc[]
+====
+.요청 형식
+include::{snippets}/상태값 상관이 없이 전체 음악에서 상세음악 조회(admin)/httpie-request.adoc[]
+.요청 쿼리
+include::{snippets}/상태값 상관이 없이 전체 음악에서 상세음악 조회(admin)/request-parameters.adoc[]
+====
+***
+
+.response-json
+include::{snippets}/상태값 상관이 없이 전체 음악에서 상세음악 조회(admin)/response-body.adoc[]
+.response-type
+include::{snippets}/상태값 상관이 없이 전체 음악에서 상세음악 조회(admin)/response-fields.adoc[]
+
+=== 활성화 음원 정보 조회
+
+.curl-request
+include::{snippets}/모든 활성화 상태(Active) 음악 조회(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/모든 활성화 상태(Active) 음악 조회(admin)/http-request.adoc[]
+====
+.요청 형식
+include::{snippets}/모든 활성화 상태(Active) 음악 조회(admin)/httpie-request.adoc[]
+.요청 쿼리
+include::{snippets}/모든 활성화 상태(Active) 음악 조회(admin)/request-parameters.adoc[]
+====
+***
+
+.response-json
+include::{snippets}/모든 활성화 상태(Active) 음악 조회(admin)/response-body.adoc[]
+.response-type
+include::{snippets}/모든 활성화 상태(Active) 음악 조회(admin)/response-fields.adoc[]
+
+=== 비 활성화 음원 정보 조회
+
+.curl-request
+include::{snippets}/모든 비 활성화 상태(Inactive) 음악 조회(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/모든 비 활성화 상태(Inactive) 음악 조회(admin)/http-request.adoc[]
+====
+.요청 형식
+include::{snippets}/모든 비 활성화 상태(Inactive) 음악 조회(admin)/httpie-request.adoc[]
+.요청 쿼리
+include::{snippets}/모든 비 활성화 상태(Inactive) 음악 조회(admin)/request-parameters.adoc[]
+====
+***
+
+.response-json
+include::{snippets}/모든 비 활성화 상태(Inactive) 음악 조회(admin)/response-body.adoc[]
+.response-type
+include::{snippets}/모든 비 활성화 상태(Inactive) 음악 조회(admin)/response-fields.adoc[]
+
+
+=== 상세 음원 정보 조회(id)
+
+.curl-request
+include::{snippets}/음악 상세 조회(id)(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/음악 상세 조회(id)(admin)/http-request.adoc[]
+====
+.요청 형식
+include::{snippets}/음악 상세 조회(id)(admin)/httpie-request.adoc[]
+include::{snippets}/음악 상세 조회(id)(admin)/path-parameters.adoc[]
+====
+***
+
+.response-json
+include::{snippets}/음악 상세 조회(id)(admin)/response-body.adoc[]
+.response-type
+include::{snippets}/음악 상세 조회(id)(admin)/response-fields.adoc[]
+
+=== 상세 음원 정보 조회(title)
+
+.curl-request
+include::{snippets}/상세 음악 조회(title)(admin)/curl-request.adoc[]
+.http-request(http 요청)
+include::{snippets}/상세 음악 조회(title)(admin)/http-request.adoc[]
+====
+.요청 형식
+include::{snippets}/상세 음악 조회(title)(admin)/httpie-request.adoc[]
+include::{snippets}/상세 음악 조회(title)(admin)/path-parameters.adoc[]
+====
+***
+
+.response-json
+include::{snippets}/상세 음악 조회(title)(admin)/response-body.adoc[]
+.response-type
+include::{snippets}/상세 음악 조회(title)(admin)/response-fields.adoc[]

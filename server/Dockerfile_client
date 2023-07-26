@@ -1,0 +1,26 @@
+# Node.js 18 버전의 Alpine Linux 기반 이미지 사용
+FROM node:18-alpine
+
+# 애플리케이션을 위한 디렉토리를 생성합니다.
+WORKDIR '/usr/src/app'
+
+# 애플리케이션의 종속성 파일들을 먼저 복사합니다.
+COPY client/package.json client/package-lock.json ./
+
+# 종속성 설치를 수행합니다.
+#--silent ->  로그 파일 간결화
+#--production -> 애플리케이션 종속성만 설치(개발 종속성을 설치 하지 않음)
+RUN npm install --silent --production
+
+# 나머지 소스 코드들을 복사합니다.
+COPY client/ .
+
+# 애플리케이션을 빌드합니다.
+RUN npm run build
+
+#nginx 로 빌드 변경
+#FROM nginx
+#COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
+
+# 애플리케이션 실행을 위한 명령어를 설정합니다.
+CMD ["npm","run","dev","--","--host"]

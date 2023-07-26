@@ -1,46 +1,87 @@
-#spring:
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          google:
-#            clientId: ${GOOGLE_CLIENT_ID}
-#            clientSecret: ${GOOGLE_CLIENT_SECRET}
-#            scope:
-#              - email
-#              - profile
-#  h2:
-#    console:
-#      enabled: true
-#      path: /h2
-#  datasource:
-#    url: jdbc:h2:mem:test
-#  jpa:
-#    hibernate:
-#      ddl-auto: create  # (1) 스키마 자동 생성
-#    show-sql: true      # (2) SQL 쿼리 출력
-#    properties:
-#      hibernate:
-#        format_sql: true
-#  sql:
-#    init:
-#      data-locations: classpath*:db/h2/data.sql
-#logging:
-#  level:
-#    seb44pre036:
-#      qna: DEBUG
-#    org:
-#      springframework:
-#        orm:
-#          jpa: DEBUG
-#server:
-#  servlet:
-#    encoding:
-#      force-response: true
-#mail:
-#  address:
-#    admin: admin@gmail.com
-#jwt:
-#  key: ${JWT_SECRET_KEY}
-#  access-token-expiration-minutes: 100
-#  refresh-token-expiration-minutes: 180
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+  servlet:
+    multipart:
+      maxFileSize: 20MB
+      maxRequestSize: 20MB
+      enabled: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: jdbc:h2:mem:test
+  jpa:
+    hibernate:
+      ddl-auto: create  # (1) 스키마 자동 생성
+    show-sql: true   # (2) SQL 쿼리 출력
+    properties:
+      hibernate:
+        format_sql: true
+logging:
+  level:
+    seb44pre036:
+      qna: DEBUG
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+
+  logback:
+    rollingpolicy:
+      max-file-size: 50MB
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}-%i.log
+  file:
+    name: logs/main-project.log
+
+
+server:
+  servlet:
+    encoding:
+      force-response: true
+
+jwt:
+  secretKey: kevin1234123412341234123412341234
+  access-token-expiration: 10
+  refresh-token-expiration: 10080
+
+User:
+  mail:
+    admin: ADMIN@ADMIN.com
+
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    url: /docs/open-api-3.0.1.json
+    path: /docs/swagger
+
+
+cloud:
+  aws:
+    credentials:
+      access-key: accessKey
+      secret-key: secretKey
+    s3:
+      bucket: My-bucket-name
+      dns: S3dns
+      disable-path: disable/
+      enable-path: enable/
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+
+
+
+
