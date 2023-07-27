@@ -49,7 +49,8 @@ function SideNav() {
   };
 
   const closeDropdownMenu = () => {
-    setIsTagsMenuOpen(false);
+    if (location.pathname === "/home") setIsTagsMenuOpen(false);
+    else setIsTagsMenuOpen(true);
   };
 
   useEffect(() => {
@@ -217,7 +218,9 @@ function SideNav() {
                 <NavMylist
                   id="mylist"
                   isActive={currentMenu === "mylist"}
-                  onClick={(e: React.MouseEvent) => Navigate("mylist", e)}
+                  onClick={(e: React.MouseEvent) => {
+                    Navigate("mylist", e);
+                  }}
                 >
                   <SideDiv className="mylist">
                     <MyListImg
